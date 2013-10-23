@@ -50,5 +50,12 @@
             <jvmarg value="-Duser.country=US"/>
         </java>
     </target>
+
+    <target name="runBrowserStackSample">
+        <java classname="com.dotcms.qa.selenium.poc.BrowserStackSample" classpathref="cp" fork="true">
+            <jvmarg value="-Duser.language=en"/>
+            <jvmarg value="-Duser.country=US"/>
+        </java>
+    </target>
 </project>
 
