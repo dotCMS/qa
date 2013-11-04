@@ -1,0 +1,27 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+sourceCompatibility = '1.6'
+version = '0.1'
+mainClassName = 'com.dotcms.qa.selenium.poc.POC'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+   compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.35.0'
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir 'src'
+		}
+		resources {
+			srcDirs = ['src-conf/messages', 'src/com/dotcms/qa/selenium/poc']
+		}
+	}
+}
