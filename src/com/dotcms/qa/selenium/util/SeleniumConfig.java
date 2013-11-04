@@ -16,7 +16,7 @@ public class SeleniumConfig {
     }
 
     private SeleniumConfig() throws Exception {
-        this("config.properties");
+        this("POC.properties");
     }
 
     private SeleniumConfig(String configFileName) throws Exception {

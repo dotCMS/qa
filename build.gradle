@@ -21,7 +21,7 @@ sourceSets {
 			srcDir 'src'
 		}
 		resources {
-			srcDirs = ['src-conf/messages', 'src/com/dotcms/qa/selenium/poc']
+			srcDirs = ['src-conf/messages', 'src-conf/POC']
 		}
 	}
 }
