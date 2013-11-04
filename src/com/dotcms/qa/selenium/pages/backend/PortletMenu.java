@@ -31,6 +31,10 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	public WebElement getPortletElement(String portletTextKey) {
 		WebElement retValue = null;
 		String portletText = LanguageManager.getValue(portletTextKey);
+		System.out.println("structure - " + LanguageManager.getValue("structure"));
+		System.out.println("Structure - " + LanguageManager.getValue("Structure"));
+		System.out.println("structures - " + LanguageManager.getValue("structures"));
+		System.out.println("portletTextKey - " + portletText);
 		List<WebElement> allElements = getWebElements(By.className("navMenu-title")); 
 		for (WebElement element: allElements) {
 			if(portletText.equals(element.getText())){
