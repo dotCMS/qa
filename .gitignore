@@ -1,8 +1,18 @@
 /build
 /.gradle
 
+# gradle Eclipse files/directories
+.classpath
+.project
+.settings/
+
+# gradle IntelliJ files/directories
+bin/
+qa.iml
+qa.ipr
+qa.iws
+
 # OS generated files #
-######################
 .DS_Store
 .DS_Store?
 ._*
