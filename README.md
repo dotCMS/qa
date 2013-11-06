@@ -12,6 +12,7 @@ To build and use Proof Of Concept:
 Execute the following from within the repo root directory:<br/>
 ./gradlew           - this will pull down gradle locally<br/>
 ./gradlew run       - this will build and run POC (first time will have to pull all dependencies from maven repo)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;By default tries to connect to dotcms at http://localhost:8080/admin (can change in src-conf/POC/POC.properties)<br/>
 ./gradlew eclipse   - this will download source packages for dependencies and setup the files so you can import project into Eclipse<br/>
 ./gradlew tasks     - this will show all of the tasks available for this project through gradlew<br/>
 
