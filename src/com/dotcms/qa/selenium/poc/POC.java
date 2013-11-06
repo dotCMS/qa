@@ -8,6 +8,8 @@ import java.util.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.*;
 
+import com.dotcms.qa.util.LanguageManager;
+
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
@@ -18,7 +20,14 @@ public class POC {
 
 
   public static void main(String args[]) throws Exception{
-
+    System.out.println("Locale = " + Locale.getDefault());
+    System.out.println("file.encoding = " +System.getProperty("file.encoding"));
+/*    System.out.println("**************************");
+    Set<String> keys = System.getProperties().stringPropertyNames();
+    for(String key : keys) {
+        System.out.println(key + "=" + System.getProperty(key));
+    }       
+    System.out.println("**************************");*/
     SeleniumConfig config = SeleniumConfig.getConfig();
     baseUrl = config.getProperty("serverURL");
 

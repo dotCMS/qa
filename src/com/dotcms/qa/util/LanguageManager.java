@@ -3,9 +3,12 @@ package com.dotcms.qa.util;
 import java.util.*;
 
 public class LanguageManager {
-	private static ResourceBundle labels = ResourceBundle.getBundle("Language",Locale.getDefault());
+	private static ResourceBundle labels = ResourceBundle.getBundle("Language",Locale.getDefault(), new UTF8ResourceBundleControl());
 	
 	public static String getValue(String propKey) {
-		return labels.getString(propKey);
+		String retValue = labels.getString(propKey);
+		System.out.println("LanguageManager.getValue() - propKey=" + propKey + "|retValue=" + retValue);
+		return retValue;
 	}
+
 }
