@@ -3,7 +3,10 @@ package com.dotcms.qa.selenium.util;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 public class SeleniumConfig {
+    private static final Logger logger = Logger.getLogger(SeleniumConfig.class);
 
     private static SeleniumConfig configInstance = null;
     private Properties props = new Properties();
@@ -21,8 +24,8 @@ public class SeleniumConfig {
 
     private SeleniumConfig(String configFileName) throws Exception {
         InputStream in = getClass().getClassLoader().getResourceAsStream(configFileName);
-        System.out.println("configFileName = " + configFileName);
-        System.out.println("in = " + in);
+        logger.info("configFileName = " + configFileName);
+        logger.debug("in = " + in);
         try {
             props.load(in);
         } finally {

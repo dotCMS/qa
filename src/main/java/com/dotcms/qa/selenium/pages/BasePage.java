@@ -10,11 +10,15 @@ import org.openqa.selenium.interactions.Actions;
 
 import com.dotcms.qa.util.language.LanguageManager;
 
+import org.apache.log4j.Logger;
+
 /**
 * Base Page class.  All page objects should extend this class.
 * @author Brent Griffin
 */
 public class BasePage implements IBasePage {
+    private static final Logger logger = Logger.getLogger(BasePage.class);
+
 	private WebDriver driver;
 
 	public BasePage(WebDriver driver) {

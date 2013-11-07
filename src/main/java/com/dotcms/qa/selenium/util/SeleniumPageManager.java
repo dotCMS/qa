@@ -7,7 +7,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.WebDriver;
 
+import org.apache.log4j.Logger;
+
 public class SeleniumPageManager{
+    private static final Logger logger = Logger.getLogger(SeleniumPageManager.class);
 
     public static SeleniumPageManager mgrInstance = null;
 
@@ -65,10 +68,10 @@ public class SeleniumPageManager{
 			pageClassToProxy = (Class<T>)classLoader.loadClass(SeleniumConfig.getConfig().getProperty(pageInterfaceToProxy.getSimpleName()));
         }
         catch(Exception e){
-        	System.out.println("ERROR - failed to load class for pageInterfaceToProxy = " + pageInterfaceToProxy);
+        	logger.error("Failed to load class for pageInterfaceToProxy = " + pageInterfaceToProxy);
         	if(pageInterfaceToProxy != null) {
-        		System.out.println("pageInterfaceToProxy.getSimpleName() = " + pageInterfaceToProxy.getSimpleName());
-        		System.out.println("SeleniumConfig.getConfig().getProperty(\""+pageInterfaceToProxy.getSimpleName()+"\") = " + SeleniumConfig.getConfig().getProperty(pageInterfaceToProxy.getSimpleName()));
+        		logger.error("pageInterfaceToProxy.getSimpleName() = " + pageInterfaceToProxy.getSimpleName());
+        		logger.error("SeleniumConfig.getConfig().getProperty(\""+pageInterfaceToProxy.getSimpleName()+"\") = " + SeleniumConfig.getConfig().getProperty(pageInterfaceToProxy.getSimpleName()));
         	}
         	throw e;
         }

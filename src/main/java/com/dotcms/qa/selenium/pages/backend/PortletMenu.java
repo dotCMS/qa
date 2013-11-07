@@ -10,7 +10,10 @@ import com.dotcms.qa.selenium.pages.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.language.LanguageManager;
 
+import org.apache.log4j.Logger;
+
 public class PortletMenu extends BasePage implements IPortletMenu {
+    private static final Logger logger = Logger.getLogger(PortletMenu.class);
 
 	public PortletMenu(WebDriver driver) {
 		super(driver);
@@ -31,19 +34,16 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	public WebElement getPortletElement(String portletTextKey) {
 		WebElement retValue = null;
 		String portletText = LanguageManager.getValue(portletTextKey);
-		System.out.println("structure - " + LanguageManager.getValue("structure"));
-		System.out.println("Structure - " + LanguageManager.getValue("Structure"));
-		System.out.println("structures - " + LanguageManager.getValue("structures"));
-		System.out.println("portletTextKey - " + portletText);
+		logger.debug("portletTextKey=" + portletTextKey + "|portletText=" + portletText);
 		List<WebElement> allElements = getWebElements(By.className("navMenu-title")); 
 		for (WebElement element: allElements) {
 			if(portletText.equals(element.getText())){
-				System.out.println(element.getTagName() + "|" + element.getText());
+				logger.trace(element.getTagName() + "|" + element.getText());
 				retValue = element;
 			    break;
 			}
 			else {
-				System.out.println("portletText=" + portletText + "|element.getText()=" + element.getText() +"|element.getTagName()=" + element.getTagName());				
+				logger.trace("portletText=" + portletText + "|element.getText()=" + element.getText() +"|element.getTagName()=" + element.getTagName());				
 			}
 		}
 		return retValue;
