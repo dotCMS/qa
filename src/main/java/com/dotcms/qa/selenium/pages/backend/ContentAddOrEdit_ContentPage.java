@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import com.dotcms.qa.util.*;
+import com.dotcms.qa.util.language.LanguageManager;
 import com.dotcms.qa.selenium.pages.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 

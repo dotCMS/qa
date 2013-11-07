@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
-import com.dotcms.qa.util.LanguageManager;
+import com.dotcms.qa.util.language.LanguageManager;
 
 public class PortletMenu extends BasePage implements IPortletMenu {
 

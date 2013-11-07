@@ -8,7 +8,7 @@ import java.util.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.*;
 
-import com.dotcms.qa.util.LanguageManager;
+import com.dotcms.qa.util.language.LanguageManager;
 
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;

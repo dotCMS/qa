@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
-import com.dotcms.qa.util.LanguageManager;
+import com.dotcms.qa.util.Language.LanguageManager;
 
 /**
 * Base Page class.  All page objects should extend this class.

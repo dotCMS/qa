@@ -1,4 +1,4 @@
-package com.dotcms.qa.util;
+package com.dotcms.qa.util.language;
 
 import java.io.IOException;
 import java.io.InputStream;

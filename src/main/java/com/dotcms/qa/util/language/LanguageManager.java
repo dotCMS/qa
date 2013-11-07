@@ -1,4 +1,4 @@
-package com.dotcms.qa.util;
+package com.dotcms.qa.util.Language;
 
 import java.util.*;
 
