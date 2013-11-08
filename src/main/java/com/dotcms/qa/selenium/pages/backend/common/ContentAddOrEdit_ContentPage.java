@@ -1,4 +1,4 @@
-package com.dotcms.qa.selenium.pages.backend.default;
+package com.dotcms.qa.selenium.pages.backend.common;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.How;
 import com.dotcms.qa.util.*;
 import com.dotcms.qa.util.language.LanguageManager;
 import com.dotcms.qa.selenium.pages.backend.*;
-import com.dotcms.qa.selenium.pages.default.BasePage;
+import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAddOrEdit_ContentPage {

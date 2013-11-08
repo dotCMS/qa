@@ -110,7 +110,7 @@ public class SeleniumPageManager{
             String interfaceSimpleName = pageInterfaceToProxy.getSimpleName();
             String classSimpleName = interfaceSimpleName.substring(1);
             String interfacePackageName = pageInterfaceToProxy.getPackage().getName();
-            String genericClassName = interfacePackageName + ".default." + classSimpleName;
+            String genericClassName = interfacePackageName + ".common." + classSimpleName;
             String browserToTarget = config.getProperty("browserToTarget").toLowerCase();
             String browserSpecificClassName = interfacePackageName + "." + browserToTarget;
             logger.trace("interfaceSimpleName=" + interfaceSimpleName);

@@ -1,11 +1,11 @@
-package com.dotcms.qa.selenium.pages.backend.default;
+package com.dotcms.qa.selenium.pages.backend.common;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.backend.*;
-import com.dotcms.qa.selenium.pages.default.BasePage;
+import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 public class StructuresPage extends BasePage implements IStructuresPage {

@@ -1,4 +1,4 @@
-package com.dotcms.qa.selenium.pages.default;
+package com.dotcms.qa.selenium.pages.common;
 
 import java.util.List;
 
