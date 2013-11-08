@@ -9,7 +9,7 @@ mainClassName = 'com.dotcms.qa.selenium.poc.POC'
 
 repositories {
 	maven {
-	        url "http://repo.dotcms.com/artifactory/global"
+	        url "http://repo.dotcms.com/artifactory/libs-release"
 	}
 }
 
