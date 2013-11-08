@@ -8,7 +8,9 @@ version = '0.1'
 mainClassName = 'com.dotcms.qa.selenium.poc.POC'
 
 repositories {
-	mavenCentral()
+	maven {
+	        url "http://repo.dotcms.com/artifactory/global"
+	}
 }
 
 dependencies {

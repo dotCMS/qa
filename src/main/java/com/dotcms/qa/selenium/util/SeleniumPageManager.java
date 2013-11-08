@@ -98,20 +98,39 @@ public class SeleniumPageManager{
         driver.quit();
     }
 
+    // Allow specific browser version
+    // Start by looking for 
     @SuppressWarnings("unchecked")
 	public <T> T getPageObject(Class<T> pageInterfaceToProxy) throws Exception {
         T page = null;
+        SeleniumConfig config = SeleniumConfig.getConfig();
         ClassLoader classLoader = SeleniumPageManager.class.getClassLoader();
         Class<T> pageClassToProxy = null;
         try {
-			pageClassToProxy = (Class<T>)classLoader.loadClass(SeleniumConfig.getConfig().getProperty(pageInterfaceToProxy.getSimpleName()));
+            String interfaceSimpleName = pageInterfaceToProxy.getSimpleName();
+            String classSimpleName = interfaceSimpleName.substring(1);
+            String interfacePackageName = pageInterfaceToProxy.getPackage().getName();
+            String genericClassName = interfacePackageName + ".default." + classSimpleName;
+            String browserToTarget = config.getProperty("browserToTarget").toLowerCase();
+            String browserSpecificClassName = interfacePackageName + "." + browserToTarget;
+            logger.trace("interfaceSimpleName=" + interfaceSimpleName);
+            logger.trace("classSimpleName=" + classSimpleName);
+            logger.trace("interfacePackageName=" + interfacePackageName);
+            logger.trace("genericClassName=" + genericClassName);
+            logger.trace("browserToTarget=" + browserToTarget);
+            logger.trace("browserSpecificClassName=" + browserSpecificClassName);
+            // Try to load browser specific class if it exists
+            try {
+                pageClassToProxy = (Class<T>)classLoader.loadClass(browserSpecificClassName);
+            }
+            catch (Exception e) {
+                logger.trace("Unable to load browser specific class - " + browserSpecificClassName + " - Attempting to load generic class: " + genericClassName);
+            }
+			if(pageClassToProxy == null)
+                pageClassToProxy = (Class<T>)classLoader.loadClass(genericClassName);
         }
         catch(Exception e){
         	logger.error("Failed to load class for pageInterfaceToProxy = " + pageInterfaceToProxy);
-        	if(pageInterfaceToProxy != null) {
-        		logger.error("pageInterfaceToProxy.getSimpleName() = " + pageInterfaceToProxy.getSimpleName());
-        		logger.error("SeleniumConfig.getConfig().getProperty(\""+pageInterfaceToProxy.getSimpleName()+"\") = " + SeleniumConfig.getConfig().getProperty(pageInterfaceToProxy.getSimpleName()));
-        	}
         	throw e;
         }
         page = PageFactory.initElements(driver, pageClassToProxy);

@@ -1,4 +1,4 @@
-package com.dotcms.qa.selenium.pages.backend;
+package com.dotcms.qa.selenium.pages.backend.default;
 
 import org.openqa.selenium.support.*;
 import org.openqa.selenium.Keys;
