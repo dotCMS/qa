@@ -6,7 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.dotcms.qa.selenium.pages.BasePage;
+import com.dotcms.qa.selenium.pages.backend.*;
+import com.dotcms.qa.selenium.pages.default.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.language.LanguageManager;
 

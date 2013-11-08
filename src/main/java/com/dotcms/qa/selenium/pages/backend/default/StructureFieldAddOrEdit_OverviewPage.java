@@ -4,7 +4,8 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.dotcms.qa.selenium.pages.BasePage;
+import com.dotcms.qa.selenium.pages.backend.*;
+import com.dotcms.qa.selenium.pages.default.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 	
 public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IStructureFieldAddOrEdit_OverviewPage {
