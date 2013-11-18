@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -68,7 +69,8 @@ public class SeleniumPageManager{
                 driver = new FirefoxDriver();
             }
             else if("CHROME".equals(browserToTarget)) {
-                throw new UnsupportedOperationException("ERROR - Chrome WebDriver not supported at this time.");
+                System.setProperty("webdriver.chrome.driver", config.getProperty("chromeDriver.location"));
+                driver = new ChromeDriver();
             }
             else if("SAFARI".equals(browserToTarget)) {
                 throw new UnsupportedOperationException("ERROR - Safari WebDriver not supported at this time.");

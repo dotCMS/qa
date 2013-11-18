@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -100,6 +101,10 @@ public class BasePage implements IBasePage {
 	public void hoverOverElement(WebElement element){
 		Actions builder = new Actions(driver);
 		builder.moveToElement(element).build().perform();
+	}
+
+	public void scroll(int horizontalScroll, int verticalScroll) {
+		((JavascriptExecutor) driver).executeScript("scroll(" + horizontalScroll + "," + verticalScroll + ");");
 	}
 	
     public void switchToFrame(String frameName) {

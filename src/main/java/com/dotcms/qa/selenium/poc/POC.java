@@ -65,8 +65,6 @@ public class POC {
         return;
 
     /*
-    //    System.setProperty("webdriver.chrome.driver", "/Users/brent/dev/repos/GriffinCentral/experiment/java/selenium/chromedriver");
-    //    driver = new ChromeDriver();
 
     //    driver.findElement(By.cssSelector("span.mceIcon.mce_bold")).sendKeys(Keys.PAGE_DOWN); // scroll the screen so the browse button is visible
 

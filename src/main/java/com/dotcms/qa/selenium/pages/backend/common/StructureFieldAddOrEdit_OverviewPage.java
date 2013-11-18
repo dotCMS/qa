@@ -1,5 +1,8 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import org.apache.log4j.Logger;
+
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +12,8 @@ import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 	
 public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IStructureFieldAddOrEdit_OverviewPage {
+
+    private final Logger logger = Logger.getLogger(StructureFieldAddOrEdit_OverviewPage.class);
 
 	private WebElement elementSelectBox;			// Display Type
 	private WebElement dijit_form_TextBox_0;		// Label
@@ -63,8 +68,11 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    if(unique)
 	    	uniqueCB.click();                        // Unique checkbox
 	    Thread.sleep(250);
+
+	    // TODO - create a more elegant way than this embedded scroll hack - this is necessary to work in chrome
+	    scroll(0, 200);
 	    saveButton_label.click();                    // Save button
-	    Thread.sleep(250);
+	    
 		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
