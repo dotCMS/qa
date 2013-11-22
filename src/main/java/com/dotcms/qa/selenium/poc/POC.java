@@ -10,6 +10,7 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 import com.dotcms.qa.selenium.pages.backend.*;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Keys;
 
 public class POC {
     private static final Logger logger = Logger.getLogger(POC.class);
@@ -44,14 +45,10 @@ public class POC {
         logger.info("License Level = " + licenseLevel);
         */
         
+        /*
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
         vanityURLPage.addVanityURL();
-
-/*
-        SeleniumPageManager pageMgr = SeleniumPageManager.getPageManager();
-        pageMgr.loadPage(serverURL + "admin");
-        ILoginPage loginPage = pageMgr.getPageObject(ILoginPage.class);
-        IPortletMenu portletMenu = loginPage.login("admin@dotcms.com", "admin");
+		*/
 
         String structureName = "QA" + System.currentTimeMillis();
         IStructuresPage structsPage = portletMenu.getStructuresPage();
@@ -75,7 +72,7 @@ public class POC {
         addContentPage.addWYSIWYGText("This is the story that goes on and on my friend." + Keys.RETURN + Keys.RETURN + ".... but since you are my friend, I will end it now.");
         addContentPage.saveAndPublish();
         logger.debug("Pause - admire handiwork");
-    */
+
         Thread.sleep(10000);
         logger.info("Shutting Down....");
         pageMgr.shutdown();
