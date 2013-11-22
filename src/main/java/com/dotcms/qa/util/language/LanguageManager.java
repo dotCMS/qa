@@ -10,7 +10,13 @@ public class LanguageManager {
 	private static ResourceBundle labels = ResourceBundle.getBundle("Language",Locale.getDefault(), new UTF8ResourceBundleControl());
 	
 	public static String getValue(String propKey) {
-		String retValue = labels.getString(propKey);
+		String retValue = propKey;
+		try{
+			retValue = labels.getString(propKey);
+		}
+		catch(MissingResourceException e) {
+			logger.warn("Unable to find value for key:  " + propKey);
+		}
 		logger.trace("LanguageManager.getValue() - propKey=" + propKey + "|retValue=" + retValue);
 		return retValue;
 	}

@@ -4,15 +4,17 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
-import com.dotcms.qa.util.language.LanguageManager;
 
 
 /**
@@ -111,7 +113,16 @@ public class BasePage implements IBasePage {
 	    driver.switchTo().frame(frameName);
     }
     
+    public Alert switchToAlert() {
+    	return driver.switchTo().alert();
+    }
+    
     public void switchToDefaultContent() {
 	    driver.switchTo().defaultContent();
+    }
+
+    public void waitForVisibilityOfElement(By by, int secondsToWait) {
+		WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
 }

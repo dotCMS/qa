@@ -22,16 +22,28 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 
 	public IContentSearchPage getContentSearchPage() throws Exception {
 	    hoverOverElement(getPortletElement("Content"));
-	    getWebElement(By.linkText(LanguageManager.getValue("javax.portlet.title.EXT_11"))).click();  // this only works if you hover over the content portlet
+	    getWebElement(By.linkText(LanguageManager.getValue("javax.portlet.title.EXT_11"))).click();
 		return SeleniumPageManager.getPageManager().getPageObject(IContentSearchPage.class);		
+	}
+
+	public ILicenseManagerPage getLicenseManagerPage() throws Exception {
+	    hoverOverElement(getPortletElement("System"));
+	    getWebElement(By.linkText(LanguageManager.getValue("javax.portlet.title.EXT_LICENSE_MANAGER"))).click();
+		return SeleniumPageManager.getPageManager().getPageObject(ILicenseManagerPage.class);
 	}
 	
 	public IStructuresPage getStructuresPage() throws Exception {
 	    hoverOverElement(getPortletElement("Structures"));
-	    getWebElement(By.linkText(LanguageManager.getValue("javax.portlet.title.EXT_STRUCTURE"))).click();  // this only works if you hover over the structures portlet
+	    getWebElement(By.linkText(LanguageManager.getValue("javax.portlet.title.EXT_STRUCTURE"))).click();
 		return SeleniumPageManager.getPageManager().getPageObject(IStructuresPage.class);
 	}
-	
+
+	public IVanityURLsPage getVanityURLsPage() throws Exception {
+	    hoverOverElement(getPortletElement("Site Browser"));
+	    getWebElement(By.linkText(LanguageManager.getValue("javax.portlet.title.EXT_VIRTUAL_LINKS"))).click();
+		return SeleniumPageManager.getPageManager().getPageObject(IVanityURLsPage.class);
+	}
+
 	public WebElement getPortletElement(String portletTextKey) {
 		WebElement retValue = null;
 		String portletText = LanguageManager.getValue(portletTextKey);

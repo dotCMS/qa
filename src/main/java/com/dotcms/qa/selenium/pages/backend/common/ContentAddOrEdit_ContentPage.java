@@ -7,7 +7,6 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-import com.dotcms.qa.util.*;
 import com.dotcms.qa.util.language.LanguageManager;
 import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.selenium.pages.common.BasePage;

@@ -5,11 +5,6 @@ import java.util.*;
 //import org.junit.*;
 //import static org.junit.Assert.*;
 //import static org.hamcrest.CoreMatchers.*;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.*;
-
-import com.dotcms.qa.util.language.LanguageManager;
-
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
@@ -18,26 +13,47 @@ import org.apache.log4j.Logger;
 
 public class POC {
     private static final Logger logger = Logger.getLogger(POC.class);
-    private static String baseUrl;
 
     public static void main(String args[]) throws Exception{
         logger.info("Locale = " + Locale.getDefault());
         logger.info("file.encoding = " +System.getProperty("file.encoding"));
+        SeleniumConfig config = SeleniumConfig.getConfig();
+        String serverURL = config.getProperty("serverURL");
+        logger.info("serverURL = " + serverURL);
+
         logger.trace("**************************");
         Set<String> keys = System.getProperties().stringPropertyNames();
         for(String key : keys) {
             logger.trace(key + "=" + System.getProperty(key));
         }       
         logger.trace("**************************");
-        SeleniumConfig config = SeleniumConfig.getConfig();
-        baseUrl = config.getProperty("serverURL");
 
+        // login
         SeleniumPageManager pageMgr = SeleniumPageManager.getPageManager();
-        pageMgr.loadPage(baseUrl + "admin");
+        pageMgr.loadPage(serverURL + "admin");
         ILoginPage loginPage = pageMgr.getPageObject(ILoginPage.class);
         IPortletMenu portletMenu = loginPage.login("admin@dotcms.com", "admin");
 
-        String structureName = "JBG" + System.currentTimeMillis();
+        /*
+        // add license
+        ILicenseManagerPage licPage = portletMenu.getLicenseManagerPage();
+        String licenseLevel = licPage.getLicenseLevel();
+        logger.info("License Level = " + licenseLevel);
+        licPage.activateLicenseKey(false, "k8Xd32+edtuiKO2N24OxLmPBS+/m9cEjyLoGETbKO1+U3d0ytLc0iaGhg1Tmb24bgs67Q/7yxRVYj1jheW9TPcPBd0E0fc1GkiTR21y1FGRwdoq1aiMZh/zv4QxvoZJg3h5kXJ2pGCi34bv70Urknhy7vRYrccUjdiL/HzC6GcgAAAAJZGV2ZWxvcGVyAAAABAAAAL4AAAAIAAABPaHfL2wAAAAIAAABRPdlEgAAAAAIAAAAAAAYxOMAAAAEAAABkAAAAAEB");
+        licenseLevel = licPage.getLicenseLevel();
+        logger.info("License Level = " + licenseLevel);
+        */
+        
+        IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
+        vanityURLPage.addVanityURL();
+
+/*
+        SeleniumPageManager pageMgr = SeleniumPageManager.getPageManager();
+        pageMgr.loadPage(serverURL + "admin");
+        ILoginPage loginPage = pageMgr.getPageObject(ILoginPage.class);
+        IPortletMenu portletMenu = loginPage.login("admin@dotcms.com", "admin");
+
+        String structureName = "QA" + System.currentTimeMillis();
         IStructuresPage structsPage = portletMenu.getStructuresPage();
         IStructureAddOrEdit_PropertiesPage structAddPage= structsPage.getAddNewStructurePage();
         IStructureAddOrEdit_FieldsPage addFieldPage = structAddPage.createNewStructure(structureName, structureName+"Desc", "System Host");
@@ -59,6 +75,7 @@ public class POC {
         addContentPage.addWYSIWYGText("This is the story that goes on and on my friend." + Keys.RETURN + Keys.RETURN + ".... but since you are my friend, I will end it now.");
         addContentPage.saveAndPublish();
         logger.debug("Pause - admire handiwork");
+    */
         Thread.sleep(10000);
         logger.info("Shutting Down....");
         pageMgr.shutdown();
