@@ -44,12 +44,24 @@ public class POC {
         licenseLevel = licPage.getLicenseLevel();
         logger.info("License Level = " + licenseLevel);
         */
-        
-        /*
-        IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
-        vanityURLPage.addVanityURL();
-		*/
 
+        // Add,edit, and delete vanity URLs
+        String vurlTitle1 = "QA Vanity Demo URL";
+        String vurl1 = "/team";
+        String vurlTitle2 = "QA Vanity AllHosts URL";
+        String vurl2 = "/us";
+        IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
+        vanityURLPage.addVanityURLToHost(vurlTitle1, "demo.dotcms.com", vurl1, "/about-us/our-team/index.html");
+        vanityURLPage.editVanityURL(vurlTitle1, vurlTitle1, "bg", "/about-us/our-team/index.html");
+        vanityURLPage.addVanityURLToAllHosts(vurlTitle2, vurl2, "/about-us/index.html");
+        vanityURLPage.deleteVanityURL(vurlTitle1);
+        vanityURLPage.deleteVanityURL(vurlTitle2);
+
+        // logout
+        pageMgr.loadPage(serverURL + "c/portal/logout?referer=/c");
+    	loginPage = pageMgr.getPageObject(ILoginPage.class);
+
+        /*
         String structureName = "QA" + System.currentTimeMillis();
         IStructuresPage structsPage = portletMenu.getStructuresPage();
         IStructureAddOrEdit_PropertiesPage structAddPage= structsPage.getAddNewStructurePage();
@@ -72,8 +84,9 @@ public class POC {
         addContentPage.addWYSIWYGText("This is the story that goes on and on my friend." + Keys.RETURN + Keys.RETURN + ".... but since you are my friend, I will end it now.");
         addContentPage.saveAndPublish();
         logger.debug("Pause - admire handiwork");
-
-        Thread.sleep(10000);
+		 */
+        
+        Thread.sleep(5000);
         logger.info("Shutting Down....");
         pageMgr.shutdown();
         return;

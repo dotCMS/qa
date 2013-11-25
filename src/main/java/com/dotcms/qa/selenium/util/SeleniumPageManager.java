@@ -91,7 +91,7 @@ public class SeleniumPageManager{
         driver.manage().window().setPosition(new Point(0,0));
         driver.manage().window().setSize(new Dimension(1024, 768));
     }
-
+    
     public void loadPage(String url) {
         driver.get(url);
     }
@@ -101,7 +101,7 @@ public class SeleniumPageManager{
     }
 
     // Allow specific browser version
-    // Start by looking for 
+    // Start by looking for class specifically for the browser being targeted.  If not found, will load common version.
     @SuppressWarnings("unchecked")
 	public <T> T getPageObject(Class<T> pageInterfaceToProxy) throws Exception {
         T page = null;

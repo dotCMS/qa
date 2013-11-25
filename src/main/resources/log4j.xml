@@ -8,6 +8,12 @@
         </layout>
     </appender>
 
+    <appender name="LogFile" class="org.apache.log4j.FileAppender">
+          <param name="File" value="POC.log"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%c {%l}:%n    [%t] %-5p - %m%n"/>
+        </layout>
+    </appender>
 <!--
     <logger name="com.makotogroup.log4j.Controller">
         <level value="DEBUG"/>
@@ -16,5 +22,6 @@
     <root>
         <level value="ALL"/>
         <appender-ref ref="Console"/>
+        <appender-ref ref="LogFile"/>
     </root>
 </log4j:configuration>
