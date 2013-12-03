@@ -13,6 +13,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import org.apache.log4j.Logger;
 
+import com.dotcms.qa.selenium.pages.IBasePage;
+
 public class SeleniumPageManager{
     private static final Logger logger = Logger.getLogger(SeleniumPageManager.class);
 
@@ -26,6 +28,11 @@ public class SeleniumPageManager{
             mgrInstance = new SeleniumPageManager(config);
         }
         return mgrInstance;
+    }
+
+    public static SeleniumPageManager getNewPageManager() throws Exception {
+        SeleniumConfig config = SeleniumConfig.getConfig();
+        return new SeleniumPageManager(config);
     }
 
     private SeleniumPageManager(SeleniumConfig config) throws Exception {
@@ -92,10 +99,11 @@ public class SeleniumPageManager{
         driver.manage().window().setSize(new Dimension(1024, 768));
     }
     
-    public void loadPage(String url) {
+    public IBasePage loadPage(String url) throws Exception{
         driver.get(url);
+        return getPageObject(IBasePage.class);
     }
-
+    
     public void shutdown() {
         driver.quit();
     }

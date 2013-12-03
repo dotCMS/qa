@@ -13,6 +13,7 @@ public interface IBasePage {
     public boolean isElementPresent(By by);
     public boolean isElementPresent(String cssSelector);
     public boolean isElementPresentAndDisplay(By by);
+    public String getTitle();
     public WebElement getWebElement(By by);
     public List<WebElement> getWebElements(By by);
     public void hoverOverElement(WebElement element);

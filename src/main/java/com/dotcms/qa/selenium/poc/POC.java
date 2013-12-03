@@ -35,33 +35,6 @@ public class POC {
         ILoginPage loginPage = pageMgr.getPageObject(ILoginPage.class);
         IPortletMenu portletMenu = loginPage.login("admin@dotcms.com", "admin");
 
-        /*
-        // add license
-        ILicenseManagerPage licPage = portletMenu.getLicenseManagerPage();
-        String licenseLevel = licPage.getLicenseLevel();
-        logger.info("License Level = " + licenseLevel);
-        licPage.activateLicenseKey(false, "k8Xd32+edtuiKO2N24OxLmPBS+/m9cEjyLoGETbKO1+U3d0ytLc0iaGhg1Tmb24bgs67Q/7yxRVYj1jheW9TPcPBd0E0fc1GkiTR21y1FGRwdoq1aiMZh/zv4QxvoZJg3h5kXJ2pGCi34bv70Urknhy7vRYrccUjdiL/HzC6GcgAAAAJZGV2ZWxvcGVyAAAABAAAAL4AAAAIAAABPaHfL2wAAAAIAAABRPdlEgAAAAAIAAAAAAAYxOMAAAAEAAABkAAAAAEB");
-        licenseLevel = licPage.getLicenseLevel();
-        logger.info("License Level = " + licenseLevel);
-        */
-
-        // Add,edit, and delete vanity URLs
-        String vurlTitle1 = "QA Vanity Demo URL";
-        String vurl1 = "/team";
-        String vurlTitle2 = "QA Vanity AllHosts URL";
-        String vurl2 = "/us";
-        IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
-        vanityURLPage.addVanityURLToHost(vurlTitle1, "demo.dotcms.com", vurl1, "/about-us/our-team/index.html");
-        vanityURLPage.editVanityURL(vurlTitle1, vurlTitle1, "bg", "/about-us/our-team/index.html");
-        vanityURLPage.addVanityURLToAllHosts(vurlTitle2, vurl2, "/about-us/index.html");
-        vanityURLPage.deleteVanityURL(vurlTitle1);
-        vanityURLPage.deleteVanityURL(vurlTitle2);
-
-        // logout
-        pageMgr.loadPage(serverURL + "c/portal/logout?referer=/c");
-    	loginPage = pageMgr.getPageObject(ILoginPage.class);
-
-        /*
         String structureName = "QA" + System.currentTimeMillis();
         IStructuresPage structsPage = portletMenu.getStructuresPage();
         IStructureAddOrEdit_PropertiesPage structAddPage= structsPage.getAddNewStructurePage();
@@ -84,7 +57,6 @@ public class POC {
         addContentPage.addWYSIWYGText("This is the story that goes on and on my friend." + Keys.RETURN + Keys.RETURN + ".... but since you are my friend, I will end it now.");
         addContentPage.saveAndPublish();
         logger.debug("Pause - admire handiwork");
-		 */
         
         Thread.sleep(5000);
         logger.info("Shutting Down....");

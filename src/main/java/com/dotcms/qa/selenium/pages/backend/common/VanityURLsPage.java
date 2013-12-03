@@ -28,6 +28,28 @@ public class VanityURLsPage extends BasePage implements IVanityURLsPage {
 		super(driver);
 	}
 	
+	public boolean doesVanityURLExist(String title) {
+		boolean retValue = false;
+		List<WebElement> rows = tableOfVURLs.findElements(By.tagName("tr"));
+		for(WebElement row : rows) {
+			try {
+				WebElement col = row.findElement(By.tagName("td"));
+				if(col.getText().trim().equals(title)) {
+					retValue = true;
+				}
+			}
+			catch(NoSuchElementException e) {
+				logger.trace("Row does not include td element", e);
+				// Move on to next row and keep going
+			}
+			catch(Exception e) {
+				logger.error("Unexpected error attempting to iterate over vanity URLs - title=" + title, e);
+				// Move on to next row and keep going
+			}
+		}
+		return retValue;		
+	}
+	
 	public void addVanityURLToHost(String title, String hostName, String vanityURL, String URLtoRedirectTo) throws Exception {
 		dijit_form_Button_7_label.click();
 		IVanityURLsAddOrEditPage addPage = SeleniumPageManager.getPageManager().getPageObject(IVanityURLsAddOrEditPage.class);
@@ -71,8 +93,8 @@ public class VanityURLsPage extends BasePage implements IVanityURLsPage {
 				WebElement col = row.findElement(By.tagName("td"));
 				if(col.getText().trim().equals(oldTitle)) {
 					row.click();
-					IVanityURLsAddOrEditPage delPage = SeleniumPageManager.getPageManager().getPageObject(IVanityURLsAddOrEditPage.class);
-					delPage.editVanityURL(newTitle, vanityURL, URLtoRedirectTo);
+					IVanityURLsAddOrEditPage editPage = SeleniumPageManager.getPageManager().getPageObject(IVanityURLsAddOrEditPage.class);
+					editPage.editVanityURL(newTitle, vanityURL, URLtoRedirectTo);
 					retValue = true;
 				}
 			}

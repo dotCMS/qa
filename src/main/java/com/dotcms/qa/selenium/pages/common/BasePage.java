@@ -88,6 +88,10 @@ public class BasePage implements IBasePage {
 		}
 	}
 
+	public String getTitle() {
+		return driver.getTitle();
+	}
+	
 	/** 
 	* @param by 	element locator. 
 	* @return 		the first WebElement matching locator

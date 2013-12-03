@@ -5,7 +5,7 @@ apply plugin: 'idea'
 
 sourceCompatibility = '1.6'
 version = '0.1'
-mainClassName = 'com.dotcms.qa.selenium.poc.POC'
+mainClassName = 'org.testng.TestNG'
 
 repositories {
 	maven {
@@ -16,6 +16,11 @@ repositories {
 dependencies {
    compile (
    	[group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '2.37.0'],
-   	[group: 'log4j', name: 'log4j', version: '1.2.17']
+   	[group: 'log4j', name: 'log4j', version: '1.2.17'],
+   	[group: 'org.testng', name: 'testng', version: '6.8.7']
    )
+}
+
+run {
+	args '-testclass', 'com.dotcms.qa.selenium.poc.POCTest'
 }
