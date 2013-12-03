@@ -1,33 +1,28 @@
-package com.dotcms.qa.selenium.poc;
+package com.dotcms.qa.testng.tests;
 
 import java.util.*;
 
-//import org.junit.*;
-//import static org.junit.Assert.*;
-//import static org.hamcrest.CoreMatchers.*;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.*;
-import com.dotcms.qa.selenium.pages.common.BasePage;
 
 import org.apache.log4j.Logger;
-import org.openqa.selenium.Keys;
 import org.testng.Assert;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class POCTest {
-    private static final Logger logger = Logger.getLogger(POCTest.class);
+public class VanityURLTests {
+    private static final Logger logger = Logger.getLogger(VanityURLTests.class);
     
     private SeleniumPageManager backendMgr = null;
     private SeleniumPageManager frontendMgr = null;
     private String serverURL = null;
     private ILoginPage loginPage = null;
 
-    @BeforeSuite
+    @BeforeClass
     public void init() throws Exception {
         logger.info("Locale = " + Locale.getDefault());
         logger.info("file.encoding = " +System.getProperty("file.encoding"));
@@ -63,7 +58,7 @@ public class POCTest {
 
     }
     
-    @AfterSuite
+    @AfterClass
     public void teardown() throws Exception {
         // logout
         backendMgr.loadPage(serverURL + "c/portal/logout?referer=/c");
@@ -76,7 +71,7 @@ public class POCTest {
         frontendMgr.shutdown();
     }
     
-    @Test
+    @Test (groups = {"VanityURLs"})
     public void testCase383_CreateVanityURL() throws Exception {
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -116,7 +111,7 @@ public class POCTest {
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl383URL);
     }
 
-    @Test
+    @Test (groups = {"VanityURLs"})
     public void testCase384_EditVanityURL() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -174,14 +169,14 @@ public class POCTest {
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl384Title_new));
     }
 
-    @Test
+    @Test (groups = {"VanityURLs"})
     public void testCase385_CreateVanityURLForSpecificHost() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
         // seems to be a redundant and unnecessary test case
     }
 
-    @Test
+    @Test (groups = {"VanityURLs"})
     public void testCase386_CreateVanityURLOnAllHosts() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -211,7 +206,7 @@ public class POCTest {
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL);
   }
 
-    @Test
+    @Test (groups = {"VanityURLs"})
     public void testCase387_HostSpecificOverridesGlobalVanityURL() throws Exception{
     	// NOTE - must have hosts demo.dotcms.com and m.demo.dotcms.com resolving properly for this test to work as expected
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
