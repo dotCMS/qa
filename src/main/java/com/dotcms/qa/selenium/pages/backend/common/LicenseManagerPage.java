@@ -15,7 +15,7 @@ public class LicenseManagerPage extends BasePage implements ILicenseManagerPage 
     private static final Logger logger = Logger.getLogger(LicenseManagerPage.class);
 
 	private WebElement uploadLicenseForm;
-	private WebElement requestRadio;
+	//private WebElement requestRadio;
 	private WebElement pasteRadio;
 	private WebElement license_text;
 	private WebElement uploadButton_label;
