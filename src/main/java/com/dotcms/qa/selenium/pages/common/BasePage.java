@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -129,4 +130,20 @@ public class BasePage implements IBasePage {
 		WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
+    
+	public void selectBackendHost(String host) throws NoSuchElementException {
+		WebElement hostDiv = getWebElement(By.id("selectHostDiv"));
+		if(hostDiv != null) {
+			String hostName = hostDiv.getText();
+			if (!host.equals(hostName)) {
+				WebElement changeHost = getWebElement(By.className("changeHost"));
+				changeHost.click();
+				WebElement subNavHost = getWebElement(By.id("subNavHost"));
+				subNavHost.clear();
+				subNavHost.sendKeys(host);
+				subNavHost.sendKeys(Keys.TAB);
+			}
+		}
+	}
+
 }

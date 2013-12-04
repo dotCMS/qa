@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 public interface IBasePage {
@@ -22,4 +23,5 @@ public interface IBasePage {
     public void switchToDefaultContent();
     public void waitForVisibilityOfElement(By by, int secondsToWait);
 
+    public void selectBackendHost(String host) throws NoSuchElementException;
 }

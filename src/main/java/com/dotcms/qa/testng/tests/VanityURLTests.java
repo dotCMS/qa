@@ -78,6 +78,9 @@ public class VanityURLTests {
     	
         String vurl383Title = "383 Vanity URL";
         String vurl383URL = "383";
+        String targetHost = "demo.dotcms.com";
+        
+        vanityURLPage.selectBackendHost(targetHost);
         
         // verify vanity URL does not already exist
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl383Title));
@@ -88,7 +91,7 @@ public class VanityURLTests {
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping for vanity URL already exists:  " + vurl383URL);
 
         // add vanity URL
-        vanityURLPage.addVanityURLToHost(vurl383Title, "demo.dotcms.com", vurl383URL, "/about-us/our-team/index.html");
+        vanityURLPage.addVanityURLToHost(vurl383Title, targetHost, vurl383URL, "/about-us/our-team/index.html");
 
         // verify it was created and listed on page
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl383Title));
@@ -120,6 +123,9 @@ public class VanityURLTests {
         String vurl384URL_org = "384";
         String vurl384Title_new = "384 Vanity NEW URL";
         String vurl384URL_new = "384New";
+        String targetHost = "demo.dotcms.com";
+        
+        vanityURLPage.selectBackendHost(targetHost);
         
         // verify neither vanity URL currently exists
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl384Title_org));
@@ -134,8 +140,8 @@ public class VanityURLTests {
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping for vanity URL already exists:  " + vurl384URL_new);
         
         // create new vanity URL and verify it exists and is working
-        vanityURLPage.addVanityURLToHost(vurl384Title_org, "demo.dotcms.com", vurl384URL_org, "products/");
-//        vanityURLPage.addVanityURLToHost(vurl384Title_org, "demo.dotcms.com", vurl384URL_org, "products/index.html");
+        vanityURLPage.addVanityURLToHost(vurl384Title_org, targetHost, vurl384URL_org, "products/");
+//        vanityURLPage.addVanityURLToHost(vurl384Title_org, targetHost, vurl384URL_org, "products/index.html");
 
         // verify it was created and listed on page
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl384Title_org));
@@ -215,6 +221,8 @@ public class VanityURLTests {
         String vurl387Title_global = "387 Vanity Global URL";
         String vurl387Title_specific = "387 Vanity Specific URL";
         String vurl387URL = "387";
+        String targetHost = "m.demo.dotcms.com";
+        vanityURLPage.selectBackendHost(targetHost);
 
         // verify vanity urls do not already exist
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl387Title_global));
@@ -231,7 +239,7 @@ public class VanityURLTests {
         Assert.assertTrue(title.equals("About Us - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for m.demo.dotcms.com:  " + vurl387URL);
         
         // add vanity url for specific host m.demo.dotcms.com
-        vanityURLPage.addVanityURLToHost(vurl387Title_specific, "m.demo.dotcms.com", vurl387URL, "http://www.dotcms.com/");
+        vanityURLPage.addVanityURLToHost(vurl387Title_specific, targetHost, vurl387URL, "http://www.dotcms.com/");
 
         // verify specific vanity url works
         page = frontendMgr.loadPage("http://m.demo.dotcms.com:8080/" + vurl387URL);
