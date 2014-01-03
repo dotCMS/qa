@@ -22,5 +22,5 @@ dependencies {
 }
 
 run {
-	args '-testclass', 'com.dotcms.qa.testng.tests.VanityURLTests'
+	args 'build/resources/main/testng.xml'
 }

@@ -11,7 +11,11 @@ import com.dotcms.qa.selenium.pages.backend.*;
 import org.apache.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterGroups;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeGroups;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class VanityURLTests {
@@ -22,7 +26,7 @@ public class VanityURLTests {
     private String serverURL = null;
     private ILoginPage loginPage = null;
 
-    @BeforeClass
+    @BeforeGroups (groups = {"VanityURLs"})
     public void init() throws Exception {
         logger.info("Locale = " + Locale.getDefault());
         logger.info("file.encoding = " +System.getProperty("file.encoding"));
@@ -58,7 +62,7 @@ public class VanityURLTests {
 
     }
     
-    @AfterClass
+    @AfterGroups (groups = {"VanityURLs"})
     public void teardown() throws Exception {
         // logout
         backendMgr.loadPage(serverURL + "c/portal/logout?referer=/c");
@@ -114,7 +118,7 @@ public class VanityURLTests {
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl383URL);
     }
 
-    @Test (groups = {"VanityURLs"})
+    @Test (groups = {"VanityURLs", "Broken"})
     public void testCase384_EditVanityURL() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -182,13 +186,13 @@ public class VanityURLTests {
         // seems to be a redundant and unnecessary test case
     }
 
-    @Test (groups = {"VanityURLs"})
+    @Test (groups = {"VanityURLs", "Broken"})
     public void testCase386_CreateVanityURLOnAllHosts() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
 
         String vurl386Title = "386 Vanity URL";
-        String vurl386URL = "/386";
+        String vurl386URL = "386";
         
         // verify vanity url does not already exist
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl386Title));
@@ -206,13 +210,14 @@ public class VanityURLTests {
         vanityURLPage.deleteVanityURL(vurl386Title);
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl386Title));
 
+        //Thread.sleep(3000);
         // verify it no longer works
         page = frontendMgr.loadPage(serverURL + vurl386URL);
         title = page.getTitle();
-        Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL);
+        Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + "title=" + title);
   }
 
-    @Test (groups = {"VanityURLs"})
+    @Test (groups = {"VanityURLs", "Broken"})
     public void testCase387_HostSpecificOverridesGlobalVanityURL() throws Exception{
     	// NOTE - must have hosts demo.dotcms.com and m.demo.dotcms.com resolving properly for this test to work as expected
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
