@@ -39,7 +39,7 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 		public void editHost(String hostID, String palias) {
 			 hostName.sendKeys(hostID);
 			 aliases.sendKeys(palias);
-			 //need save 	 
+			 getWebElement(By.partialLinkText("Save / Activate")).click();	 	 
 			 
 		}
 	  
