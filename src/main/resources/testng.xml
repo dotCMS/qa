@@ -5,7 +5,7 @@
     <groups>
       <run>
         <exclude name="Broken"/>
-        <include name="VanityURLs"/>
+        <include name="Host"/>
       </run>
     </groups>
     <classes>

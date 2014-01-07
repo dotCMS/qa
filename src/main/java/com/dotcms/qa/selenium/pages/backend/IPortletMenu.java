@@ -10,6 +10,7 @@ public interface IPortletMenu extends IBasePage {
 	public ILicenseManagerPage getLicenseManagerPage() throws Exception;
 	public IStructuresPage getStructuresPage() throws Exception;
 	public IVanityURLsPage getVanityURLsPage() throws Exception;
+	public IHostPage getHostPage() throws Exception;
 	
 	public WebElement getPortletElement(String portletTextKey);
 }

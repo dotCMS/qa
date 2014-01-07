@@ -43,6 +43,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	    getWebElement(By.linkText(LanguageManager.getValue("javax.portlet.title.EXT_VIRTUAL_LINKS"))).click();
 		return SeleniumPageManager.getPageManager().getPageObject(IVanityURLsPage.class);
 	}
+	
+	public IHostPage getHostPage() throws Exception {
+	    hoverOverElement(getPortletElement("Site Browser"));
+	    getWebElement(By.linkText(LanguageManager.getValue("javax.portlet.title.EXT_HOSTADMIN"))).click();
+		return SeleniumPageManager.getPageManager().getPageObject(IHostPage.class);
+	}
 
 	public WebElement getPortletElement(String portletTextKey) {
 		WebElement retValue = null;
@@ -61,5 +67,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 		}
 		return retValue;
 	}
+
+
 
 }

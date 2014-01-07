@@ -18,21 +18,18 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 	  
 	  
 	  public HostAddOrEditPage(WebDriver driver) {
-			super(driver);
+			super(driver);  
 		}
 
-	  public void addBlankHost(String hostID) {
+	  public void addHost(String hostID) {
 		  hostName.sendKeys(hostID);
-		  getWebElement(By.partialLinkText("Save / Activate")).click();		  
+		  getWebElement(By.partialLinkText("Save / Activate")).click();	 	 
+
 		}
 
-	  public void addCopyHost(String hostID) {
-		  hostName.sendKeys(hostID);
-		  getWebElement(By.partialLinkText("Save / Activate")).click();		
-		}
+	  
 	  
 		public void deleteHost() {
-			//rigth click function 
 		}
 		
 
