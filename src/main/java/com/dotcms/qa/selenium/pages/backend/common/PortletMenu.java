@@ -45,7 +45,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	}
 	
 	public IHostPage getHostPage() throws Exception {
-	    hoverOverElement(getPortletElement("Site Browser"));
+	    hoverOverElement(getPortletElement("System"));
 	    getWebElement(By.linkText(LanguageManager.getValue("javax.portlet.title.EXT_HOSTADMIN"))).click();
 		return SeleniumPageManager.getPageManager().getPageObject(IHostPage.class);
 	}

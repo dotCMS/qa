@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.internal.seleniumemulation.Open;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
@@ -21,6 +22,9 @@ public class HostPage extends BasePage implements IHostPage  {
 	 	
 	 	private WebElement dijit_form_Button_5_label;
 		private WebElement startBlankHostRadio;
+		private WebElement copyHostRadio;
+		private WebElement id;
+		private WebElement dijit_form_Button_9_label;
 		private WebElement dijit_form_Button_6_label;
 	 	@FindBy(how = How.CLASS_NAME, using = "listingTable")
 	    private WebElement tableOfHost;
@@ -62,8 +66,15 @@ public class HostPage extends BasePage implements IHostPage  {
 		}
 		
 		
-		public void addCopyExistingHost(String hostName) throws Exception {
-
+		public void addCopyExistingHost(String hostName, String setHost) throws Exception {
+			dijit_form_Button_5_label.click();
+			copyHostRadio.click();
+			dijit_form_Button_6_label.click();
+			id.clear();
+			id.sendKeys(setHost);
+			dijit_form_Button_9_label.click();
+			IHostAddOrEditPage addPage = SeleniumPageManager.getPageManager().getPageObject(IHostAddOrEditPage.class);
+			addPage.addHost(hostName);			
 		}
 				
 		public boolean editHost(String hostName, String newHostName ,String aliases) {
@@ -92,19 +103,15 @@ public class HostPage extends BasePage implements IHostPage  {
 		}
 		
 		
-		
-		
-		
-	public boolean deleteHost(String hostName) {
+		public boolean deleteHost(String hostName) {
 			boolean retValue = false;
-			/*List<WebElement> rows = tableOfHost.findElements(By.tagName("tr"));
+			List<WebElement> rows = tableOfHost.findElements(By.tagName("tr"));
 			for(WebElement row : rows) {
 				try {
 					WebElement col = row.findElement(By.tagName("td"));
 					if(col.getText().trim().equals(hostName)) {
-						row.click();
 						IHostAddOrEditPage delPage = SeleniumPageManager.getPageManager().getPageObject(IHostAddOrEditPage.class);
-						delPage.deleteHost();
+						delPage.deleteHost(hostName);
 						retValue = true;
 					}
 				}
@@ -116,7 +123,7 @@ public class HostPage extends BasePage implements IHostPage  {
 					logger.error("Unexpected error attempting to delete Host - hostName=" + hostName, e);
 					break;	// break out of loop returning false because unable to delete vanity URL as requested
 				}
-			}*/
+			}
 			return retValue;  
 		}
 

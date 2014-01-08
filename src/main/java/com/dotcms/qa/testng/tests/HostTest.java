@@ -67,26 +67,46 @@ public class HostTest {
 	    }
 	    
 	    @Test (groups = {"Host"})
-	    public void testCase_CreateHost() throws Exception {
+	    public void testCase_CreateBlankHost() throws Exception {
 	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 	        IHostPage hostPage = portletMenu.getHostPage();
 	    	
-	        String BHostName = "Bryan";
-	        String targetHost = "demo.dotcms.com";
-	        
-	        hostPage.selectBackendHost(targetHost);
-	        
+	        String BHostName = "dotcms";
+	        	        
 	        // verify Host does not already exist
 	        Assert.assertFalse(hostPage.doesHostExist(BHostName));
-	        
-	      
+	        	      
 	        // add host
 	        hostPage.addBlankHost(BHostName);
 
 	        // verify it was created and listed on page
-	        Assert.assertTrue(hostPage.doesHostExist(BHostName));
+	       Assert.assertTrue(hostPage.doesHostExist(BHostName));
+	        	      
+	        // delete host
+	       hostPage.deleteHost(BHostName);
+
+	        // verify it is no longer listed
+	       Assert.assertFalse(hostPage.doesHostExist(BHostName));
 	        
-	      
+	    }
+	    
+	    @Test (groups = {"Host"})
+	    public void testCase_CreateCopyExistingHost() throws Exception {
+	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+	        IHostPage hostPage = portletMenu.getHostPage();
+	    	
+	        String BHostName = "democopy001";
+	        String host = "demo.dotcms.com";
+	        	        
+	        // verify Host does not already exist
+	        Assert.assertFalse(hostPage.doesHostExist(BHostName));
+	        	      
+	        // add host
+	        hostPage.addCopyExistingHost(BHostName, host);
+
+	        // verify it was created and listed on page
+	        //Assert.assertTrue(hostPage.doesHostExist(BHostName));
+	        	      
 	        // delete host
 	        hostPage.deleteHost(BHostName);
 

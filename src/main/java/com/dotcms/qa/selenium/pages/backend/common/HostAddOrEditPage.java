@@ -14,7 +14,10 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 	  
 	  private WebElement hostName;
 	  private WebElement aliases;
-	  
+	  private WebElement dijit_MenuItem_2_text;
+	  private WebElement dijit_MenuItem_3_text;
+	  private WebElement showDeleted;
+	  private WebElement dijit_MenuItem_12_text;
 	  
 	  
 	  public HostAddOrEditPage(WebDriver driver) {
@@ -27,9 +30,17 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 
 		}
 
-	  
-	  
-		public void deleteHost() {
+	  	  
+		public void deleteHost(String hostID) {
+			doRigthClick(hostID);
+			dijit_MenuItem_2_text.click();
+			dijit_MenuItem_3_text.click();
+			Alert alert = switchToAlert();
+			alert.accept();
+			showDeleted.click();
+			doRigthClick(hostID);
+			dijit_MenuItem_12_text.click();
+			alert.accept();
 		}
 		
 
@@ -39,8 +50,5 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 			 getWebElement(By.partialLinkText("Save / Activate")).click();	 	 
 			 
 		}
-	  
-	  
-	  
-	  
+		
 }

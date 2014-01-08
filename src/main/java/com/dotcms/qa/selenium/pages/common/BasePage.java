@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.dotcms.qa.selenium.pages.IBasePage;
 
 
+
 /**
 * Base Page class.  All page objects should extend this class.
 * @author Brent Griffin
@@ -145,5 +146,14 @@ public class BasePage implements IBasePage {
 			}
 		}
 	}
+	
+	public void doRigthClick(String IDToRigthClick){
+		WebElement elementToRightClick = driver.findElement(By.id(IDToRigthClick));
+		Actions action = new Actions(driver);
+		action.contextClick(elementToRightClick);
+		action.perform();
+	}
+	
+	
 
 }
