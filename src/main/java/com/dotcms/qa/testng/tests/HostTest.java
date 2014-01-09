@@ -24,7 +24,7 @@ public class HostTest {
 	 private static final Logger logger = Logger.getLogger(HostTest.class);
 	    
 	    private SeleniumPageManager backendMgr = null;
-	    private SeleniumPageManager frontendMgr = null;
+	    //private SeleniumPageManager frontendMgr = null;
 	    private String serverURL = null;
 	    private ILoginPage loginPage = null;
 
@@ -50,7 +50,7 @@ public class HostTest {
 	        loginPage.login("admin@dotcms.com", "admin");
 	        
 	        // create frontendMgr for verification of frontend functionality
-	        frontendMgr = SeleniumPageManager.getNewPageManager();
+	        //frontendMgr = SeleniumPageManager.getNewPageManager();
 	    }
 	    
 	    @AfterGroups (groups = {"Host"})
@@ -63,7 +63,7 @@ public class HostTest {
 	        logger.info("Shutting Down....");
 	        backendMgr.shutdown();
 
-	        frontendMgr.shutdown();
+	        //frontendMgr.shutdown();
 	    }
 	    
 	    @Test (groups = {"Host"})

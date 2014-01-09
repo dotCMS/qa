@@ -26,8 +26,7 @@ public class HostPage extends BasePage implements IHostPage  {
 		private WebElement id;
 		private WebElement dijit_form_Button_9_label;
 		private WebElement dijit_form_Button_6_label;
-	 	@FindBy(how = How.CLASS_NAME, using = "listingTable")
-	    private WebElement tableOfHost;
+	    private WebElement hostsTableBody;
 	    
 		public HostPage(WebDriver driver) {
 			super(driver);
@@ -36,7 +35,7 @@ public class HostPage extends BasePage implements IHostPage  {
 		
 		public boolean doesHostExist(String hostName) {
 			boolean retValue = false;
-			List<WebElement> rows = tableOfHost.findElements(By.tagName("tr"));
+			List<WebElement> rows = hostsTableBody.findElements(By.tagName("tr"));
 			for(WebElement row : rows) {
 				try {
 					WebElement col = row.findElement(By.tagName("td"));
@@ -105,7 +104,7 @@ public class HostPage extends BasePage implements IHostPage  {
 		
 		public boolean deleteHost(String hostName) {
 			boolean retValue = false;
-			List<WebElement> rows = tableOfHost.findElements(By.tagName("tr"));
+			List<WebElement> rows = hostsTableBody.findElements(By.tagName("tr"));
 			for(WebElement row : rows) {
 				try {
 					WebElement col = row.findElement(By.tagName("td"));
