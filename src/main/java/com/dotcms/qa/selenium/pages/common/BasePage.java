@@ -147,8 +147,8 @@ public class BasePage implements IBasePage {
 		}
 	}
 	
-	public void doRigthClick(String IDToRigthClick){
-		WebElement elementToRightClick = driver.findElement(By.id(IDToRigthClick));
+	public void doRightClick(String IDToRightClick){
+		WebElement elementToRightClick = driver.findElement(By.id(IDToRightClick));
 		Actions action = new Actions(driver);
 		action.contextClick(elementToRightClick);
 		action.perform();
