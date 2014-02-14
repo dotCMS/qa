@@ -66,52 +66,45 @@ public class HostTest {
 	        frontendMgr.shutdown();
 	    }
 	    
-	    @Test (groups = {"Host"})
+	  /*  @Test (groups = {"Host"})
 	    public void testCase_CreateBlankHost() throws Exception {
 	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 	        IHostPage hostPage = portletMenu.getHostPage();
 	    	
-	        String BHostName = "dotcms";
+	        String BHostName = "dotcms02";
 	        	        
 	        // verify Host does not already exist
-	        Assert.assertFalse(hostPage.doesHostExist(BHostName));
+	       Assert.assertFalse(hostPage.doesHostExist(BHostName));
 	        	      
 	        // add host
 	        hostPage.addBlankHost(BHostName);
-
+	        Thread.sleep(5000);
+	        
 	        // verify it was created and listed on page
 	       Assert.assertTrue(hostPage.doesHostExist(BHostName));
-	        	      
-	        // delete host
-	       hostPage.deleteHost(BHostName);
-
-	        // verify it is no longer listed
-	       Assert.assertFalse(hostPage.doesHostExist(BHostName));
-	        
-	    }
+	        	   	        
+	    }*/
+	    
 	    
 	    @Test (groups = {"Host"})
-	    public void testCase_CreateCopyExistingHost() throws Exception {
+	    public void testCase_AddHostVariable() throws Exception {
 	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 	        IHostPage hostPage = portletMenu.getHostPage();
 	    	
-	        String BHostName = "democopy001";
-	        String host = "demo.dotcms.com";
-	        	        
+	        String BHostName = "shared";
+	        String hostVariable = "var1";	        
 	        // verify Host does not already exist
-	        Assert.assertFalse(hostPage.doesHostExist(BHostName));
+//	       Assert.assertTrue(hostPage.doesHostExist(BHostName));
 	        	      
 	        // add host
-	        hostPage.addCopyExistingHost(BHostName, host);
-
-	        // verify it was created and listed on page
-	        //Assert.assertTrue(hostPage.doesHostExist(BHostName));
-	        	      
-	        // delete host
-	        hostPage.deleteHost(BHostName);
-
-	        // verify it is no longer listed
-	        Assert.assertFalse(hostPage.doesHostExist(BHostName));
+	        hostPage.addHostVariable(BHostName, hostVariable);
+	        Thread.sleep(5000);
 	        
+	      
+	      
+	        	   	        
 	    }
+
+	    
+	
 }

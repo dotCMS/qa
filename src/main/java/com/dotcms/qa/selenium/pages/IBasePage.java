@@ -22,6 +22,7 @@ public interface IBasePage {
     public Alert switchToAlert();
     public void switchToDefaultContent();
     public void waitForVisibilityOfElement(By by, int secondsToWait);
-
+    public void doRigthClick(WebElement obj);
     public void selectBackendHost(String host) throws NoSuchElementException;
+    public Object executeScript(String script);
 }

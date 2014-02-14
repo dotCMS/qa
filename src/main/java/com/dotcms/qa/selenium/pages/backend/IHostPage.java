@@ -8,6 +8,8 @@ public interface IHostPage extends IBasePage {
 	public void addCopyExistingHost(String hostID, String setHost) throws Exception;
 	public boolean deleteHost(String hostID);
 	public boolean editHost(String hostID, String newHostID, String palians);
+	public void addHostVariable(String hostName, String hostVariable);
+	public String returnHost(String hostName);
 }
 
 

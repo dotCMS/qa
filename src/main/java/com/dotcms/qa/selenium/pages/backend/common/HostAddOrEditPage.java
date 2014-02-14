@@ -32,7 +32,10 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 
 	  	  
 		public void deleteHost(String hostID) {
-			doRigthClick(hostID);
+			dijit_MenuItem_2_text.click();
+			Alert alert = switchToAlert();
+			alert.accept();
+			/*doRigthClick(hostID);
 			dijit_MenuItem_2_text.click();
 			dijit_MenuItem_3_text.click();
 			Alert alert = switchToAlert();
@@ -40,7 +43,7 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 			showDeleted.click();
 			doRigthClick(hostID);
 			dijit_MenuItem_12_text.click();
-			alert.accept();
+			alert.accept();*/
 		}
 		
 

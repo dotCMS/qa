@@ -147,13 +147,22 @@ public class BasePage implements IBasePage {
 		}
 	}
 	
-	public void doRigthClick(String IDToRigthClick){
-		WebElement elementToRightClick = driver.findElement(By.id(IDToRigthClick));
+	public void doRigthClick(WebElement ele){
 		Actions action = new Actions(driver);
-		action.contextClick(elementToRightClick);
+		action.contextClick(ele);
 		action.perform();
 	}
 	
+
+	
+	public Object  executeScript(final String script){
+		Object  obj = null;
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		obj =  js.executeScript(script);
+		return obj;
+	}
+	
+
 	
 
 }
