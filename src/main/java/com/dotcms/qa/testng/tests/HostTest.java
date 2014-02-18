@@ -3,20 +3,17 @@ package com.dotcms.qa.testng.tests;
 import java.util.Locale;
 import java.util.Set;
 
+import junit.framework.Assert;
+
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
-import com.dotcms.qa.selenium.pages.IBasePage;
+
 import com.dotcms.qa.selenium.pages.backend.*;
 
 import org.apache.log4j.Logger;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterGroups;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeGroups;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 
@@ -66,7 +63,7 @@ public class HostTest {
 	        frontendMgr.shutdown();
 	    }
 	    
-	  /*  @Test (groups = {"Host"})
+	   @Test (groups = {"Host"})
 	    public void testCase_CreateBlankHost() throws Exception {
 	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 	        IHostPage hostPage = portletMenu.getHostPage();
@@ -83,8 +80,28 @@ public class HostTest {
 	        // verify it was created and listed on page
 	       Assert.assertTrue(hostPage.doesHostExist(BHostName));
 	        	   	        
-	    }*/
+	    }
 	    
+	   @Test (groups = {"Host"})
+	    public void testCase_CreateCopyExistingHost() throws Exception {
+	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+	        IHostPage hostPage = portletMenu.getHostPage();
+	    	
+	        String BHostName = "dotcms03";
+	        String sentHost  ="demo.dotcms.com";
+	        	        
+	        // verify Host does not already exist
+	       Assert.assertFalse(hostPage.doesHostExist(BHostName));
+	        	      
+	        // add host
+	        hostPage.addCopyExistingHost(BHostName,sentHost);
+	        Thread.sleep(5000);
+	        
+	        // verify it was created and listed on page
+	       Assert.assertTrue(hostPage.doesHostExist(BHostName));
+	        	   	        
+	    }
+	   
 	    
 	    @Test (groups = {"Host"})
 	    public void testCase_AddHostVariable() throws Exception {
@@ -98,10 +115,7 @@ public class HostTest {
 	        	      
 	        // add host
 	        hostPage.addHostVariable(BHostName, hostVariable);
-	        Thread.sleep(5000);
-	        
-	      
-	      
+	        Thread.sleep(5000); 
 	        	   	        
 	    }
 

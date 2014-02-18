@@ -162,7 +162,11 @@ public class BasePage implements IBasePage {
 		return obj;
 	}
 	
+	public void hoverMove(WebElement ele) {
+		Actions ac = new Actions (driver);
+		ac.moveToElement(ele);
+		ac.perform();
+		}	
 
 	
-
 }

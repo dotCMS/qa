@@ -3,23 +3,17 @@ package com.dotcms.qa.selenium.pages.backend.common;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-
 import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
-import com.gargoylesoftware.htmlunit.html.DomElement;
-import com.gargoylesoftware.htmlunit.javascript.host.Document;
-import com.sun.org.apache.xerces.internal.impl.xs.opti.DefaultDocument;
+
 
 
 public class HostPage extends BasePage implements IHostPage  {
@@ -30,17 +24,20 @@ public class HostPage extends BasePage implements IHostPage  {
 		private WebElement id;
 	 	@FindBy(how = How.CLASS_NAME, using = "listingTable")
 	    private WebElement tableOfHost;
-	 	private WebElement html;
 		private WebElement dijit_form_Button_13_label;
 		private WebElement hostVariableName, hostVariableValue, hostVariableKey;
 		private Map <String, WebElement> hostMapa = new HashMap <String , WebElement>();
-		private Map <String, WebElement> subMenuMapa = new HashMap <String , WebElement>();
 	 	public HostPage(WebDriver driver) {
 			super(driver);
 		}
 		
 		
-		public boolean doesHostExist(String hostName) {
+		/*
+		 * To verify if any host exist
+		 * @hostName = Name of the host to verify
+		 * @see com.dotcms.qa.selenium.pages.backend.IHostPage#doesHostExist(java.lang.String)
+		 */
+	 	public boolean doesHostExist(String hostName) {
 		boolean retValue = false;	
 		try {	
 			for(WebElement anchor : tableOfHost.findElements(By.tagName("a"))) {
@@ -59,7 +56,11 @@ public class HostPage extends BasePage implements IHostPage  {
 	}
 	
 
-		
+		/*
+		 * To return any host as String
+		 * @hostName = name of the host to verify
+		 * @see com.dotcms.qa.selenium.pages.backend.IHostPage#returnHost(java.lang.String)
+		 */
 		public String returnHost(String hostName) {
 			String retValue = "";	
 			try {	
@@ -77,36 +78,31 @@ public class HostPage extends BasePage implements IHostPage  {
 			
 		return retValue;
 		}
-/*
- * List<WebElement> rows = tableOfVURLs.findElements(By.tagName("tr"));
-		for(WebElement row : rows) {
-			try {
-				WebElement col = row.findElement(By.tagName("td"));
-				if(col.getText().trim().equals(title)) {
-					retValue = true;
-				}
-			}	 
- */
+
+		
+		/*
+		 * To select any sub menu option when you right click any host in the host manager
+		 * @Option = The option that you want select as String 
+		 */
 		public void SubMenuOption(String option) {
-			WebElement hostDiv = getWebElement(By.id("popup_72"));
+			WebElement hostDiv = getWebElement(By.id("doc3"));
 			if(hostDiv != null) {
 				List<WebElement> rows = hostDiv.findElements(By.tagName("tr"));
 					for(WebElement row : rows) {
 						List<WebElement> cols = row.findElements(By.tagName("td"));
 							for(WebElement col : cols) {	
 								try{
-									if ((col.getAttribute("innerHTML").trim().equals(option)) &&  (row.getAttribute("class").contains("dijitFocuset"))) {
+									this.hoverMove(col);
+									if ((col.getAttribute("innerHTML").trim().equals(option)) /*&&  (row.getAttribute("class").contains("dijitFocuset"))*/) {
 										row.click();
 										
 									}
 								}
 								catch(NoSuchElementException e) {
 									logger.trace("This option is not in the list", e);
-									// Move on to next row and keep going
 								}
 								catch(Exception e) {
 									logger.error("Unexpected error attempting to iterate over option=" + option, e);
-									// Move on to next row and keep going
 								}	
 							}
 					
@@ -172,7 +168,7 @@ public class HostPage extends BasePage implements IHostPage  {
 			this.doRigthClick(hostMapa.get(host));		
 			SubMenuOption("Edit Host variables");
 			//subMenuMapa.get("Edit Host variables").click();
-			dijit_form_Button_13_label.click();
+			//dijit_form_Button_13_label.click();
 			/*hostVariableName.clear();
 			hostVariableName.sendKeys("new variale");
 			hostVariableValue.clear();

@@ -25,4 +25,5 @@ public interface IBasePage {
     public void doRigthClick(WebElement obj);
     public void selectBackendHost(String host) throws NoSuchElementException;
     public Object executeScript(String script);
+    public void hoverMove (WebElement ele);
 }
