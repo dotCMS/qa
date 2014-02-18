@@ -9,6 +9,8 @@ Eventually will include configuration management scripting and automated testing
 
 To build and use Selenium Web Driver Test Suite:
 ------------------------------------------------
+Setup a dotcms instance running 2.5.3_qastarter_v.0.3.zip instead of the normal starter.zip
+
 Make sure your host file has entries for the following:
 	qademo.dotcms.com
 	m.qademo.dotcms.com
