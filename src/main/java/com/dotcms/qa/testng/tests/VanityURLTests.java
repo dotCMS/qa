@@ -31,53 +31,24 @@ public class VanityURLTests {
 
     @BeforeGroups (groups = {"VanityURLs"})
     public void init() throws Exception {
-        logger.info("Locale = " + Locale.getDefault());
-        logger.info("file.encoding = " +System.getProperty("file.encoding"));
         SeleniumConfig config = SeleniumConfig.getConfig();
         demoServerURL = config.getProperty("demoServerURL");
         mobileServerURL = config.getProperty("mobileServerURL");
         sharedServerURL = config.getProperty("sharedServerURL");
-        logger.info("demoServerURL = " + demoServerURL);
-
-        logger.trace("**************************");
-        Set<String> keys = System.getProperties().stringPropertyNames();
-        for(String key : keys) {
-            logger.trace(key + "=" + System.getProperty(key));
-        }       
-        logger.trace("**************************");
 
         // login
-        backendMgr = SeleniumPageManager.getPageManager();
-        backendMgr.loadPage(demoServerURL + "admin");
+        backendMgr = RegressionSuiteEnv.getBackendPageManager();
         loginPage = backendMgr.getPageObject(ILoginPage.class);
         loginPage.login("admin@dotcms.com", "admin");
         
         // create frontendMgr for verification of frontend functionality
-        frontendMgr = SeleniumPageManager.getNewPageManager();
-
-        /*
-        // add license
-        ILicenseManagerPage licPage = portletMenu.getLicenseManagerPage();
-        String licenseLevel = licPage.getLicenseLevel();
-        logger.info("License Level = " + licenseLevel);
-        licPage.activateLicenseKey(false, "k8Xd32+edtuiKO2N24OxLmPBS+/m9cEjyLoGETbKO1+U3d0ytLc0iaGhg1Tmb24bgs67Q/7yxRVYj1jheW9TPcPBd0E0fc1GkiTR21y1FGRwdoq1aiMZh/zv4QxvoZJg3h5kXJ2pGCi34bv70Urknhy7vRYrccUjdiL/HzC6GcgAAAAJZGV2ZWxvcGVyAAAABAAAAL4AAAAIAAABPaHfL2wAAAAIAAABRPdlEgAAAAAIAAAAAAAYxOMAAAAEAAABkAAAAAEB");
-        licenseLevel = licPage.getLicenseLevel();
-        logger.info("License Level = " + licenseLevel);
-        */
-
+        frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
     }
     
     @AfterGroups (groups = {"VanityURLs"})
     public void teardown() throws Exception {
         // logout
-        backendMgr.loadPage(demoServerURL + "c/portal/logout?referer=/c");
-    	loginPage = backendMgr.getPageObject(ILoginPage.class);
-        
-        // shutdown
-        logger.info("Shutting Down....");
-        backendMgr.shutdown();
-
-        frontendMgr.shutdown();
+        backendMgr.logoutBackend();
     }
     
     @Test (groups = {"VanityURLs"})

@@ -21,6 +21,7 @@ public class SeleniumPageManager{
     public static SeleniumPageManager mgrInstance = null;
 
     private WebDriver driver = null;
+    private String demoServerURL = null;
 
     public static SeleniumPageManager getPageManager() throws Exception {
         if(mgrInstance == null) {
@@ -93,6 +94,8 @@ public class SeleniumPageManager{
             }
         }
 
+        demoServerURL = config.getProperty("demoServerURL");
+
         // Standardize settings for maximizing consistency
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.manage().window().setPosition(new Point(0,0));
@@ -102,6 +105,10 @@ public class SeleniumPageManager{
     public IBasePage loadPage(String url) throws Exception{
         driver.get(url);
         return getPageObject(IBasePage.class);
+    }
+    
+    public void logoutBackend() throws Exception {
+        loadPage(demoServerURL + "c/portal/logout?referer=/c");
     }
     
     public void shutdown() {
