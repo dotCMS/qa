@@ -62,40 +62,58 @@ public class StructureTests {
         // Create structure and add fields
         IStructureAddOrEdit_PropertiesPage propPage = structuresPage.getAddNewStructurePage();
         IStructureAddOrEdit_FieldsPage addOrEditFieldsPage = propPage.createNewStructure("OneOfEverything", "Structure with every field type", "qashared");
-        //addOrEditFieldsPage.addBinaryField("BinaryField", "BinaryField Hint", false);
-        addOrEditFieldsPage.addCategory("CategoryField", "Topic", "Category Hint", false, false);
-
-        /*
-        addOrEditFieldsPage.addCheckbox("CheckboxField", "Checkbox Value", "Checkbox Default Value", "Checkbox Hint", false, false, false);
-        addOrEditFieldsPage.addConstantField("ConstantField", "ConstantField Value", "ConstantField Hint");
-        addOrEditFieldsPage.addCustomField("CustomField", "CustomField Value", "", "Letters only", "CustomField Default Value", "CustomField Hint", false, false, false, false, false);
-        addOrEditFieldsPage.addDateField("DateField", "2020-01-31", "DateField Hint", false, false, false, false);
-        addOrEditFieldsPage.addDateAndTimeField("DateAndTimeField", "2020-01-31 12:34:56", "DateAndTimeField Hint", false, false, false, false);
-        addOrEditFieldsPage.addFileField("FileField", "FileField Hint", false);
-        addOrEditFieldsPage.addHiddenField("HiddenField", "HiddenField Hint");
-        addOrEditFieldsPage.addHostOrFolderField("HostOrFolderField", "HostOrFolderField Hint", false, false);
-        addOrEditFieldsPage.addImageField("ImageFields", "ImageField Hint", false);
-        addOrEditFieldsPage.addLineDividerField("LineDivider");
-        addOrEditFieldsPage.addMultiSelectField("MultiSelectField", "MultiSelectField Value", "MultiSelectField Default Value", "MultiSelectField Hint", false, false, false, false);
-        addOrEditFieldsPage.addPermissionsField("PermissionsFields");
-        addOrEditFieldsPage.addRadioField("RadioField", "RadioField Value", "RadioField Value", "RadioField Hint", false, false, false, false);
-        addOrEditFieldsPage.addRelationshipsField("RelationshipsField");
-        addOrEditFieldsPage.addSelectField("SelectField", "SelectField Value", "SelectField Default Value", "SelectField Hint", false, false, false, false);
-        addOrEditFieldsPage.addTabDividerField("TabDivider");
-        addOrEditFieldsPage.addTagField("TagField", "TagField Default Value", "TagField Hint", false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savestructure"));
         addOrEditFieldsPage.addTextField("TextField", false, true, true, true, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addBinaryField("BinaryField", "BinaryField Hint", false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addCategory("CategoryField", "Topic", "Category Hint", false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addCheckbox("CheckboxField", "Checkbox Value", "Checkbox Default Value", "Checkbox Hint", false, false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addConstantField("ConstantField", "ConstantField Value", "ConstantField Hint");
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addCustomField("CustomField", "CustomField Value", "", "Letters only", "CustomField Default Value", "CustomField Hint", false, false, false, false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addDateField("DateField", "2020-01-31", "DateField Hint", false, false, false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addDateAndTimeField("DateAndTimeField", "2020-01-31 12:34:56", "DateAndTimeField Hint", false, false, false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addFileField("FileField", "FileField Hint", false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addHiddenField("HiddenField", "HiddenField Hint");
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addHostOrFolderField("HostOrFolderField", "HostOrFolderField Hint", false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addImageField("ImageFields", "ImageField Hint", false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addLineDividerField("LineDivider");
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addMultiSelectField("MultiSelectField", "MultiSelectField Value", "MultiSelectField Default Value", "MultiSelectField Hint", false, false, false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addPermissionsField("PermissionsFields");
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addRadioField("RadioField", "RadioField Value", "RadioField Value", "RadioField Hint", false, false, false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addRelationshipsField("RelationshipsField");
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addSelectField("SelectField", "SelectField Value", "SelectField Default Value", "SelectField Hint", false, false, false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addTabDividerField("TabDivider");
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addTagField("TagField", "TagField Default Value", "TagField Hint", false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
         addOrEditFieldsPage.addTextareaField("TextAreaField", "", "Letters only", "TextAreaField Default Area", "TextAreaField Hint", false, false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
         addOrEditFieldsPage.addTimeField("TimeField", "", "TimeField Hint", false, false, false, false);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
         addOrEditFieldsPage.addWYSIWYGField("WYSIWYGField", "default text here", "WYSIWYGField Hint", false, true, true);
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
         addOrEditFieldsPage.addKeyValueField("KeyValueField", "KeyValueField Hint", false, false);
-        */
-        
+
         // Cleanup
         structuresPage = portletMenu.getStructuresPage();
         structuresPage.deleteStructureAndContent("OneOfEverything", true);
-        logger.info("*********** JBG1969a ***********");
-        logger.info("systemMessage = " + structuresPage.getSystemMessage());
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.deletestructure"));
-        logger.info("*********** JBG1969b ***********");
     }
 }
