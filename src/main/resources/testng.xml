@@ -5,7 +5,7 @@
     <groups>
       <run>
         <exclude name="Broken"/>
-        <include name="VanityURLs"/>
+        <exclude name="VanityURLs"/>
         <include name="Structures"/>
       </run>
     </groups>

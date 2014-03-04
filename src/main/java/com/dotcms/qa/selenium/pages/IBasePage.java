@@ -14,13 +14,16 @@ public interface IBasePage {
     public boolean isElementPresent(By by);
     public boolean isElementPresent(String cssSelector);
     public boolean isElementPresentAndDisplay(By by);
+	public String getSystemMessage();
     public String getTitle();
     public WebElement getWebElement(By by);
     public List<WebElement> getWebElements(By by);
     public void hoverOverElement(WebElement element);
+    public void rightClickElement(WebElement element);
     public void switchToFrame(String frameName);
     public Alert switchToAlert();
     public void switchToDefaultContent();
+    public void waitForPresenseOfElement(By by, int secondsToWait);
     public void waitForVisibilityOfElement(By by, int secondsToWait);
 
     public void selectBackendHost(String host) throws NoSuchElementException;

@@ -89,6 +89,11 @@ public class BasePage implements IBasePage {
 		}
 	}
 
+	public String getSystemMessage() {
+		this.waitForPresenseOfElement(By.className("systemMessages"), 10);
+		return driver.findElement(By.className("systemMessages")).getText();
+	}
+
 	public String getTitle() {
 		return driver.getTitle();
 	}
@@ -110,6 +115,12 @@ public class BasePage implements IBasePage {
 		builder.moveToElement(element).build().perform();
 	}
 
+	public void rightClickElement(WebElement element){
+		Actions action = new Actions(driver);
+		action.contextClick(element);
+		action.perform();
+	}
+
 	public void scroll(int horizontalScroll, int verticalScroll) {
 		((JavascriptExecutor) driver).executeScript("scroll(" + horizontalScroll + "," + verticalScroll + ");");
 	}
@@ -124,6 +135,11 @@ public class BasePage implements IBasePage {
     
     public void switchToDefaultContent() {
 	    driver.switchTo().defaultContent();
+    }
+
+    public void waitForPresenseOfElement(By by, int secondsToWait) {
+		WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
+		wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
 
     public void waitForVisibilityOfElement(By by, int secondsToWait) {
