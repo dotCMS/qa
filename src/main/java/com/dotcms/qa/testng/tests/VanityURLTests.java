@@ -8,6 +8,7 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.*;
+import com.dotcms.qa.util.language.LanguageManager;
 
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -74,6 +75,7 @@ public class VanityURLTests {
         vanityURLPage.addVanityURLToHost(vurl383Title, targetHost, vurl383URL, "/about-us/our-team/index.html");
 
         // verify it was created and listed on page
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl383Title));
         
         // verify that vanity url works
@@ -84,6 +86,7 @@ public class VanityURLTests {
 
         // delete vanity URL
         vanityURLPage.deleteVanityURL(vurl383Title);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.delete"));
 
         // verify it is no longer listed
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl383Title));
@@ -121,9 +124,9 @@ public class VanityURLTests {
         
         // create new vanity URL and verify it exists and is working
         vanityURLPage.addVanityURLToHost(vurl384Title_org, targetHost, vurl384URL_org, "products/");
-//        vanityURLPage.addVanityURLToHost(vurl384Title_org, targetHost, vurl384URL_org, "products/index.html");
 
         // verify it was created and listed on page
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl384Title_org));
         
         // verify that vanity url works
@@ -134,6 +137,7 @@ public class VanityURLTests {
         
         // edit vanity url
         vanityURLPage.editVanityURL(vurl384Title_org, vurl384Title_new, vurl384URL_new, "/services/market-research/");
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
 
         // verify new vanity url is listed and old one is not
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl384Title_new));
@@ -152,6 +156,7 @@ public class VanityURLTests {
         
         // delete and verify it is no longer listed
         vanityURLPage.deleteVanityURL(vurl384Title_new);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.delete"));
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl384Title_new));
     }
 
@@ -175,6 +180,7 @@ public class VanityURLTests {
 
         // add url
         vanityURLPage.addVanityURLToAllHosts(vurl386Title, vurl386URL, "/alt-home/alt-home.html");
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
         
         // verify it is listed and working
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl386Title));
@@ -184,9 +190,9 @@ public class VanityURLTests {
 
         // delete and verify it is no longer listed
         vanityURLPage.deleteVanityURL(vurl386Title);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.delete"));
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl386Title));
 
-        //Thread.sleep(3000);
         // verify it no longer works
         page = frontendMgr.loadPage(demoServerURL + vurl386URL);
         title = page.getTitle();
@@ -211,6 +217,7 @@ public class VanityURLTests {
         
         // add global and make sure it is working
         vanityURLPage.addVanityURLToAllHosts(vurl387Title_global, vurl387URL, "/alt-home/alt-home.html");
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl387Title_global));
         IBasePage page = frontendMgr.loadPage(demoServerURL + vurl387URL);
         String title = page.getTitle();
@@ -224,6 +231,7 @@ public class VanityURLTests {
         
         // add vanity url for specific host m.demo.dotcms.com
         vanityURLPage.addVanityURLToHost(vurl387Title_specific, targetHost, vurl387URL, "http://www.google.com/");
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
 
         // verify specific vanity url works
         page = frontendMgr.loadPage(mobileServerURL + vurl387URL);
@@ -241,8 +249,10 @@ public class VanityURLTests {
 
         // delete and verify they are no longer listed
         vanityURLPage.deleteVanityURL(vurl387Title_global);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.delete"));
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl387Title_global));
         vanityURLPage.deleteVanityURL(vurl387Title_specific);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.delete"));
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl387Title_specific));
     }
 }
