@@ -19,6 +19,7 @@ public interface IBasePage {
     public WebElement getWebElement(By by);
     public List<WebElement> getWebElements(By by);
     public void hoverOverElement(WebElement element);
+    public void moveToElement(WebElement element);
     public void rightClickElement(WebElement element);
     public void switchToFrame(String frameName);
     public Alert switchToAlert();

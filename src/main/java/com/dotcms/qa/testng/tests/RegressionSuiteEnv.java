@@ -25,12 +25,12 @@ public class RegressionSuiteEnv {
         SeleniumConfig config = SeleniumConfig.getConfig();
         demoServerURL = config.getProperty("demoServerURL");
 
-        logger.trace("**************************");
+        logger.info("**************************");
         Set<String> keys = System.getProperties().stringPropertyNames();
         for(String key : keys) {
-            logger.trace(key + "=" + System.getProperty(key));
+            logger.info(key + "=" + System.getProperty(key));
         }       
-        logger.trace("**************************");
+        logger.info("**************************");
     }
     
     @AfterSuite (alwaysRun = true)
@@ -54,7 +54,8 @@ public class RegressionSuiteEnv {
     public static SeleniumPageManager getBackendPageManager() throws Exception {
     	if(backendMgr == null) {
             backendMgr = SeleniumPageManager.getPageManager();
-            backendMgr.loadPage(demoServerURL + "admin");    		
+            backendMgr.loadPage(demoServerURL + "admin"); 
+            Thread.sleep(250);	// This pause improves login reliability with the chrome driver
     	}
     	return backendMgr;
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -115,6 +116,13 @@ public class BasePage implements IBasePage {
 		builder.moveToElement(element).build().perform();
 	}
 
+	public void moveToElement(WebElement element) {
+		// actions moveToElement does not seem to work in chrome or firefox until selenium ver 2.40
+		Dimension size = element.getSize();
+		Actions builder = new Actions(driver);
+		builder.moveToElement(element, 0, size.height + 10).build().perform();
+	}
+	
 	public void rightClickElement(WebElement element){
 		Actions action = new Actions(driver);
 		action.contextClick(element);

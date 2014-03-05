@@ -76,8 +76,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    dijit_form_TextBox_1.sendKeys(defaultValue); // Default Value
 	    dijit_form_TextBox_2.sendKeys(hint);		 // Hint
 
-	    // TODO - create a more elegant way than this embedded scroll hack - this is necessary to work in chrome
-	    scroll(0, 200);
+	    moveToElement(saveButton_label);
 
 	    if(required)
 	    	requiredCB.click();                      // Required Checkbox
@@ -122,8 +121,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    dijit_form_TextBox_1.sendKeys(defaultValue); // Default Value
 	    dijit_form_TextBox_2.sendKeys(hint);		 // Hint
 	    
-	    // TODO - create a more elegant way than this embedded scroll hack - this is necessary to work in chrome
-	    scroll(0, 200);
+	    moveToElement(saveButton_label);
 
 	    if(required)
 	    	requiredCB.click();                      // Required Checkbox
@@ -268,6 +266,9 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	indexedCB.click();						 // System Indexed Checkbox
 	    if(unique)
 	    	uniqueCB.click();						 // Unique Checkbox
+
+	    moveToElement(saveButton_label);
+
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
 		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
@@ -300,6 +301,9 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	indexedCB.click();						 // System Indexed Checkbox
 	    if(showInListing)
 	    	listedCB.click();						 // Show In Listing Checkbox
+
+	    moveToElement(saveButton_label);
+
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
 		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
@@ -333,6 +337,9 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	indexedCB.click();						 // System Indexed Checkbox
 	    if(showInListing)
 	    	listedCB.click();						 // Show In Listing Checkbox
+
+	    moveToElement(saveButton_label);
+	    
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
 		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
@@ -380,8 +387,8 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	uniqueCB.click();                        // Unique checkbox
 	    Thread.sleep(250);
 
-	    // TODO - create a more elegant way than this embedded scroll hack - this is necessary to work in chrome
-	    scroll(0, 200);
+	    moveToElement(saveButton_label);
+	    scroll(0, 200);								 // Klugy workaround for Chrome Driver
 	    saveButton_label.click();                    // Save button
 	    
 		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
