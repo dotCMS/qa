@@ -20,17 +20,17 @@ public class RegressionSuiteEnv {
 
     @BeforeSuite (alwaysRun = true)
     public void init() throws Exception {
-        logger.info("Locale = " + Locale.getDefault());
-        logger.info("file.encoding = " +System.getProperty("file.encoding"));
+    	logger.info("Locale = " + Locale.getDefault());
+    	logger.info("file.encoding = " + System.getProperty("file.encoding"));
+    	StringBuilder diagMsg = new StringBuilder("\r\n**************************\r\n");
         SeleniumConfig config = SeleniumConfig.getConfig();
         demoServerURL = config.getProperty("demoServerURL");
-
-        logger.info("**************************");
         Set<String> keys = System.getProperties().stringPropertyNames();
         for(String key : keys) {
-            logger.info(key + "=" + System.getProperty(key));
+            diagMsg.append(key + "=" + System.getProperty(key) + "\r\n");
         }       
-        logger.info("**************************");
+        diagMsg.append("**************************");
+        logger.info(diagMsg.toString());
     }
     
     @AfterSuite (alwaysRun = true)
