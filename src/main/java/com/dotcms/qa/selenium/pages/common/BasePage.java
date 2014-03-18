@@ -1,5 +1,6 @@
 package com.dotcms.qa.selenium.pages.common;
 
+import java.text.DateFormat;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -31,6 +32,20 @@ public class BasePage implements IBasePage {
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
 	}
+	
+	public void executeJavaScript(String javaScript) {
+		((JavascriptExecutor)this.driver).executeScript(javaScript);
+	}
+
+	/*
+	 * Per the Javadoc for JavascriptExecutor:
+	 *   Arguments must be a number, a boolean, a String, WebElement, or a List of any combination of the above.
+	 *   An exception will be thrown if the arguments do not meet these criteria. The arguments will be made available
+	 *   to the JavaScript via the "arguments" magic variable, as if the function were called via "Function.apply"
+	 */
+	public void executeJavaScript(String javaScript, Object args) {
+		((JavascriptExecutor)this.driver).executeScript(javaScript, args);
+	}
 
 	public void sendText(By by, String text) {
 		driver.findElement(by).sendKeys(text);
@@ -46,6 +61,20 @@ public class BasePage implements IBasePage {
 		driver.findElement(By.cssSelector(cssSelector)).sendKeys(text);
 	}
 
+	public void setBinaryFileField(By by, String fileName) {
+		sendText(by, fileName);
+	}
+
+	public void setDateField(By by, java.util.Date date) {
+		WebElement elem = driver.findElement(by);
+		elem.clear();
+		elem.sendKeys(DateFormat.getDateInstance(DateFormat.SHORT).format(date));
+		elem.sendKeys(Keys.TAB);
+	}
+	
+	public void setTextField(By by, String fileName) {
+		sendText(by, fileName);
+	}
 
 	public boolean isTextPresent(String text) {
 		return driver.getPageSource().contains(text);
@@ -120,7 +149,8 @@ public class BasePage implements IBasePage {
 		// actions moveToElement does not seem to work in chrome or firefox until selenium ver 2.40
 		Dimension size = element.getSize();
 		Actions builder = new Actions(driver);
-		builder.moveToElement(element, 0, size.height + 10).build().perform();
+//		builder.moveToElement(element, 0, size.height + 10).build().perform();
+		builder.moveToElement(element, 0, 0).build().perform();
 	}
 	
 	public void rightClickElement(WebElement element){
@@ -145,6 +175,11 @@ public class BasePage implements IBasePage {
 	    driver.switchTo().defaultContent();
     }
 
+	public void toggleCheckbox(By by) {
+		WebElement elem = getWebElement(by);
+		elem.click();
+	}
+	
     public void waitForPresenseOfElement(By by, int secondsToWait) {
 		WebDriverWait wait = new WebDriverWait(driver, secondsToWait);
 		wait.until(ExpectedConditions.presenceOfElementLocated(by));

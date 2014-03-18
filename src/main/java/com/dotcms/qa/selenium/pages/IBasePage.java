@@ -8,8 +8,13 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 public interface IBasePage {
-    public void sendText(By by, String text);
+	public void executeJavaScript(String javaScript);
+	public void executeJavaScript(String javaScript, Object args);
+	public void sendText(By by, String text);
     public void sendText(String cssSelector, String text);
+	public void setBinaryFileField(By by, String fileName);
+	public void setDateField(By by, java.util.Date date);
+	public void setTextField(By by, String fileName);
     public boolean isTextPresent(String text);
     public boolean isElementPresent(By by);
     public boolean isElementPresent(String cssSelector);
@@ -24,6 +29,7 @@ public interface IBasePage {
     public void switchToFrame(String frameName);
     public Alert switchToAlert();
     public void switchToDefaultContent();
+	public void toggleCheckbox(By by);
     public void waitForPresenseOfElement(By by, int secondsToWait);
     public void waitForVisibilityOfElement(By by, int secondsToWait);
 

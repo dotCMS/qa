@@ -14,8 +14,6 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAddOrEdit_ContentPage {
 
-	private WebElement title;
-	
 	@FindBy(how = How.CSS, using = "span.mceIcon.mce_bold")
 	@CacheLookup
 	private WebElement boldButton;
@@ -34,8 +32,10 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 		super(driver);
 	}
 
-	public void setTitle(String title) {
-	    this.title.sendKeys(title);
+	public ICategoriesDialog getCategoriesDialog(By linkBy) throws Exception{
+		WebElement elem = getWebElement(linkBy);
+		elem.click();		
+		return SeleniumPageManager.getPageManager().getPageObject(ICategoriesDialog.class);
 	}
 		
 	public void toggleWYSIWYGBold() {
