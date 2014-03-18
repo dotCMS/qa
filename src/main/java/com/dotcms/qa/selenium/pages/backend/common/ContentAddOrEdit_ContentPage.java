@@ -37,7 +37,13 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 		elem.click();		
 		return SeleniumPageManager.getPageManager().getPageObject(ICategoriesDialog.class);
 	}
-		
+	
+	public ISelectAFileDialog getSelectAFileDialog(By linkBy) throws Exception {
+		WebElement fileBrowseButton = getWebElement(linkBy);
+        executeJavaScript("arguments[0].click();", fileBrowseButton);
+        return SeleniumPageManager.getPageManager().getPageObject(ISelectAFileDialog.class);
+	}
+	
 	public void toggleWYSIWYGBold() {
 	    boldButton.click();
 	}
