@@ -26,6 +26,7 @@ public interface IBasePage {
     public void hoverOverElement(WebElement element);
     public void moveToElement(WebElement element);
     public void rightClickElement(WebElement element);
+    public void scroll(int horizontalScroll, int verticalScroll);
     public void switchToFrame(String frameName);
     public Alert switchToAlert();
     public void switchToDefaultContent();

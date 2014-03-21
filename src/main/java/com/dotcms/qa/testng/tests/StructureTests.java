@@ -63,7 +63,6 @@ public class StructureTests {
     	IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IStructuresPage structuresPage = portletMenu.getStructuresPage();
     	
-        /*
         // Create structure and add fields
         IStructureAddOrEdit_PropertiesPage propPage = structuresPage.getAddNewStructurePage();
         IStructureAddOrEdit_FieldsPage addOrEditFieldsPage = propPage.createNewStructure("OneOfEverything", "Structure with every field type", "qashared");
@@ -94,19 +93,15 @@ public class StructureTests {
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
         addOrEditFieldsPage.addLineDividerField("LineDivider");
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
-        addOrEditFieldsPage.addMultiSelectField("MultiSelectField", "MultiSelectField Value", "MultiSelectField Default Value", "MultiSelectField Hint", false, false, false, false);
+        addOrEditFieldsPage.addMultiSelectField("MultiSelectField", "Option 000000001|000000001\r\nOption 000000002|000000002\r\nOption 000000003|000000003\r\n", "000000001", "MultiSelectField Hint", false, false, false, false);
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
-        addOrEditFieldsPage.addPermissionsField("PermissionsFields");
-        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
-        addOrEditFieldsPage.addRadioField("RadioField", "RadioField Value", "RadioField Value", "RadioField Hint", false, false, false, false);
+        addOrEditFieldsPage.addRadioField("RadioField", "Florida|FL\r\nMichigan|MI\r\nOhio|OH\r\nWest Virginia|WV\r\nWisconsin|WI", "WI", "RadioField Hint", false, false, false, false);
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
         addOrEditFieldsPage.addRelationshipsField("RelationshipsField");
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
-        addOrEditFieldsPage.addSelectField("SelectField", "SelectField Value", "SelectField Default Value", "SelectField Hint", false, false, false, false);
+        addOrEditFieldsPage.addSelectField("SelectField", "OptionA|A\r\nOptionB|B\r\nOptionC|C\r\nOptionD|D", "B", "SelectField Hint", false, false, false, false);
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
-        addOrEditFieldsPage.addTabDividerField("TabDivider");
-        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
-        addOrEditFieldsPage.addTagField("TagField", "TagField Default Value", "TagField Hint", false, false);
+        addOrEditFieldsPage.addTagField("TagField", "google", "TagField Hint", false, false);
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
         addOrEditFieldsPage.addTextareaField("TextAreaField", "", "Letters only", "TextAreaField Default Area", "TextAreaField Hint", false, false, false);
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
@@ -115,11 +110,14 @@ public class StructureTests {
         addOrEditFieldsPage.addWYSIWYGField("WYSIWYGField", "default text here", "WYSIWYGField Hint", false, true, true);
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
         addOrEditFieldsPage.addKeyValueField("KeyValueField", "KeyValueField Hint", false, false);
-		*/
+        addOrEditFieldsPage.addTabDividerField("Permissions Tab");
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
+        addOrEditFieldsPage.addPermissionsField("PermissionsFields");
+        Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));
         
         IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
         IContentAddOrEdit_ContentPage contentAddOrEditPage = contentSearchPage.getAddContentPage("OneOfEverything");
-        
+
         contentAddOrEditPage.setTextField(By.id("textfield"), "Text field value");
 
         // TODO - add properties setting for location of files for uploading
@@ -140,22 +138,21 @@ public class StructureTests {
         cal.set(2010,  java.util.Calendar.FEBRUARY, 10);
         contentAddOrEditPage.setDateField(By.id("dateandtimefieldDate"), cal.getTime());
 
-        //WebElement xPath = contentAddOrEditPage.getWebElement(By.xpath("(//input[@value=''])[15]"));
-        //contentAddOrEditPage.executeJavaScript("arguments[0].click();", xPath);
-        //xPath.click();
         
-        
-        ISelectAFileDialog selectFileDlg = contentAddOrEditPage.getSelectAFileDialog(By.id("dijit_form_Button_18"));
+        ISelectAFileDialog selectFileDlg = contentAddOrEditPage.getSelectAFileDialog(By.id("dijit_form_Button_18"), "dijit_layout_ContentPane_6", "dijit_layout_ContentPane_7");
         selectFileDlg.selectFile("qademo.dotcms.com/intranet/documents/global-central-banks.pdf");
+		
+        contentAddOrEditPage.scroll(0, 300);
+        Thread.sleep(10000);
+//        contentAddOrEditPage.setHostOrFolder("qademo.dotcms.com");
+        contentAddOrEditPage.setHostOrFolder("qademo.dotcms.com/about-us/locations");
+        Thread.sleep(7000);
+        
+        ISelectAFileDialog selectImageDlg = contentAddOrEditPage.getSelectAFileDialog(By.id("dijit_form_Button_25"), "dijit_layout_ContentPane_8", "dijit_layout_ContentPane_9");
+        selectImageDlg.selectFile("qademo.dotcms.com/images/photos/The-Gherkin-London-England.jpg");
 
-        // nothing - contentAddOrEditPage.executeJavaScript("dijit_form_Button_17_label.click();");
-        // nothing contentAddOrEditPage.executeJavaScript("dijit_form_Button_17.click();");
-        //contentAddOrEditPage.executeJavaScript("dijit.byId('dijit_form_Button_17').dispatchEvent(\"click\");");
-        //fileBrowseButton.click();
-        Thread.sleep(5000);
         contentAddOrEditPage.saveAndPublish();
 
-        //Thread.sleep(10000);
         // Cleanup
         /*
         structuresPage = portletMenu.getStructuresPage();
