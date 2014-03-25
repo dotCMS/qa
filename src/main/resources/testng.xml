@@ -1,11 +1,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
   
 <suite name="Full Regression Suite" verbose="1" >
-  <test name="Single server regression">
+  <test name="Single Server Regression">
     <groups>
       <run>
         <exclude name="Broken"/>
         <include name="Host"/>
+        <include name="VanityURLs"/>
+        <include name="Structures"/>
       </run>
     </groups>
     <classes>

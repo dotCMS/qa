@@ -46,7 +46,7 @@ public class POC {
         Thread.sleep(5000);
         IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
         IContentAddOrEdit_ContentPage addContentPage = contentSearchPage.getAddContentPage(structureName);
-        addContentPage.setTitle("Article #0001");
+        //addContentPage.setTitle("Article #0001");
         addContentPage.toggleWYSIWYGBold();
         addContentPage.toggleWYSIWYGItalic();
         addContentPage.toggleWYSIWYGUnderline();

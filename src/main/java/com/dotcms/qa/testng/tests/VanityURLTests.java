@@ -1,5 +1,6 @@
 package com.dotcms.qa.testng.tests;
 
+import java.net.*;
 import java.util.*;
 
 import com.dotcms.qa.selenium.util.SeleniumConfig;
@@ -7,6 +8,7 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.*;
+import com.dotcms.qa.util.language.LanguageManager;
 
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -19,56 +21,31 @@ public class VanityURLTests {
     
     private SeleniumPageManager backendMgr = null;
     private SeleniumPageManager frontendMgr = null;
-    private String serverURL = null;
+    private String demoServerURL = null;
+    private String mobileServerURL = null;
+    private String sharedServerURL = null;
     private ILoginPage loginPage = null;
 
     @BeforeGroups (groups = {"VanityURLs"})
     public void init() throws Exception {
-        logger.info("Locale = " + Locale.getDefault());
-        logger.info("file.encoding = " +System.getProperty("file.encoding"));
         SeleniumConfig config = SeleniumConfig.getConfig();
-        serverURL = config.getProperty("serverURL");
-        logger.info("serverURL = " + serverURL);
-
-        logger.trace("**************************");
-        Set<String> keys = System.getProperties().stringPropertyNames();
-        for(String key : keys) {
-            logger.trace(key + "=" + System.getProperty(key));
-        }       
-        logger.trace("**************************");
+        demoServerURL = config.getProperty("demoServerURL");
+        mobileServerURL = config.getProperty("mobileServerURL");
+        sharedServerURL = config.getProperty("sharedServerURL");
 
         // login
-        backendMgr = SeleniumPageManager.getPageManager();
-        backendMgr.loadPage(serverURL + "admin");
+        backendMgr = RegressionSuiteEnv.getBackendPageManager();
         loginPage = backendMgr.getPageObject(ILoginPage.class);
         loginPage.login("admin@dotcms.com", "admin");
         
         // create frontendMgr for verification of frontend functionality
-        frontendMgr = SeleniumPageManager.getNewPageManager();
-
-        /*
-        // add license
-        ILicenseManagerPage licPage = portletMenu.getLicenseManagerPage();
-        String licenseLevel = licPage.getLicenseLevel();
-        logger.info("License Level = " + licenseLevel);
-        licPage.activateLicenseKey(false, "k8Xd32+edtuiKO2N24OxLmPBS+/m9cEjyLoGETbKO1+U3d0ytLc0iaGhg1Tmb24bgs67Q/7yxRVYj1jheW9TPcPBd0E0fc1GkiTR21y1FGRwdoq1aiMZh/zv4QxvoZJg3h5kXJ2pGCi34bv70Urknhy7vRYrccUjdiL/HzC6GcgAAAAJZGV2ZWxvcGVyAAAABAAAAL4AAAAIAAABPaHfL2wAAAAIAAABRPdlEgAAAAAIAAAAAAAYxOMAAAAEAAABkAAAAAEB");
-        licenseLevel = licPage.getLicenseLevel();
-        logger.info("License Level = " + licenseLevel);
-        */
-
+        frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
     }
     
     @AfterGroups (groups = {"VanityURLs"})
     public void teardown() throws Exception {
         // logout
-        backendMgr.loadPage(serverURL + "c/portal/logout?referer=/c");
-    	loginPage = backendMgr.getPageObject(ILoginPage.class);
-        
-        // shutdown
-        logger.info("Shutting Down....");
-        backendMgr.shutdown();
-
-        frontendMgr.shutdown();
+        backendMgr.logoutBackend();
     }
     
     @Test (groups = {"VanityURLs"})
@@ -78,7 +55,7 @@ public class VanityURLTests {
     	
         String vurl383Title = "383 Vanity URL";
         String vurl383URL = "383";
-        String targetHost = "demo.dotcms.com";
+        String targetHost = new URL(demoServerURL).getHost();
         
         vanityURLPage.selectBackendHost(targetHost);
         
@@ -86,7 +63,7 @@ public class VanityURLTests {
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl383Title));
         
         // verify it does not already work
-        IBasePage page = frontendMgr.loadPage(serverURL + vurl383URL);
+        IBasePage page = frontendMgr.loadPage(demoServerURL + vurl383URL);
         String title = page.getTitle();
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping for vanity URL already exists:  " + vurl383URL);
 
@@ -94,27 +71,29 @@ public class VanityURLTests {
         vanityURLPage.addVanityURLToHost(vurl383Title, targetHost, vurl383URL, "/about-us/our-team/index.html");
 
         // verify it was created and listed on page
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl383Title));
         
         // verify that vanity url works
-        page = frontendMgr.loadPage(serverURL + vurl383URL);
+        page = frontendMgr.loadPage(demoServerURL + vurl383URL);
         title = page.getTitle();
         logger.info("title = " + title);
         Assert.assertTrue(title.equals("Our Team - Quest Financial"), "ERROR - Mapping for vanity URL does not work:  " + vurl383URL);
 
         // delete vanity URL
         vanityURLPage.deleteVanityURL(vurl383Title);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.delete"));
 
         // verify it is no longer listed
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl383Title));
         
         // verify it no longer works
-        page = frontendMgr.loadPage(serverURL + vurl383URL);
+        page = frontendMgr.loadPage(demoServerURL + vurl383URL);
         title = page.getTitle();
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl383URL);
     }
 
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void testCase384_EditVanityURL() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -123,7 +102,7 @@ public class VanityURLTests {
         String vurl384URL_org = "384";
         String vurl384Title_new = "384 Vanity NEW URL";
         String vurl384URL_new = "384New";
-        String targetHost = "demo.dotcms.com";
+        String targetHost = new URL(demoServerURL).getHost();
         
         vanityURLPage.selectBackendHost(targetHost);
         
@@ -132,46 +111,48 @@ public class VanityURLTests {
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl384Title_new));
 
         // verify neither vanity URL currently works
-        IBasePage page = frontendMgr.loadPage(serverURL + vurl384URL_org);
+        IBasePage page = frontendMgr.loadPage(demoServerURL + vurl384URL_org);
         String title = page.getTitle();
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping for vanity URL already exists:  " + vurl384URL_org);
-        page = frontendMgr.loadPage(serverURL + vurl384URL_new);
+        page = frontendMgr.loadPage(demoServerURL + vurl384URL_new);
         title = page.getTitle();
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping for vanity URL already exists:  " + vurl384URL_new);
         
         // create new vanity URL and verify it exists and is working
         vanityURLPage.addVanityURLToHost(vurl384Title_org, targetHost, vurl384URL_org, "products/");
-//        vanityURLPage.addVanityURLToHost(vurl384Title_org, targetHost, vurl384URL_org, "products/index.html");
 
         // verify it was created and listed on page
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl384Title_org));
         
         // verify that vanity url works
-        page = frontendMgr.loadPage(serverURL + vurl384URL_org);
+        page = frontendMgr.loadPage(demoServerURL + vurl384URL_org);
         title = page.getTitle();
         logger.info("title = " + title);
         Assert.assertTrue(title.equals("Products - Quest Financial"), "ERROR - Mapping for vanity URL does not work:  " + vurl384URL_org);
         
         // edit vanity url
-        vanityURLPage.editVanityURL(vurl384Title_org, vurl384Title_new, vurl384URL_new, "Market Research - Quest Financial");
+        vanityURLPage.editVanityURL(vurl384Title_org, vurl384Title_new, vurl384URL_new, "/services/market-research/");
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
 
         // verify new vanity url is listed and old one is not
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl384Title_new));
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl384Title_org));
 
         // verify that new vanity URL works
-        page = frontendMgr.loadPage(serverURL + vurl384URL_new);
+        page = frontendMgr.loadPage(demoServerURL + vurl384URL_new);
         title = page.getTitle();
         logger.info("title = " + title);
         Assert.assertTrue(title.equals("Market Research - Quest Financial"), "ERROR - Mapping for vanity URL does not work:  " + vurl384URL_new);
         
         // verify that original vanity URL does not work
-        page = frontendMgr.loadPage(serverURL + vurl384URL_org);
+        page = frontendMgr.loadPage(demoServerURL + vurl384URL_org);
         title = page.getTitle();
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping for vanity URL still exists:  " + vurl384URL_org);
         
         // delete and verify it is no longer listed
         vanityURLPage.deleteVanityURL(vurl384Title_new);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.delete"));
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl384Title_new));
     }
 
@@ -182,7 +163,7 @@ public class VanityURLTests {
         // seems to be a redundant and unnecessary test case
     }
 
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void testCase386_CreateVanityURLOnAllHosts() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -194,26 +175,27 @@ public class VanityURLTests {
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl386Title));
 
         // add url
-        vanityURLPage.addVanityURLToAllHosts(vurl386Title, vurl386URL, "http://demo.dotcms.com:8080/about-us/index.html");
+        vanityURLPage.addVanityURLToAllHosts(vurl386Title, vurl386URL, "/alt-home/alt-home.html");
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
         
         // verify it is listed and working
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl386Title));
-        IBasePage page = frontendMgr.loadPage(serverURL + vurl386URL);
+        IBasePage page = frontendMgr.loadPage(demoServerURL + vurl386URL);
         String title = page.getTitle();
-        Assert.assertTrue(title.equals("About Us - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl386URL);
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl386URL);
 
         // delete and verify it is no longer listed
         vanityURLPage.deleteVanityURL(vurl386Title);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.delete"));
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl386Title));
 
-        //Thread.sleep(3000);
         // verify it no longer works
-        page = frontendMgr.loadPage(serverURL + vurl386URL);
+        page = frontendMgr.loadPage(demoServerURL + vurl386URL);
         title = page.getTitle();
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + "title=" + title);
   }
 
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void testCase387_HostSpecificOverridesGlobalVanityURL() throws Exception{
     	// NOTE - must have hosts demo.dotcms.com and m.demo.dotcms.com resolving properly for this test to work as expected
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
@@ -222,7 +204,7 @@ public class VanityURLTests {
         String vurl387Title_global = "387 Vanity Global URL";
         String vurl387Title_specific = "387 Vanity Specific URL";
         String vurl387URL = "387";
-        String targetHost = "m.demo.dotcms.com";
+        String targetHost = new URL(mobileServerURL).getHost();
         vanityURLPage.selectBackendHost(targetHost);
 
         // verify vanity urls do not already exist
@@ -230,32 +212,43 @@ public class VanityURLTests {
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl387Title_specific));
         
         // add global and make sure it is working
-        vanityURLPage.addVanityURLToAllHosts(vurl387Title_global, vurl387URL, "http://demo.dotcms.com:8080/about-us/index.html");
+        vanityURLPage.addVanityURLToAllHosts(vurl387Title_global, vurl387URL, "/alt-home/alt-home.html");
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl387Title_global));
-        IBasePage page = frontendMgr.loadPage("http://demo.dotcms.com:8080/" + vurl387URL);
+        IBasePage page = frontendMgr.loadPage(demoServerURL + vurl387URL);
         String title = page.getTitle();
-        Assert.assertTrue(title.equals("About Us - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for demo.dotcms.com:  " + vurl387URL);
-        page = frontendMgr.loadPage("http://m.demo.dotcms.com:8080/" + vurl387URL);
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + demoServerURL + ":  " + vurl387URL + "title=" + title);
+        page = frontendMgr.loadPage(mobileServerURL + vurl387URL);
         title = page.getTitle();
-        Assert.assertTrue(title.equals("About Us - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for m.demo.dotcms.com:  " + vurl387URL);
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + mobileServerURL + ":  " + vurl387URL + "title=" + title);
+        page = frontendMgr.loadPage(sharedServerURL + vurl387URL);
+        title = page.getTitle();
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + sharedServerURL + ":  " + vurl387URL + "title=" + title);
         
         // add vanity url for specific host m.demo.dotcms.com
-        vanityURLPage.addVanityURLToHost(vurl387Title_specific, targetHost, vurl387URL, "http://www.dotcms.com/");
+        vanityURLPage.addVanityURLToHost(vurl387Title_specific, targetHost, vurl387URL, "http://www.google.com/");
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.save"));
 
         // verify specific vanity url works
-        page = frontendMgr.loadPage("http://m.demo.dotcms.com:8080/" + vurl387URL);
+        page = frontendMgr.loadPage(mobileServerURL + vurl387URL);
         title = page.getTitle();
-        Assert.assertTrue(title.contains("dotcms Open Source CMS"), "ERROR - Global mapping still seems to be in effect for URL:  " + vurl387URL);
+        Assert.assertTrue(title.equals("Google"), "ERROR - Global mapping still seems to be in effect for URL:  " + vurl387URL + "title=" + title);
 
         // verify global vanity url still works for other hosts
-        page = frontendMgr.loadPage("http://demo.dotcms.com:8080/" + vurl387URL);
+        page = frontendMgr.loadPage(demoServerURL + vurl387URL);
         title = page.getTitle();
-        Assert.assertTrue(title.equals("About Us - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for demo.dotcms.com:  " + vurl387URL);
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + demoServerURL + ":  " + vurl387URL + "title=" + title);
+
+        page = frontendMgr.loadPage(sharedServerURL + vurl387URL);
+        title = page.getTitle();
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + sharedServerURL + ":  " + vurl387URL + "title=" + title);
 
         // delete and verify they are no longer listed
         vanityURLPage.deleteVanityURL(vurl387Title_global);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.delete"));
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl387Title_global));
         vanityURLPage.deleteVanityURL(vurl387Title_specific);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), LanguageManager.getValue("message.virtuallink.delete"));
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl387Title_specific));
     }
 }

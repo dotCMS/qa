@@ -34,6 +34,7 @@ public class VanityURLsPage extends BasePage implements IVanityURLsPage {
 				WebElement col = row.findElement(By.tagName("td"));
 				if(col.getText().trim().equals(title)) {
 					retValue = true;
+					break;
 				}
 			}
 			catch(NoSuchElementException e) {
@@ -69,6 +70,7 @@ public class VanityURLsPage extends BasePage implements IVanityURLsPage {
 					IVanityURLsAddOrEditPage delPage = SeleniumPageManager.getPageManager().getPageObject(IVanityURLsAddOrEditPage.class);
 					delPage.deleteVanityURL();
 					retValue = true;
+					break;
 				}
 			}
 			catch(NoSuchElementException e) {
@@ -94,6 +96,7 @@ public class VanityURLsPage extends BasePage implements IVanityURLsPage {
 					IVanityURLsAddOrEditPage editPage = SeleniumPageManager.getPageManager().getPageObject(IVanityURLsAddOrEditPage.class);
 					editPage.editVanityURL(newTitle, vanityURL, URLtoRedirectTo);
 					retValue = true;
+					break;
 				}
 			}
 			catch(NoSuchElementException e) {
