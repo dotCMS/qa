@@ -84,13 +84,18 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	}
 	
 	public void toggleWYSIWYGUnderline() {
-	    underlineButton.click();		
+	    underlineButton.click();
+	    //this.getWebElement(By.cssSelector("span.mceIcon.mce_underline")).click();
 	}
 	
 	public void addWYSIWYGText(String textToAdd) {
-	    switchToFrame("article_ifr");
+	    switchToFrame("wysiwygfield_ifr");
 	    tinymce.sendKeys(textToAdd);
 	    switchToDefaultContent();
+	}
+	
+	public void addKeyValuePair(By by) {
+		getWebElement(by).click();
 	}
 
 	public IContentSearchPage saveAndPublish() throws Exception {
@@ -132,5 +137,4 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 		WebElement expandNode = node.findElement(By.tagName("img"));
 		expandNode.click();
 	}
-
 }

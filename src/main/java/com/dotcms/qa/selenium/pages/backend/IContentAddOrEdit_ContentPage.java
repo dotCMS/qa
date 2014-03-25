@@ -13,6 +13,7 @@ public interface IContentAddOrEdit_ContentPage extends IBasePage {
 	public void toggleWYSIWYGItalic();
 	public void toggleWYSIWYGUnderline();
 	public void addWYSIWYGText(String textToAdd);
+	public void addKeyValuePair(By by);
 
 	public IContentSearchPage saveAndPublish() throws Exception;
 }

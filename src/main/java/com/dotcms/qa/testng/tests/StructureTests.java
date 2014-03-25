@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -143,14 +144,30 @@ public class StructureTests {
         selectFileDlg.selectFile("qademo.dotcms.com/intranet/documents/global-central-banks.pdf");
 		
         contentAddOrEditPage.scroll(0, 300);
-        Thread.sleep(10000);
 //        contentAddOrEditPage.setHostOrFolder("qademo.dotcms.com");
         contentAddOrEditPage.setHostOrFolder("qademo.dotcms.com/about-us/locations");
-        Thread.sleep(7000);
         
         ISelectAFileDialog selectImageDlg = contentAddOrEditPage.getSelectAFileDialog(By.id("dijit_form_Button_25"), "dijit_layout_ContentPane_8", "dijit_layout_ContentPane_9");
         selectImageDlg.selectFile("qademo.dotcms.com/images/photos/The-Gherkin-London-England.jpg");
 
+        Calendar cal2 = Calendar.getInstance();
+        cal2.set(Calendar.HOUR_OF_DAY, 13);
+        cal2.set(Calendar.MINUTE, 10);
+        contentAddOrEditPage.setTimeField(By.id("timefieldTime"), cal2.getTime());
+        
+        // TODO verify underline functionality after github issue #5209 resolved - https://github.com/dotCMS/dotCMS/issues/5209
+        contentAddOrEditPage.toggleWYSIWYGBold();
+        contentAddOrEditPage.toggleWYSIWYGItalic();
+        contentAddOrEditPage.toggleWYSIWYGUnderline();
+        contentAddOrEditPage.addWYSIWYGText("A T T E N T I O N ! ! !" + Keys.RETURN);
+        contentAddOrEditPage.toggleWYSIWYGBold();
+        contentAddOrEditPage.toggleWYSIWYGItalic();
+        contentAddOrEditPage.toggleWYSIWYGUnderline();
+        contentAddOrEditPage.addWYSIWYGText("This is the story that goes on and on my friend." + Keys.RETURN + Keys.RETURN + ".... but since you are my friend, I will end it now.");
+
+        contentAddOrEditPage.setTextField(By.id("keyvaluefield_key"), "key01");
+        contentAddOrEditPage.setTextField(By.id("keyvaluefield_value"), "value01");
+        contentAddOrEditPage.addKeyValuePair(By.id("text_area6_addbutton"));
         contentAddOrEditPage.saveAndPublish();
 
         // Cleanup

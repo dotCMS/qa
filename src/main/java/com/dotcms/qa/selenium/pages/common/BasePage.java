@@ -72,8 +72,17 @@ public class BasePage implements IBasePage {
 		elem.sendKeys(Keys.TAB);
 	}
 	
-	public void setTextField(By by, String fileName) {
-		sendText(by, fileName);
+	public void setTimeField(By by, java.util.Date time) {
+		WebElement elem = driver.findElement(by);
+		elem.clear();
+		logger.info("DateFormat.getTimeInstance(DateFormat.SHORT).format(time) = " + DateFormat.getTimeInstance(DateFormat.SHORT).format(time));
+		elem.sendKeys(DateFormat.getTimeInstance(DateFormat.SHORT).format(time));
+		elem.sendKeys(Keys.TAB);
+		
+	}
+	
+	public void setTextField(By by, String text) {
+		sendText(by, text);
 	}
 
 	public boolean isTextPresent(String text) {

@@ -14,7 +14,8 @@ public interface IBasePage {
     public void sendText(String cssSelector, String text);
 	public void setBinaryFileField(By by, String fileName);
 	public void setDateField(By by, java.util.Date date);
-	public void setTextField(By by, String fileName);
+	public void setTimeField(By by, java.util.Date time);
+	public void setTextField(By by, String text);
     public boolean isTextPresent(String text);
     public boolean isElementPresent(By by);
     public boolean isElementPresent(String cssSelector);
