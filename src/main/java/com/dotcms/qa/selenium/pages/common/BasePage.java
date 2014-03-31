@@ -28,7 +28,7 @@ import com.dotcms.qa.selenium.pages.IBasePage;
 public class BasePage implements IBasePage {
     private static final Logger logger = Logger.getLogger(BasePage.class);
 
-	private WebDriver driver;
+	public WebDriver driver;
 
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
@@ -164,6 +164,8 @@ public class BasePage implements IBasePage {
 	}
 	
 	public void rightClickElement(WebElement element){
+		moveToElement(element);
+		hoverOverElement(element);
 		Actions action = new Actions(driver);
 		action.contextClick(element);
 		action.perform();
@@ -214,27 +216,11 @@ public class BasePage implements IBasePage {
 			}
 		}
 	}
-	
-	public void doRigthClick(WebElement ele){
-		Actions action = new Actions(driver);
-		action.contextClick(ele);
-		action.perform();
-	}
-	
-
-	
+		
 	public Object  executeScript(final String script){
 		Object  obj = null;
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		obj =  js.executeScript(script);
 		return obj;
 	}
-	
-	public void hoverMove(WebElement ele) {
-		Actions ac = new Actions (driver);
-		ac.moveToElement(ele);
-		ac.perform();
-		}	
-
-	
 }

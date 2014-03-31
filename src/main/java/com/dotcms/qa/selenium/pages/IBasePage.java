@@ -34,8 +34,6 @@ public interface IBasePage {
 	public void toggleCheckbox(By by);
     public void waitForPresenseOfElement(By by, int secondsToWait);
     public void waitForVisibilityOfElement(By by, int secondsToWait);
-    public void doRigthClick(WebElement obj);
     public void selectBackendHost(String host) throws NoSuchElementException;
     public Object executeScript(String script);
-    public void hoverMove (WebElement ele);
 }

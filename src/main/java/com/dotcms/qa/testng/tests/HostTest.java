@@ -27,22 +27,12 @@ public class HostTest {
 
 	    @BeforeGroups (groups = {"Host"})
 	    public void init() throws Exception {
-	        logger.info("Locale = " + Locale.getDefault());
-	        logger.info("file.encoding = " +System.getProperty("file.encoding"));
 	        SeleniumConfig config = SeleniumConfig.getConfig();
 	        serverURL = config.getProperty("serverURL");
 	        logger.info("serverURL = " + serverURL);
 
-	        logger.trace("**************************");
-	        Set<String> keys = System.getProperties().stringPropertyNames();
-	        for(String key : keys) {
-	            logger.trace(key + "=" + System.getProperty(key));
-	        }       
-	        logger.trace("**************************");
-
 	        // login
-	        backendMgr = SeleniumPageManager.getPageManager();
-	        backendMgr.loadPage(serverURL + "admin");
+	        backendMgr = RegressionSuiteEnv.getBackendPageManager();
 	        loginPage = backendMgr.getPageObject(ILoginPage.class);
 	        loginPage.login("admin@dotcms.com", "admin");
 	        
@@ -53,72 +43,63 @@ public class HostTest {
 	    @AfterGroups (groups = {"Host"})
 	    public void teardown() throws Exception {
 	        // logout
-	        backendMgr.loadPage(serverURL + "c/portal/logout?referer=/c");
-	    	loginPage = backendMgr.getPageObject(ILoginPage.class);
-	        
-	        // shutdown
-	        logger.info("Shutting Down....");
-	        backendMgr.shutdown();
-
-	        //frontendMgr.shutdown();
+	        backendMgr.logoutBackend();
 	    }
 	    
-	   @Test (groups = {"Host"})
-	    public void testCase_CreateBlankHost() throws Exception {
+	   @Test (groups = {"Broken", "Host"})
+	    public void testCase196_AddHostManually() throws Exception {
 	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 	        IHostPage hostPage = portletMenu.getHostPage();
 	    	
-	        String BHostName = "dotcms02";
+	        String hostName = "qahost01.dotcms.com";
 	        	        
 	        // verify Host does not already exist
-	       Assert.assertFalse(hostPage.doesHostExist(BHostName));
+	       Assert.assertFalse(hostPage.doesHostExist(hostName));
 	        	      
 	        // add host
-	        hostPage.addBlankHost(BHostName);
+	        hostPage.addBlankHost(hostName);
 	        Thread.sleep(5000);
 	        
 	        // verify it was created and listed on page
-	       Assert.assertTrue(hostPage.doesHostExist(BHostName));
-	        	   	        
+	       Assert.assertTrue(hostPage.doesHostExist(hostName));
+	       
+	       // TODO add code to verify host responds to traffic
+	       // TODO add code to remove added host
 	    }
-	    
+
 	   @Test (groups = {"Host"})
-	    public void testCase_CreateCopyExistingHost() throws Exception {
+	    public void testCase197_AddNewHostVariable() throws Exception {
 	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 	        IHostPage hostPage = portletMenu.getHostPage();
 	    	
-	        String BHostName = "dotcms03";
+	        String hostName = "qashared";
+	        String hostVariableName = "var1";
+	        String hostVariableKey = "key1";
+	        String hostVariableValue = "value1";
+
+	        Assert.assertFalse(hostPage.doesHostVariableExist(hostName, hostVariableName));
+	        hostPage.addHostVariable(hostName, hostVariableName, hostVariableKey, hostVariableValue);
+	        Assert.assertTrue(hostPage.doesHostVariableExist(hostName, hostVariableName));
+	        //TODO - add code to remove host variable
+	   }
+	    
+	   @Test (groups = {"Broken", "Host"})
+	    public void testCase206_CopyHost() throws Exception {
+	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+	        IHostPage hostPage = portletMenu.getHostPage();
+	    	
+	        String hostName = "dotcms03";
 	        String sentHost  ="demo.dotcms.com";
 	        	        
 	        // verify Host does not already exist
-	       Assert.assertFalse(hostPage.doesHostExist(BHostName));
+	       Assert.assertFalse(hostPage.doesHostExist(hostName));
 	        	      
 	        // add host
-	        hostPage.addCopyExistingHost(BHostName,sentHost);
+	        hostPage.addCopyExistingHost(hostName,sentHost);
 	        Thread.sleep(5000);
 	        
 	        // verify it was created and listed on page
-	       Assert.assertTrue(hostPage.doesHostExist(BHostName));
+	       Assert.assertTrue(hostPage.doesHostExist(hostName));
 	        	   	        
-	    }
-	   
-	    
-	    @Test (groups = {"Host"})
-	    public void testCase_AddHostVariable() throws Exception {
-	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
-	        IHostPage hostPage = portletMenu.getHostPage();
-	    	
-	        String BHostName = "shared";
-	        String hostVariable = "var1";	        
-	        // verify Host does not already exist
-//	       Assert.assertTrue(hostPage.doesHostExist(BHostName));
-	        	      
-	        // add host
-	        hostPage.addHostVariable(BHostName, hostVariable);
-	        Thread.sleep(5000); 
-	        	   	        
-	    }
-
-	    
-	
+	    }	
 }
