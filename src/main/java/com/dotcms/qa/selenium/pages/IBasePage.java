@@ -6,6 +6,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public interface IBasePage {
 	public void executeJavaScript(String javaScript);
@@ -22,11 +23,13 @@ public interface IBasePage {
     public boolean isElementPresentAndDisplay(By by);
 	public String getSystemMessage();
     public String getTitle();
+    public WebDriverWait getWaitObject(int secondsToWait);
     public WebElement getWebElement(By by);
     public List<WebElement> getWebElements(By by);
     public void hoverOverElement(WebElement element);
     public void moveToElement(WebElement element);
     public void rightClickElement(WebElement element);
+    public void reload();
     public void scroll(int horizontalScroll, int verticalScroll);
     public void switchToFrame(String frameName);
     public Alert switchToAlert();

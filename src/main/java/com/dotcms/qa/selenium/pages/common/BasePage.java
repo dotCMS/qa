@@ -28,7 +28,7 @@ import com.dotcms.qa.selenium.pages.IBasePage;
 public class BasePage implements IBasePage {
     private static final Logger logger = Logger.getLogger(BasePage.class);
 
-	public WebDriver driver;
+	private WebDriver driver;
 
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
@@ -138,6 +138,10 @@ public class BasePage implements IBasePage {
 		return driver.getTitle();
 	}
 	
+	public WebDriverWait getWaitObject(int secondsToWait) {
+		return new WebDriverWait(driver, secondsToWait);	
+	}
+	
 	/** 
 	* @param by 	element locator. 
 	* @return 		the first WebElement matching locator
@@ -164,13 +168,15 @@ public class BasePage implements IBasePage {
 	}
 	
 	public void rightClickElement(WebElement element){
-		moveToElement(element);
-		hoverOverElement(element);
 		Actions action = new Actions(driver);
-		action.contextClick(element);
-		action.perform();
+		action.moveToElement(element).contextClick(element);
+		action.build().perform();
 	}
 
+	public void reload(){
+		driver.navigate().refresh();	
+	}
+	
 	public void scroll(int horizontalScroll, int verticalScroll) {
 		((JavascriptExecutor) driver).executeScript("scroll(" + horizontalScroll + "," + verticalScroll + ");");
 	}

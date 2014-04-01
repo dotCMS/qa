@@ -3,6 +3,7 @@ package com.dotcms.qa.selenium.pages.backend.common;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -35,8 +36,18 @@ public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 		this.viewHostVariablesDialog.findElement(By.className("dijitDialogCloseIcon")).click();
 	}
 	
-	public void deleteHostVariable(String name) {
-		
+	public void deleteHostVariable(String variableName, boolean confirm) {
+		WebElement elemToDelete = getHostVariableRowWebElement(variableName);
+		if(elemToDelete != null) {
+			elemToDelete.findElement(By.className("deleteIcon")).click();
+		}
+		Alert alert = this.switchToAlert();
+		if(confirm) {
+			alert.accept();
+		}
+		else {
+			alert.dismiss();
+		}
 	}
 	
 	public boolean doesHostVariableExist(String variableName) {
@@ -60,13 +71,9 @@ public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 	}
 	
 	public IHostVariablesAddOrEditPage getHostVariablesAddScreen() throws Exception {
-		WebElement button = viewHostVariablesDialog.findElement(By.id("dijit_form_Button_13"));
-
-		WebDriverWait wait = new WebDriverWait(driver, 20/*seconds*/);
+		WebDriverWait wait = this.getWaitObject(20);
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("dijit_form_Button_13")));
-		this.getWebElement(By.id("dijit_form_Button_13")).click();
-
-		//button.click();
+		getWebElement(By.id("dijit_form_Button_13")).click();
 		return SeleniumPageManager.getPageManager().getPageObject(IHostVariablesAddOrEditPage.class);
 	}
 }

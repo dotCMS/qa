@@ -66,6 +66,7 @@ public class HostPage extends BasePage implements IHostPage  {
     	IHostVariablesPage hostVarPage = getHostVariablesPage(hostName);
     	boolean retValue =  hostVarPage.doesHostVariableExist(variableName);
     	hostVarPage.close();
+    	reload();
     	return retValue;
     }
     
@@ -117,33 +118,32 @@ public class HostPage extends BasePage implements IHostPage  {
 		IHostVariablesPage varPage = getHostVariablesPage(hostName);
 		varPage.addNewHostVariable(varName, varKey, varValue);
 		varPage.close();
+		reload();
 	}	
 	
+	public void deleteHostVariable(String hostName, String varName, boolean confirm) throws Exception{
+		IHostVariablesPage varPage = getHostVariablesPage(hostName);
+		varPage.deleteHostVariable(varName, confirm);
+		varPage.close();	
+		reload();
+	}
+	
 	public IHostVariablesPage getHostVariablesPage(String hostName) throws Exception {
-		WebDriverWait wait = new WebDriverWait(driver, 20/*seconds*/);
 		IHostVariablesPage retValue = null;
-		this.rightClickElement(returnHost(hostName));	
-		//Thread.sleep(5000);
+		WebDriverWait wait = getWaitObject(30);
+		rightClickElement(returnHost(hostName));	
 		WebElement popupMenu = getWebElement(By.className("dijitMenuPopup"));
-		List<WebElement> popups = getWebElements(By.className("dijitMenuPopup"));
-		logger.info("**** popups.size() = " + popups.size() + "****");
-		logger.info("popupMenu.style = " + popupMenu.getAttribute("style"));
-		//wait.until(ExpectedConditions.visibilityOf(popupMenu));
-		//wait.until(ExpectedConditions.elementToBeClickable(popupMenu));
+		wait.until(ExpectedConditions.visibilityOf(popupMenu));
+		this.hoverOverElement(popupMenu);
 		List<WebElement> rows = popupMenu.findElements(By.tagName("tr"));
-		//wait.until(ExpectedConditions.visibilityOfAllElements(rows));
 		for(WebElement row : rows) {
+			this.hoverOverElement(row);
 			List<WebElement> labels = row.findElements(By.className("dijitMenuItemLabel"));
-//			wait.until(ExpectedConditions.visibilityOfAllElements(labels));
 			for(WebElement label : labels) {
 				this.hoverOverElement(label);
 				logger.info("label innerHTML = " + label.getAttribute("innerHTML"));
 				if("Edit Host variables".equals(label.getAttribute("innerHTML").trim())) {
-//					try{label.click();} catch(org.openqa.selenium.ElementNotVisibleException e) {logger.debug("Exception while clicking \"Edit Host variables\" on right click context menu", e);}
-					//wait.until(ExpectedConditions.visibilityOf(label));
-					//wait.until(ExpectedConditions.elementToBeClickable(label));
-					logger.info("***** HEY *****");
-					//Thread.sleep(20000);
+					wait.until(ExpectedConditions.visibilityOf(label));
 					label.click();
 					retValue = SeleniumPageManager.getPageManager().getPageObject(IHostVariablesPage.class);
 					break;

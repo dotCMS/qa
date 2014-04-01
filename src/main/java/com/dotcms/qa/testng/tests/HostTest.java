@@ -80,7 +80,9 @@ public class HostTest {
 	        Assert.assertFalse(hostPage.doesHostVariableExist(hostName, hostVariableName));
 	        hostPage.addHostVariable(hostName, hostVariableName, hostVariableKey, hostVariableValue);
 	        Assert.assertTrue(hostPage.doesHostVariableExist(hostName, hostVariableName));
-	        //TODO - add code to remove host variable
+	        hostPage = backendMgr.getPageObject(IHostPage.class);
+	        hostPage.deleteHostVariable(hostName, hostVariableName, true);
+	        Assert.assertFalse(hostPage.doesHostVariableExist(hostName, hostVariableName));
 	   }
 	    
 	   @Test (groups = {"Broken", "Host"})
