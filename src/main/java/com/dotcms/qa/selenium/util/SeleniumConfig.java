@@ -9,6 +9,7 @@ public class SeleniumConfig {
     private static final Logger logger = Logger.getLogger(SeleniumConfig.class);
 
     private static SeleniumConfig configInstance = null;
+    private Properties systemProps = System.getProperties();
     private Properties props = new Properties();
 
     public static SeleniumConfig getConfig()  throws Exception{
@@ -19,7 +20,7 @@ public class SeleniumConfig {
     }
 
     private SeleniumConfig() throws Exception {
-        this("POC.properties");
+        this("qa.properties");
     }
 
     private SeleniumConfig(String configFileName) throws Exception {
@@ -34,6 +35,10 @@ public class SeleniumConfig {
     }
 
     public String getProperty(String propertyName) {
-        return props.getProperty(propertyName);
+    	String retValue = null;
+    	retValue = systemProps.getProperty(propertyName);
+    	if(retValue == null)
+    		retValue = props.getProperty(propertyName);
+    	return retValue;
     }
 }
