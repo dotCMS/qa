@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public interface IBasePage {
+	public String getLocalizedString(String key);
 	public void executeJavaScript(String javaScript);
 	public void executeJavaScript(String javaScript, Object args);
 	public void sendText(By by, String text);

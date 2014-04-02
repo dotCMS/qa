@@ -31,22 +31,6 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 		}
 
 	  	  
-		public void deleteHost(String hostID) {
-			dijit_MenuItem_2_text.click();
-			Alert alert = switchToAlert();
-			alert.accept();
-			/*doRigthClick(hostID);
-			dijit_MenuItem_2_text.click();
-			dijit_MenuItem_3_text.click();
-			Alert alert = switchToAlert();
-			alert.accept();
-			showDeleted.click();
-			doRigthClick(hostID);
-			dijit_MenuItem_12_text.click();
-			alert.accept();*/
-		}
-		
-
 		public void editHost(String hostID, String palias) {
 			 hostName.sendKeys(hostID);
 			 aliases.sendKeys(palias);

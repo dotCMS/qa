@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
+import com.dotcms.qa.util.language.LanguageManager;
 
 
 
@@ -32,6 +33,10 @@ public class BasePage implements IBasePage {
 
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
+	}
+
+	public String getLocalizedString(String key) {
+		return LanguageManager.getValue(key);
 	}
 	
 	public void executeJavaScript(String javaScript) {

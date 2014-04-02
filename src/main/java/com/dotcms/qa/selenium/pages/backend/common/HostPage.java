@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -23,8 +24,6 @@ public class HostPage extends BasePage implements IHostPage  {
  	private WebElement dijit_form_Button_5_label, dijit_form_Button_9_label, dijit_form_Button_6_label, dijit_form_Button_14_label;
 	private WebElement startBlankHostRadio, copyHostRadio;
 	private WebElement id;
- 	//@FindBy(how = How.CLASS_NAME, using = "listingTable")
-    //private WebElement tableOfHost;
 	private WebElement dijit_form_Button_13_label;
 	private WebElement hostVariableName, hostVariableValue, hostVariableKey;
  	
@@ -49,7 +48,7 @@ public class HostPage extends BasePage implements IHostPage  {
 		WebElement retValue = null;	
 		WebElement tableOfHost = getWebElement(By.className("listingTable"));
 		for(WebElement anchor : tableOfHost.findElements(By.tagName("a"))) {
-				if(anchor.getAttribute("innerHTML").matches(hostName)) {
+				if(anchor.getAttribute("innerHTML").startsWith(hostName)) {
 				 retValue = anchor;
 				 break;
 				}
@@ -57,16 +56,15 @@ public class HostPage extends BasePage implements IHostPage  {
 		return retValue;
 	}
 			  
-    public boolean editHost(String hostName,String ahostName,String bhostName){
-	    boolean retValue = false;
-	    return retValue;
+    public void editHost(String hostName,String ahostName,String bhostName){
+	    // TODO - implement
     }
 	
     public boolean doesHostVariableExist(String hostName, String variableName) throws Exception {
     	IHostVariablesPage hostVarPage = getHostVariablesPage(hostName);
     	boolean retValue =  hostVarPage.doesHostVariableExist(variableName);
     	hostVarPage.close();
-    	reload();
+    	reload();			// TODO - remove need for this reload call
     	return retValue;
     }
     
@@ -89,47 +87,66 @@ public class HostPage extends BasePage implements IHostPage  {
 		addPage.addHost(hostName);			
 	}
 			
-	public boolean deleteHost(String hostName) {
-		boolean retValue = false;
-		WebElement tableOfHost = getWebElement(By.className("listingTable"));
-		List<WebElement> rows = tableOfHost.findElements(By.tagName("tr"));
-		for(WebElement row : rows) {
-			try {
-				WebElement col = row.findElement(By.tagName("td"));
-				if(col.getText().trim().equals(hostName)) {
-					IHostAddOrEditPage delPage = SeleniumPageManager.getPageManager().getPageObject(IHostAddOrEditPage.class);
-					delPage.deleteHost(hostName);						
-					retValue = true;
-				}
-			}
-			catch(NoSuchElementException e) {
-				logger.trace("Row does not include td element", e);
-				// Move on to next row and keep going
-			}
-			catch(Exception e) {
-				logger.error("Unexpected error attempting to iterate over Host - HostName=" + hostName, e);
-				// Move on to next row and keep going
-			}
+	public void archiveHost(String hostName, boolean confirm) throws Exception {
+		this.selectPopupMenuOption(hostName, getLocalizedString("Archive-Host"));
+		Alert alert = this.switchToAlert();
+		if(confirm) {
+			alert.accept();
 		}
-		return retValue;		
+		else {
+			alert.dismiss();
+		}
+		reload();			// TODO - remove need for this reload call
+	}
+
+	public void deleteHost(String hostName, boolean confirm) throws Exception {
+		this.selectPopupMenuOption(hostName, getLocalizedString("Delete-Host"));
+		Alert alert = this.switchToAlert();
+		if(confirm) {
+			alert.accept();
+		}
+		else {
+			alert.dismiss();
+		}
+		reload();			// TODO - remove need for this reload call
+	}
+
+	public void stopHost(String hostName, boolean confirm) throws Exception {
+		this.selectPopupMenuOption(hostName, getLocalizedString("Stop-Host"));
+		Alert alert = this.switchToAlert();
+		if(confirm) {
+			alert.accept();
+		}
+		else {
+			alert.dismiss();
+		}
+		reload();			// TODO - remove need for this reload call
 	}
 		
 	public void addHostVariable(String hostName, String varName, String varKey, String varValue) throws Exception {
 		IHostVariablesPage varPage = getHostVariablesPage(hostName);
 		varPage.addNewHostVariable(varName, varKey, varValue);
 		varPage.close();
-		reload();
+		reload();			// TODO - remove need for this reload call
 	}	
 	
 	public void deleteHostVariable(String hostName, String varName, boolean confirm) throws Exception{
 		IHostVariablesPage varPage = getHostVariablesPage(hostName);
 		varPage.deleteHostVariable(varName, confirm);
 		varPage.close();	
-		reload();
+		reload();			// TODO - remove need for this reload call
 	}
 	
 	public IHostVariablesPage getHostVariablesPage(String hostName) throws Exception {
 		IHostVariablesPage retValue = null;
+		if(selectPopupMenuOption(hostName, getLocalizedString("Edit-Host-Variables"))) {
+			retValue = SeleniumPageManager.getPageManager().getPageObject(IHostVariablesPage.class);
+		}
+		return retValue;
+	}
+	
+	private boolean selectPopupMenuOption(String hostName, String menuOption) throws Exception {
+		boolean foundValue = false;
 		WebDriverWait wait = getWaitObject(30);
 		rightClickElement(returnHost(hostName));	
 		WebElement popupMenu = getWebElement(By.className("dijitMenuPopup"));
@@ -142,16 +159,30 @@ public class HostPage extends BasePage implements IHostPage  {
 			for(WebElement label : labels) {
 				this.hoverOverElement(label);
 				logger.info("label innerHTML = " + label.getAttribute("innerHTML"));
-				if("Edit Host variables".equals(label.getAttribute("innerHTML").trim())) {
+				if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
 					wait.until(ExpectedConditions.visibilityOf(label));
 					label.click();
-					retValue = SeleniumPageManager.getPageManager().getPageObject(IHostVariablesPage.class);
+					foundValue = true;
 					break;
 				}
 			}
-			if(retValue != null)
+			if(foundValue)
 				break;
 		}
-		return retValue;
+		return foundValue;
+	}
+
+	public void toggleShowArchived() {
+		WebElement checkBox = null;
+		List<WebElement> inputs = this.getWebElements(By.tagName("input"));
+		for(WebElement input : inputs) {
+			if(input.getAttribute("name").trim().equals("showDeleted")) {
+				checkBox = input;
+				break;
+			}
+		}
+		if(checkBox != null) {
+			checkBox.click();
+		}
 	}
 }

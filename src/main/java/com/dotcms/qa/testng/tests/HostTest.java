@@ -46,13 +46,13 @@ public class HostTest {
 	        backendMgr.logoutBackend();
 	    }
 	    
-	   @Test (groups = {"Broken", "Host"})
+	   @Test (groups = {"Host"})
 	    public void testCase196_AddHostManually() throws Exception {
 	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 	        IHostPage hostPage = portletMenu.getHostPage();
 	    	
 	        String hostName = "qahost01.dotcms.com";
-	        	        
+
 	        // verify Host does not already exist
 	       Assert.assertFalse(hostPage.doesHostExist(hostName));
 	        	      
@@ -64,7 +64,11 @@ public class HostTest {
 	       Assert.assertTrue(hostPage.doesHostExist(hostName));
 	       
 	       // TODO add code to verify host responds to traffic
-	       // TODO add code to remove added host
+	       hostPage.stopHost(hostName, true);
+	       Thread.sleep(500);						// TODO - remove cluginess and be able to remove this sleep call
+	       hostPage.archiveHost(hostName, true);
+	       hostPage.toggleShowArchived();
+	       hostPage.deleteHost(hostName, true);
 	    }
 
 	   @Test (groups = {"Host"})
