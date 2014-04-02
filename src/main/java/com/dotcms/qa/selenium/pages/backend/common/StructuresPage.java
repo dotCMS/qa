@@ -8,14 +8,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
-import com.dotcms.qa.util.language.LanguageManager;
 
 public class StructuresPage extends BasePage implements IStructuresPage {
     private static final Logger logger = Logger.getLogger(StructuresPage.class);
@@ -57,7 +55,7 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 		moveToElement(structureElement);
 		
 		rightClickElement(structureElement);
-		String menuString = LanguageManager.getValue("Delete-Structure-and-Content");
+		String menuString = getLocalizedString("Delete-Structure-and-Content");
 		WebElement popup = this.getWebElement(By.className("dijitMenuPopup"));
 		List<WebElement> menuRows = popup.findElements(By.tagName("tr"));
 		boolean done = false;

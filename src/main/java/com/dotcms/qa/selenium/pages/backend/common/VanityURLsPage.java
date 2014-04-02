@@ -13,7 +13,6 @@ import org.openqa.selenium.support.How;
 import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
-import com.dotcms.qa.util.language.LanguageManager;
 
 public class VanityURLsPage extends BasePage implements IVanityURLsPage {
     private static final Logger logger = Logger.getLogger(VanityURLsPage.class);
@@ -56,7 +55,7 @@ public class VanityURLsPage extends BasePage implements IVanityURLsPage {
 	}
 
 	public void addVanityURLToAllHosts(String title, String vanityURL, String URLtoRedirectTo) throws Exception {
-		this.addVanityURLToHost(title, LanguageManager.getValue("All-Hosts"), vanityURL, URLtoRedirectTo);
+		this.addVanityURLToHost(title, getLocalizedString("All-Hosts"), vanityURL, URLtoRedirectTo);
 	}
 
 	public boolean deleteVanityURL(String title) {

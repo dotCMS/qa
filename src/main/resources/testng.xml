@@ -5,9 +5,9 @@
     <groups>
       <run>
         <exclude name="Broken"/>
-        <include name="Host"/>
+        <exclude name="Host"/>
+        <exclude name="Structures"/>
         <include name="VanityURLs"/>
-        <include name="Structures"/>
       </run>
     </groups>
     <classes>

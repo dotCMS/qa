@@ -1,7 +1,6 @@
 package com.dotcms.qa.testng.tests;
 
 import java.net.*;
-import java.util.*;
 
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
@@ -160,7 +159,7 @@ public class VanityURLTests {
     public void testCase385_CreateVanityURLForSpecificHost() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
-        // seems to be a redundant and unnecessary test case
+        // TODO - seems to be a redundant and unnecessary test case
     }
 
     @Test (groups = {"VanityURLs"})

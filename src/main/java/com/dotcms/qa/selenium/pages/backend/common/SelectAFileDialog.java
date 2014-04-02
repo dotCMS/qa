@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.backend.ISelectAFileDialog;
-import com.dotcms.qa.selenium.pages.backend.ISelectAFileDialog.ViewSelector;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 
 public class SelectAFileDialog extends BasePage implements ISelectAFileDialog {

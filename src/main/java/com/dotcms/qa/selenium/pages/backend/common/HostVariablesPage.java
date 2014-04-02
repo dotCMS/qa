@@ -10,8 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import bsh.This;
-
 import com.dotcms.qa.selenium.pages.backend.IHostVariablesAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IHostVariablesPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;

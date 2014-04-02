@@ -1,8 +1,5 @@
 package com.dotcms.qa.testng.tests;
 
-import java.util.Locale;
-import java.util.Set;
-
 import junit.framework.Assert;
 
 import com.dotcms.qa.selenium.util.SeleniumConfig;
