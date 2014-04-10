@@ -2,6 +2,7 @@ package com.dotcms.qa.selenium.pages.backend.common;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -23,9 +24,11 @@ public class VanityURLsAddOrEditPage extends BasePage implements IVanityURLsAddO
 	}
 	
 	public void addVanityURL(String title, String hostName, String vanityURL, String URLtoRedirectTo) {
+		logger.info("Title:"+title+"HostName:"+hostName+"VanityURL:"+vanityURL+"URL:"+URLtoRedirectTo);
 		vlTitle.sendKeys(title);
 		hostId.clear();
 		hostId.sendKeys(hostName);
+		hostId.sendKeys(Keys.TAB);
 		url.sendKeys(vanityURL);
 		vlUri.sendKeys(URLtoRedirectTo);
 		dijit_form_Button_6_label.click();
