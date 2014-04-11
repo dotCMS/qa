@@ -22,30 +22,25 @@ public class TestRunCreator implements ISuiteListener {
 	public void onStart(ISuite suite) {
 		SeleniumConfig config = SeleniumConfig.getConfig();
 		
-		String projectId = Project.getProjectId(config.getProperty("testrail.Project"));
-		String milestoneId = Milestone.getMilestoneId(projectId, config.getProperty("testrail.Milestone"));
-		String suiteId = Suite.getSuiteId(projectId, config.getProperty("testrail.Suite"));
-		String userId = User.getUserIdByEmail(config.getProperty("testrail.User"));
-		String runPrefix = config.getProperty("testrail.RunPrefix");
-		
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-		Calendar cal = Calendar.getInstance();
-		String run = runPrefix + dateFormat.format(cal.getTime());
-		
-		try {
-			Run.createRun(projectId, suiteId, milestoneId, run, "Automated test run", userId);
+		String recordResultsInTestRail = config.getProperty("reportResultsInTestrail");
+		if(recordResultsInTestRail != null && recordResultsInTestRail.trim().toLowerCase().equalsIgnoreCase("true")) {
+			String projectId = Project.getProjectId(config.getProperty("testrail.Project"));
+			String milestoneId = Milestone.getMilestoneId(projectId, config.getProperty("testrail.Milestone"));
+			String suiteId = Suite.getSuiteId(projectId, config.getProperty("testrail.Suite"));
+			String userId = User.getUserIdByEmail(config.getProperty("testrail.User"));
+			String runPrefix = config.getProperty("testrail.RunPrefix");
+			
+			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+			Calendar cal = Calendar.getInstance();
+			String run = runPrefix + dateFormat.format(cal.getTime());
+			
+			try {
+				Run.createRun(projectId, suiteId, milestoneId, run, "Automated test run", userId);
+			}
+			catch (Exception e) {
+				logger.error("Error creating testrail test run", e);
+			}
 		}
-		catch (Exception e) {
-			logger.error("Error creating testrail test run", e);
-		}
-		
-		System.out.println("******ProjectId=" + projectId);
-		System.out.println("******MilestoneId=" + milestoneId);
-		System.out.println("******SuitesId=" + suiteId);
-		System.out.println("******UserId=" + userId);
-		System.out.println("******MyUserId=" + User.getUserIdByEmail("brent.griffin@dotcms.com"));
-		System.out.println("******Run=" + run);
-
 	}
 
 	@Override

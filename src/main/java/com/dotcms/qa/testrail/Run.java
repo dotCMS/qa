@@ -69,11 +69,6 @@ public class Run {
 		data.put("include_all", new Boolean(true));
 		JSONObject run = (JSONObject) client.sendPost("add_run/" + projectId, data);
 
-		System.out.println("run:id=" + run.get("id"));
-		System.out.println("run:name=" + run.get("name"));
-		System.out.println("run:untested_count=" + run.get("untested_count"));
-		System.out.println("");
-		
 		runsByProjectId = null;	// empty out to force reloading of test runs
 		currentRunId = run.get("id").toString();
 		currentRunName = run.get("name").toString();
