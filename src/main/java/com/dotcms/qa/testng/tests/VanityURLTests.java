@@ -26,6 +26,7 @@ public class VanityURLTests {
 
     @BeforeGroups (groups = {"VanityURLs"})
     public void init() throws Exception {
+    	logger.info("**VanityURLTests.init() beginning**");
         SeleniumConfig config = SeleniumConfig.getConfig();
         demoServerURL = config.getProperty("demoServerURL");
         mobileServerURL = config.getProperty("mobileServerURL");
@@ -38,12 +39,15 @@ public class VanityURLTests {
         
         // create frontendMgr for verification of frontend functionality
         frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
+    	logger.info("**VanityURLTests.init() ending**");
     }
     
     @AfterGroups (groups = {"VanityURLs"})
     public void teardown() throws Exception {
+    	logger.info("**VanityURLTests.teardown() beginning**");
         // logout
         backendMgr.logoutBackend();
+    	logger.info("**VanityURLTests.teardown() ending**");
     }
     
     @Test (groups = {"VanityURLs"})
