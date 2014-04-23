@@ -215,11 +215,11 @@ public class VanityURLTests {
         // verify it is listed and working on all three hosts
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl386Title));
         IBasePage page = frontendMgr.loadPage(demoServerURL + vurl386URL);
-        Assert.assertTrue(page.getTitle().equals("althome - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl386URL + " title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().equals("althome - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl386URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(mobileServerURL + vurl386URL);
         Assert.assertTrue(page.isTextPresent("Maecenas dapibus tristique orci"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl386URL);
         page = frontendMgr.loadPage(sharedServerURL + vurl386URL);
-        Assert.assertTrue(page.getTitle().equals("index - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl386URL + " title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().equals("index - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl386URL + " title=|" + page.getTitle() + "|");
 
         // delete and verify it is no longer listed
         vanityURLPage.deleteVanityURL(vurl386Title);
@@ -228,11 +228,11 @@ public class VanityURLTests {
 
         // verify it no longer works on any of the three hosts
         page = frontendMgr.loadPage(demoServerURL + vurl386URL);
-        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(mobileServerURL + vurl386URL);
-        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(sharedServerURL + vurl386URL);
-        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=|" + page.getTitle() + "|");
   }
 
     @Test (groups = {"VanityURLs"})
@@ -256,13 +256,13 @@ public class VanityURLTests {
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl387Title_global));
         IBasePage page = frontendMgr.loadPage(demoServerURL + vurl387URL);
         String title = page.getTitle();
-        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + demoServerURL + ":  " + vurl387URL + "title=" + title);
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + demoServerURL + ":  " + vurl387URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(mobileServerURL + vurl387URL);
         title = page.getTitle();
-        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + mobileServerURL + ":  " + vurl387URL + "title=" + title);
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + mobileServerURL + ":  " + vurl387URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(sharedServerURL + vurl387URL);
         title = page.getTitle();
-        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + sharedServerURL + ":  " + vurl387URL + "title=" + title);
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + sharedServerURL + ":  " + vurl387URL + " title=|" + page.getTitle() + "|");
         
         // add vanity url for specific host demo.dotcms.com
         vanityURLPage.addVanityURLToHost(vurl387Title_specific, targetHost, vurl387URL, "/services/private-banking/index.html");
@@ -271,16 +271,16 @@ public class VanityURLTests {
         // verify specific vanity url works
         page = frontendMgr.loadPage(demoServerURL + vurl387URL);
         title = page.getTitle();
-        Assert.assertTrue(title.equals("Private Banking - Quest Financial"), "ERROR - Global mapping still seems to be in effect for URL:  " + vurl387URL + "title=" + title);
+        Assert.assertTrue(title.equals("Private Banking - Quest Financial"), "ERROR - Global mapping still seems to be in effect for URL:  " + vurl387URL + " title=|" + page.getTitle() + "|");
 
         // verify global vanity url still works for other hosts
         page = frontendMgr.loadPage(mobileServerURL + vurl387URL);
         title = page.getTitle();
-        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + mobileServerURL + ":  " + vurl387URL + "title=" + title);
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + mobileServerURL + ":  " + vurl387URL + " title=|" + page.getTitle() + "|");
 
         page = frontendMgr.loadPage(sharedServerURL + vurl387URL);
         title = page.getTitle();
-        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + sharedServerURL + ":  " + vurl387URL + "title=" + title);
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + sharedServerURL + ":  " + vurl387URL + " title=|" + page.getTitle() + "|");
 
         // delete and verify they are no longer listed
         vanityURLPage.deleteVanityURL(vurl387Title_global);
@@ -342,11 +342,11 @@ public class VanityURLTests {
         // verify it is listed and working on all three hosts
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl14100Title));
         IBasePage page = frontendMgr.loadPage(demoServerURL + vurl14100URL);
-        Assert.assertTrue(page.getTitle().contains("CNN.com"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl14100URL + " title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().contains("CNN.com"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl14100URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(mobileServerURL + vurl14100URL);
-        Assert.assertTrue(page.getTitle().contains("CNN.com"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl14100URL + " title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().contains("CNN.com"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl14100URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(sharedServerURL + vurl14100URL);
-        Assert.assertTrue(page.getTitle().contains("CNN.com"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl14100URL + " title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().contains("CNN.com"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl14100URL + " title=|" + page.getTitle() + "|");
 
         // delete and verify it is no longer listed
         vanityURLPage.deleteVanityURL(vurl14100Title);
@@ -356,11 +356,11 @@ public class VanityURLTests {
         // verify it no longer works on any of the three hosts
         /*
         page = frontendMgr.loadPage(demoServerURL + vurl14100URL);
-        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl14100URL + "title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl14100URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(mobileServerURL + vurl14100URL);
-        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl14100URL + "title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl14100URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(sharedServerURL + vurl14100URL);
-        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl14100URL + "title=" + page.getTitle());
+        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl14100URL + " title=|" + page.getTitle() + "|");
         */
     }
     
@@ -384,7 +384,7 @@ public class VanityURLTests {
         // verify it is listed and working on demo host
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl14101Title));
         IBasePage page = frontendMgr.loadPage(demoServerURL + vurl14101URL);
-        Assert.assertTrue(page.getTitle().equals("Locations - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl14101URL + " title: " + page.getTitle());
+        Assert.assertTrue(page.getTitle().equals("Locations - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl14101URL + " title=|" + page.getTitle() + "|");
         Assert.assertTrue(page.isTextPresent("value=\"33133\""), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl14101URL);
 
         // delete and verify it is no longer listed
