@@ -217,6 +217,7 @@ public class VanityURLTests {
         IBasePage page = frontendMgr.loadPage(demoServerURL + vurl386URL);
         Assert.assertTrue(page.getTitle().equals("althome - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl386URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(mobileServerURL + vurl386URL);
+        try{Thread.sleep(500);}catch(Exception e){};
         Assert.assertTrue(page.isTextPresent("Maecenas dapibus tristique orci"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl386URL);
         page = frontendMgr.loadPage(sharedServerURL + vurl386URL);
         Assert.assertTrue(page.getTitle().equals("index - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  " + vurl386URL + " title=|" + page.getTitle() + "|");
@@ -261,6 +262,7 @@ public class VanityURLTests {
         title = page.getTitle();
         Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + mobileServerURL + ":  " + vurl387URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(sharedServerURL + vurl387URL);
+        try{Thread.sleep(500);}catch(Exception e){};
         title = page.getTitle();
         Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + sharedServerURL + ":  " + vurl387URL + " title=|" + page.getTitle() + "|");
         
@@ -280,7 +282,7 @@ public class VanityURLTests {
 
         page = frontendMgr.loadPage(sharedServerURL + vurl387URL);
         title = page.getTitle();
-        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + sharedServerURL + ":  " + vurl387URL + " title=|" + page.getTitle() + "|");
+        Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + sharedServerURL + ":  " + vurl387URL + " title=|" + title + "|");
 
         // delete and verify they are no longer listed
         vanityURLPage.deleteVanityURL(vurl387Title_global);
