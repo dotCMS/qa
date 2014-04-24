@@ -231,7 +231,9 @@ public class VanityURLTests {
         page = frontendMgr.loadPage(demoServerURL + vurl386URL);
         Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=|" + page.getTitle() + "|");
         page = frontendMgr.loadPage(mobileServerURL + vurl386URL);
-        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=|" + page.getTitle() + "|");
+        try{Thread.sleep(500);}catch(Exception e){};
+        String title = page.getTitle();
+        Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=|" + title + "|");
         page = frontendMgr.loadPage(sharedServerURL + vurl386URL);
         Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=|" + page.getTitle() + "|");
   }
