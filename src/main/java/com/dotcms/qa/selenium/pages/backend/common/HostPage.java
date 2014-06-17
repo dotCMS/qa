@@ -153,7 +153,7 @@ public class HostPage extends BasePage implements IHostPage  {
 			List<WebElement> labels = row.findElements(By.className("dijitMenuItemLabel"));
 			for(WebElement label : labels) {
 				this.hoverOverElement(label);
-				logger.info("label innerHTML = " + label.getAttribute("innerHTML"));
+				logger.info("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
 				if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
 					wait.until(ExpectedConditions.visibilityOf(label));
 					label.click();

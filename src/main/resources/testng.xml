@@ -8,6 +8,7 @@
         <exclude name="Host"/>
         <exclude name="Structures"/>
         <include name="VanityURLs"/>
+        <!-- <include name="WIP"/> -->
       </run>
     </groups>
     <classes>

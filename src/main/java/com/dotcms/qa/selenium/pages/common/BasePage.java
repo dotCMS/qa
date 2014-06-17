@@ -212,16 +212,17 @@ public class BasePage implements IBasePage {
     
 	public void selectBackendHost(String host) throws NoSuchElementException {
 		WebElement hostDiv = getWebElement(By.id("selectHostDiv"));
-		if(hostDiv != null) {
-			String hostName = hostDiv.getText();
-			if (!host.equals(hostName)) {
-				WebElement changeHost = getWebElement(By.className("changeHost"));
-				changeHost.click();
-				WebElement subNavHost = getWebElement(By.id("subNavHost"));
-				subNavHost.clear();
-				subNavHost.sendKeys(host);
-				subNavHost.sendKeys(Keys.TAB);
-			}
+		if(hostDiv == null)
+			throw new NoSuchElementException("Missing id: selectHostDiv");
+		String hostName = hostDiv.getText();
+		if (!host.equals(hostName)) {
+			WebElement changeHost = getWebElement(By.className("changeHost"));
+			changeHost.click();
+			WebElement subNavHost = getWebElement(By.id("subNavHost"));
+			subNavHost.clear();
+			subNavHost.sendKeys(host);
+			subNavHost.sendKeys(Keys.ENTER);
+//			subNavHost.sendKeys(Keys.TAB);
 		}
 	}
 		
