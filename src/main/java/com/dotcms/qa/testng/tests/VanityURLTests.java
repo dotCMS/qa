@@ -460,7 +460,7 @@ public class VanityURLTests {
     }
     
     @Test (groups = {"VanityURLs"})
-    public void hosttest_VanityURLWithAbsoluteAddressOnANewHost() throws Exception{
+    public void tc14105_VanityURLWithAbsoluteAddressOnANewHost() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IHostPage hostPage = portletMenu.getHostPage();
     	

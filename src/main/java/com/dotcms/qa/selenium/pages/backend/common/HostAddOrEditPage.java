@@ -25,7 +25,7 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 
 	  public void addHost(String hostID) {
 		  hostName.sendKeys(hostID);
-		  getWebElement(By.partialLinkText("Save / Activate")).click();	 	 
+		  getWebElement(By.partialLinkText(getLocalizedString("Save-Activate"))).click();	 	 
 
 		}
 
@@ -33,7 +33,7 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 		public void editHost(String hostID, String palias) {
 			 hostName.sendKeys(hostID);
 			 aliases.sendKeys(palias);
-			 getWebElement(By.partialLinkText("Save / Activate")).click();	 	 
+			 getWebElement(By.partialLinkText(getLocalizedString("Save-Activate"))).click();	 	 
 			 
 		}
 		
