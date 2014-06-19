@@ -142,10 +142,14 @@ public class BasePage implements IBasePage {
 		return driver.getTitle();
 	}
 	
-	public WebDriverWait getWaitObject(int secondsToWait) {
-		return new WebDriverWait(driver, secondsToWait);	
+	public WebDriverWait getWaitObject(long timeoutInSeconds) {
+		return new WebDriverWait(driver, timeoutInSeconds);	
 	}
-	
+
+	public WebDriverWait getWaitObject(long timeoutInSeconds, long pollingIntervalInMilliseconds) {
+		return new WebDriverWait(driver, timeoutInSeconds, pollingIntervalInMilliseconds);	
+	}
+
 	/** 
 	* @param by 	element locator. 
 	* @return 		the first WebElement matching locator
@@ -154,8 +158,26 @@ public class BasePage implements IBasePage {
 		return driver.findElement(by);
 	}
 
+    public WebElement getWebElementClickable(By by) {
+		WebDriverWait wait = getWaitObject(30, 500);
+		wait.until(ExpectedConditions.elementToBeClickable(by));
+		return getWebElement(by);
+    }
+
+    public WebElement getWebElementPresent(By by) {
+		WebDriverWait wait = getWaitObject(30, 500);
+		wait.until(ExpectedConditions.presenceOfElementLocated(by));
+		return getWebElement(by);
+    }
+
 	public List<WebElement> getWebElements(By by){
 		return driver.findElements(by);
+	}
+
+	public List<WebElement> getWebElementsPresent(By by){
+		WebDriverWait wait = getWaitObject(30, 500);
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+		return getWebElements(by);
 	}
 
 	public void hoverOverElement(WebElement element){

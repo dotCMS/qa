@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.dotcms.qa.selenium.pages.backend.IFolderAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_PropertiesPage;
@@ -17,7 +19,7 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
 public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
     private static final Logger logger = Logger.getLogger(SiteBrowserPage.class);
 
-    private WebElement addNewButton_arrow;
+    //private WebElement addNewButton_arrow;
 	private WebElement TreeUL;
 	
 	public SiteBrowserPage(WebDriver driver) {
@@ -28,7 +30,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		
 		// TODO - add code to select parent if parent is not an empty string
 		
-		addNewButton_arrow.click();
+		getWebElementClickable(By.id("addNewButton_arrow")).click();
 		WebElement addFolderButton = getWebElement(By.className("folderAddIcon"));
 		addFolderButton.click();
 		try{Thread.sleep(1000);} catch(InterruptedException e) {};
@@ -39,7 +41,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	}
 	
 	public void createHTMLPage(String title, String templateName) throws Exception{
-		addNewButton_arrow.click();
+		getWebElementClickable(By.id("addNewButton_arrow")).click();
 		WebElement addFolderButton = getWebElement(By.className("newPageIcon"));
 		addFolderButton.click();
 		IHTMLPageAddOrEdit_PropertiesPage htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_PropertiesPage.class);

@@ -18,8 +18,8 @@ public class VanityURLsPage extends BasePage implements IVanityURLsPage {
     private static final Logger logger = Logger.getLogger(VanityURLsPage.class);
 
     private WebElement dijit_form_Button_7_label;
-	@FindBy(how = How.CLASS_NAME, using = "listingTable")
-    private WebElement tableOfVURLs;
+	//@FindBy(how = How.CLASS_NAME, using = "listingTable")
+    //private WebElement tableOfVURLs;
     
 	public VanityURLsPage(WebDriver driver) {
 		super(driver);
@@ -27,7 +27,7 @@ public class VanityURLsPage extends BasePage implements IVanityURLsPage {
 	
 	public boolean doesVanityURLExist(String title) {
 		boolean retValue = false;
-		List<WebElement> rows = tableOfVURLs.findElements(By.tagName("tr"));
+		List<WebElement> rows = getWebElementPresent(By.className("listingTable")).findElements(By.tagName("tr"));
 		for(WebElement row : rows) {
 			try {
 				WebElement col = row.findElement(By.tagName("td"));
@@ -60,7 +60,7 @@ public class VanityURLsPage extends BasePage implements IVanityURLsPage {
 
 	public boolean deleteVanityURL(String title) {
 		boolean retValue = false;
-		List<WebElement> rows = tableOfVURLs.findElements(By.tagName("tr"));
+		List<WebElement> rows = getWebElementPresent(By.className("listingTable")).findElements(By.tagName("tr"));
 		for(WebElement row : rows) {
 			try {
 				WebElement col = row.findElement(By.tagName("td"));
@@ -86,7 +86,7 @@ public class VanityURLsPage extends BasePage implements IVanityURLsPage {
 	
 	public boolean editVanityURL(String oldTitle, String newTitle, String vanityURL, String URLtoRedirectTo) {
 		boolean retValue = false;
-		List<WebElement> rows = tableOfVURLs.findElements(By.tagName("tr"));
+		List<WebElement> rows = getWebElementPresent(By.className("listingTable")).findElements(By.tagName("tr"));
 		for(WebElement row : rows) {
 			try {
 				WebElement col = row.findElement(By.tagName("td"));

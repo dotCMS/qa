@@ -45,13 +45,13 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	
 	public IHostPage getHostPage() throws Exception {
 	    hoverOverElement(getPortletElement("System"));
-	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.portlet.javax.portlet.title.EXT_HOSTADMIN"))).click();
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.portlet.javax.portlet.title.EXT_HOSTADMIN"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IHostPage.class);
 	}
 
 	public ISiteBrowserPage getSiteBrowserPage() throws Exception {
 	    hoverOverElement(getPortletElement("Site Browser"));
-	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.portlet.javax.portlet.title.EXT_BROWSER"))).click();
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.portlet.javax.portlet.title.EXT_BROWSER"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ISiteBrowserPage.class);		
 	}
 	
@@ -59,7 +59,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 		WebElement retValue = null;
 		String portletText = getLocalizedString(portletTextKey);
 		logger.debug("portletTextKey=" + portletTextKey + "|portletText=" + portletText);
-		List<WebElement> allElements = getWebElements(By.className("navMenu-title")); 
+		List<WebElement> allElements = getWebElementsPresent(By.className("navMenu-title")); 
 		for (WebElement element: allElements) {
 			if(portletText.equals(element.getText())){
 				logger.trace(element.getTagName() + "|" + element.getText());
