@@ -87,6 +87,6 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 
 	public IStructureAddOrEdit_PropertiesPage getAddNewStructurePage() throws Exception {
 		dijit_form_ComboButton_0_label.click();	// Add new structure button
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_PropertiesPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_PropertiesPage.class);
 	}
 }

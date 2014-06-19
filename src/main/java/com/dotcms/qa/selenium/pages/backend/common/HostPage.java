@@ -67,7 +67,7 @@ public class HostPage extends BasePage implements IHostPage  {
 		dijit_form_Button_5_label.click();
 		startBlankHostRadio.click();
 		dijit_form_Button_6_label.click();
-		IHostAddOrEditPage addPage = SeleniumPageManager.getPageManager().getPageObject(IHostAddOrEditPage.class);
+		IHostAddOrEditPage addPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostAddOrEditPage.class);
 		addPage.addHost(hostName);
 	}
 		
@@ -78,7 +78,7 @@ public class HostPage extends BasePage implements IHostPage  {
 		id.clear();
 		id.sendKeys(setHost);
 		dijit_form_Button_9_label.click();
-		IHostAddOrEditPage addPage = SeleniumPageManager.getPageManager().getPageObject(IHostAddOrEditPage.class);
+		IHostAddOrEditPage addPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostAddOrEditPage.class);
 		addPage.addHost(hostName);			
 	}
 			
@@ -135,13 +135,14 @@ public class HostPage extends BasePage implements IHostPage  {
 	public IHostVariablesPage getHostVariablesPage(String hostName) throws Exception {
 		IHostVariablesPage retValue = null;
 		if(selectPopupMenuOption(hostName, getLocalizedString("Edit-Host-Variables"))) {
-			retValue = SeleniumPageManager.getPageManager().getPageObject(IHostVariablesPage.class);
+			retValue = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostVariablesPage.class);
 		}
 		return retValue;
 	}
 	
 	private boolean selectPopupMenuOption(String hostName, String menuOption) throws Exception {
 		boolean foundValue = false;
+		Thread.sleep(1000);
 		WebDriverWait wait = getWaitObject(30);
 		rightClickElement(returnHost(hostName));	
 		WebElement popupMenu = getWebElement(By.className("dijitMenuPopup"));

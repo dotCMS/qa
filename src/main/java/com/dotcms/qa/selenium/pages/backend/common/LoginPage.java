@@ -35,14 +35,14 @@ public class LoginPage extends BasePage implements ILoginPage {
 	    loginPasswordTextBox.clear();
 	    loginPasswordTextBox.sendKeys(password);
 	    dijit_form_Button_1_label.click();
-		return SeleniumPageManager.getPageManager().getPageObject(IPortletMenu.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IPortletMenu.class);
 	}
 
 	public ILoginPage login_failure(String username, String password) throws Exception {
 		if(!isInitialized)
 			selectProperLanguage();
 		// TODO - implement
-		return SeleniumPageManager.getPageManager().getPageObject(ILoginPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(ILoginPage.class);
 	}
 	
 	private void selectProperLanguage() {

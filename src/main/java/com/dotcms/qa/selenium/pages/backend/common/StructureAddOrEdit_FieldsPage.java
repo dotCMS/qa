@@ -138,7 +138,7 @@ public class StructureAddOrEdit_FieldsPage extends BasePage implements IStructur
 
 	private IStructureFieldAddOrEdit_OverviewPage getAddNewFieldPage() throws Exception{
 	    field_label.click();
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureFieldAddOrEdit_OverviewPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureFieldAddOrEdit_OverviewPage.class);
 	}
 
 }

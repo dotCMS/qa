@@ -32,7 +32,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		WebElement addFolderButton = getWebElement(By.className("folderAddIcon"));
 		addFolderButton.click();
 		try{Thread.sleep(1000);} catch(InterruptedException e) {};
-		IFolderAddOrEditPage folderAddPage = SeleniumPageManager.getPageManager().getPageObject(IFolderAddOrEditPage.class);
+		IFolderAddOrEditPage folderAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IFolderAddOrEditPage.class);
 		folderAddPage.setTitle(title);
 		folderAddPage.setName(title);
 		folderAddPage.save();
@@ -42,7 +42,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		addNewButton_arrow.click();
 		WebElement addFolderButton = getWebElement(By.className("newPageIcon"));
 		addFolderButton.click();
-		IHTMLPageAddOrEdit_PropertiesPage htmlAddPage = SeleniumPageManager.getPageManager().getPageObject(IHTMLPageAddOrEdit_PropertiesPage.class);
+		IHTMLPageAddOrEdit_PropertiesPage htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_PropertiesPage.class);
 		htmlAddPage.setTitle(title);
 		htmlAddPage.setURL(title);
 		htmlAddPage.setTemplate(templateName);
@@ -51,7 +51,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	
 	public IFolderAddOrEditPage createFolder(String parent, String title, String URL, int sortOrder, boolean showOnMenu, String allowedFileExtensionCSVList, String defaultFileAssetType) throws Exception {
 		// TODO
-		return SeleniumPageManager.getPageManager().getPageObject(IFolderAddOrEditPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IFolderAddOrEditPage.class);
 	}
 
 	public void selectFolder(String folderName) throws Exception {

@@ -21,7 +21,7 @@ public class BackendSideMenuPage extends BasePage implements
 		this.switchToFrame("frameMenu");
 		dijit_form_Button_0_label.click();
 		this.switchToDefaultContent();
-		return SeleniumPageManager.getPageManager().getPageObject(IPortletMenu.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IPortletMenu.class);
 	}
 
 }

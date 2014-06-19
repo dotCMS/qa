@@ -6,6 +6,7 @@ import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
 import com.dotcms.qa.selenium.util.SeleniumConfig;
+import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.testrail.Run;
 import com.dotcms.qa.testrail.TestCase;
 
@@ -15,10 +16,12 @@ public class TestResultReporter extends TestListenerAdapter implements ITestList
 
     public void onTestStart(ITestResult result) {
 		super.onTestStart(result);
+		logger.info("***** Test " + result.getName() + " started *****");
 	}
 
 	public void onTestFailure(ITestResult result) {
 		super.onTestFailure(result);
+		SeleniumPageManager.takeSnapshots(result.getName());
 		recordTestCaseResult(result, TestCase.Status.FAILED);
 	}
 

@@ -23,6 +23,6 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 	    Thread.sleep(250);
 	    structure_inode.sendKeys(Keys.TAB);
 	    dijit_form_ComboButton_0_label.click();
-		return SeleniumPageManager.getPageManager().getPageObject(IContentAddOrEdit_ContentPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentAddOrEdit_ContentPage.class);
 	}
 }

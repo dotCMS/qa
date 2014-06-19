@@ -33,7 +33,7 @@ public class StructureAddOrEdit_PropertiesPage extends BasePage implements	IStru
 	    Thread.sleep(250);
 	    hostSelector.sendKeys(Keys.TAB);
 	    saveButton_label.click();
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 
 }

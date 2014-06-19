@@ -31,10 +31,7 @@ public class HostTest {
 	        // login
 	        backendMgr = RegressionSuiteEnv.getBackendPageManager();
 	        loginPage = backendMgr.getPageObject(ILoginPage.class);
-	        loginPage.login("admin@dotcms.com", "admin");
-	        
-	        // create frontendMgr for verification of frontend functionality
-	        //frontendMgr = SeleniumPageManager.getNewPageManager();
+	        loginPage.login("admin@dotcms.com", "admin");	        
 	    }
 	    
 	    @AfterGroups (groups = {"Host"})

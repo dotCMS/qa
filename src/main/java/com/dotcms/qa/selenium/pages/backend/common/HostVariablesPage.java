@@ -72,6 +72,6 @@ public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 		WebDriverWait wait = this.getWaitObject(20);
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("dijit_form_Button_13")));
 		getWebElement(By.id("dijit_form_Button_13")).click();
-		return SeleniumPageManager.getPageManager().getPageObject(IHostVariablesAddOrEditPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IHostVariablesAddOrEditPage.class);
 	}
 }

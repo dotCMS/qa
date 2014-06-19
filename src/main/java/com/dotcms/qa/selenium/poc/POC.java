@@ -30,7 +30,7 @@ public class POC {
         logger.trace("**************************");
 
         // login
-        SeleniumPageManager pageMgr = SeleniumPageManager.getPageManager();
+        SeleniumPageManager pageMgr = SeleniumPageManager.getBackEndPageManager();
         pageMgr.loadPage(serverURL + "admin");
         ILoginPage loginPage = pageMgr.getPageObject(ILoginPage.class);
         IPortletMenu portletMenu = loginPage.login("admin@dotcms.com", "admin");
