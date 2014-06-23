@@ -8,8 +8,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.dotcms.qa.selenium.pages.backend.IFolderAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_PropertiesPage;
 import com.dotcms.qa.selenium.pages.backend.ISiteBrowserPage;

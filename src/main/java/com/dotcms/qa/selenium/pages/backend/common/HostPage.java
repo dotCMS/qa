@@ -142,28 +142,35 @@ public class HostPage extends BasePage implements IHostPage  {
 	
 	private boolean selectPopupMenuOption(String hostName, String menuOption) throws Exception {
 		boolean foundValue = false;
-		Thread.sleep(1000);
-		WebDriverWait wait = getWaitObject(30);
 		rightClickElement(returnHost(hostName));	
-		WebElement popupMenu = getWebElement(By.className("dijitMenuPopup"));
-		wait.until(ExpectedConditions.visibilityOf(popupMenu));
-		this.hoverOverElement(popupMenu);
+		WebElement popupMenu = getWebElementClickable(By.className("dijitMenuPopup"));
+		//this.hoverOverElement(popupMenu);
 		List<WebElement> rows = popupMenu.findElements(By.tagName("tr"));
+		WebElement prevRow = null;
 		for(WebElement row : rows) {
-			this.hoverOverElement(row);
+			//this.hoverOverElement(row);
+			//row = this.getWebElementClickable(row);
+			if(prevRow != null) {
+				logger.info("* prevRow.isDisplayed() = " + prevRow.isDisplayed());
+				logger.info("* prevRow.isEnabled() = " + prevRow.isEnabled());
+			}
+			logger.info("* isDisplayed() = " + row.isDisplayed());
+			logger.info("* isEnabled() = " + row.isEnabled());
 			List<WebElement> labels = row.findElements(By.className("dijitMenuItemLabel"));
 			for(WebElement label : labels) {
-				this.hoverOverElement(label);
+				//this.hoverOverElement(label);
+				//label = this.getWebElementClickable(label);
 				logger.info("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
 				if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
-					wait.until(ExpectedConditions.visibilityOf(label));
-					label.click();
+					this.hoverOverElement(label);
+					getWebElementClickable(label).click();
 					foundValue = true;
 					break;
 				}
 			}
 			if(foundValue)
 				break;
+			prevRow = row;
 		}
 		return foundValue;
 	}

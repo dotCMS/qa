@@ -8,8 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.dotcms.qa.selenium.pages.backend.IHostVariablesAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IHostVariablesPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
@@ -69,9 +67,7 @@ public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 	}
 	
 	public IHostVariablesAddOrEditPage getHostVariablesAddScreen() throws Exception {
-		WebDriverWait wait = this.getWaitObject(20);
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("dijit_form_Button_13")));
-		getWebElement(By.id("dijit_form_Button_13")).click();
+		getWebElementClickable(By.id("dijit_form_Button_13")).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IHostVariablesAddOrEditPage.class);
 	}
 }

@@ -3,6 +3,7 @@ package com.dotcms.qa.selenium.pages.backend.common;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -58,21 +59,25 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	public WebElement getPortletElement(String portletTextKey) {
 		WebElement retValue = null;
 		String portletText = getLocalizedString(portletTextKey);
-		logger.debug("portletTextKey=" + portletTextKey + "|portletText=" + portletText);
-		List<WebElement> allElements = getWebElementsPresent(By.className("navMenu-title")); 
+		logger.info("portletTextKey=" + portletTextKey + "|portletText=" + portletText);
+		List<WebElement> allElements = getWebElements(By.className("navMenu-title")); 
 		for (WebElement element: allElements) {
-			if(portletText.equals(element.getText())){
-				logger.trace(element.getTagName() + "|" + element.getText());
-				retValue = element;
-			    break;
+			try {
+				if(portletText.equals(element.getText())){
+					retValue = element;
+				    break;
+				}
+				else {
+//					logger.trace("portletText=" + portletText + "|element.getText()=" + element.getText() +"|element.getTagName()=" + element.getTagName());				
+				}
 			}
-			else {
-				logger.trace("portletText=" + portletText + "|element.getText()=" + element.getText() +"|element.getTagName()=" + element.getTagName());				
+			catch (StaleElementReferenceException e) {
+				// do nothing - keep iterating
+				logger.info("Stale element exception - " + e.getMessage() + e.getStackTrace());
 			}
 		}
+		if(retValue == null)
+			throw new NullPointerException("Active element not found:  portletTextKey=" + portletTextKey + " portletText=" + portletText);
 		return retValue;
 	}
-
-
-
 }

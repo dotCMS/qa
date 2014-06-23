@@ -29,9 +29,11 @@ public class BasePage implements IBasePage {
     private static final Logger logger = Logger.getLogger(BasePage.class);
 
 	private WebDriver driver;
+	private WebDriverWait wait = null;
 
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
+		this.wait = getWaitObject(30, 500);
 	}
 
 	public String getLocalizedString(String key) {
@@ -159,14 +161,22 @@ public class BasePage implements IBasePage {
 	}
 
     public WebElement getWebElementClickable(By by) {
-		WebDriverWait wait = getWaitObject(30, 500);
 		wait.until(ExpectedConditions.elementToBeClickable(by));
 		return getWebElement(by);
     }
+    
+    public WebElement getWebElementClickable(WebElement element) {
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+		return element;    	
+    }
 
     public WebElement getWebElementPresent(By by) {
-		WebDriverWait wait = getWaitObject(30, 500);
 		wait.until(ExpectedConditions.presenceOfElementLocated(by));
+		return getWebElement(by);
+    }
+
+    public WebElement getWebElementVisible(By by) {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 		return getWebElement(by);
     }
 
@@ -175,14 +185,19 @@ public class BasePage implements IBasePage {
 	}
 
 	public List<WebElement> getWebElementsPresent(By by){
-		WebDriverWait wait = getWaitObject(30, 500);
 		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+		return getWebElements(by);
+	}
+
+	public List<WebElement> getWebElementsVisible(By by){
+		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
 		return getWebElements(by);
 	}
 
 	public void hoverOverElement(WebElement element){
 		Actions builder = new Actions(driver);
 		builder.moveToElement(element).build().perform();
+		try{Thread.sleep(1000);} catch(InterruptedException e){}
 	}
 
 	public void moveToElement(WebElement element) {
