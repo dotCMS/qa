@@ -55,7 +55,7 @@ public class VanityURLTests {
         try{Thread.sleep(250);}catch(Exception e){};
     }
     
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void tc383_AddVanityURLOnDemoHost() throws Exception {
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -103,7 +103,7 @@ public class VanityURLTests {
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl383URL);
     }
 
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void tc384_EditVanityURLToDirectoryOnDemoHost() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -171,7 +171,7 @@ public class VanityURLTests {
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl384Title_new));
     }
 
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void tc385_AddVanityURLOnAllHosts() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -214,7 +214,7 @@ public class VanityURLTests {
         Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl385URL + "title=" + title);
     }
 
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void tc386_AddVanityURLToDirectoryOnAllHosts() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -259,7 +259,7 @@ public class VanityURLTests {
         Assert.assertTrue(page.getTitle().contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl386URL + " title=|" + page.getTitle() + "|");
   }
 
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void tc387_VerifyHostSpecificVanityURLOverridesAllHostsVanityURL() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -321,7 +321,7 @@ public class VanityURLTests {
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl387Title_specific));
     }
 
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void tc14099_AddVanityURLToExternalURLOnDemoHost() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -358,7 +358,7 @@ public class VanityURLTests {
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl14099Title));
     }
     
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void tc14100_AddVanityURLToExternalURLOnAllHosts() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -400,7 +400,7 @@ public class VanityURLTests {
         */
     }
     
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void tc14101_AddVanityURLWithParametersOnDemoHost() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
@@ -430,7 +430,7 @@ public class VanityURLTests {
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl14101Title));
     }
 
-    @Test (groups = {"VanityURLs", "Broken"})
+    @Test (groups = {"VanityURLs"})
     public void tc14102_AddVanityURLToExternalURLWithParametersOnDemoHost() throws Exception{
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
