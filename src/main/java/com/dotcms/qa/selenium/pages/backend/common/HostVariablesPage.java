@@ -59,11 +59,14 @@ public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 		for(WebElement row : rows) {
 			List<WebElement> columns = row.findElements(By.tagName("td"));
 			for(WebElement column : columns) {
+				System.out.println("*** column.getAttribute(\"innerHTML\").trim() = |" + column.getAttribute("innerHTML").trim() + "|***");
 				if(variableName.equals(column.getAttribute("innerHTML").trim())) {
 					retValue = row;
 					break;
 				}
 			}
+			if(retValue != null)
+				break;
 		}
 		return retValue;
 	}

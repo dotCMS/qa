@@ -224,7 +224,15 @@ public class BasePage implements IBasePage {
 			}
 		}
 	}
-		
+
+	public void sleep() {
+        try{Thread.sleep(250);}catch(Exception e){};
+    }
+	
+    public void sleep(long durationMS) {
+        try{Thread.sleep(durationMS);}catch(Exception e){};
+    }
+
 	public Object  executeScript(final String script){
 		Object  obj = null;
 		JavascriptExecutor js = (JavascriptExecutor) driver;
