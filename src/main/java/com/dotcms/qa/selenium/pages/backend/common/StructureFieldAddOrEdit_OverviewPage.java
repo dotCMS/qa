@@ -44,7 +44,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	requiredCB.click();                      // Required Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 
 	public IStructureAddOrEdit_FieldsPage addCategory(String label, String category, String hint, boolean required, boolean userSearchable) throws Exception {
@@ -64,7 +64,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	searchableCB.click();					 // User Searchable Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 
 	public IStructureAddOrEdit_FieldsPage addCheckbox(String label, String value, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed) throws Exception {
@@ -86,7 +86,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	indexedCB.click();						 // System Indexed Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);		
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);		
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addConstantField(String label, String value, String hint) throws Exception {
@@ -99,7 +99,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    dijit_form_TextBox_2.sendKeys(hint);		 // Hint
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addCustomField(String label, String value, String validationRegEx, String validation, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing, boolean unique) throws Exception {
@@ -135,7 +135,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	uniqueCB.click();						 // Unique Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addDateField(String label, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception {
@@ -155,7 +155,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	listedCB.click();						 // Show In Listing Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);		
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);		
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addDateAndTimeField(String label, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception {
@@ -181,7 +181,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	listedCB.click();						 // Show In Listing Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);				
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);				
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addFileField(String label, String hint, boolean required) throws Exception {
@@ -194,7 +194,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	requiredCB.click();                      // Required Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);						
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);						
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addHiddenField(String label, String value) throws Exception {
@@ -206,7 +206,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    textAreaValues.sendKeys(value);			 // Value
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);						
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);						
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addHostOrFolderField(String label, String hint, boolean required, boolean userSearchable) throws Exception {
@@ -222,7 +222,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	searchableCB.click();					 // User Searchable Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);								
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);								
 	}
 
 	public IStructureAddOrEdit_FieldsPage addImageField(String label, String hint, boolean required) throws Exception {
@@ -235,7 +235,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	requiredCB.click();                      // Required checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 
 	public IStructureAddOrEdit_FieldsPage addLineDividerField(String label) throws Exception {
@@ -246,7 +246,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addMultiSelectField(String label, String value, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean unique) throws Exception{
@@ -271,7 +271,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addPermissionsField(String label) throws Exception {
@@ -282,7 +282,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addRadioField(String label, String value, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception {
@@ -306,7 +306,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addRelationshipsField(String label) throws Exception {
@@ -317,7 +317,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addSelectField(String label, String value, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception {
@@ -342,7 +342,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addTabDividerField(String label) throws Exception {
@@ -353,7 +353,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addTagField(String label, String defaultValue, String hint, boolean required, boolean userSearchable) throws Exception {
@@ -369,7 +369,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	searchableCB.click();					 // User Searchable Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);		
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);		
 	}
 
 	public IStructureAddOrEdit_FieldsPage addTextField(String label, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing, boolean unique) throws Exception{
@@ -391,7 +391,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    scroll(0, 200);								 // Klugy workaround for Chrome Driver
 	    saveButton_label.click();                    // Save button
 	    
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 
 	public IStructureAddOrEdit_FieldsPage addTextareaField(String label, String validationRegEx, String validation, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed) throws Exception {
@@ -417,7 +417,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	indexedCB.click();						 // System Indexed Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addTimeField(String label, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception {
@@ -437,7 +437,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	listedCB.click();						 // Show In Listing Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 
 	public IStructureAddOrEdit_FieldsPage addWYSIWYGField(String label, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed) throws Exception {
@@ -451,7 +451,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	searchableCB.click();                    // User searchable checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 
 	public IStructureAddOrEdit_FieldsPage addKeyValueField(String label, String hint, boolean required, boolean userSearchable) throws Exception {
@@ -467,6 +467,6 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	    	searchableCB.click();					 // User Searchable Checkbox
 	    saveButton_label.click();                    // Save button
 	    Thread.sleep(250);
-		return SeleniumPageManager.getPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 }

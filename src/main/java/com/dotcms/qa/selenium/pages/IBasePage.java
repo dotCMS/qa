@@ -24,9 +24,16 @@ public interface IBasePage {
     public boolean isElementPresentAndDisplay(By by);
 	public String getSystemMessage();
     public String getTitle();
-    public WebDriverWait getWaitObject(int secondsToWait);
+    public WebDriverWait getWaitObject(long timeoutInSeconds);
+    public WebDriverWait getWaitObject(long timeoutInSeconds, long pollingIntervalInMilliseconds);
     public WebElement getWebElement(By by);
+    public WebElement getWebElementClickable(By by);
+    public WebElement getWebElementClickable(WebElement element);
+    public WebElement getWebElementPresent(By by);
+    public WebElement getWebElementVisible(By by);
     public List<WebElement> getWebElements(By by);
+    public List<WebElement> getWebElementsPresent(By by);
+    public List<WebElement> getWebElementsVisible(By by);
     public void hoverOverElement(WebElement element);
     public void moveToElement(WebElement element);
     public void rightClickElement(WebElement element);

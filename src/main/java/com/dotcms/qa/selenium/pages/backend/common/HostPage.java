@@ -67,7 +67,7 @@ public class HostPage extends BasePage implements IHostPage  {
 		dijit_form_Button_5_label.click();
 		startBlankHostRadio.click();
 		dijit_form_Button_6_label.click();
-		IHostAddOrEditPage addPage = SeleniumPageManager.getPageManager().getPageObject(IHostAddOrEditPage.class);
+		IHostAddOrEditPage addPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostAddOrEditPage.class);
 		addPage.addHost(hostName);
 	}
 		
@@ -78,7 +78,7 @@ public class HostPage extends BasePage implements IHostPage  {
 		id.clear();
 		id.sendKeys(setHost);
 		dijit_form_Button_9_label.click();
-		IHostAddOrEditPage addPage = SeleniumPageManager.getPageManager().getPageObject(IHostAddOrEditPage.class);
+		IHostAddOrEditPage addPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostAddOrEditPage.class);
 		addPage.addHost(hostName);			
 	}
 			
@@ -135,34 +135,42 @@ public class HostPage extends BasePage implements IHostPage  {
 	public IHostVariablesPage getHostVariablesPage(String hostName) throws Exception {
 		IHostVariablesPage retValue = null;
 		if(selectPopupMenuOption(hostName, getLocalizedString("Edit-Host-Variables"))) {
-			retValue = SeleniumPageManager.getPageManager().getPageObject(IHostVariablesPage.class);
+			retValue = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostVariablesPage.class);
 		}
 		return retValue;
 	}
 	
 	private boolean selectPopupMenuOption(String hostName, String menuOption) throws Exception {
 		boolean foundValue = false;
-		WebDriverWait wait = getWaitObject(30);
 		rightClickElement(returnHost(hostName));	
-		WebElement popupMenu = getWebElement(By.className("dijitMenuPopup"));
-		wait.until(ExpectedConditions.visibilityOf(popupMenu));
-		this.hoverOverElement(popupMenu);
+		WebElement popupMenu = getWebElementClickable(By.className("dijitMenuPopup"));
+		//this.hoverOverElement(popupMenu);
 		List<WebElement> rows = popupMenu.findElements(By.tagName("tr"));
+		WebElement prevRow = null;
 		for(WebElement row : rows) {
-			this.hoverOverElement(row);
+			//this.hoverOverElement(row);
+			//row = this.getWebElementClickable(row);
+			if(prevRow != null) {
+				logger.info("* prevRow.isDisplayed() = " + prevRow.isDisplayed());
+				logger.info("* prevRow.isEnabled() = " + prevRow.isEnabled());
+			}
+			logger.info("* isDisplayed() = " + row.isDisplayed());
+			logger.info("* isEnabled() = " + row.isEnabled());
 			List<WebElement> labels = row.findElements(By.className("dijitMenuItemLabel"));
 			for(WebElement label : labels) {
-				this.hoverOverElement(label);
-				logger.info("label innerHTML = " + label.getAttribute("innerHTML"));
+				//this.hoverOverElement(label);
+				//label = this.getWebElementClickable(label);
+				logger.info("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
 				if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
-					wait.until(ExpectedConditions.visibilityOf(label));
-					label.click();
+					this.hoverOverElement(label);
+					getWebElementClickable(label).click();
 					foundValue = true;
 					break;
 				}
 			}
 			if(foundValue)
 				break;
+			prevRow = row;
 		}
 		return foundValue;
 	}

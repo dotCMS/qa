@@ -53,7 +53,7 @@ public class RegressionSuiteEnv {
     
     public static SeleniumPageManager getBackendPageManager() throws Exception {
     	if(backendMgr == null) {
-            backendMgr = SeleniumPageManager.getPageManager();
+            backendMgr = SeleniumPageManager.getBackEndPageManager();
             backendMgr.loadPage(demoServerURL + "admin"); 
             Thread.sleep(250);	// This pause improves login reliability with the chrome driver
     	}
@@ -62,7 +62,7 @@ public class RegressionSuiteEnv {
     
     public static SeleniumPageManager getFrontendPageManager() throws Exception {
     	if(frontendMgr == null) {
-            frontendMgr = SeleniumPageManager.getNewPageManager();    		
+            frontendMgr = SeleniumPageManager.getFrontEndPageManager();    		
     	}
     	return frontendMgr;
     }

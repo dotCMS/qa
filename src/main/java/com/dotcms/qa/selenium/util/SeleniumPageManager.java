@@ -1,6 +1,11 @@
 package com.dotcms.qa.selenium.util;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;
@@ -11,6 +16,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
@@ -18,17 +24,26 @@ import com.dotcms.qa.selenium.pages.IBasePage;
 public class SeleniumPageManager{
     private static final Logger logger = Logger.getLogger(SeleniumPageManager.class);
 
-    public static SeleniumPageManager mgrInstance = null;
+    public static SeleniumPageManager backendMgrInstance = null;
+    public static SeleniumPageManager frontendMgrInstance = null;
 
     private WebDriver driver = null;
     private String demoServerURL = null;
 
-    public static SeleniumPageManager getPageManager() throws Exception {
-        if(mgrInstance == null) {
+    public static SeleniumPageManager getBackEndPageManager() throws Exception {
+        if(backendMgrInstance == null) {
             SeleniumConfig config = SeleniumConfig.getConfig();
-            mgrInstance = new SeleniumPageManager(config);
+            backendMgrInstance = new SeleniumPageManager(config);
         }
-        return mgrInstance;
+        return backendMgrInstance;
+    }
+
+    public static SeleniumPageManager getFrontEndPageManager() throws Exception {
+        if(frontendMgrInstance == null) {
+            SeleniumConfig config = SeleniumConfig.getConfig();
+            frontendMgrInstance = new SeleniumPageManager(config);
+        }
+        return frontendMgrInstance;
     }
 
     public static SeleniumPageManager getNewPageManager() throws Exception {
@@ -36,6 +51,15 @@ public class SeleniumPageManager{
         return new SeleniumPageManager(config);
     }
 
+    public static void takeSnapshots(String name) {
+    	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+    	String prefix = dateFormat.format(new Date());
+    	if(backendMgrInstance != null)
+    		backendMgrInstance.takeScreenshot(prefix + "_" + name + "_jbgbackend.png");
+    	if(frontendMgrInstance != null)
+    		frontendMgrInstance.takeScreenshot(prefix + "_" + name + "_jbgfrontend.png");
+    }
+    
     private SeleniumPageManager(SeleniumConfig config) throws Exception {
         String useBrowserStack=config.getProperty("useBrowserStack");
         logger.info("useBrowserStack=" + useBrowserStack);
@@ -112,7 +136,21 @@ public class SeleniumPageManager{
     }
     
     public void shutdown() {
+    	if(this == backendMgrInstance)
+    		backendMgrInstance = null;
+    	else if(this == frontendMgrInstance)
+    		frontendMgrInstance = null;
         driver.quit();
+    }
+    
+    public void takeScreenshot(String filename) {
+    	try {
+	    	File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+	    	FileUtils.copyFile(scrFile, new File(filename),true);
+    	}
+    	catch(IOException e) {
+    		logger.error("Unable to takeScreenshot()", e);
+    	}
     }
 
     // Allow specific browser version

@@ -29,9 +29,11 @@ public class BasePage implements IBasePage {
     private static final Logger logger = Logger.getLogger(BasePage.class);
 
 	private WebDriver driver;
+	private WebDriverWait wait = null;
 
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
+		this.wait = getWaitObject(30, 500);
 	}
 
 	public String getLocalizedString(String key) {
@@ -142,10 +144,14 @@ public class BasePage implements IBasePage {
 		return driver.getTitle();
 	}
 	
-	public WebDriverWait getWaitObject(int secondsToWait) {
-		return new WebDriverWait(driver, secondsToWait);	
+	public WebDriverWait getWaitObject(long timeoutInSeconds) {
+		return new WebDriverWait(driver, timeoutInSeconds);	
 	}
-	
+
+	public WebDriverWait getWaitObject(long timeoutInSeconds, long pollingIntervalInMilliseconds) {
+		return new WebDriverWait(driver, timeoutInSeconds, pollingIntervalInMilliseconds);	
+	}
+
 	/** 
 	* @param by 	element locator. 
 	* @return 		the first WebElement matching locator
@@ -154,13 +160,44 @@ public class BasePage implements IBasePage {
 		return driver.findElement(by);
 	}
 
+    public WebElement getWebElementClickable(By by) {
+		wait.until(ExpectedConditions.elementToBeClickable(by));
+		return getWebElement(by);
+    }
+    
+    public WebElement getWebElementClickable(WebElement element) {
+		wait.until(ExpectedConditions.elementToBeClickable(element));
+		return element;    	
+    }
+
+    public WebElement getWebElementPresent(By by) {
+		wait.until(ExpectedConditions.presenceOfElementLocated(by));
+		return getWebElement(by);
+    }
+
+    public WebElement getWebElementVisible(By by) {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+		return getWebElement(by);
+    }
+
 	public List<WebElement> getWebElements(By by){
 		return driver.findElements(by);
+	}
+
+	public List<WebElement> getWebElementsPresent(By by){
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+		return getWebElements(by);
+	}
+
+	public List<WebElement> getWebElementsVisible(By by){
+		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
+		return getWebElements(by);
 	}
 
 	public void hoverOverElement(WebElement element){
 		Actions builder = new Actions(driver);
 		builder.moveToElement(element).build().perform();
+		try{Thread.sleep(1000);} catch(InterruptedException e){}
 	}
 
 	public void moveToElement(WebElement element) {
@@ -212,16 +249,17 @@ public class BasePage implements IBasePage {
     
 	public void selectBackendHost(String host) throws NoSuchElementException {
 		WebElement hostDiv = getWebElement(By.id("selectHostDiv"));
-		if(hostDiv != null) {
-			String hostName = hostDiv.getText();
-			if (!host.equals(hostName)) {
-				WebElement changeHost = getWebElement(By.className("changeHost"));
-				changeHost.click();
-				WebElement subNavHost = getWebElement(By.id("subNavHost"));
-				subNavHost.clear();
-				subNavHost.sendKeys(host);
-				subNavHost.sendKeys(Keys.TAB);
-			}
+		if(hostDiv == null)
+			throw new NoSuchElementException("Missing id: selectHostDiv");
+		String hostName = hostDiv.getText();
+		if (!host.equals(hostName)) {
+			WebElement changeHost = getWebElement(By.className("changeHost"));
+			changeHost.click();
+			WebElement subNavHost = getWebElement(By.id("subNavHost"));
+			subNavHost.clear();
+			subNavHost.sendKeys(host);
+			subNavHost.sendKeys(Keys.ENTER);
+//			subNavHost.sendKeys(Keys.TAB);
 		}
 	}
 

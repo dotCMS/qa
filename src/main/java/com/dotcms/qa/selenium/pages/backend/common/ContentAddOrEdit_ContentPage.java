@@ -39,13 +39,13 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	public ICategoriesDialog getCategoriesDialog(By linkBy) throws Exception{
 		WebElement elem = getWebElement(linkBy);
 		elem.click();		
-		return SeleniumPageManager.getPageManager().getPageObject(ICategoriesDialog.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(ICategoriesDialog.class);
 	}
 	
 	public ISelectAFileDialog getSelectAFileDialog(By linkBy, String folderDetailContentPaneId, String fileDetailContentPaneId) throws Exception {
 		WebElement fileBrowseButton = getWebElement(linkBy);
         executeJavaScript("arguments[0].click();", fileBrowseButton);
-        ISelectAFileDialog retValue = SeleniumPageManager.getPageManager().getPageObject(ISelectAFileDialog.class);
+        ISelectAFileDialog retValue = SeleniumPageManager.getBackEndPageManager().getPageObject(ISelectAFileDialog.class);
         retValue.setContentPaneIds(folderDetailContentPaneId, fileDetailContentPaneId);
         retValue.setView(ViewSelector.DETAIL_VIEW);
         return retValue;
@@ -98,7 +98,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 
 	public IContentSearchPage saveAndPublish() throws Exception {
 	    getWebElement(By.linkText(getLocalizedString("Save-Publish"))).click();
-		return SeleniumPageManager.getPageManager().getPageObject(IContentSearchPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentSearchPage.class);
 	}
 	
 	private WebElement getChildNode(WebElement parentNode, String childNodeText) {

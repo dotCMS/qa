@@ -7,6 +7,7 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.*;
+import com.dotcms.qa.util.language.LanguageManager;
 
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -452,5 +453,84 @@ public class VanityURLTests {
         vanityURLPage.deleteVanityURL(vurl14102Title);
         Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), vanityURLPage.getLocalizedString("message.virtuallink.delete"));
         Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl14102Title));
+    }
+    
+    @Test (groups = {"VanityURLs"})
+    public void tc14105_VanityURLWithAbsoluteAddressOnANewHost() throws Exception{
+        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+        IHostPage hostPage = portletMenu.getHostPage();
+    	
+        String hostName = "qahost01.dotcms.com";
+///*
+        // verify Host does not already exist
+       Assert.assertFalse(hostPage.doesHostExist(hostName));
+        	      
+        // add host
+        hostPage.addBlankHost(hostName);
+        Thread.sleep(2000);
+        
+        // verify it was created and listed on page
+       Assert.assertTrue(hostPage.doesHostExist(hostName));
+
+       // setup folder for html page
+       ISiteBrowserPage siteBrowserPage = portletMenu.getSiteBrowserPage();
+       siteBrowserPage.selectBackendHost(hostName);
+       Thread.sleep(2000);
+       portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+       siteBrowserPage = portletMenu.getSiteBrowserPage();
+       siteBrowserPage.createFolder("", "home");
+       Assert.assertEquals(siteBrowserPage.getSystemMessage().trim(), LanguageManager.getValue("message.folder.save"));
+
+       siteBrowserPage.selectFolder("home");
+       
+       // create html page
+       siteBrowserPage.createHTMLPage("index.html", "qademo.dotcms.com Quest - 2 Column (Left Bar)");       
+//       Assert.assertEquals(siteBrowserPage.getSystemMessage().trim(), LanguageManager.getValue("message.htmlpage.published"));
+       
+       // escape preview page
+       IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
+       portletMenu = sideMenu.gotoAdminScreen();
+
+       // verify vanity url does not already exist
+       IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
+       Assert.assertFalse(vanityURLPage.doesVanityURLExist("test1"));
+       Assert.assertFalse(vanityURLPage.doesVanityURLExist("test2"));
+
+       // create vanity URLs
+       vanityURLPage.addVanityURLToHost("test1", hostName, "/test1", "/home/index.html");
+       vanityURLPage.addVanityURLToHost("test2", hostName, "/test2", "http://"+ hostName + ":8080/home/index.html");
+       
+       // verify vanity URLs exist
+       Assert.assertTrue(vanityURLPage.doesVanityURLExist("test1"));
+       Assert.assertTrue(vanityURLPage.doesVanityURLExist("test2"));
+
+       // test vanity URLs
+       // TODO
+       IBasePage page1 = frontendMgr.loadPage("http://"+ hostName + ":8080/test1");
+       Assert.assertTrue(page1.getTitle().equals("index.html - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  /test1");
+
+       IBasePage page2 = frontendMgr.loadPage("http://"+ hostName + ":8080/test2");
+       Assert.assertTrue(page2.getTitle().equals("index.html - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly:  /test2");
+
+       // delete vanity URLs
+       // TODO - have to delete vanity urls because of a bug
+       vanityURLPage = portletMenu.getVanityURLsPage();
+       vanityURLPage.deleteVanityURL("test1");
+       vanityURLPage.deleteVanityURL("test2");
+       Assert.assertFalse(vanityURLPage.doesVanityURLExist("test1"));
+       Assert.assertFalse(vanityURLPage.doesVanityURLExist("test2"));
+
+       // set host back to qademo.dotcms.com
+       portletMenu.selectBackendHost("qademo.dotcms.com");
+       Thread.sleep(500);
+//*/
+       // Stop and delete newly created Host
+       hostPage = portletMenu.getHostPage();
+       Thread.sleep(1000);
+       hostPage.stopHost(hostName, true);
+       Thread.sleep(1000);						// TODO - remove cluginess and be able to remove this sleep call
+       hostPage.archiveHost(hostName, true);
+       hostPage.toggleShowArchived();
+       hostPage.deleteHost(hostName, true);
     }
 }
