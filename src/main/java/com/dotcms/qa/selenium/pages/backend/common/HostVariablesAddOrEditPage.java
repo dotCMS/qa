@@ -4,13 +4,21 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 
 import com.dotcms.qa.selenium.pages.backend.IHostVariablesAddOrEditPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 
 public class HostVariablesAddOrEditPage extends BasePage implements IHostVariablesAddOrEditPage {
 	private static final Logger logger = Logger.getLogger(HostVariablesAddOrEditPage.class);
-	private WebElement editHostVariable = null;  // addOrEditVariable dialog div
+	private WebElement hostVariableName;
+	private WebElement hostVariableKey;
+	private WebElement hostVariableValue;
+	@FindBy(how = How.ID, using = "dijit_form_Button_14")
+	private WebElement saveButton;
+	@FindBy(how = How.ID, using = "dijit_form_Button_15")
+	private WebElement cancelButton;
 	
 	public HostVariablesAddOrEditPage(WebDriver driver) {
 		super(driver);
@@ -23,30 +31,25 @@ public class HostVariablesAddOrEditPage extends BasePage implements IHostVariabl
 	}
 	
 	public void setName(String name){
-		WebElement nameField = this.editHostVariable.findElement(By.id("widget_hostVariableName")).findElement(By.tagName("input"));
-		logger.info("name isDisplayed? - " + nameField.isDisplayed());
-		logger.info("name isEnabled? - " + nameField.isEnabled());
-		nameField.clear();
-		nameField.sendKeys(name);
+		hostVariableName.clear();
+		hostVariableName.sendKeys(name);
 	}
 	
 	public void setKey(String key){
-		WebElement keyField = this.editHostVariable.findElement(By.id("widget_hostVariableKey")).findElement(By.tagName("input"));
-		keyField.clear();
-		keyField.sendKeys(key);		
+		hostVariableKey.clear();
+		hostVariableKey.sendKeys(key);		
 	}
 	
 	public void setValue(String value) {
-		WebElement valueField = this.editHostVariable.findElement(By.id("hostVariableValue"));
-		valueField.clear();
-		valueField.sendKeys(value);		
+		hostVariableValue.clear();
+		hostVariableValue.sendKeys(value);		
 	}
 	
 	public void save() {
-		this.editHostVariable.findElement(By.id("dijit_form_Button_14")).click();
+		saveButton.click();
 	}
 	
 	public void cancel() {
-		this.editHostVariable.findElement(By.id("dijit_form_Button_15")).click();		
+		cancelButton.click();		
 	}
 }

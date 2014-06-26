@@ -59,7 +59,7 @@ public class HostPage extends BasePage implements IHostPage  {
     	IHostVariablesPage hostVarPage = getHostVariablesPage(hostName);
     	boolean retValue =  hostVarPage.doesHostVariableExist(variableName);
     	hostVarPage.close();
-    	reload();			// TODO - remove need for this reload call
+//    	reload();			// TODO - remove need for this reload call
     	return retValue;
     }
     
@@ -142,6 +142,7 @@ public class HostPage extends BasePage implements IHostPage  {
 	
 	private boolean selectPopupMenuOption(String hostName, String menuOption) throws Exception {
 		boolean foundValue = false;
+		sleep(500);
 		rightClickElement(returnHost(hostName));	
 		WebElement popupMenu = getWebElementClickable(By.className("dijitMenuPopup"));
 		//this.hoverOverElement(popupMenu);

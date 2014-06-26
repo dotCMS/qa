@@ -7,6 +7,8 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import com.dotcms.qa.selenium.pages.backend.IHostVariablesAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IHostVariablesPage;
@@ -15,8 +17,11 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 	private static final Logger logger = Logger.getLogger(HostVariablesPage.class);
-
-	private WebElement viewHostVariablesDialog = null;
+/*
+	@FindBy(how = How.CLASS_NAME, using = "dijitDialogCloseIcon")
+	private WebElement closeButton;
+*/
+	private WebElement hostVariablesTable;
 	
 	public HostVariablesPage(WebDriver driver) {
 		super(driver);
@@ -29,7 +34,8 @@ public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 	}
 	
 	public void close() {
-		this.viewHostVariablesDialog.findElement(By.className("dijitDialogCloseIcon")).click();
+		this.executeJavaScript("dijit.byId('viewHostVariablesDialog').hide();");
+		sleep(250);
 	}
 	
 	public void deleteHostVariable(String variableName, boolean confirm) {
@@ -47,13 +53,12 @@ public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 	}
 	
 	public boolean doesHostVariableExist(String variableName) {
-		return this.getHostVariableRowWebElement(variableName) != null;
+		return getHostVariableRowWebElement(variableName) != null;
 	}
 		
 	private WebElement getHostVariableRowWebElement(String variableName) {
 		WebElement retValue = null;
-		WebElement tbody = this.getWebElement(By.id("hostVariablesTable"));
-		List<WebElement> rows = tbody.findElements(By.tagName("tr"));
+		List<WebElement> rows = hostVariablesTable.findElements(By.tagName("tr"));
 		for(WebElement row : rows) {
 			List<WebElement> columns = row.findElements(By.tagName("td"));
 			for(WebElement column : columns) {
@@ -70,7 +75,18 @@ public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 	}
 	
 	public IHostVariablesAddOrEditPage getHostVariablesAddScreen() throws Exception {
-		getWebElementClickable(By.id("dijit_form_Button_13")).click();
+		WebElement addNewSiteVariableButton = null;
+		WebElement div = this.getWebElement(By.id("viewHostVariablesDialog"));
+		List<WebElement> spans = div.findElements(By.tagName("span"));
+		for(WebElement span : spans) {
+			String widgetId = span.getAttribute("widgetid");
+			logger.info("widgetId = " + widgetId);
+			if(widgetId != null && "dijit_form_Button_13".equals(widgetId.trim())) {
+				addNewSiteVariableButton = span.findElement(By.className("dijitButtonNode"));
+				break;
+			}
+		}
+		addNewSiteVariableButton.click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IHostVariablesAddOrEditPage.class);
 	}
 }

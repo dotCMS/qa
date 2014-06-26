@@ -34,7 +34,7 @@ public class HostTest {
 	        loginPage.login("admin@dotcms.com", "admin");
 	        
 	        // create frontendMgr for verification of frontend functionality
-	        frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
+	        //frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
 	    }
 	    
 	    @AfterGroups (groups = {"Host"})
@@ -43,7 +43,7 @@ public class HostTest {
 	        backendMgr.logoutBackend();
 	    }
 	    
-	   @Test (groups = {"Host"})
+	   @Test (groups = {"Host", "Broken"})
 	    public void tc196_AddHostManually() throws Exception  {
 	       IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 	       IHostPage hostPage = portletMenu.getHostPage();
@@ -103,7 +103,7 @@ public class HostTest {
 	        Assert.assertFalse(hostPage.doesHostVariableExist(hostName, hostVariableName));
 	   }
 	    
-	   @Test (groups = {"Host"})
+	   @Test (groups = {"Host", "Broken"})
 	    public void tc206_CopyHost() throws Exception {
 	        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 	        IHostPage hostPage = portletMenu.getHostPage();
