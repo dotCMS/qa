@@ -6,6 +6,8 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -16,11 +18,8 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
 public class HostPage extends BasePage implements IHostPage  {
 	private static final Logger logger = Logger.getLogger(HostPage.class);
 	 	
- 	private WebElement dijit_form_Button_5_label, dijit_form_Button_9_label, dijit_form_Button_6_label, dijit_form_Button_14_label;
-	private WebElement startBlankHostRadio, copyHostRadio;
-	private WebElement id;
-	private WebElement dijit_form_Button_13_label;
-	private WebElement hostVariableName, hostVariableValue, hostVariableKey;
+	@FindBy(how = How.ID, using = "dijit_form_Button_5")
+ 	private WebElement addSiteButton;
  	
 	public HostPage(WebDriver driver) {
 		super(driver);
@@ -64,22 +63,15 @@ public class HostPage extends BasePage implements IHostPage  {
     }
     
 	public void addBlankHost(String hostName) throws Exception {
-		dijit_form_Button_5_label.click();
-		startBlankHostRadio.click();
-		dijit_form_Button_6_label.click();
-		IHostAddOrEditPage addPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostAddOrEditPage.class);
-		addPage.addHost(hostName);
+		addSiteButton.click();
+		IHostCreateNewSiteDialog createNewSiteDlg = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostCreateNewSiteDialog.class);
+		createNewSiteDlg.addBlankHost(hostName);
 	}
 		
-	public void addCopyExistingHost(String hostName, String setHost) throws Exception {
-		dijit_form_Button_5_label.click();
-		copyHostRadio.click();
-		dijit_form_Button_6_label.click();
-		id.clear();
-		id.sendKeys(setHost);
-		dijit_form_Button_9_label.click();
-		IHostAddOrEditPage addPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostAddOrEditPage.class);
-		addPage.addHost(hostName);			
+	public void addCopyExistingHost(String hostName, String hostToCopy) throws Exception {
+		addSiteButton.click();
+		IHostCreateNewSiteDialog createNewSiteDlg = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostCreateNewSiteDialog.class);
+		createNewSiteDlg.addCopyExistingHost(hostName, hostToCopy);
 	}
 			
 	public void archiveHost(String hostName, boolean confirm) throws Exception {
