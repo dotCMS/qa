@@ -55,7 +55,7 @@ public class HostPage extends BasePage implements IHostPage  {
     }
 	
     public boolean doesHostVariableExist(String hostName, String variableName) throws Exception {
-    	IHostVariablesPage hostVarPage = getHostVariablesPage(hostName);
+    	IHostVariablesDialog hostVarPage = getHostVariablesPage(hostName);
     	boolean retValue =  hostVarPage.doesHostVariableExist(variableName);
     	hostVarPage.close();
 //    	reload();			// TODO - remove need for this reload call
@@ -111,23 +111,23 @@ public class HostPage extends BasePage implements IHostPage  {
 	}
 		
 	public void addHostVariable(String hostName, String varName, String varKey, String varValue) throws Exception {
-		IHostVariablesPage varPage = getHostVariablesPage(hostName);
+		IHostVariablesDialog varPage = getHostVariablesPage(hostName);
 		varPage.addNewHostVariable(varName, varKey, varValue);
 		varPage.close();
 		reload();			// TODO - remove need for this reload call
 	}	
 	
 	public void deleteHostVariable(String hostName, String varName, boolean confirm) throws Exception{
-		IHostVariablesPage varPage = getHostVariablesPage(hostName);
+		IHostVariablesDialog varPage = getHostVariablesPage(hostName);
 		varPage.deleteHostVariable(varName, confirm);
 		varPage.close();	
 		reload();			// TODO - remove need for this reload call
 	}
 	
-	public IHostVariablesPage getHostVariablesPage(String hostName) throws Exception {
-		IHostVariablesPage retValue = null;
+	public IHostVariablesDialog getHostVariablesPage(String hostName) throws Exception {
+		IHostVariablesDialog retValue = null;
 		if(selectPopupMenuOption(hostName, getLocalizedString("Edit-Host-Variables"))) {
-			retValue = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostVariablesPage.class);
+			retValue = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostVariablesDialog.class);
 		}
 		return retValue;
 	}

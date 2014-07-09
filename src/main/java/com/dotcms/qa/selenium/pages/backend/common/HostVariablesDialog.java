@@ -10,25 +10,25 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import com.dotcms.qa.selenium.pages.backend.IHostVariablesAddOrEditPage;
-import com.dotcms.qa.selenium.pages.backend.IHostVariablesPage;
+import com.dotcms.qa.selenium.pages.backend.IHostVariablesAddOrEditDialog;
+import com.dotcms.qa.selenium.pages.backend.IHostVariablesDialog;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
-public class HostVariablesPage extends BasePage implements IHostVariablesPage {
-	private static final Logger logger = Logger.getLogger(HostVariablesPage.class);
+public class HostVariablesDialog extends BasePage implements IHostVariablesDialog {
+	private static final Logger logger = Logger.getLogger(HostVariablesDialog.class);
 /*
 	@FindBy(how = How.CLASS_NAME, using = "dijitDialogCloseIcon")
 	private WebElement closeButton;
 */
 	private WebElement hostVariablesTable;
 	
-	public HostVariablesPage(WebDriver driver) {
+	public HostVariablesDialog(WebDriver driver) {
 		super(driver);
 	}
 	
 	public void addNewHostVariable(String name, String key, String value) throws Exception {
-		IHostVariablesAddOrEditPage addVarPage = getHostVariablesAddScreen();
+		IHostVariablesAddOrEditDialog addVarPage = getHostVariablesAddScreen();
 		addVarPage.setFields(name, key, value);
 		addVarPage.save();
 	}
@@ -74,7 +74,7 @@ public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 		return retValue;
 	}
 	
-	public IHostVariablesAddOrEditPage getHostVariablesAddScreen() throws Exception {
+	public IHostVariablesAddOrEditDialog getHostVariablesAddScreen() throws Exception {
 		WebElement addNewSiteVariableButton = null;
 		WebElement div = this.getWebElement(By.id("viewHostVariablesDialog"));
 		List<WebElement> spans = div.findElements(By.tagName("span"));
@@ -87,6 +87,6 @@ public class HostVariablesPage extends BasePage implements IHostVariablesPage {
 			}
 		}
 		addNewSiteVariableButton.click();
-		return SeleniumPageManager.getBackEndPageManager().getPageObject(IHostVariablesAddOrEditPage.class);
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IHostVariablesAddOrEditDialog.class);
 	}
 }

@@ -7,11 +7,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-import com.dotcms.qa.selenium.pages.backend.IHostVariablesAddOrEditPage;
+import com.dotcms.qa.selenium.pages.backend.IHostVariablesAddOrEditDialog;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 
-public class HostVariablesAddOrEditPage extends BasePage implements IHostVariablesAddOrEditPage {
-	private static final Logger logger = Logger.getLogger(HostVariablesAddOrEditPage.class);
+public class HostVariablesAddOrEditDialog extends BasePage implements IHostVariablesAddOrEditDialog {
+	private static final Logger logger = Logger.getLogger(HostVariablesAddOrEditDialog.class);
 	private WebElement hostVariableName;
 	private WebElement hostVariableKey;
 	private WebElement hostVariableValue;
@@ -20,7 +20,7 @@ public class HostVariablesAddOrEditPage extends BasePage implements IHostVariabl
 	@FindBy(how = How.ID, using = "dijit_form_Button_15")
 	private WebElement cancelButton;
 	
-	public HostVariablesAddOrEditPage(WebDriver driver) {
+	public HostVariablesAddOrEditDialog(WebDriver driver) {
 		super(driver);
 	}
 
