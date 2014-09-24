@@ -22,37 +22,37 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 
 	public IContentSearchPage getContentSearchPage() throws Exception {
 	    hoverOverElement(getPortletElement("Content"));
-	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.portlet.javax.portlet.title.EXT_11"))).click();
+	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_11"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentSearchPage.class);		
 	}
 
 	public ILicenseManagerPage getLicenseManagerPage() throws Exception {
 	    hoverOverElement(getPortletElement("System"));
-	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.portlet.javax.portlet.title.EXT_LICENSE_MANAGER"))).click();
+	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_LICENSE_MANAGER"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ILicenseManagerPage.class);
 	}
 	
 	public IStructuresPage getStructuresPage() throws Exception {
 	    hoverOverElement(getPortletElement("Structures"));
-	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.portlet.javax.portlet.title.EXT_STRUCTURE"))).click();
+	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructuresPage.class);
 	}
 
 	public IVanityURLsPage getVanityURLsPage() throws Exception {
 	    hoverOverElement(getPortletElement("Site Browser"));
-	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.portlet.javax.portlet.title.EXT_VIRTUAL_LINKS"))).click();
+	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_VIRTUAL_LINKS"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IVanityURLsPage.class);
 	}
 	
 	public IHostPage getHostPage() throws Exception {
 	    hoverOverElement(getPortletElement("System"));
-	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.portlet.javax.portlet.title.EXT_HOSTADMIN"))).click();
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_HOSTADMIN"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IHostPage.class);
 	}
 
 	public ISiteBrowserPage getSiteBrowserPage() throws Exception {
 	    hoverOverElement(getPortletElement("Site Browser"));
-	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.portlet.javax.portlet.title.EXT_BROWSER"))).click();
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ISiteBrowserPage.class);		
 	}
 	
