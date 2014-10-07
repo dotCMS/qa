@@ -142,14 +142,12 @@ public class HostPage extends BasePage implements IHostPage  {
 	
 	private boolean selectPopupMenuOption(String hostName, String menuOption) throws Exception {
 		boolean foundValue = false;
-		rightClickElement(returnHost(hostName));	
-		WebElement popupMenu = getWebElementClickable(By.className("dijitMenuPopup"));
-		//this.hoverOverElement(popupMenu);
+		rightClickElement(returnHost(hostName));
+//		WebElement popupMenu = getWebElementClickable(By.className("dijitMenuPopup"));
+		WebElement popupMenu = getWebElement(By.className("dijitMenuPopup"));
 		List<WebElement> rows = popupMenu.findElements(By.tagName("tr"));
 		WebElement prevRow = null;
 		for(WebElement row : rows) {
-			//this.hoverOverElement(row);
-			//row = this.getWebElementClickable(row);
 			if(prevRow != null) {
 				logger.info("* prevRow.isDisplayed() = " + prevRow.isDisplayed());
 				logger.info("* prevRow.isEnabled() = " + prevRow.isEnabled());
@@ -158,12 +156,12 @@ public class HostPage extends BasePage implements IHostPage  {
 			logger.info("* isEnabled() = " + row.isEnabled());
 			List<WebElement> labels = row.findElements(By.className("dijitMenuItemLabel"));
 			for(WebElement label : labels) {
-				//this.hoverOverElement(label);
-				//label = this.getWebElementClickable(label);
 				logger.info("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
 				if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
-					this.hoverOverElement(label);
-					getWebElementClickable(label).click();
+					logger.info("*** LABEL = " + label + " ***");
+//					this.hoverOverElement(label);
+					label.click();
+//					getWebElementClickable(label).click();
 					foundValue = true;
 					break;
 				}

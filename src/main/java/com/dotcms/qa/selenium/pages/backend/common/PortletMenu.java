@@ -68,7 +68,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 				    break;
 				}
 				else {
-//					logger.trace("portletText=" + portletText + "|element.getText()=" + element.getText() +"|element.getTagName()=" + element.getTagName());				
+					logger.trace("portletText=" + portletText + "|element.getText()=" + element.getText() +"|element.getTagName()=" + element.getTagName());				
 				}
 			}
 			catch (StaleElementReferenceException e) {
