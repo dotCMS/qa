@@ -13,5 +13,12 @@ public interface IPortletMenu extends IBasePage {
 	public IHostPage getHostPage() throws Exception;
 	public ISiteBrowserPage getSiteBrowserPage() throws Exception;
 	
+	/**
+	 * Get the User manager page
+	 * @return ISiteBrowserPage
+	 * @throws Exception
+	 */
+	public IUsersPage getUsersPage() throws Exception;
+	
 	public WebElement getPortletElement(String portletTextKey);
 }
