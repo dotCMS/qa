@@ -37,6 +37,11 @@ public class UsersTest {
     //Backend User Info
     private String backendUserEmail = null;
     private String backendUserPassword = null;
+    //Test User variables
+    private final String fakeEmail ="fake@dotcms.com";
+    private final String fakeFirstName ="DotCMSTest";
+    private final String fakeLastName ="ToDelete";
+    private final String fakePassword = "testUser123";
 
     /**
      * Initialize variables and login the user to the backend
@@ -91,11 +96,29 @@ public class UsersTest {
         IUsersPage usersPage = portletMenu.getUsersPage();
     	
         //Verify an existing user
-        Assert.assertTrue(usersPage.searchUserByEmail(backendUserEmail));
+        Assert.assertTrue(usersPage.doesUserEmailExist(backendUserEmail));
         
         //Verify a non existing user
-        String fakeEmail ="fake@dotcms.com";
-        Assert.assertFalse(usersPage.searchUserByEmail(fakeEmail));     
+        Assert.assertFalse(usersPage.doesUserEmailExist(fakeEmail));     
+    }
+    
+    /**
+     * Test the add user functionality
+     * @throws Exception 
+     */
+    @Test (groups = {"Users"})
+    public void tc261_AddUser() throws Exception{
+    	IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+        IUsersPage usersPage = portletMenu.getUsersPage();
+        try{
+        	//Add a new User
+        	usersPage.addUser(fakeFirstName, fakeLastName, fakeEmail, fakePassword);
+        	//Verify if the user was created
+            Assert.assertTrue(usersPage.doesUserEmailExist(fakeEmail));
+            
+        }finally{
+        	//delete User
+        }
     }
     
 }
