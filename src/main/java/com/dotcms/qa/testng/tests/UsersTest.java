@@ -1,6 +1,10 @@
 package com.dotcms.qa.testng.tests;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
+import junit.framework.AssertionFailedError;
 
 import org.apache.log4j.Logger;
 import org.testng.Assert;
@@ -22,103 +26,193 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
  * @version 1.0
  */
 public class UsersTest {
-	
+
 	//Logger
 	private static final Logger logger = Logger.getLogger(UsersTest.class);
-    
+
 	//BackEnd and FrontEnd managers
-    private SeleniumPageManager backendMgr = null;
-    private SeleniumPageManager frontendMgr = null;
-    //Sites Info
-    private String demoServerURL = null;
-    private String mobileServerURL = null;
-    private String sharedServerURL = null;
-    private ILoginPage loginPage = null;
-    //Backend User Info
-    private String backendUserEmail = null;
-    private String backendUserPassword = null;
-    //Test User variables
-    private final String fakeEmail ="fake@dotcms.com";
-    private final String fakeFirstName ="DotCMSTest";
-    private final String fakeLastName ="ToDelete";
-    private final String fakePassword = "testUser123";
+	private SeleniumPageManager backendMgr = null;
+	private SeleniumPageManager frontendMgr = null;
+	//Sites Info
+	private String demoServerURL = null;
+	private String mobileServerURL = null;
+	private String sharedServerURL = null;
+	private ILoginPage loginPage = null;
+	//Backend User Info
+	private String backendUserEmail = null;
+	private String backendUserPassword = null;
+	//Test User variables
+	private final String nonExistingUserEmail ="nonexistinguser@dotcms.com";
+	private final String fakeEmail ="fake@dotcms.com";
+	private final String fakeFirstName ="DotCMSTest";
+	private final String fakeLastName ="ToDelete";
+	private final String fakePassword = "testUser123";
+	
+	private final String editUserMail = "bill@dotcms.com";
 
-    /**
-     * Initialize variables and login the user to the backend
-     * @throws Exception
-     */
-    @BeforeGroups (groups = {"Users"})
-    public void init() throws Exception {
-    	logger.info("**UsersTests.init() beginning**");
-        SeleniumConfig config = SeleniumConfig.getConfig();
-        demoServerURL = config.getProperty("demoServerURL");
-        mobileServerURL = config.getProperty("mobileServerURL");
-        sharedServerURL = config.getProperty("sharedServerURL");
+	private final String roleName = "CMS Administrator";
+	
+	/**
+	 * Initialize variables and login the user to the backend
+	 * @throws Exception
+	 */
+	@BeforeGroups (groups = {"Users"})
+	public void init() throws Exception {
+		logger.info("**UsersTests.init() beginning**");
+		SeleniumConfig config = SeleniumConfig.getConfig();
+		demoServerURL = config.getProperty("demoServerURL");
+		mobileServerURL = config.getProperty("mobileServerURL");
+		sharedServerURL = config.getProperty("sharedServerURL");
 
-        // Backend login
-        backendUserEmail = config.getProperty("backend.user.Email");
-        backendUserPassword = config.getProperty("backend.user.Password");
-        backendMgr = RegressionSuiteEnv.getBackendPageManager();
-        loginPage = backendMgr.getPageObject(ILoginPage.class);
-        loginPage.login(backendUserEmail, backendUserPassword);
-    }
-    
-    /**
-     * Logout User from backEnd
-     * @throws Exception
-     */
-    @AfterGroups (groups = {"Users"})
-    public void teardown() throws Exception {
-    	logger.info("**UsersTests.teardown() beginning**");
-        // logout
-        backendMgr.logoutBackend();
-    	logger.info("**UsersTests.teardown() ending**");
-    }
+		// Backend login
+		backendUserEmail = config.getProperty("backend.user.Email");
+		backendUserPassword = config.getProperty("backend.user.Password");
+		backendMgr = RegressionSuiteEnv.getBackendPageManager();
+		loginPage = backendMgr.getPageObject(ILoginPage.class);
+		loginPage.login(backendUserEmail, backendUserPassword);
+	}
 
-    /**
-     * Sleep method
-     */
-    public void sleep() {
-        try{
-        	Thread.sleep(500);
-        }catch(Exception e){
-        	logger.error(e);
-        }
-    }
-    /**
-     * Validate the search by user test case. Set here:
-     * http://qa.dotcms.com/index.php?/cases/view/257
-     * @throws Exception
-     */
-    @Test (groups = {"Users"})
-    public void tc257_SearchUserByEmailAddress() throws Exception {
-        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
-        IUsersPage usersPage = portletMenu.getUsersPage();
-    	
-        //Verify an existing user
-        Assert.assertTrue(usersPage.doesUserEmailExist(backendUserEmail));
-        
-        //Verify a non existing user
-        Assert.assertFalse(usersPage.doesUserEmailExist(fakeEmail));     
-    }
-    
-    /**
-     * Test the add user functionality
-     * @throws Exception 
-     */
-    @Test (groups = {"Users"})
-    public void tc261_AddUser() throws Exception{
-    	IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
-        IUsersPage usersPage = portletMenu.getUsersPage();
-        try{
-        	//Add a new User
-        	usersPage.addUser(fakeFirstName, fakeLastName, fakeEmail, fakePassword);
-        	//Verify if the user was created
-            Assert.assertTrue(usersPage.doesUserEmailExist(fakeEmail));
-            
-        }finally{
-        	//delete User
-        }
-    }
-    
+	/**
+	 * Logout User from backEnd
+	 * @throws Exception
+	 */
+	@AfterGroups (groups = {"Users"})
+	public void teardown() throws Exception {
+		logger.info("**UsersTests.teardown() beginning**");
+
+		//Need to add delete test user
+		
+		
+		// logout
+		backendMgr.logoutBackend();
+		logger.info("**UsersTests.teardown() ending**");
+	}
+
+	/**
+	 * Sleep method
+	 */
+	public void sleep() {
+		try{
+			Thread.sleep(500);
+		}catch(Exception e){
+			logger.error(e);
+		}
+	}
+	/**
+	 * Validate the search by user test case. Set here:
+	 * http://qa.dotcms.com/index.php?/cases/view/257
+	 * @throws Exception
+	 */
+	@Test (groups = {"Users"})
+	public void tc257_SearchUserByEmailAddress() throws Exception {
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		IUsersPage usersPage = portletMenu.getUsersPage();
+
+		//Verify an existing user
+		Assert.assertTrue(usersPage.doesUserEmailExist(backendUserEmail));
+
+		//Verify a non existing user
+		Assert.assertFalse(usersPage.doesUserEmailExist(nonExistingUserEmail));     
+	}
+
+	/**
+	 * Test the edit user info functionality. Set here:
+	 * http://qa.dotcms.com/index.php?/cases/view/258
+	 * @throws Exception
+	 */
+	@Test (groups = {"Users"})
+	public void tc258_EditUser() throws Exception {
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		IUsersPage usersPage = portletMenu.getUsersPage();
+
+		Map<String, String> originalUser = usersPage.getUserProperties(editUserMail);
+		
+		String firstName2=originalUser.get("firstName")+"_tc258";
+		String lastName2=originalUser.get("lastName")+"_tc258";
+		String emailAddress2="fake_tc258@dotcms.com";
+		//User values to update
+		Map<String, String> properties = new HashMap<String,String>();
+		properties.put("firstName", firstName2);
+		properties.put("lastName", lastName2);
+		properties.put("emailAddress", emailAddress2);
+		
+		//Update User
+		Assert.assertTrue(usersPage.editUser(editUserMail,properties));
+
+		//Verify if the user still exist with the previous email
+		Assert.assertFalse(usersPage.doesUserEmailExist(editUserMail));     
+
+		//Verify if the user exist with the new email
+		Assert.assertTrue(usersPage.doesUserEmailExist(emailAddress2)); 
+
+		//Validate that all the fields where modified
+		Map<String, String> currentUser = usersPage.getUserProperties(emailAddress2);
+
+		/*
+		 * Validate user change
+		 */
+		Assert.assertTrue(firstName2.equals(currentUser.get("firstName"))); 
+		//validate last name change
+		Assert.assertTrue(lastName2.equals(currentUser.get("lastName"))); 
+		//validate email address
+		Assert.assertTrue(emailAddress2.equals(currentUser.get("emailAddress"))); 
+		
+		/*
+		 * Validate user restoration change
+		 */
+		Assert.assertTrue(usersPage.editUser(emailAddress2,originalUser));
+		
+		//Validate that all the fields where modified
+		currentUser = usersPage.getUserProperties(originalUser.get("emailAddress"));
+				
+		Assert.assertTrue(currentUser.get("firstName").equals(originalUser.get("firstName"))); 
+		//validate last name change
+		Assert.assertTrue(currentUser.get("lastName").equals(originalUser.get("lastName"))); 
+		//validate email address
+		Assert.assertTrue(currentUser.get("emailAddress").equals(originalUser.get("emailAddress"))); 
+	}
+	
+	/**
+	 * Test the add user functionality. Set here:
+	 * http://qa.dotcms.com/index.php?/cases/view/261
+	 * @throws Exception 
+	 */
+	@Test (groups = {"Users"})
+	public void tc261_AddUser() throws Exception{
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		IUsersPage usersPage = portletMenu.getUsersPage();
+
+		//Add a new User
+		usersPage.addUser(fakeFirstName, fakeLastName, fakeEmail, fakePassword);
+		//Verify if the user was created
+		Assert.assertTrue(usersPage.doesUserEmailExist(fakeEmail));
+
+	}
+
+	/**
+	 * Test the add user roles functionality. Set here:
+	 * http://qa.dotcms.com/index.php?/cases/view/263
+	 * @throws Exception 
+	 */
+	@Test (groups = {"Users"})
+	public void tc263_AddRolesToUser() throws Exception{
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		IUsersPage usersPage = portletMenu.getUsersPage();
+
+		//Validate that the user doesn't have the role
+		Assert.assertFalse(usersPage.doesUserHaveRole(roleName, fakeEmail));
+		
+		//Add role
+		usersPage.addRoleToUser(roleName, fakeEmail);
+		
+		//Validate that the user have the role
+		Assert.assertFalse(usersPage.doesUserHaveRole(roleName, fakeEmail));
+		
+		//Remove the role
+		usersPage.removeRoleFromUser(roleName, fakeEmail);
+		
+		//Validate that the user doesn't have the role
+		Assert.assertFalse(usersPage.doesUserHaveRole(roleName, fakeEmail));
+	}
+
 }
