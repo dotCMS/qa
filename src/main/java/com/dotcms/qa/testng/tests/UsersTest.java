@@ -7,6 +7,7 @@ import java.util.Map;
 import junit.framework.AssertionFailedError;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeGroups;
@@ -48,9 +49,18 @@ public class UsersTest {
 	private final String fakeLastName ="ToDelete";
 	private final String fakePassword = "testUser123";
 	
-	private final String editUserMail = "bill@dotcms.com";
-
+	private final String editUserEmail = "steve@dotcms.com";
+	private final String editUserPassword="steve";
+	private final String tag = "My Tag";
 	private final String roleName = "CMS Administrator";
+	
+	private final String frontendLoginPage="dotCMS/login?referrer=/intranet/";
+	private final String frontendIntranetPage="intranet/";
+	private final String frontendNews="news-events/news/";
+	private final String frontendResources="resources/index.html";
+	private final String frontendServices="services/private-banking/";
+	private final String frontendProducts ="products/";
+	private final String frontendLogoutPage="/dotCMS/logout";
 	
 	/**
 	 * Initialize variables and login the user to the backend
@@ -70,6 +80,9 @@ public class UsersTest {
 		backendMgr = RegressionSuiteEnv.getBackendPageManager();
 		loginPage = backendMgr.getPageObject(ILoginPage.class);
 		loginPage.login(backendUserEmail, backendUserPassword);
+		
+		//Frontend login
+		frontendMgr = RegressionSuiteEnv.getFrontendPageManager(); 
 	}
 
 	/**
@@ -125,7 +138,7 @@ public class UsersTest {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IUsersPage usersPage = portletMenu.getUsersPage();
 
-		Map<String, String> originalUser = usersPage.getUserProperties(editUserMail);
+		Map<String, String> originalUser = usersPage.getUserProperties(editUserEmail);
 		
 		String firstName2=originalUser.get("firstName")+"_tc258";
 		String lastName2=originalUser.get("lastName")+"_tc258";
@@ -137,10 +150,10 @@ public class UsersTest {
 		properties.put("emailAddress", emailAddress2);
 		
 		//Update User
-		Assert.assertTrue(usersPage.editUser(editUserMail,properties));
+		Assert.assertTrue(usersPage.editUser(editUserEmail,properties));
 
 		//Verify if the user still exist with the previous email
-		Assert.assertFalse(usersPage.doesUserEmailExist(editUserMail));     
+		Assert.assertFalse(usersPage.doesUserEmailExist(editUserEmail));     
 
 		//Verify if the user exist with the new email
 		Assert.assertTrue(usersPage.doesUserEmailExist(emailAddress2)); 
@@ -170,6 +183,67 @@ public class UsersTest {
 		Assert.assertTrue(currentUser.get("lastName").equals(originalUser.get("lastName"))); 
 		//validate email address
 		Assert.assertTrue(currentUser.get("emailAddress").equals(originalUser.get("emailAddress"))); 
+	}
+	
+	/**
+	 * Test Marketing History and add tag o user. Set here:
+	 * http://qa.dotcms.com/index.php?/cases/view/259
+	 * @throws Exception
+	 */
+	@Test (groups = {"Users"})
+	public void tc259_MarketingHistoryAndTag() throws Exception {
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		IUsersPage usersPage = portletMenu.getUsersPage();
+
+		/**
+		 * Add/Remove Tag
+		 */
+		//validate that the user doesn't have the tag
+		Assert.assertFalse(usersPage.doesHaveTag(tag,editUserEmail));
+		
+		//add the tag
+		usersPage.addTag(tag,editUserEmail);
+		
+		//validate that the tag was included
+		Assert.assertTrue(usersPage.doesHaveTag(tag,editUserEmail));
+		
+		//remove the tag
+		usersPage.removeTag(tag,editUserEmail);
+		
+		//validate that the tag was removed
+		Assert.assertFalse(usersPage.doesHaveTag(tag,editUserEmail));
+		
+		/**
+		 * View History
+		 */
+		//validate if the user doesn't have visit history
+		boolean haveVisitHistory = usersPage.doesHaveVisitHistory(editUserEmail);
+		
+		if(!haveVisitHistory){
+			//generate some visit history
+			IBasePage page = frontendMgr.loadPage(demoServerURL + frontendLoginPage);
+	        sleep();
+	        page.getWebElementPresent(By.id("macro-login-user-name")).clear();
+	        page.getWebElementPresent(By.id("macro-login-user-name")).sendKeys(editUserEmail);
+	        page.getWebElementPresent(By.id("macro-login-password")).clear();
+	        page.getWebElementPresent(By.id("macro-login-password")).sendKeys(editUserPassword);
+	        page.getWebElementPresent(By.id("macro-login-button")).click();
+	        sleep();
+	        page = frontendMgr.loadPage(demoServerURL + frontendIntranetPage);
+	        sleep();
+	        page = frontendMgr.loadPage(demoServerURL + frontendNews);
+	        sleep();
+	        page = frontendMgr.loadPage(demoServerURL +frontendResources);
+	        sleep();
+	        page = frontendMgr.loadPage(demoServerURL +frontendServices);
+	        sleep();
+	        page = frontendMgr.loadPage(demoServerURL +frontendProducts);
+	        sleep();
+	        page = frontendMgr.loadPage(demoServerURL + frontendLogoutPage);
+	        sleep();
+	        haveVisitHistory = usersPage.doesHaveVisitHistory(editUserEmail);
+		}
+		Assert.assertTrue(haveVisitHistory);
 	}
 	
 	/**
@@ -206,7 +280,7 @@ public class UsersTest {
 		usersPage.addRoleToUser(roleName, fakeEmail);
 		
 		//Validate that the user have the role
-		Assert.assertFalse(usersPage.doesUserHaveRole(roleName, fakeEmail));
+		Assert.assertTrue(usersPage.doesUserHaveRole(roleName, fakeEmail));
 		
 		//Remove the role
 		usersPage.removeRoleFromUser(roleName, fakeEmail);

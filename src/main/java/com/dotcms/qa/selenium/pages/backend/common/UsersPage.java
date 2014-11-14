@@ -30,15 +30,6 @@ public class UsersPage extends BasePage implements IUsersPage {
 	private WebElement usersFilter;
 
 	/**
-	 * Add User Main button (Display the Add User form)
-	 */
-	private WebElement dijit_form_Button_5;
-	/**
-	 * Save User button
-	 */
-	private WebElement dijit_form_Button_6;
-
-	/**
 	 * User Details Tab
 	 */
 	private WebElement userTabsContainer_tablist_userDetailsTab;
@@ -59,15 +50,35 @@ public class UsersPage extends BasePage implements IUsersPage {
 	private WebElement	removeUserRoleBtn_label;
 
 	/**
-	 * Save role button
+	 * Marketing tab
 	 */
-	private WebElement dijit_form_Button_8_label;
-
+	private WebElement userTabsContainer_tablist_marketingInfoTab;
+	
+	/**
+	 * Add Tags textarea 
+	 */
+	private WebElement tagName;
+	
+	/**
+	 * Tags Suggestions
+	 */
+	private WebElement suggestedTagsDiv;
+	
+	/**
+	 * Show Selected tags
+	 */
+	private WebElement tags_table;
+	
 	/**
 	 * Roles granted select box
 	 */
 	private WebElement userRolesSelect;
 
+	/**
+	 * Get the user visit history 
+	 */
+	private WebElement userClickHistoryPane;
+	
 	/**
 	 * User Detail inputs
 	 */
@@ -112,7 +123,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 */
 	public void addUser(String firstname, String lastname, String email, String userPassword){
 		//Click the add user button
-		dijit_form_Button_5.click();
+		getAddUserButton().click();
 		//set the user parameters
 		firstName.sendKeys(firstname);
 		lastName.sendKeys(lastname);
@@ -120,7 +131,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		password.sendKeys(userPassword);
 		passwordCheck.sendKeys(userPassword);
 		//Click the save button
-		dijit_form_Button_6.click();
+		getSaveUserButton().click();
 	}
 
 	/**
@@ -147,16 +158,16 @@ public class UsersPage extends BasePage implements IUsersPage {
 					emailAddress.clear();
 					emailAddress.sendKeys(properties.get(key));
 				}else if(key.equals("password")){
-					password.clear();
-					password.sendKeys(properties.get(key));
+					//password.clear();
+					//password.sendKeys(properties.get(key));
 				}else if(key.equals("passwordCheck")){
-					passwordCheck.clear();
-					passwordCheck.sendKeys(properties.get(key));
+					//passwordCheck.clear();
+					//passwordCheck.sendKeys(properties.get(key));
 				}
 			}
 
 			//save the changes
-			dijit_form_Button_6.click();
+			getSaveUserButton().click();
 			retValue = true;
 		}
 		return retValue;
@@ -219,10 +230,13 @@ public class UsersPage extends BasePage implements IUsersPage {
 						//Add role to roles granted list
 						addUserRoleBtn_label.click();
 						//Save role change
-						dijit_form_Button_8_label.click();
+						getSaveUserRoleButton().click();
 						retValue = true;
 						break;
 					}
+				}
+				if(retValue){
+					break;
 				}
 			}
 		}
@@ -242,16 +256,18 @@ public class UsersPage extends BasePage implements IUsersPage {
 			userTabsContainer_tablist_userRolesTab.click();
 			List<WebElement> options = userRolesSelect.findElements(By.tagName("option"));
 			for(WebElement option : options){
-				if(option.getAttribute("title").equals(roleName)){
-					option.click();
-					//remove from select lisst
-					removeUserRoleBtn_label.click();
-					//save role change
-					dijit_form_Button_8_label.click();
+				if(option.getAttribute("title").indexOf(roleName) != -1){
 					retValue=true;
-					break;
+					option.click();
+					option.click();
+				}else{
+					option.click();
 				}
 			}
+			//remove from select lisst
+			removeUserRoleBtn_label.click();
+			//save role change
+			getSaveUserRoleButton().click();
 		}
 		return retValue;
 	}
@@ -269,7 +285,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 			userTabsContainer_tablist_userRolesTab.click();
 			List<WebElement> options = userRolesSelect.findElements(By.tagName("option"));
 			for(WebElement option : options){
-				if(option.getAttribute("title").equals(roleName)){
+				if(option.getAttribute("title").indexOf(roleName) != -1){
 					retValue = true;
 					break;
 				}
@@ -305,6 +321,176 @@ public class UsersPage extends BasePage implements IUsersPage {
 				logger.error("Unexpected error attempting to iterate over Users - email=" + userEmail, e);
 				// Move on to next row and keep going
 			}
+		}
+		return retValue;
+	}
+	
+	/**
+	 * Add a tag to a user in the user admin portlet
+	 * @param tag Tag to add
+	 * @param userEmail User email to search
+	 */
+	public void addTag(String tag, String userEmail){
+		//Search for the user a validate
+		if(loadUserInfo(userEmail)){
+			//open the marketing tab
+			userTabsContainer_tablist_marketingInfoTab.click();
+			//set the tag in the textarea
+			tagName.sendKeys(tag);
+			//press the update button
+			getAddUserTagButton().click();
+			
+		}
+	}
+	
+	/**
+	 * Validates if the user have assigned that tag in the user admin portlet
+	 * @param tag Tag to add
+	 * @param userEmail User email to search
+	 * @return true if the user have the tag, false if not
+	 */
+	public boolean doesHaveTag(String tag, String userEmail){
+		boolean retValue = false;
+		//Search for the user a validate
+		if(loadUserInfo(userEmail)){
+			//open the marketing tab
+			userTabsContainer_tablist_marketingInfoTab.click();
+			//get the list of tags
+			List<WebElement> tagsList = tags_table.findElements(By.tagName("tr"));
+			for(WebElement row : tagsList){
+				List<WebElement> columns = row.findElements(By.tagName("td"));
+				for(WebElement column : columns){
+					if(column.getText().equalsIgnoreCase(tag)){
+						retValue=true;
+						break;
+					}
+				}
+				if(retValue){
+					break;
+				}
+			}
+		}
+		return retValue;
+	}
+	
+	/**
+	 * Remove a user tag in the user admin portlet
+	 * @param tag Tag to add
+	 * @param userEmail User email to search
+	 */
+	public void removeTag(String tag,String userEmail){
+		boolean retValue = false;
+		//Search for the user a validate
+		if(loadUserInfo(userEmail)){
+			//open the marketing tab
+			userTabsContainer_tablist_marketingInfoTab.click();
+			//get the list of tags
+			List<WebElement> tagsList = tags_table.findElements(By.tagName("tr"));
+			for(WebElement row : tagsList){
+				//search for the row with the specified tag
+				List<WebElement> columns = row.findElements(By.tagName("td"));
+				for(WebElement column : columns){
+					if(column.getText().equalsIgnoreCase(tag)){
+						retValue=true;
+						break;
+					}
+				}
+				//remove the tag if exist
+				if(retValue){
+					WebElement removebutton = row.findElement(By.tagName("a"));
+					removebutton.click();
+					break;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Search the add user button dynaically, because doesn't have a fixed id and
+	 * dojo change it some times
+	 */
+	private WebElement getAddUserButton(){
+		List<WebElement> buttonsArea = getWebElementPresent(By.className("buttonBoxRight")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		WebElement addUserButton = null;
+		for(WebElement span : buttonsArea){
+			if(span.getText().equals("Add User")){
+				addUserButton = span;
+				break;
+			}
+		}
+		return addUserButton;
+	}
+	
+	/**
+	 * Search the add user button dynaically, because doesn't have a fixed id and
+	 * dojo change it some times
+	 */
+    private WebElement getSaveUserButton(){
+    	List<WebElement> buttonsArea = getWebElementPresent(By.id("userDetailsTab")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		WebElement saveUserButton = null;
+		for(WebElement span : buttonsArea){
+			if(span.getText().equals("Save")){
+				saveUserButton = span;
+				break;
+			}
+		}
+		return saveUserButton;
+	}
+    
+    /**
+	 * Search the add user button dynaically, because doesn't have a fixed id and
+	 * dojo change it some times
+	 */
+    private WebElement getSaveUserRoleButton(){
+    	List<WebElement> buttonsArea = getWebElementPresent(By.id("userRolesTab")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		WebElement saveUserButton = null;
+		for(WebElement span : buttonsArea){
+			if(span.getText().equals("Save")){
+				saveUserButton = span;
+				break;
+			}
+		}
+		return saveUserButton;
+	}
+    
+    /**
+	 * Search the add user button dynaically, because doesn't have a fixed id and
+	 * dojo change it some times
+	 */
+    private WebElement getAddUserTagButton(){
+    	List<WebElement> buttonsArea = getWebElementPresent(By.id("marketingInfoWrapper")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		WebElement addUserButton = null;
+		for(WebElement span : buttonsArea){
+			if(span.getText().equals("Update")){
+				addUserButton = span;
+				break;
+			}
+		}
+		return addUserButton;
+	}
+    
+    /**
+	 * Validate if the user have some visit history in the
+	 * user admin portlet
+	 * @param userEmail User email to search
+	 * @return
+	 */
+	public boolean doesHaveVisitHistory(String userEmail){
+		boolean retValue = false;
+		//open the marketing tab
+		userTabsContainer_tablist_marketingInfoTab.click();
+		//check Full Visit History
+		List<WebElement> buttonsArea = getWebElementPresent(By.id("marketingInfoWrapper")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement span : buttonsArea){
+			if(span.getText().equals("Full Visit History")){
+				span.click();
+				break;
+			}
+		}
+		//get history
+		String value = userClickHistoryPane.getText();
+		if(!value.equals("User has no visitor data available.")){
+			retValue = true;
 		}
 		return retValue;
 	}

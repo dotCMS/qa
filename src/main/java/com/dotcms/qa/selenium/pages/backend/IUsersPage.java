@@ -2,6 +2,8 @@ package com.dotcms.qa.selenium.pages.backend;
 
 import java.util.Map;
 
+import org.testng.Assert;
+
 import com.dotcms.qa.selenium.pages.IBasePage;
 /**
  * Users Page Interface
@@ -65,4 +67,35 @@ public interface IUsersPage extends IBasePage {
 	 * @return true is the role is assigned, false if not
 	 */
 	public boolean doesUserHaveRole(String roleName, String userEmail);
+	
+	/**
+	 * Add a tag to a user in the user admin portlet
+	 * @param tag Tag to add
+	 * @param userEmail User email to search
+	 */
+	public void addTag(String tag, String userEmail);
+	
+	/**
+	 * Validates if the user have assigned that tag in the user admin portlet
+	 * @param tag Tag to add
+	 * @param userEmail User email to search
+	 * @return true if the user have the tag, false if not
+	 */
+	public boolean doesHaveTag(String tag, String userEmail);
+	
+	/**
+	 * Remove a user tag in the user admin portlet
+	 * @param tag Tag to add
+	 * @param userEmail User email to search
+	 */
+	public void removeTag(String tag,String userEmail);
+	
+	/**
+	 * Validate if the user have some visit history in the
+	 * user admin portlet
+	 * @param userEmail User email to search
+	 * @return
+	 */
+	public boolean doesHaveVisitHistory(String userEmail);
+	
 }
