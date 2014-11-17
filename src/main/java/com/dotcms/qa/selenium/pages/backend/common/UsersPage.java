@@ -1,5 +1,10 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +17,7 @@ import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.backend.IUsersPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
+import com.dotcms.qa.selenium.util.SeleniumConfig;
 
 /**
  * This class implements the methods defined in the IUserPage interface
@@ -53,22 +59,22 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 * Marketing tab
 	 */
 	private WebElement userTabsContainer_tablist_marketingInfoTab;
-	
+
 	/**
 	 * Add Tags textarea 
 	 */
 	private WebElement tagName;
-	
+
 	/**
 	 * Tags Suggestions
 	 */
 	private WebElement suggestedTagsDiv;
-	
+
 	/**
 	 * Show Selected tags
 	 */
 	private WebElement tags_table;
-	
+
 	/**
 	 * Roles granted select box
 	 */
@@ -78,7 +84,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 * Get the user visit history 
 	 */
 	private WebElement userClickHistoryPane;
-	
+
 	/**
 	 * User Detail inputs
 	 */
@@ -324,7 +330,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		}
 		return retValue;
 	}
-	
+
 	/**
 	 * Add a tag to a user in the user admin portlet
 	 * @param tag Tag to add
@@ -339,10 +345,10 @@ public class UsersPage extends BasePage implements IUsersPage {
 			tagName.sendKeys(tag);
 			//press the update button
 			getAddUserTagButton().click();
-			
+
 		}
 	}
-	
+
 	/**
 	 * Validates if the user have assigned that tag in the user admin portlet
 	 * @param tag Tag to add
@@ -372,7 +378,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		}
 		return retValue;
 	}
-	
+
 	/**
 	 * Remove a user tag in the user admin portlet
 	 * @param tag Tag to add
@@ -404,7 +410,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 			}
 		}
 	}
-	
+
 	/**
 	 * Search the add user button dynaically, because doesn't have a fixed id and
 	 * dojo change it some times
@@ -420,13 +426,13 @@ public class UsersPage extends BasePage implements IUsersPage {
 		}
 		return addUserButton;
 	}
-	
+
 	/**
 	 * Search the add user button dynaically, because doesn't have a fixed id and
 	 * dojo change it some times
 	 */
-    private WebElement getSaveUserButton(){
-    	List<WebElement> buttonsArea = getWebElementPresent(By.id("userDetailsTab")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+	private WebElement getSaveUserButton(){
+		List<WebElement> buttonsArea = getWebElementPresent(By.id("userDetailsTab")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		WebElement saveUserButton = null;
 		for(WebElement span : buttonsArea){
 			if(span.getText().equals("Save")){
@@ -436,13 +442,13 @@ public class UsersPage extends BasePage implements IUsersPage {
 		}
 		return saveUserButton;
 	}
-    
-    /**
+
+	/**
 	 * Search the add user button dynaically, because doesn't have a fixed id and
 	 * dojo change it some times
 	 */
-    private WebElement getSaveUserRoleButton(){
-    	List<WebElement> buttonsArea = getWebElementPresent(By.id("userRolesTab")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+	private WebElement getSaveUserRoleButton(){
+		List<WebElement> buttonsArea = getWebElementPresent(By.id("userRolesTab")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		WebElement saveUserButton = null;
 		for(WebElement span : buttonsArea){
 			if(span.getText().equals("Save")){
@@ -452,13 +458,13 @@ public class UsersPage extends BasePage implements IUsersPage {
 		}
 		return saveUserButton;
 	}
-    
-    /**
+
+	/**
 	 * Search the add user button dynaically, because doesn't have a fixed id and
 	 * dojo change it some times
 	 */
-    private WebElement getAddUserTagButton(){
-    	List<WebElement> buttonsArea = getWebElementPresent(By.id("marketingInfoWrapper")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+	private WebElement getAddUserTagButton(){
+		List<WebElement> buttonsArea = getWebElementPresent(By.id("marketingInfoWrapper")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		WebElement addUserButton = null;
 		for(WebElement span : buttonsArea){
 			if(span.getText().equals("Update")){
@@ -468,8 +474,8 @@ public class UsersPage extends BasePage implements IUsersPage {
 		}
 		return addUserButton;
 	}
-    
-    /**
+
+	/**
 	 * Validate if the user have some visit history in the
 	 * user admin portlet
 	 * @param userEmail User email to search
@@ -492,6 +498,81 @@ public class UsersPage extends BasePage implements IUsersPage {
 		if(!value.equals("User has no visitor data available.")){
 			retValue = true;
 		}
+		getWebElementPresent(By.id("userClickHistoryDialog")).findElement(By.className("dijitDialogCloseIcon")).click();
 		return retValue;
+	}
+
+	/**
+	 * Return the tag suggestions for the text passed
+	 * @param userEmail User email to search
+	 * @param tagText Base text to search
+	 * @return The string suggestion for the tag text set
+	 */
+	public String getTagSuggestions(String tagText, String userEmail){
+		String retValue="";
+		//Search for the user a validate
+		if(loadUserInfo(userEmail)){
+			//open the marketing tab
+			userTabsContainer_tablist_marketingInfoTab.click();
+
+			//set the tag in the textarea to get the suggestions
+			tagName.sendKeys(tagText);
+			sleep();
+			//get the list of tags
+			List<WebElement> tagSuggestionsList = suggestedTagsDiv.findElements(By.tagName("a"));
+			for(WebElement a : tagSuggestionsList){
+				retValue+=a.getText()+",";
+			}
+		}
+		return retValue;
+	}
+
+	/**
+	 * Delete the user create in the test 
+	 * @param userId Id of the user to delete
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 */
+	public void dropUser(String userId, SeleniumConfig config) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{	
+		String url1 = config.getProperty("dbUrl");
+		String dbClass = config.getProperty("dbClassName");
+		String dbUser = config.getProperty("dbUser");
+		String dbPassword = config.getProperty("dbPassword");
+		try {
+			Class.forName(dbClass).newInstance();
+			//Get connection to DB
+			Connection con = DriverManager.getConnection(url1, dbUser, dbPassword);
+			//Create Statement
+			Statement stmt = (Statement) con.createStatement();
+			// method which returns the requested information as rows of data
+			stmt.execute("update inode set owner = 'dotcms.org.1' where owner = '"+userId+"'");
+			stmt.execute("update contentlet set mod_user =  'dotcms.org.1' where mod_user  = '"+userId+"'");
+			stmt.execute("update file_asset set mod_user =  'dotcms.org.1' where mod_user  = '"+userId+"'");
+			stmt.execute("update containers set mod_user =  'dotcms.org.1' where mod_user  = '"+userId+"'");
+			stmt.execute("update template set mod_user =  'dotcms.org.1' where mod_user  = '"+userId+"'");
+			stmt.execute("update htmlpage set mod_user =  'dotcms.org.1' where mod_user  = '"+userId+"'");
+			stmt.execute("update links set mod_user =  'dotcms.org.1' where mod_user  = '"+userId+"'");
+			stmt.execute("update contentlet_version_info set locked_by='dotcms.org.1' where locked_by  = '"+userId+"'");
+			stmt.execute("update htmlpage_version_info set locked_by='dotcms.org.1' where locked_by  = '"+userId+"'");
+			stmt.execute("update container_version_info set locked_by='dotcms.org.1' where locked_by  = '"+userId+"'");
+			stmt.execute("update fileasset_version_info set locked_by='dotcms.org.1' where locked_by  = '"+userId+"'");
+			stmt.execute("update template_version_info set locked_by='dotcms.org.1' where locked_by  = '"+userId+"'");
+			stmt.execute("update link_version_info set locked_by='dotcms.org.1' where locked_by  = '"+userId+"'");
+			stmt.execute("update workflow_task set created_by='dotcms.org.1' where created_by  = '"+userId+"'");
+			stmt.execute("update workflow_task set assigned_to='dotcms.org.1' where assigned_to  = '"+userId+"'");
+			stmt.execute("update workflow_comment set posted_by='dotcms.org.1' where posted_by  = '"+userId+"'");
+			stmt.execute("delete from permission where roleid in (select id from cms_role where role_key='"+userId+"')");
+			stmt.execute("delete from users_cms_roles where user_id= '"+userId+"'");
+			stmt.execute("delete from cms_role where role_key='"+userId+"'");
+			stmt.execute("delete from user_ where userid = '"+userId+"'");
+			//delete test tags
+			stmt.execute("delete from tag_inode where tag_id in (select tag_id from tag where tagname like 'group%' or tagname like 'my tag')");
+			stmt.execute("delete from tag where tagname like 'group%' or tagname like 'my tag'");
+
+		} catch(Exception e){
+			logger.error("Error deleting user."+e);
+		}
 	}
 }

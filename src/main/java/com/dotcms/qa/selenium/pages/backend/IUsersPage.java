@@ -1,10 +1,12 @@
 package com.dotcms.qa.selenium.pages.backend;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 import org.testng.Assert;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
+import com.dotcms.qa.selenium.util.SeleniumConfig;
 /**
  * Users Page Interface
  * @author Oswaldo Gallango
@@ -94,8 +96,21 @@ public interface IUsersPage extends IBasePage {
 	 * Validate if the user have some visit history in the
 	 * user admin portlet
 	 * @param userEmail User email to search
-	 * @return
+	 * @return true if the user have visit history set, false if not
 	 */
 	public boolean doesHaveVisitHistory(String userEmail);
 	
+	/**
+	 * Return the tag suggestions for the text passed
+	 * @param userEmail User email to search
+	 * @param tagText Base text to search
+	 * @return The string suggestion for the tag text set
+	 */
+	public String getTagSuggestions(String tagText, String userEmail);
+	
+	/**
+	 * Delete the user create in the test 
+	 * @param userId Id of the user to delete
+	 */
+	public void dropUser(String userId, SeleniumConfig config) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException;
 }
