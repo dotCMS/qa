@@ -20,5 +20,12 @@ public interface IPortletMenu extends IBasePage {
 	 */
 	public IUsersPage getUsersPage() throws Exception;
 	
+	/**
+	 * Get the Role manager page
+	 * @return ISiteBrowserPage
+	 * @throws Exception
+	 */
+	public IRolesPage getRolesPage() throws Exception;
+	
 	public WebElement getPortletElement(String portletTextKey);
 }

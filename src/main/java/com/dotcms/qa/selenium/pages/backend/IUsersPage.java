@@ -1,9 +1,6 @@
 package com.dotcms.qa.selenium.pages.backend;
 
-import java.sql.SQLException;
 import java.util.Map;
-
-import org.testng.Assert;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
@@ -21,7 +18,7 @@ public interface IUsersPage extends IBasePage {
 	 * @return boolean, true if the user exist, false if not.
 	 */
 	public boolean doesUserEmailExist(String email);
-	
+
 	/**
 	 * Add a user in dotCMS
 	 * @param firstname User firstname
@@ -30,7 +27,7 @@ public interface IUsersPage extends IBasePage {
 	 * @param password User password
 	 */
 	public void addUser(String firstname, String lastname, String email, String password);
-	
+
 	/**
 	 * Update the properties/fields set in the map for the user with the specified email address
 	 * @param email Current user email address 
@@ -38,14 +35,14 @@ public interface IUsersPage extends IBasePage {
 	 * @return true if the user was updated, false if not
 	 */
 	public boolean editUser(String email, Map<String,String> properties);
-	
+
 	/**
 	 * Get the map with the properties of the user to validate
 	 * @param email User email to search
 	 * @return Map with the user pages properties
 	 */
 	public Map<String,String> getUserProperties(String email);
-	
+
 	/**
 	 * Add the specified role to user.
 	 * @param roleName Role to add
@@ -53,7 +50,7 @@ public interface IUsersPage extends IBasePage {
 	 * @return true is the role was added, false if not
 	 */
 	public boolean addRoleToUser(String roleName, String userEmail);
-	
+
 	/**
 	 * Remove the specified role from the user.
 	 * @param roleName Role to remove
@@ -61,7 +58,7 @@ public interface IUsersPage extends IBasePage {
 	 * @return true is the role was removed, false if not
 	 */
 	public boolean removeRoleFromUser(String roleName, String userEmail);
-	
+
 	/**
 	 * Validate if the user have assigned the specified role
 	 * @param roleName Role to remove
@@ -69,14 +66,14 @@ public interface IUsersPage extends IBasePage {
 	 * @return true is the role is assigned, false if not
 	 */
 	public boolean doesUserHaveRole(String roleName, String userEmail);
-	
+
 	/**
 	 * Add a tag to a user in the user admin portlet
 	 * @param tag Tag to add
 	 * @param userEmail User email to search
 	 */
 	public void addTag(String tag, String userEmail);
-	
+
 	/**
 	 * Validates if the user have assigned that tag in the user admin portlet
 	 * @param tag Tag to add
@@ -84,14 +81,14 @@ public interface IUsersPage extends IBasePage {
 	 * @return true if the user have the tag, false if not
 	 */
 	public boolean doesHaveTag(String tag, String userEmail);
-	
+
 	/**
 	 * Remove a user tag in the user admin portlet
 	 * @param tag Tag to add
 	 * @param userEmail User email to search
 	 */
 	public void removeTag(String tag,String userEmail);
-	
+
 	/**
 	 * Validate if the user have some visit history in the
 	 * user admin portlet
@@ -99,7 +96,7 @@ public interface IUsersPage extends IBasePage {
 	 * @return true if the user have visit history set, false if not
 	 */
 	public boolean doesHaveVisitHistory(String userEmail);
-	
+
 	/**
 	 * Return the tag suggestions for the text passed
 	 * @param userEmail User email to search
@@ -107,10 +104,21 @@ public interface IUsersPage extends IBasePage {
 	 * @return The string suggestion for the tag text set
 	 */
 	public String getTagSuggestions(String tagText, String userEmail);
-	
+
 	/**
 	 * Delete the user create in the test 
 	 * @param userId Id of the user to delete
 	 */
 	public void dropUser(String userId, SeleniumConfig config);
+
+	/**
+	 * Sleep method
+	 * @param seconds
+	 */
+	public void sleep(int seconds); 
+
+	/**
+	 * Sleep method
+	 */
+	public void sleep(); 
 }

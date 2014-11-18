@@ -14,6 +14,7 @@ import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
 import com.dotcms.qa.selenium.pages.backend.IPortletMenu;
 import com.dotcms.qa.selenium.pages.backend.IUsersPage;
+import com.dotcms.qa.selenium.pages.backend.IRolesPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
@@ -30,6 +31,7 @@ public class UsersTest {
 
 	private IPortletMenu portletMenu = null;
 	private IUsersPage usersPage = null;
+	private IRolesPage rolesPage = null;
 	//BackEnd and FrontEnd managers
 	private SeleniumPageManager backendMgr = null;
 	private SeleniumPageManager frontendMgr = null;
@@ -62,7 +64,11 @@ public class UsersTest {
 	private final String frontendServices="services/private-banking/";
 	private final String frontendProducts ="products/";
 	private final String frontendLogoutPage="/dotCMS/logout";
-
+	
+	private final String roleWithApostrophe="China's reviewer";
+	private final String roleWithApostropheKey="tc14129";
+	private final String roleWithApostropheDescription="tc14129";
+	
 	/**
 	 * Initialize variables and login the user to the backend
 	 * @throws Exception
@@ -87,7 +93,6 @@ public class UsersTest {
 		
 		//Initialize portletMenu and UsersPage
 		portletMenu = backendMgr.getPageObject(IPortletMenu.class);
-		usersPage = portletMenu.getUsersPage();
 	}
 
 	/**
@@ -112,22 +117,13 @@ public class UsersTest {
 	}
 
 	/**
-	 * Sleep method
-	 */
-	public void sleep() {
-		try{
-			Thread.sleep(1000);
-		}catch(Exception e){
-			logger.error(e);
-		}
-	}
-	/**
 	 * Validate the search by user test case. Set here:
 	 * http://qa.dotcms.com/index.php?/cases/view/257
 	 * @throws Exception
 	 */
 	@Test (groups = {"Users"})
 	public void tc257_SearchUserByEmailAddress() throws Exception {
+		usersPage = portletMenu.getUsersPage();
 		//Verify an existing user
 		Assert.assertTrue(usersPage.doesUserEmailExist(backendUserEmail),"ERROR - The user should exist. User Email:"+backendUserEmail);
 
@@ -142,6 +138,7 @@ public class UsersTest {
 	 */
 	@Test (groups = {"Users"})
 	public void tc258_EditUser() throws Exception {
+		usersPage = portletMenu.getUsersPage();
 		Map<String, String> originalUser = usersPage.getUserProperties(editUserEmail);
 
 		String firstName2=originalUser.get("firstName")+"_tc258";
@@ -196,6 +193,7 @@ public class UsersTest {
 	 */
 	@Test (groups = {"Users"})
 	public void tc259_MarketingHistoryAndTag() throws Exception {
+		usersPage = portletMenu.getUsersPage();
 		/**
 		 * Add/Remove Tag
 		 */
@@ -223,25 +221,24 @@ public class UsersTest {
 		if(!haveVisitHistory){
 			//generate some visit history
 			IBasePage page = frontendMgr.loadPage(demoServerURL + frontendLoginPage);
-			sleep();
+			usersPage.sleep();
 			page.getWebElementPresent(By.id("macro-login-user-name")).clear();
 			page.getWebElementPresent(By.id("macro-login-user-name")).sendKeys(editUserEmail);
 			page.getWebElementPresent(By.id("macro-login-password")).clear();
 			page.getWebElementPresent(By.id("macro-login-password")).sendKeys(editUserPassword);
 			page.getWebElementPresent(By.id("macro-login-button")).click();
-			sleep();
+			usersPage.sleep(60);
 			page = frontendMgr.loadPage(demoServerURL + frontendIntranetPage);
-			sleep();
+			usersPage.sleep(30);
 			page = frontendMgr.loadPage(demoServerURL + frontendNews);
-			sleep();
+			usersPage.sleep(30);
 			page = frontendMgr.loadPage(demoServerURL +frontendResources);
-			sleep();
+			usersPage.sleep(30);
 			page = frontendMgr.loadPage(demoServerURL +frontendServices);
-			sleep();
+			usersPage.sleep(30);
 			page = frontendMgr.loadPage(demoServerURL +frontendProducts);
-			sleep();
+			usersPage.sleep(30);
 			page = frontendMgr.loadPage(demoServerURL + frontendLogoutPage);
-			sleep();
 			haveVisitHistory = usersPage.doesHaveVisitHistory(editUserEmail);
 		}
 		Assert.assertTrue(haveVisitHistory,"ERROR -  User does not have click history. User Email:"+editUserEmail);
@@ -254,6 +251,7 @@ public class UsersTest {
 	 */
 	@Test (groups = {"Users"})
 	public void tc261_AddUser() throws Exception{
+		usersPage = portletMenu.getUsersPage();
 		//Add a new User
 		usersPage.addUser(fakeFirstName, fakeLastName, fakeEmail, fakePassword);
 		//Verify if the user was created
@@ -267,6 +265,7 @@ public class UsersTest {
 	 */
 	@Test (groups = {"Users"})
 	public void tc263_AddRolesToUser() throws Exception{
+		usersPage = portletMenu.getUsersPage();
 		//Validate that the user doesn't have the role
 		Assert.assertFalse(usersPage.doesUserHaveRole(roleName, fakeEmail), "ERROR - User should not have assigned this role. UserEmail:"+fakeEmail+", Role:"+roleName);
 
@@ -290,6 +289,7 @@ public class UsersTest {
 	 */
 	@Test (groups = {"Users"})
 	public void tc655_AddSeveralTagsAndValidateSuggestion() throws Exception {
+		usersPage = portletMenu.getUsersPage();
 		/**
 		 * Add Tags
 		 */
@@ -297,7 +297,7 @@ public class UsersTest {
 			usersPage.addTag(tagBase+i,editUserEmail);
 		}
 		
-		sleep();
+		usersPage.sleep();
 		//get the suggested tag, base on the tagBase text
 		String suggestions = usersPage.getTagSuggestions(tagBase, fakeEmail);
 		for(int i =1; i <=20;i++ ){
@@ -308,6 +308,24 @@ public class UsersTest {
 		for(int i =1; i <=20;i++ ){
 			usersPage.removeTag(tagBase+i,editUserEmail);
 		}
+	}
+	
+	/**
+	 * Test adding role with apostrophe. Set here:
+	 * http://qa.dotcms.com/index.php?/cases/view/14129
+	 * @throws Exception
+	 */
+	@Test (groups = {"Users"})
+	public void tc14129_AddRoleWithApostrophe() throws Exception {
+		rolesPage = portletMenu.getRolesPage();
+		//Creating role with apostrophe
+		rolesPage.createRole(roleWithApostrophe, roleWithApostropheKey, roleWithApostropheDescription, true, true, true);
+		//Validate role creation
+		Assert.assertTrue(rolesPage.doesRoleExist(roleWithApostrophe), "ERROR - Role with apostrophe should exist. Role Name:"+roleWithApostrophe);
+		//Removing role with apostrophe
+		rolesPage.removeRole(roleWithApostrophe);
+		//validate role deletion
+		Assert.assertFalse(rolesPage.doesRoleExist(roleWithApostrophe), "ERROR - Role with apostrophe should not exist. Role Name:"+roleWithApostrophe);
 	}
 
 }

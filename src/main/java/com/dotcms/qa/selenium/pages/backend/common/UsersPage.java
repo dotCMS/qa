@@ -100,7 +100,19 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 */
 	public void sleep() {
 		try{
-			Thread.sleep(200);
+			Thread.sleep(1000);
+		}catch(Exception e){
+			logger.error(e);
+		}
+	}
+	
+	/**
+	 * Sleep method
+	 * @param seconds
+	 */
+	public void sleep(int seconds) {
+		try{
+			Thread.sleep(seconds*1000);
 		}catch(Exception e){
 			logger.error(e);
 		}
@@ -540,12 +552,14 @@ public class UsersPage extends BasePage implements IUsersPage {
 		String dbClass = config.getProperty("dbClassName");
 		String dbUser = config.getProperty("dbUser");
 		String dbPassword = config.getProperty("dbPassword");
+		Connection con = null;
+		Statement stmt = null;
 		try {
 			Class.forName(dbClass).newInstance();
 			//Get connection to DB
-			Connection con = DriverManager.getConnection(url1, dbUser, dbPassword);
+			con = DriverManager.getConnection(url1, dbUser, dbPassword);
 			//Create Statement
-			Statement stmt = (Statement) con.createStatement();
+			stmt = (Statement) con.createStatement();
 			// method which returns the requested information as rows of data
 			stmt.execute("update inode set owner = 'dotcms.org.1' where owner = '"+userId+"'");
 			stmt.execute("update contentlet set mod_user =  'dotcms.org.1' where mod_user  = '"+userId+"'");
@@ -568,11 +582,22 @@ public class UsersPage extends BasePage implements IUsersPage {
 			stmt.execute("delete from cms_role where role_key='"+userId+"'");
 			stmt.execute("delete from user_ where userid = '"+userId+"'");
 			//delete test tags
-			stmt.execute("delete from tag_inode where tag_id in (select tag_id from tag where tagname like 'group%' or tagname like 'my tag')");
-			stmt.execute("delete from tag where tagname like 'group%' or tagname like 'my tag'");
+			stmt.execute("delete from tag_inode where tag_id in (select tag_id from tag where tagname like 'group%' or tagname like 'my tc259 tag')");
+			stmt.execute("delete from tag where tagname like 'group%' or tagname like 'my tc259 tag'");
 
 		} catch(Exception e){
 			logger.error("ERROR - User could not be deleted. UserId:"+userId,e);
+		}finally{
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				logger.error("ERROR - closing db statement",e);
+			}
+			try {
+				con.close();
+			} catch (SQLException e) {
+				logger.error("ERROR - closing db connection",e);
+			}
 		}
 	}
 }
