@@ -49,9 +49,10 @@ public class UsersTest {
 	private final String fakePassword = "testUser123";
 	private String fakeUserId ="";
 
-	private final String editUserEmail = "steve@dotcms.com";
-	private final String editUserPassword="steve";
-	private final String tag = "My Tag";
+	private final String editUserEmail = "bill@dotcms.com";
+	private final String editUserPassword="bill";
+	private final String tag = "my tc259 tag";
+	private final String tagBase ="group";
 	private final String roleName = "CMS Administrator";
 
 	private final String frontendLoginPage="dotCMS/login?referrer=/intranet/";
@@ -83,7 +84,8 @@ public class UsersTest {
 
 		//Frontend login
 		frontendMgr = RegressionSuiteEnv.getFrontendPageManager(); 
-
+		
+		//Initialize portletMenu and UsersPage
 		portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		usersPage = portletMenu.getUsersPage();
 	}
@@ -114,7 +116,7 @@ public class UsersTest {
 	 */
 	public void sleep() {
 		try{
-			Thread.sleep(500);
+			Thread.sleep(1000);
 		}catch(Exception e){
 			logger.error(e);
 		}
@@ -127,10 +129,10 @@ public class UsersTest {
 	@Test (groups = {"Users"})
 	public void tc257_SearchUserByEmailAddress() throws Exception {
 		//Verify an existing user
-		Assert.assertTrue(usersPage.doesUserEmailExist(backendUserEmail));
+		Assert.assertTrue(usersPage.doesUserEmailExist(backendUserEmail),"ERROR - The user should exist. User Email:"+backendUserEmail);
 
 		//Verify a non existing user
-		Assert.assertFalse(usersPage.doesUserEmailExist(nonExistingUserEmail));     
+		Assert.assertFalse(usersPage.doesUserEmailExist(nonExistingUserEmail),"ERROR - The user should not exist. User Email:"+nonExistingUserEmail);     
 	}
 
 	/**
@@ -152,13 +154,13 @@ public class UsersTest {
 		properties.put("emailAddress", emailAddress2);
 
 		//Update User
-		Assert.assertTrue(usersPage.editUser(editUserEmail,properties));
+		Assert.assertTrue(usersPage.editUser(editUserEmail,properties),"ERROR - User could not be edited. User Email:"+editUserEmail);
 
 		//Verify if the user still exist with the previous email
-		Assert.assertFalse(usersPage.doesUserEmailExist(editUserEmail));     
+		Assert.assertFalse(usersPage.doesUserEmailExist(editUserEmail),"ERROR - User email was not edited. It is using the old User Email:"+editUserEmail);     
 
 		//Verify if the user exist with the new email
-		Assert.assertTrue(usersPage.doesUserEmailExist(emailAddress2)); 
+		Assert.assertTrue(usersPage.doesUserEmailExist(emailAddress2),"ERROR - User email was not edited. It is not using the new User Email:"+emailAddress2); 
 
 		//Validate that all the fields where modified
 		Map<String, String> currentUser = usersPage.getUserProperties(emailAddress2);
@@ -166,25 +168,25 @@ public class UsersTest {
 		/*
 		 * Validate user change
 		 */
-		Assert.assertTrue(firstName2.equals(currentUser.get("firstName"))); 
+		Assert.assertTrue(firstName2.equals(currentUser.get("firstName")),"ERROR - User first name was not edited. User Email:"+currentUser.get("emailAddress")); 
 		//validate last name change
-		Assert.assertTrue(lastName2.equals(currentUser.get("lastName"))); 
+		Assert.assertTrue(lastName2.equals(currentUser.get("lastName")),"ERROR - User last name was not edited. User Email:"+currentUser.get("emailAddress")); 
 		//validate email address
-		Assert.assertTrue(emailAddress2.equals(currentUser.get("emailAddress"))); 
+		Assert.assertTrue(emailAddress2.equals(currentUser.get("emailAddress")),"ERROR - User email was not edited. User Email:"+currentUser.get("emailAddress")); 
 
 		/*
 		 * Validate user restoration change
 		 */
-		Assert.assertTrue(usersPage.editUser(emailAddress2,originalUser));
+		Assert.assertTrue(usersPage.editUser(emailAddress2,originalUser),"ERROR - User could not be restored. User Email:"+emailAddress2);
 
 		//Validate that all the fields where modified
 		currentUser = usersPage.getUserProperties(originalUser.get("emailAddress"));
 
-		Assert.assertTrue(currentUser.get("firstName").equals(originalUser.get("firstName"))); 
+		Assert.assertTrue(currentUser.get("firstName").equals(originalUser.get("firstName")),"ERROR - User first name was not restored. User Email:"+currentUser.get("emailAddress")); 
 		//validate last name change
-		Assert.assertTrue(currentUser.get("lastName").equals(originalUser.get("lastName"))); 
+		Assert.assertTrue(currentUser.get("lastName").equals(originalUser.get("lastName")),"ERROR - User last name was not restored. User Email:"+currentUser.get("emailAddress")); 
 		//validate email address
-		Assert.assertTrue(currentUser.get("emailAddress").equals(originalUser.get("emailAddress"))); 
+		Assert.assertTrue(currentUser.get("emailAddress").equals(originalUser.get("emailAddress")),"ERROR - User email was not restored. User Email:"+currentUser.get("emailAddress")); 
 	}
 
 	/**
@@ -198,19 +200,19 @@ public class UsersTest {
 		 * Add/Remove Tag
 		 */
 		//validate that the user doesn't have the tag
-		Assert.assertFalse(usersPage.doesHaveTag(tag,editUserEmail));
+		Assert.assertFalse(usersPage.doesHaveTag(tag,editUserEmail),"ERROR - User should not have this tag assigned: User Email:"+editUserEmail+" , Tag:"+tag);
 
 		//add the tag
 		usersPage.addTag(tag,editUserEmail);
 
 		//validate that the tag was included
-		Assert.assertTrue(usersPage.doesHaveTag(tag,editUserEmail));
+		Assert.assertTrue(usersPage.doesHaveTag(tag,editUserEmail),"ERROR - User should have this tag assigned: User Email:"+editUserEmail+" , Tag:"+tag);
 
 		//remove the tag
 		usersPage.removeTag(tag,editUserEmail);
 
 		//validate that the tag was removed
-		Assert.assertFalse(usersPage.doesHaveTag(tag,editUserEmail));
+		Assert.assertFalse(usersPage.doesHaveTag(tag,editUserEmail),"ERROR - User should not have this tag assigned: User Email:"+editUserEmail+" , Tag:"+tag);
 
 		/**
 		 * View History
@@ -242,7 +244,7 @@ public class UsersTest {
 			sleep();
 			haveVisitHistory = usersPage.doesHaveVisitHistory(editUserEmail);
 		}
-		Assert.assertTrue(haveVisitHistory);
+		Assert.assertTrue(haveVisitHistory,"ERROR -  User does not have click history. User Email:"+editUserEmail);
 	}
 
 	/**
@@ -255,10 +257,7 @@ public class UsersTest {
 		//Add a new User
 		usersPage.addUser(fakeFirstName, fakeLastName, fakeEmail, fakePassword);
 		//Verify if the user was created
-		Assert.assertTrue(usersPage.doesUserEmailExist(fakeEmail));
-		//setting userId to delete at the end of the test
-		Map<String, String> fakeUser = usersPage.getUserProperties(fakeEmail);
-		fakeUserId = fakeUser.get("userId");
+		Assert.assertTrue(usersPage.doesUserEmailExist(fakeEmail), "ERROR - User was not created. UserEmail:"+fakeEmail);
 	}
 
 	/**
@@ -269,42 +268,43 @@ public class UsersTest {
 	@Test (groups = {"Users"})
 	public void tc263_AddRolesToUser() throws Exception{
 		//Validate that the user doesn't have the role
-		Assert.assertFalse(usersPage.doesUserHaveRole(roleName, fakeEmail));
+		Assert.assertFalse(usersPage.doesUserHaveRole(roleName, fakeEmail), "ERROR - User should not have assigned this role. UserEmail:"+fakeEmail+", Role:"+roleName);
 
 		//Add role
 		usersPage.addRoleToUser(roleName, fakeEmail);
 
 		//Validate that the user have the role
-		Assert.assertTrue(usersPage.doesUserHaveRole(roleName, fakeEmail));
+		Assert.assertTrue(usersPage.doesUserHaveRole(roleName, fakeEmail), "ERROR - User should have assigned this role. UserEmail:"+fakeEmail+", Role:"+roleName);
 
 		//Remove the role
 		usersPage.removeRoleFromUser(roleName, fakeEmail);
 
 		//Validate that the user doesn't have the role
-		Assert.assertFalse(usersPage.doesUserHaveRole(roleName, fakeEmail));
+		Assert.assertFalse(usersPage.doesUserHaveRole(roleName, fakeEmail), "ERROR - User should not have assigned this role. UserEmail:"+fakeEmail+", Role:"+roleName);
 	}
 
 	/**
-	 * Test Marketing History and add tag o user. Set here:
-	 * http://qa.dotcms.com/index.php?/cases/view/259
+	 * Test adding several tags to user and validate suggestion box. Set here:
+	 * http://qa.dotcms.com/index.php?/cases/view/655
 	 * @throws Exception
 	 */
 	@Test (groups = {"Users"})
 	public void tc655_AddSeveralTagsAndValidateSuggestion() throws Exception {
-		String tagBase ="group";
 		/**
 		 * Add Tags
 		 */
-		//add the tag
 		for(int i =1; i <=20;i++ ){
 			usersPage.addTag(tagBase+i,editUserEmail);
 		}
+		
 		sleep();
+		//get the suggested tag, base on the tagBase text
 		String suggestions = usersPage.getTagSuggestions(tagBase, fakeEmail);
 		for(int i =1; i <=20;i++ ){
-			Assert.assertTrue(suggestions.contains(tagBase+i));
+			Assert.assertTrue(suggestions.contains(tagBase+i+","), "ERROR - The tag should exist in suggestions box. Tag:"+tagBase+i);
 		}
-		//remove the tag
+		
+		//remove the tags from the user
 		for(int i =1; i <=20;i++ ){
 			usersPage.removeTag(tagBase+i,editUserEmail);
 		}

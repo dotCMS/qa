@@ -112,5 +112,5 @@ public interface IUsersPage extends IBasePage {
 	 * Delete the user create in the test 
 	 * @param userId Id of the user to delete
 	 */
-	public void dropUser(String userId, SeleniumConfig config) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException;
+	public void dropUser(String userId, SeleniumConfig config);
 }

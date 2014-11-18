@@ -419,7 +419,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		List<WebElement> buttonsArea = getWebElementPresent(By.className("buttonBoxRight")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		WebElement addUserButton = null;
 		for(WebElement span : buttonsArea){
-			if(span.getText().equals("Add User")){
+			if(span.getText().equals(getLocalizedString("Add-User"))){
 				addUserButton = span;
 				break;
 			}
@@ -435,7 +435,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		List<WebElement> buttonsArea = getWebElementPresent(By.id("userDetailsTab")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		WebElement saveUserButton = null;
 		for(WebElement span : buttonsArea){
-			if(span.getText().equals("Save")){
+			if(span.getText().equals(getLocalizedString("Save"))){
 				saveUserButton = span;
 				break;
 			}
@@ -451,7 +451,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		List<WebElement> buttonsArea = getWebElementPresent(By.id("userRolesTab")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		WebElement saveUserButton = null;
 		for(WebElement span : buttonsArea){
-			if(span.getText().equals("Save")){
+			if(span.getText().equals(getLocalizedString("Save"))){
 				saveUserButton = span;
 				break;
 			}
@@ -467,7 +467,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		List<WebElement> buttonsArea = getWebElementPresent(By.id("marketingInfoWrapper")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		WebElement addUserButton = null;
 		for(WebElement span : buttonsArea){
-			if(span.getText().equals("Update")){
+			if(span.getText().equals(getLocalizedString("update"))){
 				addUserButton = span;
 				break;
 			}
@@ -488,7 +488,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		//check Full Visit History
 		List<WebElement> buttonsArea = getWebElementPresent(By.id("marketingInfoWrapper")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement span : buttonsArea){
-			if(span.getText().equals("Full Visit History")){
+			if(span.getText().equals(getLocalizedString("Full-Visit-History"))){
 				span.click();
 				break;
 			}
@@ -521,7 +521,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 			//get the list of tags
 			List<WebElement> tagSuggestionsList = suggestedTagsDiv.findElements(By.tagName("a"));
 			for(WebElement a : tagSuggestionsList){
-				retValue+=a.getText()+",";
+				retValue+=a.getText().trim()+",";
 			}
 		}
 		return retValue;
@@ -535,7 +535,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 */
-	public void dropUser(String userId, SeleniumConfig config) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{	
+	public void dropUser(String userId, SeleniumConfig config){	
 		String url1 = config.getProperty("dbUrl");
 		String dbClass = config.getProperty("dbClassName");
 		String dbUser = config.getProperty("dbUser");
@@ -572,7 +572,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 			stmt.execute("delete from tag where tagname like 'group%' or tagname like 'my tag'");
 
 		} catch(Exception e){
-			logger.error("Error deleting user."+e);
+			logger.error("ERROR - User could not be deleted. UserId:"+userId,e);
 		}
 	}
 }
