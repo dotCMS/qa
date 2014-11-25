@@ -15,17 +15,24 @@ public interface IPortletMenu extends IBasePage {
 	
 	/**
 	 * Get the User manager page
-	 * @return ISiteBrowserPage
+	 * @return IUsersPage
 	 * @throws Exception
 	 */
 	public IUsersPage getUsersPage() throws Exception;
 	
 	/**
 	 * Get the Role manager page
-	 * @return ISiteBrowserPage
+	 * @return IRolesPage
 	 * @throws Exception
 	 */
 	public IRolesPage getRolesPage() throws Exception;
+	
+	/**
+	 * Get the Mailing List manager page
+	 * @return IMailingListPage
+	 * @throws Exception
+	 */
+	public IMailingListPage getMailingListPage() throws Exception;
 	
 	public WebElement getPortletElement(String portletTextKey);
 }

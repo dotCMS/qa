@@ -35,4 +35,20 @@ public interface IRolesPage extends IBasePage {
 	 */
 	public void removeRole(String name);
 	
+	/**
+	 * Include a new tab and portlet for a specific role
+	 * @param roleName Name of the role where the tab will be added
+	 * @param tabName Name of the new tab
+	 * @param portletName Name of the portlet to include
+	 * @return true if the portlet was added, false if not
+	 */
+	public boolean addPortletToRolesTabs(String roleName, String tabName, String portletName);
+	
+	/**
+	 * Remove the specified tab from the role indicated
+	 * @param roleName Name of the role where the tab will be removed
+	 * @param tabName Name of the tab 
+	 * @return
+	 */
+	public boolean removeTabFromRole(String roleName, String tabName);
 }

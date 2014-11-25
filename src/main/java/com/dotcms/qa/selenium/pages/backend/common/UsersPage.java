@@ -584,7 +584,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 			//delete test tags
 			stmt.execute("delete from tag_inode where tag_id in (select tag_id from tag where tagname like 'group%' or tagname like 'my tc259 tag')");
 			stmt.execute("delete from tag where tagname like 'group%' or tagname like 'my tc259 tag'");
-
+			
 		} catch(Exception e){
 			logger.error("ERROR - User could not be deleted. UserId:"+userId,e);
 		}finally{

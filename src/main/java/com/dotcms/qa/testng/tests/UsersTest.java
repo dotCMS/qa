@@ -1,6 +1,7 @@
 package com.dotcms.qa.testng.tests;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -12,6 +13,7 @@ import org.testng.annotations.Test;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
+import com.dotcms.qa.selenium.pages.backend.IMailingListPage;
 import com.dotcms.qa.selenium.pages.backend.IPortletMenu;
 import com.dotcms.qa.selenium.pages.backend.IUsersPage;
 import com.dotcms.qa.selenium.pages.backend.IRolesPage;
@@ -32,6 +34,7 @@ public class UsersTest {
 	private IPortletMenu portletMenu = null;
 	private IUsersPage usersPage = null;
 	private IRolesPage rolesPage = null;
+	private IMailingListPage mailingListPage=null;
 	//BackEnd and FrontEnd managers
 	private SeleniumPageManager backendMgr = null;
 	private SeleniumPageManager frontendMgr = null;
@@ -56,7 +59,9 @@ public class UsersTest {
 	private final String tag = "my tc259 tag";
 	private final String tagBase ="group";
 	private final String roleName = "CMS Administrator";
-
+	private final String tabName = "Mailing List";
+	private final String mailingListPortlet = "Mailing Lists";
+	private final String mailingListName="ct-262";
 	private final String frontendLoginPage="dotCMS/login?referrer=/intranet/";
 	private final String frontendIntranetPage="intranet/";
 	private final String frontendNews="news-events/news/";
@@ -69,6 +74,7 @@ public class UsersTest {
 	private final String roleWithApostropheKey="tc14129";
 	private final String roleWithApostropheDescription="tc14129";
 	
+	private SeleniumConfig config;
 	/**
 	 * Initialize variables and login the user to the backend
 	 * @throws Exception
@@ -76,7 +82,7 @@ public class UsersTest {
 	@BeforeGroups (groups = {"Users"})
 	public void init() throws Exception {
 		logger.info("**UsersTests.init() beginning**");
-		SeleniumConfig config = SeleniumConfig.getConfig();
+		config = SeleniumConfig.getConfig();
 		demoServerURL = config.getProperty("demoServerURL");
 		mobileServerURL = config.getProperty("mobileServerURL");
 		sharedServerURL = config.getProperty("sharedServerURL");
@@ -93,6 +99,12 @@ public class UsersTest {
 		
 		//Initialize portletMenu and UsersPage
 		portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		usersPage = portletMenu.getUsersPage();
+		Map<String, String> fakeUser = usersPage.getUserProperties(fakeEmail);
+		fakeUserId = fakeUser.get("userId");
+		if(fakeUserId != null && !fakeUserId.equals("")){
+			usersPage.dropUser(fakeUserId,SeleniumConfig.getConfig());
+		}
 	}
 
 	/**
@@ -103,12 +115,12 @@ public class UsersTest {
 	public void teardown() throws Exception {
 		logger.info("**UsersTests.teardown() beginning**");
 
-		//Need to add delete test user
 		//setting userId to delete at the end of the test
+		usersPage = portletMenu.getUsersPage();
 		Map<String, String> fakeUser = usersPage.getUserProperties(fakeEmail);
 		fakeUserId = fakeUser.get("userId");
 		if(fakeUserId != null && !fakeUserId.equals("")){
-			usersPage.dropUser(fakeUserId,SeleniumConfig.getConfig());
+			usersPage.dropUser(fakeUserId,config);
 		}
 
 		// logout
@@ -257,6 +269,49 @@ public class UsersTest {
 		//Verify if the user was created
 		Assert.assertTrue(usersPage.doesUserEmailExist(fakeEmail), "ERROR - User was not created. UserEmail:"+fakeEmail);
 	}
+	
+	/**
+	 * Test the Import users functionality. Set here:
+	 * http://qa.dotcms.com/index.php?/cases/view/262
+	 * @throws Exception
+	 */
+	@Test (groups = {"Users"})
+	public void tc262_importUser() throws Exception{
+		rolesPage = portletMenu.getRolesPage();
+		//Creating test tab with mailing list portlet
+		Assert.assertTrue(rolesPage.addPortletToRolesTabs(roleName, tabName, mailingListPortlet),"ERROR - The tab:"+tabName+" was not created.");;
+		//reload page to show new tab
+		rolesPage.reload();
+		//import user from mailing list tab
+		mailingListPage = portletMenu.getMailingListPage();
+		Assert.assertTrue(mailingListPage.loadUsers(mailingListName,config.getProperty("usersFilePath")),"ERROR - Users could not be imported. Mailing List:"+mailingListName);
+		
+		//validate that the users where imported
+		List<String> users = mailingListPage.getMailingListSubscribers(mailingListName);
+		Assert.assertTrue(users.size() > 0,"ERROR - The users could not be imported in the mailing list tab. Mailing List:"+mailingListName);
+		
+		usersPage = portletMenu.getUsersPage();
+		//validate the user where created and delete it
+		for(String user : users){
+			//validate user
+			Assert.assertTrue(usersPage.doesUserEmailExist(user),"ERROR - The user should exist. User Email:"+user);
+			
+			//delete User
+			Map<String, String> userData = usersPage.getUserProperties(user);
+			usersPage.dropUser(userData.get("userId"), config);
+			
+			//validate user
+			Assert.assertFalse(usersPage.doesUserEmailExist(user),"ERROR - The user should not exist. User Email:"+user);
+		}
+		//Delete mailing list
+		mailingListPage = portletMenu.getMailingListPage();
+		Assert.assertTrue(mailingListPage.deleteMailingList(mailingListName),"ERROR - Mailing List could not be deleted. Mailing List:"+mailingListName);
+		
+		//removing roles
+		rolesPage = portletMenu.getRolesPage();
+		Assert.assertTrue(rolesPage.removeTabFromRole(roleName, tabName),"ERROR - The tab:"+tabName+" was not removed.");
+	}
+
 
 	/**
 	 * Test the add user roles functionality. Set here:

@@ -21,7 +21,9 @@ dependencies {
    	[group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'],
    	[group: 'net.sourceforge.jtds', name: 'jtds', version: '1.2.2'],
    	[group: 'mysql', name: 'mysql-connector-java', version: '5.1.33'],
-   	[group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc3']
+   	[group: 'postgresql', name: 'postgresql', version: '9.0-801.jdbc3'],
+   	[group: 'com.h2database', name: 'h2', version:'1.3.176'],
+   	[group: 'com.oracle', name: 'ojdbc5', version:'11.1.6.0']
    	
    )
 }
