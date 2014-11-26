@@ -4,8 +4,8 @@ import java.text.DateFormat;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -13,6 +13,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -268,5 +269,33 @@ public class BasePage implements IBasePage {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		obj =  js.executeScript(script);
 		return obj;
+	}
+	
+	/**
+	 * Get the browser name and version
+	 * @return String
+	 */
+	public String getBrowserNameAndVersion(){
+		String browser_version = null;
+		Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
+		String browsername = cap.getBrowserName();
+		// This block to find out IE Version number
+		if ("internet explorer".equalsIgnoreCase(browsername)) {
+			String uAgent = (String) ((JavascriptExecutor) driver).executeScript("return navigator.userAgent;");
+			System.out.println(uAgent);
+			//uAgent return as "MSIE 8.0 Windows" for IE8
+			if (uAgent.contains("MSIE") && uAgent.contains("Windows")) {
+				browser_version = uAgent.substring(uAgent.indexOf("MSIE")+5, uAgent.indexOf("Windows")-2);
+			} else if (uAgent.contains("Trident/7.0")) {
+				browser_version = "11.0";
+			} else {
+				browser_version = "0.0";
+			}
+		} else{
+			//Browser version for Firefox and Chrome
+			browser_version = cap.getVersion();
+		}
+		String browserversion = browser_version.substring(0, browser_version.indexOf("."));
+		return browsername + "_" + browserversion;
 	}
 }

@@ -142,12 +142,14 @@ public class UsersPage extends BasePage implements IUsersPage {
 	public void addUser(String firstname, String lastname, String email, String userPassword){
 		//Click the add user button
 		getAddUserButton().click();
+		sleep();
 		//set the user parameters
 		firstName.sendKeys(firstname);
 		lastName.sendKeys(lastname);
 		emailAddress.sendKeys(email);
 		password.sendKeys(userPassword);
 		passwordCheck.sendKeys(userPassword);
+		sleep();
 		//Click the save button
 		getSaveUserButton().click();
 	}
@@ -164,6 +166,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		if(loadUserInfo(email)){
 			//Load User details tab
 			userTabsContainer_tablist_userDetailsTab.click();
+			sleep();
 			//edit the user properties
 			for(String key : properties.keySet()){
 				if(key.equals("firstName")){
@@ -224,6 +227,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		if(loadUserInfo(userEmail)){
 			//load roles tab
 			userTabsContainer_tablist_userRolesTab.click();
+			sleep();
 			//Expand roles tree for search until second level deep
 			List<WebElement> imgs = getWebElementsPresent(By.cssSelector("img[class='dijitTreeExpando dijitTreeExpandoClosed'][src='/html/js/dojo/release/dojo/dojo/resources/blank.gif']"));
 			for(WebElement img :  imgs){
@@ -233,6 +237,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 					logger.trace("error expanding roles", e);
 				}
 			}
+			sleep();
 			//checking roles list
 			List<WebElement> spans = getWebElementPresent(By.id("treeNode-root")).findElements(By.tagName("span"));
 			for(WebElement elem :  spans){
@@ -245,8 +250,10 @@ public class UsersPage extends BasePage implements IUsersPage {
 						checkboxId = checkboxId.replace("_label", "")+"_chk";
 						WebElement checkbox = getWebElementPresent(By.id("treeNode-root")).findElement(By.id(checkboxId));
 						checkbox.click();
+						sleep();
 						//Add role to roles granted list
 						addUserRoleBtn_label.click();
+						sleep();
 						//Save role change
 						getSaveUserRoleButton().click();
 						retValue = true;
@@ -272,6 +279,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		if(loadUserInfo(userEmail)){
 			//load roles tab
 			userTabsContainer_tablist_userRolesTab.click();
+			sleep();
 			List<WebElement> options = userRolesSelect.findElements(By.tagName("option"));
 			for(WebElement option : options){
 				if(option.getAttribute("title").indexOf(roleName) != -1){
@@ -284,6 +292,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 			}
 			//remove from select lisst
 			removeUserRoleBtn_label.click();
+			sleep();
 			//save role change
 			getSaveUserRoleButton().click();
 		}
@@ -301,6 +310,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		if(loadUserInfo(userEmail)){
 			//load roles tab
 			userTabsContainer_tablist_userRolesTab.click();
+			sleep();
 			List<WebElement> options = userRolesSelect.findElements(By.tagName("option"));
 			for(WebElement option : options){
 				if(option.getAttribute("title").indexOf(roleName) != -1){
@@ -321,7 +331,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		boolean retValue = false;
 		usersFilter.clear();
 		usersFilter.sendKeys(userEmail);
-		sleep();
+		sleep(2);
 		//Search in the right panel for the search results
 		List<WebElement> rows = getWebElementPresent(By.id("dijit_layout_ContentPane_2")).findElements(By.tagName("td"));
 		for(WebElement row : rows) {
@@ -329,6 +339,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 				if(row.getText().trim().equals(userEmail)) {
 					//load the user form
 					row.click();
+					sleep();
 					retValue = true;
 					break;
 				}
@@ -353,7 +364,9 @@ public class UsersPage extends BasePage implements IUsersPage {
 		if(loadUserInfo(userEmail)){
 			//open the marketing tab
 			userTabsContainer_tablist_marketingInfoTab.click();
+			sleep();
 			//set the tag in the textarea
+			tagName.clear();
 			tagName.sendKeys(tag);
 			//press the update button
 			getAddUserTagButton().click();
@@ -373,6 +386,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		if(loadUserInfo(userEmail)){
 			//open the marketing tab
 			userTabsContainer_tablist_marketingInfoTab.click();
+			sleep();
 			//get the list of tags
 			List<WebElement> tagsList = tags_table.findElements(By.tagName("tr"));
 			for(WebElement row : tagsList){
@@ -402,6 +416,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		if(loadUserInfo(userEmail)){
 			//open the marketing tab
 			userTabsContainer_tablist_marketingInfoTab.click();
+			sleep();
 			//get the list of tags
 			List<WebElement> tagsList = tags_table.findElements(By.tagName("tr"));
 			for(WebElement row : tagsList){
@@ -497,6 +512,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		boolean retValue = false;
 		//open the marketing tab
 		userTabsContainer_tablist_marketingInfoTab.click();
+		sleep();
 		//check Full Visit History
 		List<WebElement> buttonsArea = getWebElementPresent(By.id("marketingInfoWrapper")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement span : buttonsArea){
@@ -526,7 +542,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		if(loadUserInfo(userEmail)){
 			//open the marketing tab
 			userTabsContainer_tablist_marketingInfoTab.click();
-
+			sleep();
 			//set the tag in the textarea to get the suggestions
 			tagName.sendKeys(tagText);
 			sleep();

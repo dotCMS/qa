@@ -81,10 +81,12 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 	public boolean loadUsers(String mailingListName, String filePath) {
 		boolean retValue=false;
 		comboCreate_arrow.click();
+		sleep();
 		List<WebElement> options = createMenu.findElements(By.tagName("td"));
 		for(WebElement option : options){
 			if(option.getText().equals(getLocalizedString("Load-Users"))){
 				option.click();
+				sleep();
 				//set mailing list title
 				usermanagerListTitle.sendKeys(mailingListName);
 				//upload the csv users file
@@ -113,7 +115,7 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 			for(WebElement column : columns){
 				if(column.getText().equals(mailingList)){
 					column.click();
-					
+					sleep();
 					//load the mailing list
 					List<WebElement> elements = subscribersTable.findElements(By.tagName("td"));
 					for(WebElement elem: elements){
@@ -146,7 +148,12 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 			for(WebElement column : columns){
 				if(column.getText().equals(mailingList)){
 					WebElement checkbox = row.findElement(By.cssSelector("input[type='checkbox']"));
-					checkbox.sendKeys(Keys.SPACE);
+					if(getBrowserNameAndVersion().indexOf("firefox") != -1){
+						checkbox.sendKeys(Keys.SPACE);
+					}else{
+						checkbox.click();
+					}
+					sleep();
 					getDeleteListButton().click();
 					sleep();
 					this.switchToAlert().accept();

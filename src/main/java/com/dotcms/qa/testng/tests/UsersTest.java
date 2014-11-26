@@ -211,15 +211,18 @@ public class UsersTest {
 		 */
 		//validate that the user doesn't have the tag
 		Assert.assertFalse(usersPage.doesHaveTag(tag,editUserEmail),"ERROR - User should not have this tag assigned: User Email:"+editUserEmail+" , Tag:"+tag);
+		sleep();
 
 		//add the tag
 		usersPage.addTag(tag,editUserEmail);
 
 		//validate that the tag was included
 		Assert.assertTrue(usersPage.doesHaveTag(tag,editUserEmail),"ERROR - User should have this tag assigned: User Email:"+editUserEmail+" , Tag:"+tag);
+		sleep();
 
 		//remove the tag
 		usersPage.removeTag(tag,editUserEmail);
+		sleep();
 
 		//validate that the tag was removed
 		Assert.assertFalse(usersPage.doesHaveTag(tag,editUserEmail),"ERROR - User should not have this tag assigned: User Email:"+editUserEmail+" , Tag:"+tag);
@@ -233,24 +236,30 @@ public class UsersTest {
 		if(!haveVisitHistory){
 			//generate some visit history
 			IBasePage page = frontendMgr.loadPage(demoServerURL + frontendLoginPage);
-			usersPage.sleep();
+			sleep();
 			page.getWebElementPresent(By.id("macro-login-user-name")).clear();
 			page.getWebElementPresent(By.id("macro-login-user-name")).sendKeys(editUserEmail);
 			page.getWebElementPresent(By.id("macro-login-password")).clear();
 			page.getWebElementPresent(By.id("macro-login-password")).sendKeys(editUserPassword);
 			page.getWebElementPresent(By.id("macro-login-button")).click();
-			usersPage.sleep(60);
+			sleep(60);
 			page = frontendMgr.loadPage(demoServerURL + frontendIntranetPage);
-			usersPage.sleep(30);
+			sleep(30);
 			page = frontendMgr.loadPage(demoServerURL + frontendNews);
-			usersPage.sleep(30);
+			sleep(30);
 			page = frontendMgr.loadPage(demoServerURL +frontendResources);
-			usersPage.sleep(30);
+			sleep(30);
 			page = frontendMgr.loadPage(demoServerURL +frontendServices);
-			usersPage.sleep(30);
+			sleep(30);
 			page = frontendMgr.loadPage(demoServerURL +frontendProducts);
-			usersPage.sleep(30);
+			sleep(30);
 			page = frontendMgr.loadPage(demoServerURL + frontendLogoutPage);
+			sleep(30);
+			page = frontendMgr.loadPage(mobileServerURL);
+			sleep(30);
+			page = frontendMgr.loadPage(sharedServerURL);
+			sleep(10);
+
 			haveVisitHistory = usersPage.doesHaveVisitHistory(editUserEmail);
 		}
 		Assert.assertTrue(haveVisitHistory,"ERROR -  User does not have click history. User Email:"+editUserEmail);
@@ -285,7 +294,8 @@ public class UsersTest {
 		//import user from mailing list tab
 		mailingListPage = portletMenu.getMailingListPage();
 		Assert.assertTrue(mailingListPage.loadUsers(mailingListName,config.getProperty("usersFilePath")),"ERROR - Users could not be imported. Mailing List:"+mailingListName);
-		
+		sleep();
+
 		//validate that the users where imported
 		List<String> users = mailingListPage.getMailingListSubscribers(mailingListName);
 		Assert.assertTrue(users.size() > 0,"ERROR - The users could not be imported in the mailing list tab. Mailing List:"+mailingListName);
@@ -303,9 +313,12 @@ public class UsersTest {
 			//validate user
 			Assert.assertFalse(usersPage.doesUserEmailExist(user),"ERROR - The user should not exist. User Email:"+user);
 		}
+		sleep();
+
 		//Delete mailing list
 		mailingListPage = portletMenu.getMailingListPage();
 		Assert.assertTrue(mailingListPage.deleteMailingList(mailingListName),"ERROR - Mailing List could not be deleted. Mailing List:"+mailingListName);
+		sleep();
 		
 		//removing roles
 		rolesPage = portletMenu.getRolesPage();
@@ -326,12 +339,15 @@ public class UsersTest {
 
 		//Add role
 		usersPage.addRoleToUser(roleName, fakeEmail);
+		sleep();
 
 		//Validate that the user have the role
 		Assert.assertTrue(usersPage.doesUserHaveRole(roleName, fakeEmail), "ERROR - User should have assigned this role. UserEmail:"+fakeEmail+", Role:"+roleName);
+		sleep();
 
 		//Remove the role
 		usersPage.removeRoleFromUser(roleName, fakeEmail);
+		sleep();
 
 		//Validate that the user doesn't have the role
 		Assert.assertFalse(usersPage.doesUserHaveRole(roleName, fakeEmail), "ERROR - User should not have assigned this role. UserEmail:"+fakeEmail+", Role:"+roleName);
@@ -345,23 +361,26 @@ public class UsersTest {
 	@Test (groups = {"Users"})
 	public void tc655_AddSeveralTagsAndValidateSuggestion() throws Exception {
 		usersPage = portletMenu.getUsersPage();
+		sleep();
+
 		/**
 		 * Add Tags
 		 */
 		for(int i =1; i <=20;i++ ){
 			usersPage.addTag(tagBase+i,editUserEmail);
+			sleep();
 		}
 		
-		usersPage.sleep();
 		//get the suggested tag, base on the tagBase text
 		String suggestions = usersPage.getTagSuggestions(tagBase, fakeEmail);
 		for(int i =1; i <=20;i++ ){
 			Assert.assertTrue(suggestions.contains(tagBase+i+","), "ERROR - The tag should exist in suggestions box. Tag:"+tagBase+i);
 		}
-		
+
 		//remove the tags from the user
 		for(int i =1; i <=20;i++ ){
 			usersPage.removeTag(tagBase+i,editUserEmail);
+			sleep();
 		}
 	}
 	
@@ -375,12 +394,39 @@ public class UsersTest {
 		rolesPage = portletMenu.getRolesPage();
 		//Creating role with apostrophe
 		rolesPage.createRole(roleWithApostrophe, roleWithApostropheKey, roleWithApostropheDescription, true, true, true);
+		sleep();
 		//Validate role creation
 		Assert.assertTrue(rolesPage.doesRoleExist(roleWithApostrophe), "ERROR - Role with apostrophe should exist. Role Name:"+roleWithApostrophe);
+		sleep();
+
 		//Removing role with apostrophe
 		rolesPage.removeRole(roleWithApostrophe);
+		sleep();
+
 		//validate role deletion
 		Assert.assertFalse(rolesPage.doesRoleExist(roleWithApostrophe), "ERROR - Role with apostrophe should not exist. Role Name:"+roleWithApostrophe);
 	}
 
+	/**
+	 * Sleep method
+	 */
+	public void sleep() {
+		try{
+			Thread.sleep(1000);
+		}catch(Exception e){
+			logger.error(e);
+		}
+	}
+	
+	/**
+	 * Sleep method
+	 * @param seconds
+	 */
+	public void sleep(int seconds) {
+		try{
+			Thread.sleep(seconds*1000);
+		}catch(Exception e){
+			logger.error(e);
+		}
+	}
 }

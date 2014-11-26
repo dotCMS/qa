@@ -114,7 +114,7 @@ public class RolesPage extends BasePage implements IRolesPage {
 	public void createRole(String name, String key, String description, boolean canEditUser, boolean canEditPermision, boolean canEitTabs){
 		//click add role button
 		getAddRoleButton().click();
-
+		sleep();
 		//set text inputs
 		//roleName.clear();
 		roleName.sendKeys(name);
@@ -204,8 +204,7 @@ public class RolesPage extends BasePage implements IRolesPage {
 			sleep();
 			getDeleteRoleButton().click();
 			sleep();
-			Alert alert = this.switchToAlert();
-			alert.accept();
+			this.switchToAlert().accept();
 		}
 
 	}
@@ -296,12 +295,12 @@ public class RolesPage extends BasePage implements IRolesPage {
 						//set tab name
 						layoutName.sendKeys(tabName);
 						//set the portlet to include
-						portletList.sendKeys(tabName);
+						portletList.sendKeys(portletName);
 					}else{
 						//open the tab
 						selectedTab.click();
 						//set the portlet to include
-						portletList.sendKeys(tabName);
+						portletList.sendKeys(portletName);
 					}
 					sleep();
 					getAddToolButton().click();
@@ -318,7 +317,11 @@ public class RolesPage extends BasePage implements IRolesPage {
 							if(column.getText().equals(tabName)){
 								WebElement checkbox = tab.findElement(By.tagName("input"));
 								if(!checkbox.isSelected()){
-									checkbox.sendKeys(Keys.SPACE);
+									if(getBrowserNameAndVersion().indexOf("firefox") != -1){
+										checkbox.sendKeys(Keys.SPACE);
+									}else{
+										checkbox.click();
+									}
 									sleep();
 									saveRoleLayoutsButton_label.click();
 								}
