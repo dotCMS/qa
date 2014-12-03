@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -46,12 +47,12 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 	/**
 	 * combo box
 	 */
-	private WebElement  comboCreate_arrow;
+	//private WebElement  comboCreate_arrow;
 	
 	/**
 	 * combobox options
 	 */
-	private WebElement createMenu;
+	//private WebElement createMenu;
 	
 	/**
 	 * mailing list name
@@ -80,19 +81,29 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 	 */
 	public boolean loadUsers(String mailingListName, String filePath) {
 		boolean retValue=false;
-		comboCreate_arrow.click();
 		sleep();
-		List<WebElement> options = createMenu.findElements(By.tagName("td"));
+		getWebElementPresent(By.id("comboCreate_arrow")).click();
+		sleep();
+		List<WebElement> options = getWebElementPresent(By.id("comboCreate_dropdown")).findElements(By.tagName("td"));
 		for(WebElement option : options){
 			if(option.getText().equals(getLocalizedString("Load-Users"))){
 				option.click();
 				sleep();
-				//set mailing list title
-				usermanagerListTitle.sendKeys(mailingListName);
 				//upload the csv users file
 				File file = new File(filePath);
 				mydriver.findElement(By.cssSelector("input[type='file'][name='_EXT_16_newUsersFile']")).sendKeys(file.getAbsolutePath());
-				loadButton_label.click();
+				sleep();
+				//set mailing list title
+				if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+					//chrome have issue with some web elements in that cases we use javascript calls
+					JavascriptExecutor js = ((JavascriptExecutor)mydriver);
+					js.executeScript ("document.getElementById('usermanagerListTitle').value='"+mailingListName+"'");
+					js.executeScript ("document.getElementById('loadButton_label').click()");
+				}else{
+					usermanagerListTitle.sendKeys(mailingListName);
+					loadButton_label.click();
+				}
+				sleep();
 				retValue=true;
 				break;
 			}

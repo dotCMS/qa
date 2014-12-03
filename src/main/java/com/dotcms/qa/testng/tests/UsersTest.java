@@ -253,13 +253,33 @@ public class UsersTest {
 			sleep(30);
 			page = frontendMgr.loadPage(demoServerURL +frontendProducts);
 			sleep(30);
-			page = frontendMgr.loadPage(demoServerURL + frontendLogoutPage);
+			//page = frontendMgr.loadPage(demoServerURL + frontendLogoutPage);
 			sleep(30);
 			page = frontendMgr.loadPage(mobileServerURL);
 			sleep(30);
 			page = frontendMgr.loadPage(sharedServerURL);
 			sleep(10);
-
+			
+			//generate some visit history
+			/*page = frontendMgr.loadPage(demoServerURL + frontendLoginPage);
+			sleep();
+			page.getWebElementPresent(By.id("macro-login-user-name")).clear();
+			page.getWebElementPresent(By.id("macro-login-user-name")).sendKeys(editUserEmail);
+			page.getWebElementPresent(By.id("macro-login-password")).clear();
+			page.getWebElementPresent(By.id("macro-login-password")).sendKeys(editUserPassword);
+			page.getWebElementPresent(By.id("macro-login-button")).click();
+			sleep(60);*/
+			page = frontendMgr.loadPage(demoServerURL + frontendIntranetPage);
+			sleep(30);
+			page = frontendMgr.loadPage(demoServerURL + frontendNews);
+			sleep(30);
+			page = frontendMgr.loadPage(demoServerURL +frontendResources);
+			sleep(30);
+			page = frontendMgr.loadPage(demoServerURL +frontendServices);
+			sleep(30);
+			page = frontendMgr.loadPage(demoServerURL +frontendProducts);
+			sleep(30);
+			page = frontendMgr.loadPage(demoServerURL + frontendLogoutPage);
 			haveVisitHistory = usersPage.doesHaveVisitHistory(editUserEmail);
 		}
 		Assert.assertTrue(haveVisitHistory,"ERROR -  User does not have click history. User Email:"+editUserEmail);
@@ -372,7 +392,7 @@ public class UsersTest {
 		}
 		
 		//get the suggested tag, base on the tagBase text
-		String suggestions = usersPage.getTagSuggestions(tagBase, fakeEmail);
+		String suggestions = usersPage.getTagSuggestions(tagBase, editUserEmail);
 		for(int i =1; i <=20;i++ ){
 			Assert.assertTrue(suggestions.contains(tagBase+i+","), "ERROR - The tag should exist in suggestions box. Tag:"+tagBase+i);
 		}

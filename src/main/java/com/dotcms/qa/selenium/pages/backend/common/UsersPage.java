@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -118,8 +119,10 @@ public class UsersPage extends BasePage implements IUsersPage {
 		}
 	}
 
+	private WebDriver mydriver;
 	public UsersPage(WebDriver driver) {
 		super(driver);
+		mydriver=driver;
 	}
 
 	/**
@@ -363,11 +366,18 @@ public class UsersPage extends BasePage implements IUsersPage {
 		//Search for the user a validate
 		if(loadUserInfo(userEmail)){
 			//open the marketing tab
-			userTabsContainer_tablist_marketingInfoTab.click();
-			sleep();
-			//set the tag in the textarea
-			tagName.clear();
-			tagName.sendKeys(tag);
+			if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+				//chrome have issue with some web elements in that cases we use javascript calls
+				JavascriptExecutor js = ((JavascriptExecutor)mydriver);
+				js.executeScript ("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
+				js.executeScript ("document.getElementById('tagName').value='"+tag+"'");
+			}else{
+				userTabsContainer_tablist_marketingInfoTab.click();
+				sleep();
+				//set the tag in the textarea
+				tagName.clear();
+				tagName.sendKeys(tag);
+			}
 			//press the update button
 			getAddUserTagButton().click();
 
@@ -385,7 +395,13 @@ public class UsersPage extends BasePage implements IUsersPage {
 		//Search for the user a validate
 		if(loadUserInfo(userEmail)){
 			//open the marketing tab
-			userTabsContainer_tablist_marketingInfoTab.click();
+			if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+				//chrome have issue with some web elements in that cases we use javascript calls
+				JavascriptExecutor js = ((JavascriptExecutor)mydriver);
+				js.executeScript ("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
+			}else{
+				userTabsContainer_tablist_marketingInfoTab.click();
+			}
 			sleep();
 			//get the list of tags
 			List<WebElement> tagsList = tags_table.findElements(By.tagName("tr"));
@@ -415,7 +431,13 @@ public class UsersPage extends BasePage implements IUsersPage {
 		//Search for the user a validate
 		if(loadUserInfo(userEmail)){
 			//open the marketing tab
-			userTabsContainer_tablist_marketingInfoTab.click();
+			if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+				//chrome have issue with some web elements in that cases we use javascript calls
+				JavascriptExecutor js = ((JavascriptExecutor)mydriver);
+				js.executeScript ("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
+			}else{
+				userTabsContainer_tablist_marketingInfoTab.click();
+			}
 			sleep();
 			//get the list of tags
 			List<WebElement> tagsList = tags_table.findElements(By.tagName("tr"));
@@ -431,7 +453,14 @@ public class UsersPage extends BasePage implements IUsersPage {
 				//remove the tag if exist
 				if(retValue){
 					WebElement removebutton = row.findElement(By.tagName("a"));
-					removebutton.click();
+					if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+						String value = removebutton.getAttribute("href");
+						//chrome have issue with some web elements in that cases we use javascript calls
+						JavascriptExecutor js = ((JavascriptExecutor)mydriver);
+						js.executeScript ("var v = document.getElementById('tags_table').getElementsByTagName('a');for(var i =0;i < v.length; i++){if(v[i].href==\""+value+"\"){v[i].click();break;}}");
+					}else{
+						removebutton.click();
+					}
 					break;
 				}
 			}
@@ -511,7 +540,13 @@ public class UsersPage extends BasePage implements IUsersPage {
 	public boolean doesHaveVisitHistory(String userEmail){
 		boolean retValue = false;
 		//open the marketing tab
-		userTabsContainer_tablist_marketingInfoTab.click();
+		if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+			//chrome have issue with some web elements in that cases we use javascript calls
+			JavascriptExecutor js = ((JavascriptExecutor)mydriver);
+			js.executeScript ("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
+		}else{
+			userTabsContainer_tablist_marketingInfoTab.click();
+		}
 		sleep();
 		//check Full Visit History
 		List<WebElement> buttonsArea = getWebElementPresent(By.id("marketingInfoWrapper")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
@@ -541,8 +576,14 @@ public class UsersPage extends BasePage implements IUsersPage {
 		//Search for the user a validate
 		if(loadUserInfo(userEmail)){
 			//open the marketing tab
-			userTabsContainer_tablist_marketingInfoTab.click();
-			sleep();
+			if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+				//chrome have issue with some web elements in that cases we use javascript calls
+				JavascriptExecutor js = ((JavascriptExecutor)mydriver);
+				js.executeScript ("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
+			}else{
+				userTabsContainer_tablist_marketingInfoTab.click();
+			}
+			sleep(1);
 			//set the tag in the textarea to get the suggestions
 			tagName.sendKeys(tagText);
 			sleep();
