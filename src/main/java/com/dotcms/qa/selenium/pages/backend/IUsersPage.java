@@ -106,12 +106,6 @@ public interface IUsersPage extends IBasePage {
 	public String getTagSuggestions(String tagText, String userEmail);
 
 	/**
-	 * Delete the user create in the test 
-	 * @param userId Id of the user to delete
-	 */
-	public void dropUser(String userId, SeleniumConfig config);
-
-	/**
 	 * Sleep method
 	 * @param seconds
 	 */

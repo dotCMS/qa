@@ -15,8 +15,8 @@ import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
 import com.dotcms.qa.selenium.pages.backend.IMailingListPage;
 import com.dotcms.qa.selenium.pages.backend.IPortletMenu;
-import com.dotcms.qa.selenium.pages.backend.IUsersPage;
 import com.dotcms.qa.selenium.pages.backend.IRolesPage;
+import com.dotcms.qa.selenium.pages.backend.IUsersPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
@@ -57,7 +57,7 @@ public class UsersTest {
 	private final String editUserEmail = "bill@dotcms.com";
 	private final String editUserPassword="bill";
 	private final String tag = "my tc259 tag";
-	private final String tagBase ="group";
+	private final String tagBase ="tcgroup";
 	private final String roleName = "CMS Administrator";
 	private final String tabName = "Mailing List";
 	private final String mailingListPortlet = "Mailing Lists";
@@ -69,11 +69,11 @@ public class UsersTest {
 	private final String frontendServices="services/private-banking/";
 	private final String frontendProducts ="products/";
 	private final String frontendLogoutPage="/dotCMS/logout";
-	
+
 	private final String roleWithApostrophe="China's reviewer";
 	private final String roleWithApostropheKey="tc14129";
 	private final String roleWithApostropheDescription="tc14129";
-	
+
 	private SeleniumConfig config;
 	/**
 	 * Initialize variables and login the user to the backend
@@ -96,14 +96,17 @@ public class UsersTest {
 
 		//Frontend login
 		frontendMgr = RegressionSuiteEnv.getFrontendPageManager(); 
-		
+
 		//Initialize portletMenu and UsersPage
 		portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		usersPage = portletMenu.getUsersPage();
 		Map<String, String> fakeUser = usersPage.getUserProperties(fakeEmail);
 		fakeUserId = fakeUser.get("userId");
 		if(fakeUserId != null && !fakeUserId.equals("")){
-			usersPage.dropUser(fakeUserId,SeleniumConfig.getConfig());
+			//usersPage.dropUser(fakeUserId,config);
+			frontendMgr.loadPage(demoServerURL + "api/automation/tag/delete/tagname/"+tag+"/user/admin@dotcms.com/password/admin");
+			frontendMgr.loadPage(demoServerURL + "api/automation/tag/delete/tagname/"+tagBase+"/user/admin@dotcms.com/password/admin");
+			frontendMgr.loadPage(demoServerURL + "api/automation/user/delete/userId/"+fakeUserId+"/user/admin@dotcms.com/password/admin");
 		}
 	}
 
@@ -120,7 +123,10 @@ public class UsersTest {
 		Map<String, String> fakeUser = usersPage.getUserProperties(fakeEmail);
 		fakeUserId = fakeUser.get("userId");
 		if(fakeUserId != null && !fakeUserId.equals("")){
-			usersPage.dropUser(fakeUserId,config);
+			//usersPage.dropUser(fakeUserId,config);
+			frontendMgr.loadPage(demoServerURL + "api/automation/tag/delete/tagname/"+tag+"/user/admin@dotcms.com/password/admin");
+			frontendMgr.loadPage(demoServerURL + "api/automation/tag/delete/tagname/"+tagBase+"/user/admin@dotcms.com/password/admin");
+			frontendMgr.loadPage(demoServerURL + "api/automation/user/delete/userId/"+fakeUserId+"/user/admin@dotcms.com/password/admin");
 		}
 
 		// logout
@@ -259,7 +265,7 @@ public class UsersTest {
 			sleep(30);
 			page = frontendMgr.loadPage(sharedServerURL);
 			sleep(10);
-			
+
 			//generate some visit history
 			/*page = frontendMgr.loadPage(demoServerURL + frontendLoginPage);
 			sleep();
@@ -298,7 +304,7 @@ public class UsersTest {
 		//Verify if the user was created
 		Assert.assertTrue(usersPage.doesUserEmailExist(fakeEmail), "ERROR - User was not created. UserEmail:"+fakeEmail);
 	}
-	
+
 	/**
 	 * Test the Import users functionality. Set here:
 	 * http://qa.dotcms.com/index.php?/cases/view/262
@@ -319,17 +325,17 @@ public class UsersTest {
 		//validate that the users where imported
 		List<String> users = mailingListPage.getMailingListSubscribers(mailingListName);
 		Assert.assertTrue(users.size() > 0,"ERROR - The users could not be imported in the mailing list tab. Mailing List:"+mailingListName);
-		
+
 		usersPage = portletMenu.getUsersPage();
 		//validate the user where created and delete it
 		for(String user : users){
 			//validate user
 			Assert.assertTrue(usersPage.doesUserEmailExist(user),"ERROR - The user should exist. User Email:"+user);
-			
+
 			//delete User
 			Map<String, String> userData = usersPage.getUserProperties(user);
-			usersPage.dropUser(userData.get("userId"), config);
-			
+			frontendMgr.loadPage(demoServerURL + "api/automation/user/delete/userId/"+userData.get("userId")+"/user/admin@dotcms.com/password/admin");
+
 			//validate user
 			Assert.assertFalse(usersPage.doesUserEmailExist(user),"ERROR - The user should not exist. User Email:"+user);
 		}
@@ -339,7 +345,7 @@ public class UsersTest {
 		mailingListPage = portletMenu.getMailingListPage();
 		Assert.assertTrue(mailingListPage.deleteMailingList(mailingListName),"ERROR - Mailing List could not be deleted. Mailing List:"+mailingListName);
 		sleep();
-		
+
 		//removing roles
 		rolesPage = portletMenu.getRolesPage();
 		Assert.assertTrue(rolesPage.removeTabFromRole(roleName, tabName),"ERROR - The tab:"+tabName+" was not removed.");
@@ -389,8 +395,11 @@ public class UsersTest {
 		for(int i =1; i <=20;i++ ){
 			usersPage.addTag(tagBase+i,editUserEmail);
 			sleep();
+			if(!usersPage.doesHaveTag(tagBase+i,editUserEmail)){
+				usersPage.addTag(tagBase+i,editUserEmail);
+			}
 		}
-		
+
 		//get the suggested tag, base on the tagBase text
 		String suggestions = usersPage.getTagSuggestions(tagBase, editUserEmail);
 		for(int i =1; i <=20;i++ ){
@@ -403,7 +412,7 @@ public class UsersTest {
 			sleep();
 		}
 	}
-	
+
 	/**
 	 * Test adding role with apostrophe. Set here:
 	 * http://qa.dotcms.com/index.php?/cases/view/14129
@@ -437,7 +446,7 @@ public class UsersTest {
 			logger.error(e);
 		}
 	}
-	
+
 	/**
 	 * Sleep method
 	 * @param seconds
