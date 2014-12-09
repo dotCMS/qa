@@ -15,10 +15,9 @@ public interface IMailingListPage extends IBasePage {
 
 	/**
 	 * Import a csv user file in dotcms
-	 * @param filePath locstion of the csv file
 	 * @return true if the user where imported, false if not
 	 */
-	public boolean loadUsers(String mailingListName, String filePath);
+	public boolean loadUsers(String mailingListName);
 	
 	/**
 	 * Get the list of email addresses of the user subscribed to the mailing list

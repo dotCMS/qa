@@ -23,28 +23,6 @@ import com.dotcms.qa.selenium.pages.common.BasePage;
  */
 public class RolesPage extends BasePage implements IRolesPage {
 
-	/**
-	 * Sleep method
-	 */
-	public void sleep() {
-		try{
-			Thread.sleep(1000);
-		}catch(Exception e){
-			logger.error(e);
-		}
-	}
-
-	/**
-	 * Sleep method
-	 * @param seconds
-	 */
-	public void sleep(int seconds) {
-		try{
-			Thread.sleep(seconds*1000);
-		}catch(Exception e){
-			logger.error(e);
-		}
-	}
 	
 	public RolesPage(WebDriver driver) {
 		super(driver);
@@ -317,7 +295,7 @@ public class RolesPage extends BasePage implements IRolesPage {
 							if(column.getText().equals(tabName)){
 								WebElement checkbox = tab.findElement(By.tagName("input"));
 								if(!checkbox.isSelected()){
-									if(getBrowserNameAndVersion().indexOf("firefox") != -1){
+									if(getBrowserName().equals("firefox")){
 										checkbox.sendKeys(Keys.SPACE);
 									}else{
 										checkbox.click();

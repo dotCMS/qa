@@ -1,8 +1,11 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
@@ -25,23 +28,16 @@ import com.dotcms.qa.selenium.pages.common.BasePage;
  */
 public class MailingListPage  extends BasePage implements IMailingListPage {
 
+
+	/*
+	 * Users file path
+	 */
+	private final String usersFilePath="/src/main/resources/users.csv";
+	
 	private static final Logger logger = Logger.getLogger(MailingListPage.class);
 
-	/**
-	 * Sleep method
-	 */
-	public void sleep() {
-		try{
-			Thread.sleep(1000);
-		}catch(Exception e){
-			logger.error(e);
-		}
-	}
-	
-	private WebDriver mydriver;
 	public MailingListPage(WebDriver driver) {
 		super(driver);
-		mydriver=driver;
 	}
 
 	/**
@@ -79,7 +75,7 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 	 * @param filePath locstion of the csv file
 	 * @return true if the user where imported, false if not
 	 */
-	public boolean loadUsers(String mailingListName, String filePath) {
+	public boolean loadUsers(String mailingListName) {
 		boolean retValue=false;
 		sleep();
 		getWebElementPresent(By.id("comboCreate_arrow")).click();
@@ -90,15 +86,15 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 				option.click();
 				sleep();
 				//upload the csv users file
-				File file = new File(filePath);
-				mydriver.findElement(By.cssSelector("input[type='file'][name='_EXT_16_newUsersFile']")).sendKeys(file.getAbsolutePath());
+				String path = System.getProperty("user.dir");
+				File file = new File(path+usersFilePath);
+				getWebElement(By.cssSelector("input[type='file'][name='_EXT_16_newUsersFile']")).sendKeys(file.getAbsolutePath());
 				sleep();
 				//set mailing list title
-				if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+				if(getBrowserName().equals("chrome")){
 					//chrome have issue with some web elements in that cases we use javascript calls
-					JavascriptExecutor js = ((JavascriptExecutor)mydriver);
-					js.executeScript ("document.getElementById('usermanagerListTitle').value='"+mailingListName+"'");
-					js.executeScript ("document.getElementById('loadButton_label').click()");
+					executeJavaScript("document.getElementById('usermanagerListTitle').value='"+mailingListName+"'");
+					executeJavaScript("document.getElementById('loadButton_label').click()");
 				}else{
 					usermanagerListTitle.sendKeys(mailingListName);
 					loadButton_label.click();
@@ -159,7 +155,7 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 			for(WebElement column : columns){
 				if(column.getText().equals(mailingList)){
 					WebElement checkbox = row.findElement(By.cssSelector("input[type='checkbox']"));
-					if(getBrowserNameAndVersion().indexOf("firefox") != -1){
+					if(getBrowserName().equals("firefox")){
 						checkbox.sendKeys(Keys.SPACE);
 					}else{
 						checkbox.click();

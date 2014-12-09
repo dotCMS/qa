@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
 
-import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
 import com.dotcms.qa.selenium.pages.backend.IMailingListPage;
 import com.dotcms.qa.selenium.pages.backend.IPortletMenu;
@@ -19,6 +17,7 @@ import com.dotcms.qa.selenium.pages.backend.IRolesPage;
 import com.dotcms.qa.selenium.pages.backend.IUsersPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.UsersPageUtil;
 
 /**
  * This class manage the TestRail suite of test for Users
@@ -103,10 +102,9 @@ public class UsersTest {
 		Map<String, String> fakeUser = usersPage.getUserProperties(fakeEmail);
 		fakeUserId = fakeUser.get("userId");
 		if(fakeUserId != null && !fakeUserId.equals("")){
-			//usersPage.dropUser(fakeUserId,config);
-			frontendMgr.loadPage(demoServerURL + "api/automation/tag/delete/tagname/"+tag+"/user/admin@dotcms.com/password/admin");
-			frontendMgr.loadPage(demoServerURL + "api/automation/tag/delete/tagname/"+tagBase+"/user/admin@dotcms.com/password/admin");
-			frontendMgr.loadPage(demoServerURL + "api/automation/user/delete/userId/"+fakeUserId+"/user/admin@dotcms.com/password/admin");
+			UsersPageUtil.deleteTag(tag);
+			UsersPageUtil.deleteTag(tagBase);
+			UsersPageUtil.deleteUser(fakeUserId);
 		}
 	}
 
@@ -123,10 +121,9 @@ public class UsersTest {
 		Map<String, String> fakeUser = usersPage.getUserProperties(fakeEmail);
 		fakeUserId = fakeUser.get("userId");
 		if(fakeUserId != null && !fakeUserId.equals("")){
-			//usersPage.dropUser(fakeUserId,config);
-			frontendMgr.loadPage(demoServerURL + "api/automation/tag/delete/tagname/"+tag+"/user/admin@dotcms.com/password/admin");
-			frontendMgr.loadPage(demoServerURL + "api/automation/tag/delete/tagname/"+tagBase+"/user/admin@dotcms.com/password/admin");
-			frontendMgr.loadPage(demoServerURL + "api/automation/user/delete/userId/"+fakeUserId+"/user/admin@dotcms.com/password/admin");
+			UsersPageUtil.deleteTag(tag);
+			UsersPageUtil.deleteTag(tagBase);
+			UsersPageUtil.deleteUser(fakeUserId);
 		}
 
 		// logout
@@ -241,51 +238,35 @@ public class UsersTest {
 
 		if(!haveVisitHistory){
 			//generate some visit history
-			IBasePage page = frontendMgr.loadPage(demoServerURL + frontendLoginPage);
-			sleep();
-			page.getWebElementPresent(By.id("macro-login-user-name")).clear();
-			page.getWebElementPresent(By.id("macro-login-user-name")).sendKeys(editUserEmail);
-			page.getWebElementPresent(By.id("macro-login-password")).clear();
-			page.getWebElementPresent(By.id("macro-login-password")).sendKeys(editUserPassword);
-			page.getWebElementPresent(By.id("macro-login-button")).click();
+			UsersPageUtil.frontEndLogin(demoServerURL + frontendLoginPage,editUserEmail,editUserPassword);
 			sleep(60);
-			page = frontendMgr.loadPage(demoServerURL + frontendIntranetPage);
+			frontendMgr.loadPage(demoServerURL + frontendIntranetPage);
 			sleep(30);
-			page = frontendMgr.loadPage(demoServerURL + frontendNews);
+			frontendMgr.loadPage(demoServerURL + frontendNews);
 			sleep(30);
-			page = frontendMgr.loadPage(demoServerURL +frontendResources);
+			frontendMgr.loadPage(demoServerURL +frontendResources);
 			sleep(30);
-			page = frontendMgr.loadPage(demoServerURL +frontendServices);
+			frontendMgr.loadPage(demoServerURL +frontendServices);
 			sleep(30);
-			page = frontendMgr.loadPage(demoServerURL +frontendProducts);
+			frontendMgr.loadPage(demoServerURL +frontendProducts);
 			sleep(30);
-			//page = frontendMgr.loadPage(demoServerURL + frontendLogoutPage);
+			frontendMgr.loadPage(mobileServerURL);
 			sleep(30);
-			page = frontendMgr.loadPage(mobileServerURL);
-			sleep(30);
-			page = frontendMgr.loadPage(sharedServerURL);
+			frontendMgr.loadPage(sharedServerURL);
 			sleep(10);
 
 			//generate some visit history
-			/*page = frontendMgr.loadPage(demoServerURL + frontendLoginPage);
-			sleep();
-			page.getWebElementPresent(By.id("macro-login-user-name")).clear();
-			page.getWebElementPresent(By.id("macro-login-user-name")).sendKeys(editUserEmail);
-			page.getWebElementPresent(By.id("macro-login-password")).clear();
-			page.getWebElementPresent(By.id("macro-login-password")).sendKeys(editUserPassword);
-			page.getWebElementPresent(By.id("macro-login-button")).click();
-			sleep(60);*/
-			page = frontendMgr.loadPage(demoServerURL + frontendIntranetPage);
+			frontendMgr.loadPage(demoServerURL + frontendIntranetPage);
 			sleep(30);
-			page = frontendMgr.loadPage(demoServerURL + frontendNews);
+			frontendMgr.loadPage(demoServerURL + frontendNews);
 			sleep(30);
-			page = frontendMgr.loadPage(demoServerURL +frontendResources);
+			frontendMgr.loadPage(demoServerURL +frontendResources);
 			sleep(30);
-			page = frontendMgr.loadPage(demoServerURL +frontendServices);
+			frontendMgr.loadPage(demoServerURL +frontendServices);
 			sleep(30);
-			page = frontendMgr.loadPage(demoServerURL +frontendProducts);
+			frontendMgr.loadPage(demoServerURL +frontendProducts);
 			sleep(30);
-			page = frontendMgr.loadPage(demoServerURL + frontendLogoutPage);
+			frontendMgr.loadPage(demoServerURL + frontendLogoutPage);
 			haveVisitHistory = usersPage.doesHaveVisitHistory(editUserEmail);
 		}
 		Assert.assertTrue(haveVisitHistory,"ERROR -  User does not have click history. User Email:"+editUserEmail);
@@ -319,7 +300,7 @@ public class UsersTest {
 		rolesPage.reload();
 		//import user from mailing list tab
 		mailingListPage = portletMenu.getMailingListPage();
-		Assert.assertTrue(mailingListPage.loadUsers(mailingListName,config.getProperty("usersFilePath")),"ERROR - Users could not be imported. Mailing List:"+mailingListName);
+		Assert.assertTrue(mailingListPage.loadUsers(mailingListName),"ERROR - Users could not be imported. Mailing List:"+mailingListName);
 		sleep();
 
 		//validate that the users where imported
@@ -334,7 +315,7 @@ public class UsersTest {
 
 			//delete User
 			Map<String, String> userData = usersPage.getUserProperties(user);
-			frontendMgr.loadPage(demoServerURL + "api/automation/user/delete/userId/"+userData.get("userId")+"/user/admin@dotcms.com/password/admin");
+			UsersPageUtil.deleteUser(userData.get("userId"));
 
 			//validate user
 			Assert.assertFalse(usersPage.doesUserEmailExist(user),"ERROR - The user should not exist. User Email:"+user);

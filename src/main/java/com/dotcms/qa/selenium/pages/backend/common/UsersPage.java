@@ -96,33 +96,8 @@ public class UsersPage extends BasePage implements IUsersPage {
 	private WebElement passwordCheck;
 	private WebElement userIdValue;
 
-	/**
-	 * Sleep method
-	 */
-	public void sleep() {
-		try{
-			Thread.sleep(1000);
-		}catch(Exception e){
-			logger.error(e);
-		}
-	}
-	
-	/**
-	 * Sleep method
-	 * @param seconds
-	 */
-	public void sleep(int seconds) {
-		try{
-			Thread.sleep(seconds*1000);
-		}catch(Exception e){
-			logger.error(e);
-		}
-	}
-
-	private WebDriver mydriver;
 	public UsersPage(WebDriver driver) {
 		super(driver);
-		mydriver=driver;
 	}
 
 	/**
@@ -132,7 +107,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 */
 	public boolean doesUserEmailExist(String email) {
 		//if the user info is load is because the user exist
-		return loadUserInfo(email);		
+		return selectUser(email);		
 	}
 
 	/**
@@ -166,7 +141,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	public boolean editUser(String email, Map<String,String> properties){
 		boolean retValue = false;
 		//Search for the user info
-		if(loadUserInfo(email)){
+		if(selectUser(email)){
 			//Load User details tab
 			userTabsContainer_tablist_userDetailsTab.click();
 			sleep();
@@ -204,7 +179,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 */
 	public Map<String,String> getUserProperties(String email){
 		Map<String,String> properties = new HashMap<String, String>();
-		if(loadUserInfo(email)){
+		if(selectUser(email)){
 
 			//Load User details tab
 			userTabsContainer_tablist_userDetailsTab.click();
@@ -227,7 +202,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 */
 	public boolean addRoleToUser(String roleName, String userEmail){
 		boolean retValue = false;
-		if(loadUserInfo(userEmail)){
+		if(selectUser(userEmail)){
 			//load roles tab
 			userTabsContainer_tablist_userRolesTab.click();
 			sleep();
@@ -279,7 +254,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 */
 	public boolean removeRoleFromUser(String roleName, String userEmail){
 		boolean retValue = false;
-		if(loadUserInfo(userEmail)){
+		if(selectUser(userEmail)){
 			//load roles tab
 			userTabsContainer_tablist_userRolesTab.click();
 			sleep();
@@ -310,7 +285,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 */
 	public boolean doesUserHaveRole(String roleName, String userEmail){
 		boolean retValue = false;
-		if(loadUserInfo(userEmail)){
+		if(selectUser(userEmail)){
 			//load roles tab
 			userTabsContainer_tablist_userRolesTab.click();
 			sleep();
@@ -330,7 +305,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 * @param userEmail User email address
 	 * @return true is the User info was load, false if not
 	 */
-	private boolean loadUserInfo(String userEmail){
+	private boolean selectUser(String userEmail){
 		boolean retValue = false;
 		usersFilter.clear();
 		usersFilter.sendKeys(userEmail);
@@ -364,13 +339,12 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 */
 	public void addTag(String tag, String userEmail){
 		//Search for the user a validate
-		if(loadUserInfo(userEmail)){
+		if(selectUser(userEmail)){
 			//open the marketing tab
-			if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+			if(getBrowserName().equals("chrome")){
 				//chrome have issue with some web elements in that cases we use javascript calls
-				JavascriptExecutor js = ((JavascriptExecutor)mydriver);
-				js.executeScript ("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
-				js.executeScript ("document.getElementById('tagName').value='"+tag+"'");
+				executeJavaScript("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
+				executeJavaScript("document.getElementById('tagName').value='"+tag+"'");
 			}else{
 				userTabsContainer_tablist_marketingInfoTab.click();
 				sleep();
@@ -393,12 +367,11 @@ public class UsersPage extends BasePage implements IUsersPage {
 	public boolean doesHaveTag(String tag, String userEmail){
 		boolean retValue = false;
 		//Search for the user a validate
-		if(loadUserInfo(userEmail)){
+		if(selectUser(userEmail)){
 			//open the marketing tab
-			if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+			if(getBrowserName().equals("chrome")){
 				//chrome have issue with some web elements in that cases we use javascript calls
-				JavascriptExecutor js = ((JavascriptExecutor)mydriver);
-				js.executeScript ("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
+				executeJavaScript("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
 			}else{
 				userTabsContainer_tablist_marketingInfoTab.click();
 			}
@@ -429,12 +402,11 @@ public class UsersPage extends BasePage implements IUsersPage {
 	public void removeTag(String tag,String userEmail){
 		boolean retValue = false;
 		//Search for the user a validate
-		if(loadUserInfo(userEmail)){
+		if(selectUser(userEmail)){
 			//open the marketing tab
-			if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+			if(getBrowserName().equals("chrome")){
 				//chrome have issue with some web elements in that cases we use javascript calls
-				JavascriptExecutor js = ((JavascriptExecutor)mydriver);
-				js.executeScript ("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
+				executeJavaScript("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
 			}else{
 				userTabsContainer_tablist_marketingInfoTab.click();
 			}
@@ -453,11 +425,10 @@ public class UsersPage extends BasePage implements IUsersPage {
 				//remove the tag if exist
 				if(retValue){
 					WebElement removebutton = row.findElement(By.tagName("a"));
-					if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+					if(getBrowserName().equals("chrome")){
 						String value = removebutton.getAttribute("href");
 						//chrome have issue with some web elements in that cases we use javascript calls
-						JavascriptExecutor js = ((JavascriptExecutor)mydriver);
-						js.executeScript ("var v = document.getElementById('tags_table').getElementsByTagName('a');for(var i =0;i < v.length; i++){if(v[i].href==\""+value+"\"){v[i].click();break;}}");
+						executeJavaScript("var v = document.getElementById('tags_table').getElementsByTagName('a');for(var i =0;i < v.length; i++){if(v[i].href==\""+value+"\"){v[i].click();break;}}");
 					}else{
 						removebutton.click();
 					}
@@ -540,10 +511,9 @@ public class UsersPage extends BasePage implements IUsersPage {
 	public boolean doesHaveVisitHistory(String userEmail){
 		boolean retValue = false;
 		//open the marketing tab
-		if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+		if(getBrowserName().equals("chrome")){
 			//chrome have issue with some web elements in that cases we use javascript calls
-			JavascriptExecutor js = ((JavascriptExecutor)mydriver);
-			js.executeScript ("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
+			executeJavaScript("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
 		}else{
 			userTabsContainer_tablist_marketingInfoTab.click();
 		}
@@ -574,12 +544,11 @@ public class UsersPage extends BasePage implements IUsersPage {
 	public String getTagSuggestions(String tagText, String userEmail){
 		String retValue="";
 		//Search for the user a validate
-		if(loadUserInfo(userEmail)){
+		if(selectUser(userEmail)){
 			//open the marketing tab
-			if(getBrowserNameAndVersion().indexOf("chrome") != -1){
+			if(getBrowserName().equals("chrome")){
 				//chrome have issue with some web elements in that cases we use javascript calls
-				JavascriptExecutor js = ((JavascriptExecutor)mydriver);
-				js.executeScript ("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
+				executeJavaScript("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
 			}else{
 				userTabsContainer_tablist_marketingInfoTab.click();
 			}

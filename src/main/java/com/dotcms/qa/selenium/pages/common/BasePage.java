@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
+import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.util.language.LanguageManager;
 
 
@@ -275,27 +276,30 @@ public class BasePage implements IBasePage {
 	 * Get the browser name and version
 	 * @return String
 	 */
-	public String getBrowserNameAndVersion(){
-		String browser_version = null;
-		Capabilities cap = ((RemoteWebDriver) driver).getCapabilities();
-		String browsername = cap.getBrowserName();
-		// This block to find out IE Version number
-		if ("internet explorer".equalsIgnoreCase(browsername)) {
-			String uAgent = (String) ((JavascriptExecutor) driver).executeScript("return navigator.userAgent;");
-			System.out.println(uAgent);
-			//uAgent return as "MSIE 8.0 Windows" for IE8
-			if (uAgent.contains("MSIE") && uAgent.contains("Windows")) {
-				browser_version = uAgent.substring(uAgent.indexOf("MSIE")+5, uAgent.indexOf("Windows")-2);
-			} else if (uAgent.contains("Trident/7.0")) {
-				browser_version = "11.0";
-			} else {
-				browser_version = "0.0";
-			}
-		} else{
-			//Browser version for Firefox and Chrome
-			browser_version = cap.getVersion();
+	public String getBrowserName(){
+		return SeleniumConfig.getConfig().getProperty("browserToTarget").toLowerCase();
+	}
+	
+	/**
+	 * Sleep method
+	 */
+	public void sleep() {
+		try{
+			Thread.sleep(1000);
+		}catch(Exception e){
+			logger.error(e);
 		}
-		String browserversion = browser_version.substring(0, browser_version.indexOf("."));
-		return browsername + "_" + browserversion;
+	}
+	
+	/**
+	 * Sleep method
+	 * @param seconds
+	 */
+	public void sleep(int seconds) {
+		try{
+			Thread.sleep(seconds*1000);
+		}catch(Exception e){
+			logger.error(e);
+		}
 	}
 }
