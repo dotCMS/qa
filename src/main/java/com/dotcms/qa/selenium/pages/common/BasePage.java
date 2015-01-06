@@ -19,6 +19,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
+import com.dotcms.qa.util.WebKeys;
 import com.dotcms.qa.util.language.LanguageManager;
 
 
@@ -198,10 +199,19 @@ public class BasePage implements IBasePage {
 
 	public void hoverOverElement(WebElement element){
 		Actions builder = new Actions(driver);
-		builder.moveToElement(element).build().perform();
+		if(getBrowserName().equals(WebKeys.SAFARI_BROWSER_NAME)){
+			String mouseOverScript = "if(document.createEvent){var evObj = document.createEvent('MouseEvents');evObj.initEvent('mouseover', true, false); arguments[0].dispatchEvent(evObj);} else if(document.createEventObject) { arguments[0].fireEvent('onmouseover');}";
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript(mouseOverScript, element);
+		}else{
+			builder.moveToElement(element).build().perform();
+		}
 		try{Thread.sleep(1000);} catch(InterruptedException e){}
 	}
 
+	/**
+	 * Move the mouse to the specified webelement
+	 */
 	public void moveToElement(WebElement element) {
 		// actions moveToElement does not seem to work in chrome or firefox until selenium ver 2.40
 		Actions builder = new Actions(driver);

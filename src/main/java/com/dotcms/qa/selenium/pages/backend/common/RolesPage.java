@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.backend.IRolesPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
+import com.dotcms.qa.util.WebKeys;
 
 /**
  * This class implements the methods defined in the IRolesPage interface
@@ -182,7 +183,12 @@ public class RolesPage extends BasePage implements IRolesPage {
 			sleep();
 			getDeleteRoleButton().click();
 			sleep();
-			this.switchToAlert().accept();
+			if(getBrowserName().equals(WebKeys.SAFARI_BROWSER_NAME)){
+				Alert alert = this.switchToAlert();
+				alert.accept();
+			}else{
+				this.switchToAlert().accept();
+			}
 		}
 
 	}
@@ -295,7 +301,7 @@ public class RolesPage extends BasePage implements IRolesPage {
 							if(column.getText().equals(tabName)){
 								WebElement checkbox = tab.findElement(By.tagName("input"));
 								if(!checkbox.isSelected()){
-									if(getBrowserName().equals("firefox")){
+									if(getBrowserName().equals(WebKeys.FIREFOX_BROWSER_NAME)){
 										checkbox.sendKeys(Keys.SPACE);
 									}else{
 										checkbox.click();

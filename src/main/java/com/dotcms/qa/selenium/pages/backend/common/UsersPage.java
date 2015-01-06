@@ -19,6 +19,7 @@ import org.openqa.selenium.WebElement;
 import com.dotcms.qa.selenium.pages.backend.IUsersPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
+import com.dotcms.qa.util.WebKeys;
 
 /**
  * This class implements the methods defined in the IUserPage interface
@@ -263,7 +264,9 @@ public class UsersPage extends BasePage implements IUsersPage {
 				if(option.getAttribute("title").indexOf(roleName) != -1){
 					retValue=true;
 					option.click();
-					option.click();
+					if(!getBrowserName().equals(WebKeys.SAFARI_BROWSER_NAME)){
+						option.click();
+					}
 				}else{
 					option.click();
 				}
@@ -341,7 +344,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		//Search for the user a validate
 		if(selectUser(userEmail)){
 			//open the marketing tab
-			if(getBrowserName().equals("chrome")){
+			if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
 				//chrome have issue with some web elements in that cases we use javascript calls
 				executeJavaScript("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
 				executeJavaScript("document.getElementById('tagName').value='"+tag+"'");
@@ -369,7 +372,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		//Search for the user a validate
 		if(selectUser(userEmail)){
 			//open the marketing tab
-			if(getBrowserName().equals("chrome")){
+			if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
 				//chrome have issue with some web elements in that cases we use javascript calls
 				executeJavaScript("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
 			}else{
@@ -404,7 +407,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		//Search for the user a validate
 		if(selectUser(userEmail)){
 			//open the marketing tab
-			if(getBrowserName().equals("chrome")){
+			if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
 				//chrome have issue with some web elements in that cases we use javascript calls
 				executeJavaScript("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
 			}else{
@@ -425,7 +428,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 				//remove the tag if exist
 				if(retValue){
 					WebElement removebutton = row.findElement(By.tagName("a"));
-					if(getBrowserName().equals("chrome")){
+					if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
 						String value = removebutton.getAttribute("href");
 						//chrome have issue with some web elements in that cases we use javascript calls
 						executeJavaScript("var v = document.getElementById('tags_table').getElementsByTagName('a');for(var i =0;i < v.length; i++){if(v[i].href==\""+value+"\"){v[i].click();break;}}");
@@ -511,7 +514,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	public boolean doesHaveVisitHistory(String userEmail){
 		boolean retValue = false;
 		//open the marketing tab
-		if(getBrowserName().equals("chrome")){
+		if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
 			//chrome have issue with some web elements in that cases we use javascript calls
 			executeJavaScript("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
 		}else{
@@ -546,7 +549,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 		//Search for the user a validate
 		if(selectUser(userEmail)){
 			//open the marketing tab
-			if(getBrowserName().equals("chrome")){
+			if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
 				//chrome have issue with some web elements in that cases we use javascript calls
 				executeJavaScript("document.getElementById('userTabsContainer_tablist_marketingInfoTab').click()");
 			}else{

@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.backend.IMailingListPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
+import com.dotcms.qa.util.WebKeys;
 
 /**
  * This class implements the methods defined in the IMailingListPage interface
@@ -70,6 +71,8 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 	 */
 	private WebElement subscribersTable;
 	
+	private WebElement _EXT_16_newUsersFile;
+	
 	/**
 	 * Import a csv user file in dotcms
 	 * @param filePath locstion of the csv file
@@ -91,7 +94,7 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 				getWebElement(By.cssSelector("input[type='file'][name='_EXT_16_newUsersFile']")).sendKeys(file.getAbsolutePath());
 				sleep();
 				//set mailing list title
-				if(getBrowserName().equals("chrome")){
+				if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
 					//chrome have issue with some web elements in that cases we use javascript calls
 					executeJavaScript("document.getElementById('usermanagerListTitle').value='"+mailingListName+"'");
 					executeJavaScript("document.getElementById('loadButton_label').click()");
@@ -155,7 +158,7 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 			for(WebElement column : columns){
 				if(column.getText().equals(mailingList)){
 					WebElement checkbox = row.findElement(By.cssSelector("input[type='checkbox']"));
-					if(getBrowserName().equals("firefox")){
+					if(getBrowserName().equals(WebKeys.FIREFOX_BROWSER_NAME)){
 						checkbox.sendKeys(Keys.SPACE);
 					}else{
 						checkbox.click();
