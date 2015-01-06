@@ -54,9 +54,28 @@ You can try the put and post resources by
 
 ## Authentication
 ----
-This API supports the same REST auth infrastructure as other 
-rest apis in dotcms. There are 4 ways to authenticate.
+Authentication
 
+This API supports the same REST auth infrastructure as other rest apis in dotcms. There are 4 ways to authenticate.
+
+user/xxx/password/yyy in the URI
+basic http/https authentication (base64 encoded)
+DOTAUTH header similar to basic auth and base64 encoded, e.g. setHeader("DOTAUTH", base64.encode("admin@dotcms.com:admin"))
+Session based (form based login) for frontend or backend logged in user
+
+## Example
+----
+
+Here are some examples of how to call the rest servlet. Remember you need to be authenticated to be able to call this rest api
+
+1. Delete user 
+You need to pass the userId in this url: http://localhost:8080/api/automation/user/delete/userId/<userId_value>/  
+
+example:
 * http://localhost:8080/api/automation/user/delete/userId/dotcms.org.2816/user/admin@dotcms.com/password/admin
+
+2. Delete tag. 
+You need to pass the tag name in this url: http://localhost:8080/api/automation/tag/delete/tagname/<tag_value>/
+example:
 * http://localhost:8080/api/automation/tag/delete/tagname/my%20tc259%20tag/user/admin@dotcms.com/password/admin
 
