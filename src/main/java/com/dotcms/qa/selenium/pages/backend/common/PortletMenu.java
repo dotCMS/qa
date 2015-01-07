@@ -84,8 +84,9 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public IMailingListPage getMailingListPage() throws Exception {
-	    hoverOverElement(getPortletElement("Mailing List"));
-	    getPortletElement("Mailing List").click();
+	    hoverOverElement(getPortletElement("Mailing-List"));
+	    getPortletElement("Mailing-List").click();
+	    //getPortletElement(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_16")).click();
 	    //getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_16"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMailingListPage.class);		
 	}

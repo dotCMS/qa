@@ -91,7 +91,12 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 				//upload the csv users file
 				String path = System.getProperty("user.dir");
 				File file = new File(path+usersFilePath);
-				getWebElement(By.cssSelector("input[type='file'][name='_EXT_16_newUsersFile']")).sendKeys(file.getAbsolutePath());
+				if(getBrowserName().equals(WebKeys.SAFARI_BROWSER_NAME)){
+					WebElement elem = getWebElement(By.xpath("//input[@type='file']"));
+					elem.sendKeys(file.getAbsolutePath());
+				}else{
+					getWebElement(By.cssSelector("input[type='file'][name='_EXT_16_newUsersFile']")).sendKeys(file.getAbsolutePath());
+				}
 				sleep();
 				//set mailing list title
 				if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){

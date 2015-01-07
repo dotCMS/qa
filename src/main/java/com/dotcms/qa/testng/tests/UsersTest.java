@@ -58,8 +58,8 @@ public class UsersTest {
 	private final String tag = "my tc259 tag";
 	private final String tagBase ="tcgroup";
 	private final String roleName = "CMS Administrator";
-	private final String tabName = "Mailing List";
-	private final String mailingListPortlet = "Mailing Lists";
+	private final String tabName = "Mailing-List";
+	private final String mailingListPortlet = "com.dotcms.repackage.javax.portlet.title.EXT_16";
 	private final String mailingListName="ct-262";
 	private final String frontendLoginPage="dotCMS/login?referrer=/intranet/";
 	private final String frontendIntranetPage="intranet/";

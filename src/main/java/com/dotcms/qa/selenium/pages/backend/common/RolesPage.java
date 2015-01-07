@@ -183,12 +183,7 @@ public class RolesPage extends BasePage implements IRolesPage {
 			sleep();
 			getDeleteRoleButton().click();
 			sleep();
-			if(getBrowserName().equals(WebKeys.SAFARI_BROWSER_NAME)){
-				Alert alert = this.switchToAlert();
-				alert.accept();
-			}else{
-				this.switchToAlert().accept();
-			}
+			this.switchToAlert().accept();
 		}
 
 	}
@@ -253,6 +248,7 @@ public class RolesPage extends BasePage implements IRolesPage {
 		rolesFilter.clear();
 		rolesFilter.sendKeys(roleName);
 		sleep();
+		tabName = getLocalizedString(tabName);
 		//Search in the right panel for the search results
 		List<WebElement> rows = getWebElementPresent(By.id("rolesTree")).findElements(By.tagName("span"));
 		for(WebElement row : rows) {
@@ -277,14 +273,17 @@ public class RolesPage extends BasePage implements IRolesPage {
 					if(!existTab){
 						getCreateCustomTabButton().click();
 						//set tab name
+						layoutName.clear();
 						layoutName.sendKeys(tabName);
 						//set the portlet to include
-						portletList.sendKeys(portletName);
+						portletList.clear();
+						portletList.sendKeys(getLocalizedString(portletName));
 					}else{
 						//open the tab
 						selectedTab.click();
 						//set the portlet to include
-						portletList.sendKeys(portletName);
+						portletList.clear();
+						portletList.sendKeys(getLocalizedString(portletName));
 					}
 					sleep();
 					getAddToolButton().click();
@@ -390,6 +389,7 @@ public class RolesPage extends BasePage implements IRolesPage {
 		boolean retValue=false;
 		rolesFilter.clear();
 		rolesFilter.sendKeys(roleName);
+		tabName=getLocalizedString(tabName);
 		sleep();
 		//Search in the right panel for the search results
 		List<WebElement> rows = getWebElementPresent(By.id("rolesTree")).findElements(By.tagName("span"));
@@ -435,7 +435,7 @@ public class RolesPage extends BasePage implements IRolesPage {
 	 * dojo change it some times
 	 */
 	private WebElement getDeleteTabButton(){
-		List<WebElement> buttonsArea = getWebElementPresent(By.id("newLayoutForm")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		List<WebElement> buttonsArea = getWebElementPresent(By.id("newLayoutForm")).findElement(By.cssSelector("div[class='buttonRow']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		WebElement deleteTabButton = null;
 		for(WebElement span : buttonsArea){
 			if(span.getText().equals(getLocalizedString("Delete"))){
