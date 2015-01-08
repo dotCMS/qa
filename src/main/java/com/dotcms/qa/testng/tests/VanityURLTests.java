@@ -1,4 +1,4 @@
-ckage com.dotcms.qa.testng.tests;
+package com.dotcms.qa.testng.tests;
 
 import java.net.*;
 
