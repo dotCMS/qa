@@ -8,6 +8,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.dotcms.qa.selenium.util.SeleniumConfig;
+
 public interface IBasePage {
 	public String getLocalizedString(String key);
 	public void executeJavaScript(String javaScript);
@@ -49,4 +51,23 @@ public interface IBasePage {
 	public void sleep();
 	public void sleep(long durationMS);
     public Object executeScript(String script);
+    
+    /**
+	 * Get the browser name and version
+	 * @return String
+	 */
+	public String getBrowserName();
+	
+	/**
+	 * Sleep method
+	 */
+	public void sleep();
+	
+	/**
+	 * Sleep method
+	 * @param seconds
+	 */
+	public void sleep(int seconds);
+    
+    
 }

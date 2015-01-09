@@ -10,12 +10,13 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
@@ -105,7 +106,13 @@ public class SeleniumPageManager{
                 driver = new ChromeDriver();
             }
             else if("SAFARI".equals(browserToTarget)) {
-                throw new UnsupportedOperationException("ERROR - Safari WebDriver not supported at this time.");
+            	driver = new SafariDriver();
+                //throw new UnsupportedOperationException("ERROR - Safari WebDriver not supported at this time.");
+            }
+            else if("IE".equals(browserToTarget)) {
+            	File file = new File(config.getProperty("ieDriver.location"));
+            	System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
+                driver = new InternetExplorerDriver();
             }
             else if("ANDROID".equals(browserToTarget)) {
                 throw new UnsupportedOperationException("ERROR - Android WebDriver not supported at this time.");

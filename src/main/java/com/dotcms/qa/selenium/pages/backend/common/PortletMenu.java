@@ -56,6 +56,41 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ISiteBrowserPage.class);		
 	}
 	
+	/**
+	 * Get the User manager page
+	 * @return IUsersPage
+	 * @throws Exception
+	 */
+	public IUsersPage getUsersPage() throws Exception {
+	    hoverOverElement(getPortletElement("System"));
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_USER_ADMIN"))).click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IUsersPage.class);		
+	}
+	
+	/**
+	 * Get the role manager page
+	 * @return IRolesPage
+	 * @throws Exception
+	 */
+	public IRolesPage getRolesPage() throws Exception {
+	    hoverOverElement(getPortletElement("System"));
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_ROLE_ADMIN"))).click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IRolesPage.class);		
+	}
+	
+	/**
+	 * Get the MailingList manager page
+	 * @return IMailingListPage
+	 * @throws Exception
+	 */
+	public IMailingListPage getMailingListPage() throws Exception {
+	    hoverOverElement(getPortletElement("Mailing-List"));
+	    getPortletElement("Mailing-List").click();
+	    //getPortletElement(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_16")).click();
+	    //getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_16"))).click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMailingListPage.class);		
+	}
+	
 	public WebElement getPortletElement(String portletTextKey) {
 		WebElement retValue = null;
 		String portletText = getLocalizedString(portletTextKey);
