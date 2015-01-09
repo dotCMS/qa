@@ -1,6 +1,8 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.io.File;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -180,5 +182,118 @@ public class HostPage extends BasePage implements IHostPage  {
 		if(checkBox != null) {
 			checkBox.click();
 		}
+	}
+	
+	/**
+	 * Add a host thumbnail into the specified host
+	 * @param hostName Name of the host where the thumbnail will be added
+	 * @throws Exception
+	 */
+	public void addHostThumbnail(String hostName) throws Exception{
+		returnHost(hostName).click();
+		sleep();
+		//Allow to edit
+		WebElement lockContentButton = getLockForEditingButton();
+		if(lockContentButton != null){
+			lockContentButton.click();
+		}
+		//add the logo
+		String path = System.getProperty("user.dir");
+		File file = new File(path+"/dotcms_logo.png");
+		getWebElement(By.cssSelector("input[type='file'][name='binary1FileUpload']")).sendKeys(file.getAbsolutePath());
+		sleep(5000);
+		//Save the changes
+		getSaveActivateButton().click();
+	}
+	
+	/**
+	 * Search the Save/Activate button dynamically, because doesn't have a fixed id and
+	 * dojo change it some times
+	 * @return WebElement
+	 */
+	private WebElement getSaveActivateButton(){
+		WebElement saveActivateButton=null;
+		List<WebElement> atags = getWebElementPresent(By.id("contentletActionsHanger")).findElements(By.tagName("a"));
+		for(WebElement link : atags){
+			if(link.getText().equals(getLocalizedString("Save-Activate"))){
+				saveActivateButton = link;
+				break;
+			}
+		}
+		return saveActivateButton;
+	}
+	
+	/**
+	 * Search the Cancel button dynamically, because doesn't have a fixed id and
+	 * dojo change it some times
+	 * @return WebElement
+	 */
+	private WebElement getCancelButton(){
+		WebElement saveActivateButton=null;
+		List<WebElement> atags = getWebElementPresent(By.id("contentletActionsHanger")).findElements(By.tagName("a"));
+		for(WebElement link : atags){
+			if(link.getText().equals(getLocalizedString("Cancel"))){
+				saveActivateButton = link;
+				break;
+			}
+		}
+		return saveActivateButton;
+	}
+	
+	/**
+	 * Search the Cancel button dynamically, because doesn't have a fixed id and
+	 * dojo change it some times
+	 * @return WebElement
+	 */
+	private WebElement getLockForEditingButton(){
+		WebElement saveActivateButton=null;
+		List<WebElement> atags = getWebElementPresent(By.id("contentletActionsHanger")).findElements(By.tagName("a"));
+		for(WebElement link : atags){
+			if(link.getText().equals(getLocalizedString("Make-Editable"))){
+				saveActivateButton = link;
+				break;
+			}
+		}
+		return saveActivateButton;
+	}
+	/**
+	 * Remove the host thumbnail from the specified host
+	 * @param hostName Name of the host where the thumbnail will be added
+	 * @throws Exception
+	 */
+	public void removeHostThumbnail(String hostName) throws Exception{
+		returnHost(hostName).click();
+		sleep();
+		//Allow to edit
+		WebElement lockContentButton = getLockForEditingButton();
+		if(lockContentButton != null){
+			lockContentButton.click();
+		}
+		List<WebElement> spans = getWebElement(By.cssSelector("div[id='hostThumbnail']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement span : spans){
+			if(span.getText().equals(getLocalizedString("remove"))){
+			    span.click();
+			    break;
+			}
+		}
+		getSaveActivateButton().click();
+	}
+	
+	/**
+	 * Validate if the host have a host thumbnail
+	 * @param hostName Name of the host where the thumbnail will be added
+	 * @return true if the host have a thumbnail, false if not
+	 * @throws Exception
+	 */
+	public boolean doesHostHaveHostThumbnail(String hostName) throws Exception{
+		boolean retValue = false;
+		returnHost(hostName).click();
+		sleep();
+		WebElement binary = getWebElement(By.cssSelector("div[name='binary1FileName']"));
+		if(!binary.getText().isEmpty()){
+			retValue=true;
+		}
+		getCancelButton().click();
+		return retValue;
 	}
 }

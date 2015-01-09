@@ -18,6 +18,28 @@ public interface IHostPage extends IBasePage {
 	public IHostVariablesDialog getHostVariablesPage(String hostName) throws Exception;
 	public WebElement returnHost(String hostName);
 	public void toggleShowArchived();
+	
+	/**
+	 * Add a host thumbnail into the specified host
+	 * @param hostName Name of the host where the thumbnail will be added
+	 * @throws Exception
+	 */
+	public void addHostThumbnail(String hostName) throws Exception;
+	
+	/**
+	 * Remove the host thumbnail from the specified host
+	 * @param hostName Name of the host where the thumbnail will be added
+	 * @throws Exception
+	 */
+	public void removeHostThumbnail(String hostName) throws Exception;
+	
+	/**
+	 * Validate if the host have a host thumbnail
+	 * @param hostName Name of the host where the thumbnail will be added
+	 * @return true if the host have a thumbnail, false if not
+	 * @throws Exception
+	 */
+	public boolean doesHostHaveHostThumbnail(String hostName) throws Exception;
 }
 
 
