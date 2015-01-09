@@ -48,9 +48,7 @@ public interface IBasePage {
     public void waitForPresenseOfElement(By by, int secondsToWait);
     public void waitForVisibilityOfElement(By by, int secondsToWait);
     public void selectBackendHost(String host) throws NoSuchElementException;
-	public void sleep();
-	public void sleep(long durationMS);
-    public Object executeScript(String script);
+	public Object executeScript(String script);
     
     /**
 	 * Get the browser name and version
