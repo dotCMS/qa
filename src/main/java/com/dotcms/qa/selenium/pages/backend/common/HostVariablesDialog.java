@@ -35,7 +35,7 @@ public class HostVariablesDialog extends BasePage implements IHostVariablesDialo
 	
 	public void close() {
 		this.executeJavaScript("dijit.byId('viewHostVariablesDialog').hide();");
-		sleep(250);
+		sleep(1);
 	}
 	
 	public void deleteHostVariable(String variableName, boolean confirm) {

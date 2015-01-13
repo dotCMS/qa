@@ -40,6 +40,37 @@ public interface IHostPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public boolean doesHostHaveHostThumbnail(String hostName) throws Exception;
+	
+	/**
+	 * Validate is the host is active
+	 * @param hostName Name of the host to validate
+	 * @return true if the host is active false if not
+	 */
+	public boolean isHostActive(String hostName) throws Exception;
+	
+	/**
+	 * Validate is the host is default
+	 * @param hostName Name of the host to validate
+	 * @return true if the host is active false if not
+	 */
+	public boolean isHostDefault(String hostName) throws Exception;
+	
+	/**
+	 * Start a inactive host
+	 * @param hostName Host name
+	 * @param confirm
+	 * @throws Exception
+	 */
+	public void startHost(String hostName, boolean confirm) throws Exception;
+	
+
+	/**
+	 * make default the specified host
+	 * @param hostName Host name
+	 * @param confirm
+	 * @throws Exception
+	 */
+	public void makeDefultHost(String hostName, boolean confirm) throws Exception;
 }
 
 
