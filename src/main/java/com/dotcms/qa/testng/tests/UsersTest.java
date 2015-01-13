@@ -67,7 +67,7 @@ public class UsersTest {
 	private final String frontendResources="resources/index.html";
 	private final String frontendServices="services/private-banking/";
 	private final String frontendProducts ="products/";
-	private final String frontendLogoutPage="/dotCMS/logout";
+	private final String frontendLogoutPage="dotCMS/logout";
 
 	private final String roleWithApostrophe="China's reviewer";
 	private final String roleWithApostropheKey="tc14129";
@@ -239,33 +239,20 @@ public class UsersTest {
 		if(!haveVisitHistory){
 			//generate some visit history
 			UsersPageUtil.frontEndLogin(demoServerURL + frontendLoginPage,editUserEmail,editUserPassword);
-			sleep(60);
 			frontendMgr.loadPage(demoServerURL + frontendIntranetPage);
-			sleep(30);
 			frontendMgr.loadPage(demoServerURL + frontendNews);
-			sleep(30);
 			frontendMgr.loadPage(demoServerURL +frontendResources);
-			sleep(30);
 			frontendMgr.loadPage(demoServerURL +frontendServices);
-			sleep(30);
 			frontendMgr.loadPage(demoServerURL +frontendProducts);
-			sleep(30);
 			frontendMgr.loadPage(mobileServerURL);
-			sleep(30);
 			frontendMgr.loadPage(sharedServerURL);
-			sleep(10);
 
 			//generate some visit history
 			frontendMgr.loadPage(demoServerURL + frontendIntranetPage);
-			sleep(30);
 			frontendMgr.loadPage(demoServerURL + frontendNews);
-			sleep(30);
 			frontendMgr.loadPage(demoServerURL +frontendResources);
-			sleep(30);
 			frontendMgr.loadPage(demoServerURL +frontendServices);
-			sleep(30);
 			frontendMgr.loadPage(demoServerURL +frontendProducts);
-			sleep(30);
 			frontendMgr.loadPage(demoServerURL + frontendLogoutPage);
 			haveVisitHistory = usersPage.doesHaveVisitHistory(editUserEmail);
 		}
@@ -291,7 +278,7 @@ public class UsersTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/262
 	 * @throws Exception
 	 */
-	@Test (groups = {"Users"})
+	@Test (groups = {"Broken"})
 	public void tc262_importUser() throws Exception{
 		rolesPage = portletMenu.getRolesPage();
 		//Creating test tab with mailing list portlet
