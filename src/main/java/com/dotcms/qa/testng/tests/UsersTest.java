@@ -278,7 +278,7 @@ public class UsersTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/262
 	 * @throws Exception
 	 */
-	@Test (groups = {"Users"})
+	@Test (groups = {"Broken"})
 	public void tc262_importUser() throws Exception{
 		rolesPage = portletMenu.getRolesPage();
 		//Creating test tab with mailing list portlet
