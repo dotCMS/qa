@@ -1,6 +1,9 @@
 package com.dotcms.qa.testng.tests;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.selenium.pages.IBasePage;
@@ -37,9 +40,9 @@ public class HostTest {
 	private String qasharedHostName = "qashared";
 	private String demoHostName = "qademo.dotcms.com";
 	private String mobiledemoHostName = "m.qademo.dotcms.com";
-	private String testHostName1 = "qahost02.dotcms.com";
+	private String testHostName1 = "qahost01.dotcms.com";
 	private String testHostName2 = "qahost02.dotcms.com";
-	
+
 	@BeforeGroups (groups = {"Host"})
 	public void init() throws Exception {
 		SeleniumConfig config = SeleniumConfig.getConfig();
@@ -249,9 +252,9 @@ public class HostTest {
 		hostPage.stopHost(mobiledemoHostName, true);
 		hostPage.sleep(1);
 		Assert.assertFalse(hostPage.isHostActive(mobiledemoHostName), "ERROR -  This Host ("+mobiledemoHostName+") should not be active at this moment");
-		
+
 	}
-	
+
 	/**
 	 * Test the activate host functionality. See here:
 	 * http://qa.dotcms.com/index.php?/cases/view/202
@@ -267,7 +270,7 @@ public class HostTest {
 		hostPage.sleep(1);
 		Assert.assertTrue(hostPage.isHostActive(mobiledemoHostName), "ERROR -  This Host ("+mobiledemoHostName+") should be active at this moment");
 	}
-	
+
 	/**
 	 * Test changing default host functionality. See here:
 	 * http://qa.dotcms.com/index.php?/cases/view/203
@@ -283,14 +286,14 @@ public class HostTest {
 		hostPage.sleep(1);
 		Assert.assertTrue(hostPage.isHostDefault(mobiledemoHostName), "ERROR -  This Host ("+mobiledemoHostName+") should be a default host at this moment");
 		Assert.assertFalse(hostPage.isHostDefault(demoHostName), "ERROR -  This Host ("+demoHostName+") should not be a default host at this moment");
-		
+
 		hostPage.makeDefultHost(demoHostName, true);
 		hostPage.sleep(1);
 		Assert.assertTrue(hostPage.isHostDefault(demoHostName), "ERROR -  This Host ("+demoHostName+") should be a default host at this moment");
 		Assert.assertFalse(hostPage.isHostDefault(mobiledemoHostName), "ERROR -  This Host ("+mobiledemoHostName+") should not be a default host at this moment");
-		
+
 	}
-	
+
 	/**
 	 * Test the copy host functionality. See here:
 	 * http://qa.dotcms.com/index.php?/cases/view/206
@@ -335,5 +338,77 @@ public class HostTest {
 		homePage = frontendMgr.loadPage("http://" + testHostName2 + ":8080/");
 		title = homePage.getTitle();
 		Assert.assertTrue(demoHomePageTitle != null && title != null && demoHomePageTitle.equals(title), "Page titles do not match.  demoHomePageTitle=|" + demoHomePageTitle + "| title = |" + title + "|");
+	}	
+
+	/**
+	 * Test that only one host could be set as default functionality. See here:
+	 * http://qa.dotcms.com/index.php?/cases/view/688
+	 * @throws Exception
+	 */
+	@Test (groups = {"Host"})
+	public void tc688_OnlyOneDefaultHost() throws Exception {
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		IHostPage hostPage = portletMenu.getHostPage();
+
+		int numberOfDefaultHosts =0;
+
+		// add host
+		hostPage.addBlankHost(testHostName1);
+		hostPage.sleep(5);
+		//set host as default
+		hostPage.makeDefultHost(testHostName1, true);
+		hostPage.sleep(1);	
+		hostPage.reload();
+		// verify it was created and listed on page
+		Assert.assertTrue(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) was not created");
+		//validate that the host is set as default
+		Assert.assertTrue(hostPage.isHostDefault(testHostName1), "ERROR -  This Host ("+mobiledemoHostName+") should be a default host at this moment");
+
+
+		//setting list of servers to test
+		List<String> servers = new ArrayList<String>();
+		servers.add(mobiledemoHostName);
+		servers.add(qasharedHostName);
+		servers.add(testHostName1);
+		servers.add(demoHostName);
+		//validate the number of defaults servers
+		for(String server : servers){
+			if(hostPage.isHostDefault(server)){
+				numberOfDefaultHosts=numberOfDefaultHosts+1;
+			}
+		}
+		Assert.assertFalse(numberOfDefaultHosts > 1, "ERROR - There should be only one default server and there are:"+numberOfDefaultHosts+" right now.");
+		numberOfDefaultHosts =0;
+		//set default each server to validate the code is strong
+		for(String server : servers){
+			hostPage.makeDefultHost(server, true);
+			hostPage.sleep(1);
+		}
+		//validate the number of defaults servers
+		for(String server : servers){
+			if(hostPage.isHostDefault(server)){
+				numberOfDefaultHosts=numberOfDefaultHosts+1;
+			}
+		}
+		Assert.assertFalse(numberOfDefaultHosts > 1, "ERROR - There should be only one default server and there are:"+numberOfDefaultHosts+" right now.");
+
+		//Setting qademo as default host
+		if(!hostPage.isHostDefault(demoHostName)){
+			hostPage.makeDefultHost(demoHostName, false);
+			hostPage.sleep(1);
+			Assert.assertTrue(hostPage.isHostDefault(demoHostName), "ERROR -  This Host ("+demoHostName+") should be a default host at this moment");
+		}
+		
+		//delete newly added host
+		hostPage.stopHost(testHostName1, true);
+		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
+		hostPage.archiveHost(testHostName1, true);
+		hostPage.toggleShowArchived();
+		hostPage.deleteHost(testHostName1, true);
+
+		// verify host is no longer listed on page
+		hostPage.reload();
+		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+
 	}	
 }

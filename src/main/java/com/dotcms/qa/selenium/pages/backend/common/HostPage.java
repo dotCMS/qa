@@ -44,7 +44,7 @@ public class HostPage extends BasePage implements IHostPage  {
 		WebElement retValue = null;	
 		WebElement tableOfHost = getWebElement(By.className("listingTable"));
 		for(WebElement anchor : tableOfHost.findElements(By.tagName("a"))) {
-			if(anchor.getAttribute("innerHTML").startsWith(hostName)) {
+			if(anchor.getAttribute("innerHTML").startsWith(hostName) || anchor.getAttribute("innerHTML").startsWith("<b>"+hostName)) {
 				retValue = anchor;
 				break;
 			}
