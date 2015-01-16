@@ -312,4 +312,15 @@ public class BasePage implements IBasePage {
 			logger.error(e);
 		}
 	}
+	
+	/**
+	 * Gets the current WebElement Parent
+	 * @param childElement Child WebElement
+	 * @return WebElement
+	 */
+	public WebElement getParent(WebElement childElement){	
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		WebElement parentElement = (WebElement)executor.executeScript("return arguments[0].parentNode;", childElement);
+		return parentElement;
+	}
 }

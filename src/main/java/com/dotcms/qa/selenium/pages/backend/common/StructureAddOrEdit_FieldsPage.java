@@ -1,5 +1,8 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -141,4 +144,51 @@ public class StructureAddOrEdit_FieldsPage extends BasePage implements IStructur
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureFieldAddOrEdit_OverviewPage.class);
 	}
 
+	/**
+	 * Validate if a field exist
+	 * @param label name of the field
+	 * @return true if exist false if not
+	 * @throws Exception
+	 */
+	public boolean doesFieldExist(String label) throws Exception{
+		boolean retValue = false;
+		List<WebElement> fields = getWebElements(By.className("structureFieldLabelClass"));
+		for(WebElement field : fields){
+			if(field.getText().equals(label)){
+				retValue=true;
+				break;
+			}
+		}
+		return retValue;
+	}
+	
+	/**
+	 * Delete a field from the structure
+	 * @param label Name of the field
+	 * @return IStructureAddOrEdit_FieldsPage
+	 * @throws Exception
+	 */
+	public IStructureAddOrEdit_FieldsPage deleteField (String label) throws Exception{
+		List<WebElement> fields = getWebElements(By.className("structureFieldLabelClass"));
+		boolean found=false;
+		for(WebElement field : fields){
+			if(field.getText().equals(label)){
+				WebElement parent = getParent(field);
+				String currentFieldId = parent.getAttribute("id");
+				List<WebElement> buttons = getWebElements(By.cssSelector("a[href*='"+currentFieldId+"']"));
+				for(WebElement deleteButton : buttons){
+					if(deleteButton.getAttribute("innerHTML").equals("<span class=\"deleteIcon\"></span>")){
+						deleteButton.click();
+						this.switchToAlert().accept();
+						found=true;
+						break;
+					}
+				}
+				if(found){
+					break;
+				}
+			}
+		}
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+	}
 }

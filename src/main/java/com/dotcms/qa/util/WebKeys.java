@@ -11,4 +11,7 @@ public class WebKeys {
 	public static final String FIREFOX_BROWSER_NAME="firefox";
 	public static final String CHROME_BROWSER_NAME="chrome";
 	public static final String IE_BROWSER_NAME="ie";
+	
+	//Host
+	public static final String HOST_STRUCTURE_NAME="Host";
 }

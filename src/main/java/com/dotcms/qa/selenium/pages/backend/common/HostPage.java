@@ -44,7 +44,8 @@ public class HostPage extends BasePage implements IHostPage  {
 		WebElement retValue = null;	
 		WebElement tableOfHost = getWebElement(By.className("listingTable"));
 		for(WebElement anchor : tableOfHost.findElements(By.tagName("a"))) {
-			if(anchor.getAttribute("innerHTML").startsWith(hostName) || anchor.getAttribute("innerHTML").startsWith("<b>"+hostName)) {
+			String host = anchor.getAttribute("innerHTML").replaceAll("<b>", "").replaceAll("</b>", "");
+			if(host.startsWith(hostName)) {
 				retValue = anchor;
 				break;
 			}
@@ -311,7 +312,8 @@ public class HostPage extends BasePage implements IHostPage  {
 				try{
 					WebElement host = element.findElement(By.tagName("a"));
 					WebElement icon = element.findElement(By.tagName("span"));
-					if(host.getAttribute("innerHTML").startsWith(hostName) && !icon.getAttribute("class").equals("hostStoppedIcon")) {
+					String name = host.getAttribute("innerHTML").replaceAll("<b>", "").replaceAll("</b>", "");
+					if(name.startsWith(hostName) && !icon.getAttribute("class").equals("hostStoppedIcon")) {
 						retValue = true;
 						break;
 					}
@@ -340,7 +342,8 @@ public class HostPage extends BasePage implements IHostPage  {
 				try{
 					WebElement host = element.findElement(By.tagName("a"));
 					WebElement icon = element.findElement(By.tagName("span"));
-					if(host.getAttribute("innerHTML").equals("<b>"+hostName+" (Default)</b>") && icon.getAttribute("class").equals("hostDefaultIcon")) {
+					String name = host.getAttribute("innerHTML").replaceAll("<b>", "").replaceAll("</b>", "");
+					if(name.equals(hostName+" ("+getLocalizedString("Default")+")") && icon.getAttribute("class").equals("hostDefaultIcon")) {
 						retValue = true;
 						break;
 					}

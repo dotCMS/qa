@@ -373,6 +373,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 
 	public IStructureAddOrEdit_FieldsPage addTextField(String label, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing, boolean unique) throws Exception{
+		elementSelectBox.clear();
 		elementSelectBox.sendKeys("Text");           // Display type
 	    Thread.sleep(500);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear

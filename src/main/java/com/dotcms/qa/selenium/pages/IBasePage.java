@@ -67,5 +67,11 @@ public interface IBasePage {
 	 */
 	public void sleep(int seconds);
     
+	/**
+	 * Gets the current WebElement Parent
+	 * @param childElement Child WebElement
+	 * @return WebElement
+	 */
+	public WebElement getParent(WebElement childElement);
     
 }

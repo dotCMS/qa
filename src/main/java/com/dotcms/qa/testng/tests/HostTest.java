@@ -8,6 +8,7 @@ import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.*;
+import com.dotcms.qa.util.WebKeys;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.support.ui.Sleeper;
@@ -42,6 +43,7 @@ public class HostTest {
 	private String mobiledemoHostName = "m.qademo.dotcms.com";
 	private String testHostName1 = "qahost01.dotcms.com";
 	private String testHostName2 = "qahost02.dotcms.com";
+	private String textFieldLabel = "MyHostTest";
 
 	@BeforeGroups (groups = {"Host"})
 	public void init() throws Exception {
@@ -129,9 +131,11 @@ public class HostTest {
 
 		Assert.assertFalse(hostPage.doesHostVariableExist(qasharedHostName, hostVariableName),"ERROR -  the host variable ("+hostVariableName+") should not exist in host ("+qasharedHostName+")");
 		hostPage.addHostVariable(qasharedHostName, hostVariableName, hostVariableKey, hostVariableValue);
+		hostPage.sleep(1);
 		Assert.assertTrue(hostPage.doesHostVariableExist(qasharedHostName, hostVariableName),"ERROR -  the host variable ("+hostVariableName+") does not exist in host ("+qasharedHostName+")");
 		hostPage = backendMgr.getPageObject(IHostPage.class);
 		hostPage.deleteHostVariable(qasharedHostName, hostVariableName, true);
+		hostPage.sleep(1);
 		Assert.assertFalse(hostPage.doesHostVariableExist(qasharedHostName, hostVariableName),"ERROR -  the host variable ("+hostVariableName+") shoud not exist in host ("+qasharedHostName+")");
 	}
 
@@ -175,9 +179,10 @@ public class HostTest {
 		hostPage.stopHost(testHostName1, true);
 		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
 		hostPage.archiveHost(testHostName1, true);
+		hostPage.sleep(1);
 		hostPage.toggleShowArchived();
 		hostPage.deleteHost(testHostName1, true);
-
+		hostPage.sleep(1);
 		// verify host is no longer listed on page
 		hostPage.reload();
 		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
@@ -295,6 +300,58 @@ public class HostTest {
 	}
 
 	/**
+	 * Test adding text field to host Structure. See here:
+	 * http://qa.dotcms.com/index.php?/cases/view/204
+	 * @throws Exception
+	 */
+	@Test (groups = {"Host"})
+	public void tc204_AddTextFieldToHostStructure() throws Exception {
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		IStructuresPage structuresPage = portletMenu.getStructuresPage();
+
+		//Search structure and add fields
+		Assert.assertTrue(structuresPage.doesStructureExist(WebKeys.HOST_STRUCTURE_NAME),"ERROR - Host Structure is missing");
+		IStructureAddOrEdit_PropertiesPage propPage = structuresPage.getStructurePage(WebKeys.HOST_STRUCTURE_NAME);
+		IStructureAddOrEdit_FieldsPage fieldsPage = structuresPage.getFieldsPage();
+		
+		//Test that the field doesn't exist
+		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(textFieldLabel, false, false, false, false, false);
+		//Test that the field does exist
+		Assert.assertTrue(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");
+		
+		//delete field
+		fieldsPage = fieldsPage.deleteField(textFieldLabel);
+		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");	
+	}
+	
+	/**
+	 * Test adding unique text field to host Structure. See here:
+	 * http://qa.dotcms.com/index.php?/cases/view/205
+	 * @throws Exception
+	 */
+	@Test (groups = {"Host"})
+	public void tc205_AddTextFieldToHostStructure() throws Exception {
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		IStructuresPage structuresPage = portletMenu.getStructuresPage();
+
+		//Search structure and add fields
+		Assert.assertTrue(structuresPage.doesStructureExist(WebKeys.HOST_STRUCTURE_NAME),"ERROR - Host Structure is missing");
+		IStructureAddOrEdit_PropertiesPage propPage = structuresPage.getStructurePage(WebKeys.HOST_STRUCTURE_NAME);
+		IStructureAddOrEdit_FieldsPage fieldsPage = structuresPage.getFieldsPage();
+		
+		//Test that the field doesn't exist
+		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(textFieldLabel, false, false, false, false, true);
+		//Test that the field does exist
+		Assert.assertTrue(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");
+		
+		//delete field
+		fieldsPage = fieldsPage.deleteField(textFieldLabel);
+		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");	
+	}
+	
+	/**
 	 * Test the copy host functionality. See here:
 	 * http://qa.dotcms.com/index.php?/cases/view/206
 	 * @throws Exception
@@ -311,7 +368,7 @@ public class HostTest {
 
 		// copy host
 		hostPage.addCopyExistingHost(testHostName2, hostToCopy);
-		hostPage.sleep(10);
+		hostPage.sleep(5);
 
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) was not created");
@@ -398,17 +455,57 @@ public class HostTest {
 			hostPage.sleep(1);
 			Assert.assertTrue(hostPage.isHostDefault(demoHostName), "ERROR -  This Host ("+demoHostName+") should be a default host at this moment");
 		}
-		
+
 		//delete newly added host
 		hostPage.stopHost(testHostName1, true);
 		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
 		hostPage.archiveHost(testHostName1, true);
 		hostPage.toggleShowArchived();
 		hostPage.deleteHost(testHostName1, true);
-
+		hostPage.sleep(1);
 		// verify host is no longer listed on page
 		hostPage.reload();
 		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
 
-	}	
+	}
+
+	/**
+	 * Test that only one host could be set as default functionality. See here:
+	 * http://qa.dotcms.com/index.php?/cases/view/14093
+	 * @throws Exception
+	 */
+	@Test (groups = {"Host"})
+	public void tc14093_RemoveHostWithForeignLanguageContent() throws Exception {
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		IHostPage hostPage = portletMenu.getHostPage();
+
+		// verify Host does not already exist
+		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+
+		// add host
+		hostPage.addBlankHost(testHostName1);
+		hostPage.sleep(5);
+
+		// verify Host does exist
+		Assert.assertTrue(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should exist at this time");
+
+		//TODO
+		//TEST LOGIC
+		
+		//delete test host
+		hostPage.stopHost(testHostName1, true);
+		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
+		hostPage.archiveHost(testHostName1, true);
+		hostPage.sleep(1);
+		hostPage.toggleShowArchived();
+		hostPage.deleteHost(testHostName1, true);
+		hostPage.sleep(1);
+		// verify host is no longer listed on page
+		hostPage.reload();
+		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+		hostPage.toggleShowArchived();
+		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+
+	}
+
 }
