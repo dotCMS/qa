@@ -9,6 +9,7 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.util.WebKeys;
+import com.thoughtworks.selenium.webdriven.commands.GetLocation;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.support.ui.Sleeper;
@@ -321,18 +322,18 @@ public class HostTest {
 		Assert.assertTrue(structuresPage.doesStructureExist(WebKeys.HOST_STRUCTURE_NAME),"ERROR - Host Structure is missing");
 		IStructureAddOrEdit_PropertiesPage propPage = structuresPage.getStructurePage(WebKeys.HOST_STRUCTURE_NAME);
 		IStructureAddOrEdit_FieldsPage fieldsPage = structuresPage.getFieldsPage();
-		
+
 		//Test that the field doesn't exist
 		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");
 		fieldsPage = fieldsPage.addTextField(textFieldLabel, false, false, false, false, false);
 		//Test that the field does exist
 		Assert.assertTrue(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");
-		
+
 		//delete field
 		fieldsPage = fieldsPage.deleteField(textFieldLabel);
 		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");	
 	}
-	
+
 	/**
 	 * Test adding unique text field to host Structure. See here:
 	 * http://qa.dotcms.com/index.php?/cases/view/205
@@ -347,18 +348,18 @@ public class HostTest {
 		Assert.assertTrue(structuresPage.doesStructureExist(WebKeys.HOST_STRUCTURE_NAME),"ERROR - Host Structure is missing");
 		IStructureAddOrEdit_PropertiesPage propPage = structuresPage.getStructurePage(WebKeys.HOST_STRUCTURE_NAME);
 		IStructureAddOrEdit_FieldsPage fieldsPage = structuresPage.getFieldsPage();
-		
+
 		//Test that the field doesn't exist
 		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");
 		fieldsPage = fieldsPage.addTextField(textFieldLabel, false, false, false, false, true);
 		//Test that the field does exist
 		Assert.assertTrue(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");
-		
+
 		//delete field
 		fieldsPage = fieldsPage.deleteField(textFieldLabel);
 		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");	
 	}
-	
+
 	/**
 	 * Test the copy host functionality. See here:
 	 * http://qa.dotcms.com/index.php?/cases/view/206
@@ -397,8 +398,82 @@ public class HostTest {
 		// verify it is no longer listed on page
 		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
 
-	}	
+	}
 
+	/**
+	 * Test a complete copy of a host and make sure all advanced templates 
+	 * and design templates are copied. See here:
+	 * http://qa.dotcms.com/index.php?/cases/view/207
+	 * @throws Exception
+	 */
+	@Test (groups = {"Host"})
+	public void tc207_CopyHostWithAdvancedTemplates() throws Exception {
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		IHostPage hostPage = portletMenu.getHostPage();
+		ITemplatesPage templatePage = null;
+		String hostToCopy  = demoHostName;
+
+		// verify Host does not already exist
+		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+
+		// copy host
+		hostPage.addCopyExistingHost(testHostName1, hostToCopy);
+		hostPage.sleep(8);
+
+		// verify it was created and listed on page
+		Assert.assertTrue(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) was not created");
+
+		// verify new host responds to traffic
+		IBasePage homePage = frontendMgr.loadPage("http://" + testHostName1 + ":8080/");
+		String title = homePage.getTitle();
+		Assert.assertTrue(title != null && title.startsWith("Home Page - Quest Financial"),"ERROR - The host should not have a page set");
+
+		templatePage = portletMenu.getTemplatesPage();
+		int intCopyHostTemplates = templatePage.getNumberOfHostTemplates(testHostName1);
+		int intBaseHostTemplates = templatePage.getNumberOfHostTemplates(demoHostName);
+		Assert.assertTrue(intBaseHostTemplates == intCopyHostTemplates,"ERROR - the number of templates don't match between the two host");
+		
+		hostPage = portletMenu.getHostPage();
+		// delete host
+		hostPage.stopHost(testHostName1, true);
+		hostPage.sleep(1);
+		hostPage.archiveHost(testHostName1, true);
+		hostPage.toggleShowArchived();
+		hostPage.deleteHost(testHostName1, true);
+
+		hostPage.sleep(5);
+		// verify it is no longer listed on page
+		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+
+	}
+
+	/**
+	 * Make sure the content is not disappearing and is not linked 
+	 * after copy host. See here:
+	 * http://qa.dotcms.com/index.php?/cases/view/684
+	 * @throws Exception
+	 */
+	@Test (groups = {"Host"})
+	public void tc684_ContentNotDisappearingAfterCopy() throws Exception {
+		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
+		browserPage.changeHost(demoHostName);
+		String folderName = "about-us";
+		browserPage.selectFolder(folderName);
+		String pageName = "index.html";
+		IPreviewHTMLPage_Page previewHTMLPage = browserPage.selectElement(pageName);
+		
+		String pageSource = previewHTMLPage.getPageSource();
+		String spanish ="Espanol (ES)"; 
+		String currentLangue = previewHTMLPage.getCurrentLanguage();
+		Assert.assertFalse(currentLangue.equals(spanish), "ERROR - Spanish should not be the current language");
+		
+		previewHTMLPage.changeLanguage(spanish);
+		String newLanguage = previewHTMLPage.getCurrentLanguage();
+		Assert.assertTrue(newLanguage.equals(spanish), "ERROR - Spanish should be the current language");
+		
+		
+	}
 	/**
 	 * Test that only one host could be set as default functionality. See here:
 	 * http://qa.dotcms.com/index.php?/cases/view/688
@@ -412,23 +487,23 @@ public class HostTest {
 		int numberOfDefaultHosts =0;
 
 		// add host
-		hostPage.addBlankHost(testHostName1);
+		hostPage.addBlankHost(testHostName2);
 		hostPage.sleep(5);
 		//set host as default
-		hostPage.makeDefultHost(testHostName1, true);
+		hostPage.makeDefultHost(testHostName2, true);
 		hostPage.sleep(1);	
 		hostPage.reload();
 		// verify it was created and listed on page
-		Assert.assertTrue(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) was not created");
+		Assert.assertTrue(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) was not created");
 		//validate that the host is set as default
-		Assert.assertTrue(hostPage.isHostDefault(testHostName1), "ERROR -  This Host ("+mobiledemoHostName+") should be a default host at this moment");
+		Assert.assertTrue(hostPage.isHostDefault(testHostName2), "ERROR -  This Host ("+mobiledemoHostName+") should be a default host at this moment");
 
 
 		//setting list of servers to test
 		List<String> servers = new ArrayList<String>();
 		servers.add(mobiledemoHostName);
 		servers.add(qasharedHostName);
-		servers.add(testHostName1);
+		servers.add(testHostName2);
 		servers.add(demoHostName);
 		//validate the number of defaults servers
 		for(String server : servers){
@@ -451,7 +526,7 @@ public class HostTest {
 			}
 		}
 		Assert.assertFalse(numberOfDefaultHosts > 1, "ERROR - There should be only one default server and there are:"+numberOfDefaultHosts+" right now.");
-*/
+		 */
 		//Setting qademo as default host
 		if(!hostPage.isHostActive(demoHostName)){
 			hostPage.startHost(demoHostName, true);
@@ -461,17 +536,17 @@ public class HostTest {
 			hostPage.sleep(1);
 			Assert.assertTrue(hostPage.isHostDefault(demoHostName), "ERROR -  This Host ("+demoHostName+") should be a default host at this moment");
 		}
-		
+
 		//delete newly added host
-		hostPage.stopHost(testHostName1, true);
+		hostPage.stopHost(testHostName2, true);
 		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
-		hostPage.archiveHost(testHostName1, true);
+		hostPage.archiveHost(testHostName2, true);
 		hostPage.toggleShowArchived();
-		hostPage.deleteHost(testHostName1, true);
+		hostPage.deleteHost(testHostName2, true);
 		hostPage.sleep(1);
 		// verify host is no longer listed on page
 		hostPage.reload();
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
 
 	}
 
@@ -484,7 +559,7 @@ public class HostTest {
 	public void tc14093_RemoveHostWithForeignLanguageContent() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
-/*
+		/*
 		// verify Host does not already exist
 		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
 
@@ -497,7 +572,7 @@ public class HostTest {
 
 		//TODO
 		//TEST LOGIC
-		
+
 		//delete test host
 		hostPage.stopHost(testHostName1, true);
 		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
@@ -511,7 +586,7 @@ public class HostTest {
 		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
 		hostPage.toggleShowArchived();
 		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
-*/
+		 */
 	}
 
 }

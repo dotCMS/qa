@@ -4,13 +4,17 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import com.dotcms.qa.selenium.pages.backend.IFolderAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_PropertiesPage;
+import com.dotcms.qa.selenium.pages.backend.IPreviewHTMLPage_Page;
 import com.dotcms.qa.selenium.pages.backend.ISiteBrowserPage;
+import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_PropertiesPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
@@ -19,6 +23,10 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 
     //private WebElement addNewButton_arrow;
 	private WebElement TreeUL;
+	private WebElement assetListBody;
+	private WebElement changeHostId;
+	private WebElement subNavHost;
+	private WebElement fm_publish;
 	
 	public SiteBrowserPage(WebDriver driver) {
 		super(driver);
@@ -92,5 +100,59 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 			throw new Exception("Unable to find desired folder span");
 		
 		desiredFolderSpan.click();
+	}
+	
+	/**
+	 * Open the element in the right side of the site browser portlet (simulate double click over the element)
+	 * @param elementName Name of the page or file asset
+	 * @return IPreviewHTMLPage_Page
+	 * @throws Exception
+	 */
+	public IPreviewHTMLPage_Page selectElement(String elementName)  throws Exception{
+		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		for(WebElement elem : elements){
+			if(elem.getText().equals(elementName)){
+				this.selectPopupMenuOption(elem, getLocalizedString("Open-Preview"));
+				//doubleClickElement(elem);
+				break;
+			}
+		}
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IPreviewHTMLPage_Page.class);
+	}
+	
+	/**
+	 * Change the host displayed in the site browser view
+	 * @param hostName Name of the host
+	 * @throws Exception
+	 */
+	public void changeHost(String hostName)  throws Exception{
+		changeHostId.click();
+		subNavHost.clear();
+		subNavHost.sendKeys(hostName);
+		subNavHost.sendKeys(Keys.RETURN);
+	}
+	/**
+	 * 
+	 * @param element
+	 * @param menuOption
+	 * @return
+	 * @throws Exception
+	 */
+	private boolean selectPopupMenuOption(WebElement element, String menuOption) throws Exception {
+		boolean foundValue = false;
+		sleep(1);
+		rightClickElement(element);	
+		WebElement popupMenu = getWebElement(By.id("popups"));
+		//this.hoverOverElement(popupMenu);
+		List<WebElement> rows = popupMenu.findElements(By.tagName("a"));
+		WebElement prevRow = null;
+		for(WebElement row : rows) {
+			if(row.getText().trim().endsWith(menuOption)) {
+					row.click();
+					foundValue = true;
+					break;
+			}
+		}
+		return foundValue;
 	}
 }

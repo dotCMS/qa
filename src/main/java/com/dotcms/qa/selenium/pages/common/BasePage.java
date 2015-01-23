@@ -323,4 +323,14 @@ public class BasePage implements IBasePage {
 		WebElement parentElement = (WebElement)executor.executeScript("return arguments[0].parentNode;", childElement);
 		return parentElement;
 	}
+	
+	/**
+	 * Do a double click over the element
+	 * @param element 
+	 */
+	public void doubleClickElement(WebElement element){
+		Actions action = new Actions(driver);
+		action.moveToElement(element).doubleClick();
+		action.build().perform();
+	}
 }

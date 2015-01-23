@@ -6,6 +6,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.dotcms.qa.selenium.util.SeleniumConfig;
@@ -73,5 +74,11 @@ public interface IBasePage {
 	 * @return WebElement
 	 */
 	public WebElement getParent(WebElement childElement);
+	
+	/**
+	 * Do a double click over the element
+	 * @param element 
+	 */
+	public void doubleClickElement(WebElement element);
     
 }

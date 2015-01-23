@@ -343,7 +343,7 @@ public class HostPage extends BasePage implements IHostPage  {
 					WebElement host = element.findElement(By.tagName("a"));
 					WebElement icon = element.findElement(By.tagName("span"));
 					String name = host.getAttribute("innerHTML").replaceAll("<b>", "").replaceAll("</b>", "");
-					if(name.equals(hostName+" ("+getLocalizedString("Default")+")") || icon.getAttribute("class").equals("hostDefaultIcon")) {
+					if(name.equals(hostName+" ("+getLocalizedString("Default")+")") && icon.getAttribute("class").equals("hostDefaultIcon")) {
 						retValue = true;
 						break;
 					}
@@ -383,8 +383,10 @@ public class HostPage extends BasePage implements IHostPage  {
 	 * @throws Exception
 	 */
 	public void makeDefultHost(String hostName, boolean confirm) throws Exception{
+		sleep(2);
 		this.selectPopupMenuOption(hostName, getLocalizedString("Make-Default"));
 		Alert alert = this.switchToAlert();
+		sleep(2);
 		if(confirm) {
 			alert.accept();
 		}
