@@ -4,8 +4,8 @@ import java.text.DateFormat;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -13,10 +13,13 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
+import com.dotcms.qa.selenium.util.SeleniumConfig;
+import com.dotcms.qa.util.WebKeys;
 import com.dotcms.qa.util.language.LanguageManager;
 
 
@@ -196,10 +199,19 @@ public class BasePage implements IBasePage {
 
 	public void hoverOverElement(WebElement element){
 		Actions builder = new Actions(driver);
-		builder.moveToElement(element).build().perform();
+		if(getBrowserName().equals(WebKeys.SAFARI_BROWSER_NAME)){
+			String mouseOverScript = "if(document.createEvent){var evObj = document.createEvent('MouseEvents');evObj.initEvent('mouseover', true, false); arguments[0].dispatchEvent(evObj);} else if(document.createEventObject) { arguments[0].fireEvent('onmouseover');}";
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript(mouseOverScript, element);
+		}else{
+			builder.moveToElement(element).build().perform();
+		}
 		try{Thread.sleep(1000);} catch(InterruptedException e){}
 	}
 
+	/**
+	 * Move the mouse to the specified webelement
+	 */
 	public void moveToElement(WebElement element) {
 		// actions moveToElement does not seem to work in chrome or firefox until selenium ver 2.40
 		Actions builder = new Actions(driver);
@@ -268,5 +280,36 @@ public class BasePage implements IBasePage {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		obj =  js.executeScript(script);
 		return obj;
+	}
+	
+	/**
+	 * Get the browser name and version
+	 * @return String
+	 */
+	public String getBrowserName(){
+		return SeleniumConfig.getConfig().getProperty("browserToTarget").toLowerCase();
+	}
+	
+	/**
+	 * Sleep method
+	 */
+	public void sleep() {
+		try{
+			Thread.sleep(1000);
+		}catch(Exception e){
+			logger.error(e);
+		}
+	}
+	
+	/**
+	 * Sleep method
+	 * @param seconds
+	 */
+	public void sleep(int seconds) {
+		try{
+			Thread.sleep(seconds*1000);
+		}catch(Exception e){
+			logger.error(e);
+		}
 	}
 }
