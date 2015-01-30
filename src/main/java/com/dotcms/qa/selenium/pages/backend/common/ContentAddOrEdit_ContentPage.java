@@ -1,9 +1,11 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
@@ -16,22 +18,22 @@ import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAddOrEdit_ContentPage {
-    private static final Logger logger = Logger.getLogger(ContentAddOrEdit_ContentPage.class);
+	private static final Logger logger = Logger.getLogger(ContentAddOrEdit_ContentPage.class);
 
 	@FindBy(how = How.CSS, using = "span.mceIcon.mce_bold")
 	@CacheLookup
 	private WebElement boldButton;
-	
+
 	@FindBy(how = How.CSS, using = "span.mceIcon.mce_italic")
 	@CacheLookup
 	private WebElement italicButton;
-	
+
 	@FindBy(how = How.CSS, using = "span.mceIcon.mce_underline")
 	@CacheLookup
 	private WebElement underlineButton;
-	
+
 	private WebElement tinymce;
-	
+
 	public ContentAddOrEdit_ContentPage(WebDriver driver) {
 		super(driver);
 	}
@@ -41,16 +43,16 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 		elem.click();		
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ICategoriesDialog.class);
 	}
-	
+
 	public ISelectAFileDialog getSelectAFileDialog(By linkBy, String folderDetailContentPaneId, String fileDetailContentPaneId) throws Exception {
 		WebElement fileBrowseButton = getWebElement(linkBy);
-        executeJavaScript("arguments[0].click();", fileBrowseButton);
-        ISelectAFileDialog retValue = SeleniumPageManager.getBackEndPageManager().getPageObject(ISelectAFileDialog.class);
-        retValue.setContentPaneIds(folderDetailContentPaneId, fileDetailContentPaneId);
-        retValue.setView(ViewSelector.DETAIL_VIEW);
-        return retValue;
+		executeJavaScript("arguments[0].click();", fileBrowseButton);
+		ISelectAFileDialog retValue = SeleniumPageManager.getBackEndPageManager().getPageObject(ISelectAFileDialog.class);
+		retValue.setContentPaneIds(folderDetailContentPaneId, fileDetailContentPaneId);
+		retValue.setView(ViewSelector.DETAIL_VIEW);
+		return retValue;
 	}
-	
+
 	public void setHostOrFolder(String hostNameOrFolderPath) throws IllegalArgumentException {
 		if(hostNameOrFolderPath == null || hostNameOrFolderPath.trim().isEmpty())
 			throw new IllegalArgumentException("hostNameOrFolderPath is null or empty:  hostNameOrFolderPath = " + hostNameOrFolderPath);
@@ -59,7 +61,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 		WebElement hostFolderSelect = comboBox.findElement(By.id("HostSelector-hostFolderSelect"));
 		WebElement downArrow = comboBox.findElement(By.className("dijitDownArrowButton"));
 		WebElement inputContainer = comboBox.findElement(By.className("dijitInputContainer"));
-		
+
 		String[] segments = hostNameOrFolderPath.split("/");
 		downArrow.click();
 
@@ -72,47 +74,47 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 		currentTreeNode = getChildNode(currentTreeNode, segments[segments.length -1]);
 		currentTreeNode.click();
 	}
-	
+
 	public void toggleWYSIWYGBold() {
-	    boldButton.click();
+		boldButton.click();
 	}
-	
+
 	public void toggleWYSIWYGItalic() {
-	    italicButton.click();		
+		italicButton.click();		
 	}
-	
+
 	public void toggleWYSIWYGUnderline() {
-	    underlineButton.click();
-	    //this.getWebElement(By.cssSelector("span.mceIcon.mce_underline")).click();
+		underlineButton.click();
+		//this.getWebElement(By.cssSelector("span.mceIcon.mce_underline")).click();
 	}
-	
+
 	public void addWYSIWYGText(String textToAdd) {
-	    switchToFrame("wysiwygfield_ifr");
-	    tinymce.sendKeys(textToAdd);
-	    switchToDefaultContent();
+		switchToFrame("wysiwygfield_ifr");
+		tinymce.sendKeys(textToAdd);
+		switchToDefaultContent();
 	}
-	
+
 	public void addKeyValuePair(By by) {
 		getWebElement(by).click();
 	}
 
 	public IContentSearchPage saveAndPublish() throws Exception {
-	    getWebElement(By.linkText(getLocalizedString("Save-Publish"))).click();
+		getWebElement(By.linkText(getLocalizedString("Save-Publish"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentSearchPage.class);
 	}
-	
+
 	private WebElement getChildNode(WebElement parentNode, String childNodeText) {
-        WebElement retValue = null;
-        WebElement startingNode = null;
-        if(parentNode != null) {
-        	startingNode = parentNode.findElement(By.className("dijitTreeNodeContainer"));
-        }
-        else {
+		WebElement retValue = null;
+		WebElement startingNode = null;
+		if(parentNode != null) {
+			startingNode = parentNode.findElement(By.className("dijitTreeNodeContainer"));
+		}
+		else {
 			WebElement treeNodeRoot = getWebElement(By.id("HostSelector-tree-treeNode-root"));
 			startingNode = treeNodeRoot.findElement(By.className("dijitTreeNodeContainer"));
-        }
-		
-        List<WebElement> nodeDivs = startingNode.findElements(By.className("dijitTreeNode"));
+		}
+
+		List<WebElement> nodeDivs = startingNode.findElements(By.className("dijitTreeNode"));
 		logger.info("nodeDivs.size()" + nodeDivs.size());
 		for(WebElement nodeDiv : nodeDivs) {
 			logger.info("nodeDivs.class = " + nodeDiv.getAttribute("class"));
@@ -128,11 +130,66 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 				break;
 			}
 		}
-        return retValue;
+		return retValue;
 	}
 
 	private void expandNode(WebElement node) {
 		WebElement expandNode = node.findElement(By.tagName("img"));
 		expandNode.click();
+	}
+
+	/**
+	 * Modify the current content language
+	 * @param language language name
+	 * @param keepPreviousContent keep original text  in new language content
+	 * @throws Exception
+	 */
+	public void changeContentLanguage(String language, boolean keepPreviousContent) throws Exception{
+		if(language != null && !language.equals("")){
+			WebElement lang = getWebElement(By.id("langcombo"));
+			lang.clear();
+			lang.sendKeys(language);
+			sleep(3);
+			lang.sendKeys(Keys.RETURN);
+			
+			this.switchToPopup();
+			
+			String compareText  = (keepPreviousContent?getLocalizedString("Yes"):getLocalizedString("No"));
+			List<WebElement> buttons = getWebElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+			for(WebElement elem : buttons){
+				if(elem.getText().equals(compareText)){
+					elem.click();
+					break;
+				}
+			}
+			this.switchToDefaultContent();
+		}
+	}
+
+	/**
+	 * Set Content Fields
+	 * @param map Map with contents fields
+	 * @throws Exception
+	 */
+	public void setFields(Map<String, Object> map) throws Exception{
+		for(String key : map.keySet()){
+			try{
+				WebElement elem = getWebElement(By.id("properties")).findElement(By.id(key));
+				elem.clear();
+				elem.sendKeys((String)map.get(key));
+			}catch(Exception e){
+				try{
+					//For WYSIWYG fields
+					this.switchToFrame(key+"_ifr");
+					WebElement elem = getWebElement(By.id("tinymce"));
+					elem.click();
+					String currentText = elem.getText();
+					elem.sendKeys(currentText+(String)map.get(key));
+					this.switchToDefaultContent();
+				}catch(Exception e1){
+					logger.error("ERROR - Setting field "+key+". Detail: " + e1.getMessage());
+				}
+			}
+		}
 	}
 }

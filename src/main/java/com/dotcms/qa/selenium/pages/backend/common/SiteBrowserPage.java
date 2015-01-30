@@ -108,7 +108,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 * @return IPreviewHTMLPage_Page
 	 * @throws Exception
 	 */
-	public IPreviewHTMLPage_Page selectElement(String elementName)  throws Exception{
+	public IPreviewHTMLPage_Page selectPageElement(String elementName)  throws Exception{
 		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(elementName)){

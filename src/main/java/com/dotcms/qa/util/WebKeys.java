@@ -14,4 +14,10 @@ public class WebKeys {
 	
 	//Host
 	public static final String HOST_STRUCTURE_NAME="Host";
+	
+	//By Search type
+	public static final String BY_ID="id";
+	public static final String BY_INPUT_NAME="tag_name";
+	public static final String BY_CSS_SELECTOR="css_selector";
+	public static final String BY_CLASS_NAME="className";
 }

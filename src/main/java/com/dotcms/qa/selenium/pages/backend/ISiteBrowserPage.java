@@ -13,7 +13,7 @@ public interface ISiteBrowserPage extends IBasePage {
 	 * @param elementName Name of the page or file asset
 	 * @throws Exception
 	 */
-	public IPreviewHTMLPage_Page selectElement(String elementName)  throws Exception;
+	public IPreviewHTMLPage_Page selectPageElement(String elementName)  throws Exception;
 	
 	/**
 	 * Change the host displayed in the site browser view

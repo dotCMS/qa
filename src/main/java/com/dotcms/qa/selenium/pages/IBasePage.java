@@ -80,5 +80,10 @@ public interface IBasePage {
 	 * @param element 
 	 */
 	public void doubleClickElement(WebElement element);
+	
+	/**
+	 * Switch to popup window
+	 */
+	 public void switchToPopup();
     
 }

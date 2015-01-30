@@ -1,5 +1,7 @@
 package com.dotcms.qa.selenium.pages.backend;
 
+import java.util.Map;
+
 import org.openqa.selenium.By;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
@@ -16,4 +18,19 @@ public interface IContentAddOrEdit_ContentPage extends IBasePage {
 	public void addKeyValuePair(By by);
 
 	public IContentSearchPage saveAndPublish() throws Exception;
+	
+	/**
+	 * Modify the current content language
+	 * @param language language name
+	 * @param keepPreviousContent keep original text  in new language content
+	 * @throws Exception
+	 */
+	public void changeContentLanguage(String language, boolean keepPreviousContent) throws Exception;
+	
+	/**
+	 * Set Content Fields
+	 * @param map Map with contents fields
+	 * @throws Exception
+	 */
+	public void setFields(Map<String, Object> map) throws Exception;
 }

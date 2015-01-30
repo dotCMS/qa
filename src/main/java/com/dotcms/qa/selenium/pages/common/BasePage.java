@@ -319,9 +319,14 @@ public class BasePage implements IBasePage {
 	 * @return WebElement
 	 */
 	public WebElement getParent(WebElement childElement){	
-		JavascriptExecutor executor = (JavascriptExecutor)driver;
-		WebElement parentElement = (WebElement)executor.executeScript("return arguments[0].parentNode;", childElement);
-		return parentElement;
+		WebElement parentElement = null;
+		try{
+			JavascriptExecutor executor = (JavascriptExecutor)driver;
+			parentElement = (WebElement)executor.executeScript("return arguments[0].parentNode;", childElement);
+		}catch(Exception e){
+			parentElement = childElement.findElement(By.xpath(".."));
+		}
+			return parentElement;
 	}
 	
 	/**
@@ -333,4 +338,11 @@ public class BasePage implements IBasePage {
 		action.moveToElement(element).doubleClick();
 		action.build().perform();
 	}
+	
+	/**
+	 * Switch to popup window
+	 */
+	 public void switchToPopup(){
+		 driver.switchTo().activeElement();
+	 }
 }
