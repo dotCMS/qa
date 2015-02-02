@@ -78,7 +78,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/196
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc196_AddHostManually() throws Exception  {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -125,7 +125,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/197
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc197_AddNewHostVariable() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -149,7 +149,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/198
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc198_AddHostBinaryThumbnail() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -169,7 +169,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/199
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc199_DeleteHostAddedManually() throws Exception  {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -207,7 +207,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/200
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc200_DeleteHostAddedThroughCopyHost() throws Exception  {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -253,7 +253,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/201
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc201_StopAHost() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -270,7 +270,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/202
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc202_ActivateHost() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -286,7 +286,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/203
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc203_ChangeDefaultHost() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -315,7 +315,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/204
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc204_AddTextFieldToHostStructure() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IStructuresPage structuresPage = portletMenu.getStructuresPage();
@@ -341,7 +341,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/205
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc205_AddUniqueTextFieldToHostStructure() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IStructuresPage structuresPage = portletMenu.getStructuresPage();
@@ -367,7 +367,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/206
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc206_CopyHost() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -408,7 +408,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/207
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc207_CopyHostWithAdvancedTemplates() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -461,51 +461,54 @@ public class HostTest {
 		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
 		browserPage.changeHost(demoHostName);
 		String folderName = "about-us";
+		browserPage.sleep(2);
 		browserPage.selectFolder(folderName);
 		String pageName = "index.html";
 		IPreviewHTMLPage_Page previewHTMLPage = browserPage.selectPageElement(pageName);
 
-		String containerInode = "97b67789-453c-487b-858c-82c9e09623bd";
+		String containerName = "Default 1 (Page Content)";
+		String containerInode = previewHTMLPage.getContainerInode( containerName);
 		//Adding spanish version to current content
 		String spanishLanguage = "Espanol (ES)";
 		String spanish ="Espanol "; 
 
 		//current amount of content in english in the container
 		List<String> originalContainerEnglishContents = previewHTMLPage.getContainerContents(containerInode);
-		
+		previewHTMLPage.sleep(1);
 		//Editing container
 		Map<String,Object> content = new HashMap<String, Object>();
-		content.put("inode", "74f9338d-69de-4d7a-b82d-23c24add6a5b");
-		content.put("identifier", "767509b1-2392-4661-a16b-e0e31ce27719");
+		content.put("inode", originalContainerEnglishContents.get(0));
 		content.put("title", "prueba");
 		content.put("body", "prueba prueba prueba prueba prueba");
 
 		String currentLanguaje = previewHTMLPage.getCurrentLanguage();
 		currentLanguaje = currentLanguaje.substring(0, currentLanguaje.indexOf(" "));
 		Assert.assertFalse(currentLanguaje.equals(spanishLanguage), "ERROR - Spanish should not be the current language");
-
+		previewHTMLPage.sleep(3);
 		previewHTMLPage.editContent(content, spanish,true);
-
+		previewHTMLPage.sleep(1);
+		
+		
 		//Adding extra content in spanish version
 		Map<String,Object> content2 = new HashMap<String, Object>();
 		content2.put("title", "prueba2");
 		content2.put("body", "prueba2 prueba2 prueba2 prueba2 prueba2");
 		previewHTMLPage.addContent(containerInode,content2, spanish);
-
+		previewHTMLPage.sleep(3);
 		List<String> originalContainerSpanishContents = previewHTMLPage.getContainerContents(containerInode);
 		
 		String newLanguaje = previewHTMLPage.getCurrentLanguage();
 		Assert.assertTrue(newLanguaje.equals(spanishLanguage), "ERROR - Spanish should be the current language");
-
+		previewHTMLPage.sleep(1);
 		previewHTMLPage.changeLanguage(currentLanguaje);
 		newLanguaje = previewHTMLPage.getCurrentLanguage();
 		Assert.assertFalse(newLanguaje.equals(spanishLanguage), "ERROR - Spanish should not be the current language");
-
+		previewHTMLPage.sleep(1);
 		//Add New Host
 		previewHTMLPage.returnToPortletsMenu();
 		IHostPage hostPage = portletMenu.getHostPage();
 		hostPage.addCopyExistingHost(testHostName1, demoHostName);
-		hostPage.sleep(10);
+		hostPage.sleep(20);
 
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) was not created");
@@ -515,16 +518,17 @@ public class HostTest {
 		browserPage.changeHost(testHostName1);
 		browserPage.selectFolder(folderName);
 		previewHTMLPage = browserPage.selectPageElement(pageName);
-		
-		List<String> copyHostContainerEnglishContents = previewHTMLPage.getContainerContents(containerInode);
+		previewHTMLPage.sleep(1);
+		String newContainerInode = previewHTMLPage.getContainerInode( containerName);
+		List<String> copyHostContainerEnglishContents = previewHTMLPage.getContainerContents(newContainerInode);
 		Assert.assertTrue(originalContainerEnglishContents.size() == copyHostContainerEnglishContents.size(),"ERROR - The number of contents in english is different in host ("+demoHostName+","+testHostName1+")");
-		
 		previewHTMLPage.changeLanguage(spanish);
-		List<String> copyHostContainerSpaishContents = previewHTMLPage.getContainerContents(containerInode);
-		
+		previewHTMLPage.sleep(1);
+		List<String> copyHostContainerSpaishContents = previewHTMLPage.getContainerContents(newContainerInode);
 		Assert.assertTrue(originalContainerSpanishContents.size() == copyHostContainerSpaishContents.size(),"ERROR - The number of contents in spanish is different in host ("+demoHostName+","+testHostName1+")");
 		
 		//delete newly added host
+		previewHTMLPage.returnToPortletsMenu();
 		hostPage = portletMenu.getHostPage();
 		hostPage.stopHost(testHostName1, true);
 		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
@@ -542,7 +546,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/688
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc688_OnlyOneDefaultHost() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();

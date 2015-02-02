@@ -35,6 +35,7 @@ public class HostSelectSiteToCopyDialog extends BasePage implements IHostSelectS
 	public void selectSiteToCopy(String siteToCopy) {
 		siteToCopyDropdown.clear();
 		siteToCopyDropdown.sendKeys(siteToCopy);
+		sleep(1);
 		siteToCopyDropdown.sendKeys(Keys.TAB);
 	}
 	

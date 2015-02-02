@@ -67,4 +67,12 @@ public interface IPreviewHTMLPage_Page extends IBasePage {
 	 * @throws Exception
 	 */
 	public List<String> getContainerContents(String containerInode) throws Exception;
+	
+	/**
+     * Get the container inode
+     * @param containerName
+     * @return String
+     * @throws Exception
+     */
+	public String getContainerInode(String containerName) throws Exception;
 }

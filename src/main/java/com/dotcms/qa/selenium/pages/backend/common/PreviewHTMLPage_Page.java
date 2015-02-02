@@ -31,7 +31,7 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		super(driver);
 		myDriver = driver;
 	}
-	
+
 	/**
 	 * Return current page  language
 	 * @return String
@@ -42,7 +42,7 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		returnToPageDefaultContent();
 		return value;
 	}
-	
+
 	/**
 	 * Change current page language
 	 * @param language Language Name
@@ -65,7 +65,7 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 	public String getPageSource()  throws Exception{
 		return myDriver.getPageSource();
 	}
-	
+
 	/**
 	 * Get current page menu iframe WebElement
 	 * @return WebElement
@@ -84,7 +84,7 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		}
 		return elem; 
 	}
-	
+
 	/**
 	 * Get current page main iframe WebElement
 	 * @return WebElement
@@ -103,7 +103,7 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		}
 		return elem; 
 	}
-	
+
 	/**
 	 * Return to defaultContent after watch Iframe
 	 * @throws Exception
@@ -112,6 +112,22 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		myDriver.switchTo().defaultContent();
 	}
 	
+	/**
+	 * Return to Main Iframe
+	 * @throws Exception
+	 */
+	private void returnToMainFrame() throws Exception{
+		myDriver.switchTo().frame("frameMain");
+	}
+	
+	/**
+	 * Return to Menu Iframe
+	 * @throws Exception
+	 */
+	private void returnToMenuFrame() throws Exception{
+		myDriver.switchTo().frame("frameMenu");
+	}
+
 	/**
 	 * Modify and existing content
 	 * @param content HashMap with content info to change
@@ -127,7 +143,7 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		contentPage.saveAndPublish();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IPreviewHTMLPage_Page.class);
 	}
-	
+
 	/**
 	 * Add a content
 	 * @param containerInode Inode of container where the contentlet will be added
@@ -146,16 +162,16 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		contentPage.saveAndPublish();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IPreviewHTMLPage_Page.class);
 	}
-	
+
 	/**
 	 * Return to main portlet menu
 	 */
 	public void returnToPortletsMenu()  throws Exception{
 		returnToPageDefaultContent();
-		WebElement admin_screen = getMenuFrameElement("buttonRow",WebKeys.BY_ID).findElement(By.cssSelector("input[type='button']"));
+		WebElement admin_screen = getMenuFrameElement("buttonRow",WebKeys.BY_ID).findElement(By.cssSelector("span[id*='dijit_form_Button_'][class='dijitReset dijitInline dijitButtonText']"));
 		admin_screen.click();
 	}
-	
+
 	/**
 	 * Get the container contents inodes
 	 * @param containerInode Inode of container
@@ -173,5 +189,31 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		}
 		returnToPageDefaultContent();
 		return results;
+	}
+
+    /**
+     * Get the container inode
+     * @param containerName
+     * @return String
+     * @throws Exception
+     */
+	public String getContainerInode(String containerName) throws Exception{
+		String inode = null;
+		List<WebElement> containersList = getMainFrameElement("template-bd", WebKeys.BY_CLASS_NAME).findElements(By.className("dotContainerNotesAnchor"));
+		for(WebElement elem : containersList){
+			WebElement link = elem.findElement(By.tagName("a"));
+			link.click();
+			inode = link.getAttribute("id").replaceAll("containerNotes","");
+			returnToPageDefaultContent();
+			WebElement noteDiv = getWebElement(By.cssSelector("div[id*='control-notes-']")).findElement(By.className("dotContainerInfo"));
+			if(noteDiv.getAttribute("innerHTML").contains(containerName)){
+				break;
+			} else {
+				getWebElement(By.className("dotNoteBoxButtons")).findElement(By.className("dotNoteClose")).click();
+				inode=null;
+			}
+			returnToMainFrame();
+		}
+		return inode;
 	}
 }
