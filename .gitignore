@@ -21,3 +21,7 @@ qa.iws
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# plugins
+/plugins/com.dotcms.rest.qa_automation/.gradle
+/plugins/com.dotcms.rest.qa_automation/build
