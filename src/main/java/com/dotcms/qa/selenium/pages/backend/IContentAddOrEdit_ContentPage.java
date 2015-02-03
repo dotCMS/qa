@@ -28,7 +28,7 @@ public interface IContentAddOrEdit_ContentPage extends IBasePage {
 	public void changeContentLanguage(String language, boolean keepPreviousContent) throws Exception;
 	
 	/**
-	 * Set Content Fields
+	 *  Set Content text, textarea and wysiwyg Fields
 	 * @param map Map with contents fields
 	 * @throws Exception
 	 */

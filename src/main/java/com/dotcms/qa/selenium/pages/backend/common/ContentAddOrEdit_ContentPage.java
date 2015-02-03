@@ -167,7 +167,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	}
 
 	/**
-	 * Set Content Fields
+	 * Set Content text, textarea and wysiwyg Fields
 	 * @param map Map with contents fields
 	 * @throws Exception
 	 */

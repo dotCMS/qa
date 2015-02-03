@@ -48,6 +48,9 @@ public class HostTest {
 	private String testHostName1 = "qahost01.dotcms.com";
 	private String testHostName2 = "qahost02.dotcms.com";
 	private String textFieldLabel = "MyHostTest";
+	//Spanish language
+	private String spanishLanguage = "Espanol (ES)";
+	private String spanish ="Espanol "; 
 
 	@BeforeGroups (groups = {"Host"})
 	public void init() throws Exception {
@@ -97,27 +100,6 @@ public class HostTest {
 		IBasePage homePage = frontendMgr.loadPage("http://" + testHostName1 + ":8080/");
 		String title = homePage.getTitle();
 		Assert.assertTrue(title != null && title.startsWith("dotCMS: Page not found"),"ERROR - The host should not have a page set");
-
-		/*
-		hostPage.stopHost(testHostName1, true);
-		hostPage.sleep(500);						// TODO - remove cluginess and be able to remove this sleep call
-		hostPage.archiveHost(testHostName1, true);
-		hostPage.toggleShowArchived();
-		hostPage.deleteHost(testHostName1, true);
-
-		// verify host is no longer listed on page
-		hostPage.reload();
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
-		hostPage.toggleShowArchived();
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
-
-		// verify host is no longer responding to requests
-		IBasePage demoHomePage = frontendMgr.loadPage(demoServerURL);
-		String demoHomePageTitle = demoHomePage.getTitle();
-		homePage = frontendMgr.loadPage("http://" + testHostName1 + ":8080/");
-		title = homePage.getTitle();
-		Assert.assertTrue(demoHomePageTitle != null && title != null && demoHomePageTitle.equals(title), "Page titles do not match.  demoHomePageTitle=|" + demoHomePageTitle + "| title = |" + title + "|");
-		 */
 	}
 
 	/**
@@ -425,11 +407,6 @@ public class HostTest {
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) was not created");
 
-		// verify new host responds to traffic
-		//IBasePage homePage = frontendMgr.loadPage("http://" + testHostName2 + ":8080/");
-		//String title = homePage.getTitle();
-		//Assert.assertTrue(title != null && title.startsWith("Home Page - Quest Financial"),"ERROR - The host should not have a page set");
-
 		templatePage = portletMenu.getTemplatesPage();
 		int intCopyHostTemplates = templatePage.getNumberOfHostTemplates(testHostName2);
 		int intBaseHostTemplates = templatePage.getNumberOfHostTemplates(demoHostName);
@@ -468,9 +445,6 @@ public class HostTest {
 
 		String containerName = "Default 1 (Page Content)";
 		String containerInode = previewHTMLPage.getContainerInode( containerName);
-		//Adding spanish version to current content
-		String spanishLanguage = "Espanol (ES)";
-		String spanish ="Espanol "; 
 
 		//current amount of content in english in the container
 		List<String> originalContainerEnglishContents = previewHTMLPage.getContainerContents(containerInode);
@@ -483,6 +457,8 @@ public class HostTest {
 
 		String currentLanguaje = previewHTMLPage.getCurrentLanguage();
 		currentLanguaje = currentLanguaje.substring(0, currentLanguaje.indexOf(" "));
+		
+		//Adding spanish version to current content
 		Assert.assertFalse(currentLanguaje.equals(spanishLanguage), "ERROR - Spanish should not be the current language");
 		previewHTMLPage.sleep(3);
 		previewHTMLPage.editContent(content, spanish,true);
@@ -580,20 +556,7 @@ public class HostTest {
 		}
 		Assert.assertFalse(numberOfDefaultHosts > 1, "ERROR - There should be only one default server and there are:"+numberOfDefaultHosts+" right now.");
 		numberOfDefaultHosts =0;
-		/*
-		//set default each server to validate the code is strong
-		for(String server : servers){
-			hostPage.makeDefultHost(server, true);
-			hostPage.sleep(1);
-		}
-		//validate the number of defaults servers
-		for(String server : servers){
-			if(hostPage.isHostDefault(server)){
-				numberOfDefaultHosts=numberOfDefaultHosts+1;
-			}
-		}
-		Assert.assertFalse(numberOfDefaultHosts > 1, "ERROR - There should be only one default server and there are:"+numberOfDefaultHosts+" right now.");
-		 */
+		
 		//Setting qademo as default host
 		if(!hostPage.isHostActive(demoHostName)){
 			hostPage.startHost(demoHostName, true);
@@ -622,38 +585,47 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/14093
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc14093_RemoveHostWithForeignLanguageContent() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
-		/*
+		
 		// verify Host does not already exist
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
 
 		// add host
-		hostPage.addBlankHost(testHostName1);
+		hostPage.addBlankHost(testHostName2);
 		hostPage.sleep(5);
 
 		// verify Host does exist
-		Assert.assertTrue(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should exist at this time");
+		Assert.assertTrue(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should exist at this time");
 
 		//TODO
-		//TEST LOGIC
-
+		IContentSearchPage contentSearch = portletMenu.getContentSearchPage();
+		String structureName = "Content ";
+		IContentAddOrEdit_ContentPage content = contentSearch.getAddContentPage(structureName);
+		content.changeContentLanguage(spanish, false);
+		
+		//content.
+		Map<String,Object> content3 = new HashMap<String, Object>();
+		content3.put("title", "prueba3");
+		content3.put("HostSelector-hostFolderSelect", testHostName2);
+		content3.put("body", "prueba3 prueba3 prueba3 prueba3 prueba3");
+		content.setFields(content3);
+		content.saveAndPublish();
+		
 		//delete test host
-		hostPage.stopHost(testHostName1, true);
+		hostPage = portletMenu.getHostPage();
+		hostPage.stopHost(testHostName2, true);
 		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
-		hostPage.archiveHost(testHostName1, true);
+		hostPage.archiveHost(testHostName2, true);
 		hostPage.sleep(1);
 		hostPage.toggleShowArchived();
-		hostPage.deleteHost(testHostName1, true);
+		hostPage.deleteHost(testHostName2, true);
 		hostPage.sleep(1);
 		// verify host is no longer listed on page
 		hostPage.reload();
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
-		hostPage.toggleShowArchived();
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
-		 */
+		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
 	}
 
 }
