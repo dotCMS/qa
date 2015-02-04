@@ -100,5 +100,10 @@ popd
 rm -rf /home/ubuntu/temp_log/
 
 # store logs into s3
-aws s3 cp /home/ubuntu/QA_TestArtifactFilename s3://qa.dotcms.com/testartifacts/${QA_TestArtifactFilename}
+aws s3 cp /home/ubuntu/${QA_TestArtifactFilename} s3://qa.dotcms.com/testartifacts/${QA_TestArtifactFilename}
 
+# cleanup - prepare for another possible run
+sudo rm -rf /opt/dotcms 
+rm -rf /home/ubuntu/.aws
+rm -rf /home/ubuntu/downloads
+rm /home/ubuntu/${QA_TestArtifactFilename}
