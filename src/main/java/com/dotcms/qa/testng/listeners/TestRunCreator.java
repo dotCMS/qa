@@ -28,14 +28,16 @@ public class TestRunCreator implements ISuiteListener {
 			String milestoneId = Milestone.getMilestoneId(projectId, config.getProperty("testrail.Milestone"));
 			String suiteId = Suite.getSuiteId(projectId, config.getProperty("testrail.Suite"));
 			String userId = User.getUserIdByEmail(config.getProperty("testrail.User"));
-			String runPrefix = config.getProperty("testrail.RunPrefix");
-			
-			DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-			Calendar cal = Calendar.getInstance();
-			String run = runPrefix + dateFormat.format(cal.getTime());
-			
+			String runLabel = config.getProperty("testrail.RunLabel");
+			if(runLabel == null || runLabel.trim().length() == 0)
+			{
+				String runPrefix = config.getProperty("testrail.RunPrefix");
+				DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+				Calendar cal = Calendar.getInstance();
+				runLabel = runPrefix + dateFormat.format(cal.getTime());
+			}
 			try {
-				Run.createRun(projectId, suiteId, milestoneId, run, "Automated test run", userId);
+				Run.createRun(projectId, suiteId, milestoneId, runLabel, "Automated test run", userId);
 			}
 			catch (Exception e) {
 				logger.error("Error creating testrail test run", e);

@@ -2,7 +2,7 @@
 # Must be run as ubuntu user
 
 cd /home/ubuntu
-env > /home/ubuntu/test_env.txt
+env
 
 export QA_TestStartTime=$(date +%Y%m%d_%H%M%S)
 export QA_StarterURL=s3://qa.dotcms.com/starters/3.0_qastarter_v.0.4b_release.zip
@@ -12,16 +12,17 @@ export QA_StarterFullFilePath=${QA_TomcatFolder}/webapps/ROOT/starter.zip
 export QA_TAR_GZ_URL=$TAR_GZ_URL
 #export QA_TAR_GZ_URL=http://dotcms.com/contentAsset/raw-data/d1c6451b-8253-4cc9-bda6-1653077b0ef6/targz/dotcms-2015-01-20_10-15.tar.gz
 
-export QA_TestArtifactFilename=${QA_TestStartTime}_TestRunArtifacts.tar.gz
 export QA_DB=H2
 export QA_Browser=FIREFOX
 export QA_Country=US
 export QA_Language=en
+export QA_OS=Ubuntu
+export QA_Milestone=3.1
+export QA_RunLabel=${QA_Milestone}_${BUILD_TAG}_${QA_OS}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
+export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
 
 # export display to use Xvfb service
 export DISPLAY=:99
-
-env > /home/ubuntu/test_env_2.txt
 
 # create aws credentials
 mkdir /home/ubuntu/.aws
@@ -78,7 +79,7 @@ cd /home/ubuntu/qa
 
 #	Run testng/selenium tests
 pushd /home/ubuntu/qa/build/install/qa
-export JAVA_OPTS="-Dtestrail.RunPrefix=AutoTestRun_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_ -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
+export JAVA_OPTS="-Dtestrail.Milestone=${QA_Milestone} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
 bin/qa  -testjar lib/qa-0.1.jar -listener com.dotcms.qa.testng.listeners.TestRunCreator.class,com.dotcms.qa.testng.listeners.TestResultReporter.class -d "/home/ubuntu/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}"
 #mv ./qa.log "${resultsdirectory}/testngresults_${database}_${browser}_${language}_${country}/qa.log"
 #mv ./*.png "${resultsdirectory}/testngresults_${database}_${browser}_${language}_${country}/."
