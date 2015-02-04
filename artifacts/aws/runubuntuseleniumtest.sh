@@ -61,7 +61,7 @@ aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa.pub /home/ubuntu/.ssh/dotcm
 chmod 600 /home/ubuntu/.ssh/dotcmsqa.pub
 eval $(ssh-agent)
 ssh-add /home/ubuntu/.ssh/dotcmsqa
-#ssh -Tq -o StrictHostKeyChecking=no git@github.com
+ssh -Tq -o StrictHostKeyChecking=no git@github.com
 
 # clone qa repo
 cd /home/ubuntu
