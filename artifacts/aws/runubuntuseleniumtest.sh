@@ -4,13 +4,15 @@
 cd /home/ubuntu
 env > /home/ubuntu/test_env.txt
 
+export QA_TestStartTime=$(date +%Y%m%d_%H%M%S)
 export QA_StarterURL=s3://qa.dotcms.com/starters/3.0_qastarter_v.0.4b_release.zip
 export QA_TomcatFolder=/opt/dotcms/dotserver/tomcat-7.0.54
 export QA_TomcatLogFile=${QA_TomcatFolder}/logs/catalina.out
 export QA_StarterFullFilePath=${QA_TomcatFolder}/webapps/ROOT/starter.zip
-#export QA_TAR_GZ_URL=$TAR_GZ_URL
-export QA_TAR_GZ_URL=http://dotcms.com/contentAsset/raw-data/d1c6451b-8253-4cc9-bda6-1653077b0ef6/targz/dotcms-2015-01-20_10-15.tar.gz
+export QA_TAR_GZ_URL=$TAR_GZ_URL
+#export QA_TAR_GZ_URL=http://dotcms.com/contentAsset/raw-data/d1c6451b-8253-4cc9-bda6-1653077b0ef6/targz/dotcms-2015-01-20_10-15.tar.gz
 
+export QA_TestArtifactFilename=${QA_TestStartTime}_TestRunArtifacts.tar.gz
 export QA_DB=H2
 export QA_Browser=FIREFOX
 export QA_Country=US
@@ -59,7 +61,7 @@ aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa.pub /home/ubuntu/.ssh/dotcm
 chmod 600 /home/ubuntu/.ssh/dotcmsqa.pub
 eval $(ssh-agent)
 ssh-add /home/ubuntu/.ssh/dotcmsqa
-ssh -Tq -o StrictHostKeyChecking=no git@github.com
+#ssh -Tq -o StrictHostKeyChecking=no git@github.com
 
 # clone qa repo
 cd /home/ubuntu
@@ -93,5 +95,10 @@ pushd /home/ubuntu/temp_log
 cp -a /home/ubuntu/qa/build/install/qa/ .
 mkdir /home/ubuntu/temp_log/dotcms
 cp -a ${QA_TomcatFolder}/logs/ ./dotcms
-tar -cvzf ../logpackage.tar.gz .
+tar -cvzf ../${QA_TestArtifactFilename} .
 popd
+rm -rf /home/ubuntu/temp_log/
+
+# store logs into s3
+aws s3 cp /home/ubuntu/QA_TestArtifactFilename s3://qa.dotcms.com/testartifacts/${QA_TestArtifactFilename}
+
