@@ -16,6 +16,7 @@ import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.selenium.pages.backend.ISelectAFileDialog.ViewSelector;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.WebKeys;
 
 public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAddOrEdit_ContentPage {
 	private static final Logger logger = Logger.getLogger(ContentAddOrEdit_ContentPage.class);
@@ -151,9 +152,9 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 			lang.sendKeys(language);
 			sleep(3);
 			lang.sendKeys(Keys.RETURN);
-			
+
 			this.switchToPopup();
-			
+
 			String compareText  = (keepPreviousContent?getLocalizedString("Yes"):getLocalizedString("No"));
 			List<WebElement> buttons = getWebElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 			for(WebElement elem : buttons){
@@ -168,27 +169,52 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 
 	/**
 	 * Set Content text, textarea and wysiwyg Fields
-	 * @param map Map with contents fields
+	 * @param map List Map with contents fields
 	 * @throws Exception
 	 */
-	public void setFields(Map<String, Object> map) throws Exception{
-		for(String key : map.keySet()){
+	public void setFields(List<Map<String, Object>> map) throws Exception{
+		for(Map<String, Object> content : map){
 			try{
-				WebElement elem = getWebElement(By.id("properties")).findElement(By.id(key));
-				elem.clear();
-				elem.sendKeys((String)map.get(key));
-			}catch(Exception e){
-				try{
-					//For WYSIWYG fields
-					this.switchToFrame(key+"_ifr");
-					WebElement elem = getWebElement(By.id("tinymce"));
-					elem.click();
-					String currentText = elem.getText();
-					elem.sendKeys(currentText+(String)map.get(key));
-					this.switchToDefaultContent();
-				}catch(Exception e1){
-					logger.error("ERROR - Setting field "+key+". Detail: " + e1.getMessage());
+				String type = (String) content.get("type");
+				WebElement tab = getWebElement(By.id("properties"));
+				content.remove("type");
+				if(type.equals(WebKeys.WYSIWYG_FIELD)){
+					for(String key : content.keySet()){
+						//For WYSIWYG fields
+						this.switchToFrame(key+"_ifr");
+						WebElement elem = getWebElement(By.id("tinymce"));
+						elem.click();
+						String currentText = elem.getText();
+						elem.sendKeys(currentText+(String)content.get(key));
+						this.switchToDefaultContent();
+					}
+				}else if(type.equals(WebKeys.HOST_FIELD)){
+					for(String key : content.keySet()){
+						WebElement elem = tab.findElement(By.id(key));
+						elem.clear();
+						elem.sendKeys((String)content.get(key));
+						elem.sendKeys(Keys.TAB);
+						WebElement selectBox = getWebElement(By.id("HostSelector-hostFoldersTreeWrapper"));
+						List<WebElement> options = selectBox.findElements(By.cssSelector("span[class='dijitTreeLabel']"));
+						for(WebElement option : options){
+							if(option.getAttribute("innerHTML").equals((String)content.get(key))){
+								option.click();
+								sleep(2);
+								break;
+							}
+						}
+					}
+				}else {
+					for(String key : content.keySet()){
+						WebElement elem = tab.findElement(By.id(key));
+						elem.clear();
+						elem.sendKeys((String)content.get(key));
+						elem.sendKeys(Keys.TAB);
+					}
 				}
+
+			}catch(Exception e){
+				logger.error("ERROR - Setting field value. Detail: " + e.getMessage());
 			}
 		}
 	}

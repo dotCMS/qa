@@ -130,13 +130,14 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 
 	/**
 	 * Modify and existing content
+	 * @param contentInode inode of the content to edit
 	 * @param content HashMap with content info to change
 	 * @param language language name
 	 * @param keepPreviousContent keep original text  in new language content
 	 * @return IContentAddOrEdit_ContentPage
 	 */
-	public IPreviewHTMLPage_Page editContent(Map<String,Object> content, String language, boolean keepPreviousContent)  throws Exception{
-		getMainFrameElement("edit-"+content.get("inode"),WebKeys.BY_ID).findElement(By.className("dotEditContent")).click();
+	public IPreviewHTMLPage_Page editContent(String contentInode, List<Map<String,Object>> content, String language, boolean keepPreviousContent)  throws Exception{
+		getMainFrameElement("edit-"+contentInode,WebKeys.BY_ID).findElement(By.className("dotEditContent")).click();
 		IContentAddOrEdit_ContentPage contentPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IContentAddOrEdit_ContentPage.class);
 		contentPage.changeContentLanguage(language,keepPreviousContent);
 		contentPage.setFields(content);
@@ -151,7 +152,7 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 	 * @param language Language 
 	 * @return IContentAddOrEdit_ContentPage
 	 */
-	public IPreviewHTMLPage_Page addContent(String containerInode, Map<String,Object> content, String language)   throws Exception{
+	public IPreviewHTMLPage_Page addContent(String containerInode, List<Map<String,Object>> content, String language)   throws Exception{
 		WebElement elem = getMainFrameElement("controlAnchor"+containerInode,WebKeys.BY_ID);
 		elem.click();
 		returnToPageDefaultContent();

@@ -39,12 +39,13 @@ public interface IPreviewHTMLPage_Page extends IBasePage {
 	
 	/**
 	 * Modify and existing content
+	 * @param contentInode inode of the content to edit
 	 * @param content HashMap with content info to change
 	 * @param language language name
 	 * @param keepPreviousContent keep original text  in new language content
 	 * @return IContentAddOrEdit_ContentPage
 	 */
-	public IPreviewHTMLPage_Page editContent(Map<String,Object> content, String language, boolean keepPreviousContent)  throws Exception;
+	public IPreviewHTMLPage_Page editContent(String contentInode, List<Map<String,Object>> content, String language, boolean keepPreviousContent)  throws Exception;
 	
 	/**
 	 * Add a content
@@ -53,7 +54,7 @@ public interface IPreviewHTMLPage_Page extends IBasePage {
 	 * @param language Language 
 	 * @return IContentAddOrEdit_ContentPage
 	 */
-	public IPreviewHTMLPage_Page addContent(String containerInode, Map<String,Object> content, String language) throws Exception;
+	public IPreviewHTMLPage_Page addContent(String containerInode, List<Map<String,Object>> content, String language) throws Exception;
 	
 	/**
 	 * Return to main portlet menu

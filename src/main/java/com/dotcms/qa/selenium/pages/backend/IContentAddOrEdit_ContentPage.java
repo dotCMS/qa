@@ -1,5 +1,6 @@
 package com.dotcms.qa.selenium.pages.backend;
 
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
@@ -29,8 +30,8 @@ public interface IContentAddOrEdit_ContentPage extends IBasePage {
 	
 	/**
 	 *  Set Content text, textarea and wysiwyg Fields
-	 * @param map Map with contents fields
+	 * @param map List Map with contents fields
 	 * @throws Exception
 	 */
-	public void setFields(Map<String, Object> map) throws Exception;
+	public void setFields(List<Map<String, Object>> map) throws Exception;
 }
