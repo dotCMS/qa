@@ -64,6 +64,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 
 	public void selectFolder(String folderName) throws Exception {
 		WebElement treeChildrenULTopLevel = null;
+		sleep(1);
 		List<WebElement> uls = TreeUL.findElements(By.tagName("ul"));
 		for(WebElement ul : uls) {
 			try {

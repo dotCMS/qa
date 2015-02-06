@@ -2,7 +2,9 @@ package com.dotcms.qa.selenium.pages.backend.common;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -11,7 +13,7 @@ import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 public class StructureAddOrEdit_FieldsPage extends BasePage implements IStructureAddOrEdit_FieldsPage {
-
+	private static final Logger logger = Logger.getLogger(StructureAddOrEdit_FieldsPage.class);
 	private WebElement field_label;		// Add a Field Button
 	
 	public StructureAddOrEdit_FieldsPage(WebDriver driver) {
@@ -154,9 +156,13 @@ public class StructureAddOrEdit_FieldsPage extends BasePage implements IStructur
 		boolean retValue = false;
 		List<WebElement> fields = getWebElements(By.className("structureFieldLabelClass"));
 		for(WebElement field : fields){
-			if(field.getText().equals(label)){
-				retValue=true;
-				break;
+			try {
+				if(field.getText().equals(label)){
+					retValue=true;
+					break;
+				}
+			}catch(Exception e){
+				logger.error("Unexpected error attempting to iterate over labels", e);
 			}
 		}
 		return retValue;
@@ -178,7 +184,10 @@ public class StructureAddOrEdit_FieldsPage extends BasePage implements IStructur
 				List<WebElement> buttons = getWebElements(By.cssSelector("a[href*='"+currentFieldId+"']"));
 				for(WebElement deleteButton : buttons){
 					if(deleteButton.getAttribute("innerHTML").equals("<span class=\"deleteIcon\"></span>")){
+						Point location = deleteButton.getLocation();
+						scroll(location.getX(), location.getY());
 						deleteButton.click();
+						sleep(1);
 						this.switchToAlert().accept();
 						found=true;
 						break;

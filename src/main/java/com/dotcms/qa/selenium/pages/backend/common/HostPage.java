@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.WebKeys;
 
 public class HostPage extends BasePage implements IHostPage  {
 	private static final Logger logger = Logger.getLogger(HostPage.class);
@@ -201,8 +203,16 @@ public class HostPage extends BasePage implements IHostPage  {
 		//add the logo
 		String path = System.getProperty("user.dir");
 		File file = new File(path+"/dotcms_logo.png");
-		getWebElement(By.cssSelector("input[type='file'][name='binary1FileUpload']")).sendKeys(file.getAbsolutePath());
-		sleep(5);
+		WebElement input = getWebElement(By.cssSelector("input[type='file'][name='binary1FileUpload']"));
+		if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
+			input.click();
+			input.sendKeys(file.getAbsolutePath());
+			sleep(5);
+		}else{
+			input.sendKeys(file.getAbsolutePath());
+			sleep(5);
+		}		
+		
 		//Save the changes
 		getSaveActivateButton().click();
 	}

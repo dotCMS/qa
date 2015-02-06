@@ -47,7 +47,14 @@ public class HostTest {
 	private String mobiledemoHostName = "m.qademo.dotcms.com";
 	private String testHostName1 = "qahost01.dotcms.com";
 	private String testHostName2 = "qahost02.dotcms.com";
+	private String testHostName3 = "qahost03.dotcms.com";
+	private String testHostName4 = "qahost04.dotcms.com";
+	private String testHostName5 = "qahost05.dotcms.com";
+	private String testHostName6 = "qahost06.dotcms.com";
+	private String testHostName7 = "qahost07.dotcms.com";
+	
 	private String textFieldLabel = "MyHostTest";
+	private String textFieldLabel2 = "MyHostTest2";
 	//Spanish language
 	private String spanishLanguage = "Espanol (ES)";
 	private String spanish ="Espanol "; 
@@ -198,7 +205,6 @@ public class HostTest {
 	public void tc198_AddHostBinaryThumbnail() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
-
 		Assert.assertFalse(hostPage.doesHostHaveHostThumbnail(qasharedHostName),"ERROR -  the host ("+qasharedHostName+") should not have a host thumbnail");
 		hostPage.addHostThumbnail(qasharedHostName);
 		hostPage.sleep(5);
@@ -260,35 +266,35 @@ public class HostTest {
 		String hostToCopy  = mobiledemoHostName;
 
 		// verify Host does not already exist
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+		Assert.assertFalse(hostPage.doesHostExist(testHostName3),"ERROR - The host ( "+testHostName3+" ) should not exist at this time");
 
 		// copy host
-		hostPage.addCopyExistingHost(testHostName1, hostToCopy);
+		hostPage.addCopyExistingHost(testHostName3, hostToCopy);
 		hostPage.sleep(10);
 
 		// verify it was created and listed on page
-		Assert.assertTrue(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) was not created");
+		Assert.assertTrue(hostPage.doesHostExist(testHostName3),"ERROR - The host ( "+testHostName3+" ) was not created");
 
 		// verify new host responds to traffic
-		IBasePage homePage = frontendMgr.loadPage("http://" + testHostName1 + ":8080/");
+		IBasePage homePage = frontendMgr.loadPage("http://" + testHostName3 + ":8080/");
 		String title = homePage.getTitle();
 		Assert.assertTrue(title != null && title.startsWith("Quest Financial"),"ERROR - The host should not have a page set");
 
 		// delete host
-		hostPage.stopHost(testHostName1, true);
+		hostPage.stopHost(testHostName3, true);
 		hostPage.sleep(1);
-		hostPage.archiveHost(testHostName1, true);
+		hostPage.archiveHost(testHostName3, true);
 		hostPage.toggleShowArchived();
-		hostPage.deleteHost(testHostName1, true);
+		hostPage.deleteHost(testHostName3, true);
 
 		hostPage.sleep(10);
 		// verify it is no longer listed on page
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+		Assert.assertFalse(hostPage.doesHostExist(testHostName3),"ERROR - The host ( "+testHostName3+" ) should not exist at this time");
 
 		// verify host is no longer responding to requests
 		IBasePage demoHomePage = frontendMgr.loadPage(demoServerURL);
 		String demoHomePageTitle = demoHomePage.getTitle();
-		homePage = frontendMgr.loadPage("http://" + testHostName1 + ":8080/");
+		homePage = frontendMgr.loadPage("http://" + testHostName3 + ":8080/");
 		title = homePage.getTitle();
 		Assert.assertTrue(demoHomePageTitle != null && title != null && demoHomePageTitle.equals(title), "Page titles do not match.  demoHomePageTitle=|" + demoHomePageTitle + "| title = |" + title + "|");
 	}
@@ -387,7 +393,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/205
 	 * @throws Exception
 	 */
-	//@Test (groups = {"Host"})
+	@Test (groups = {"Host"})
 	public void tc205_AddUniqueTextFieldToHostStructure() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IStructuresPage structuresPage = portletMenu.getStructuresPage();
@@ -399,14 +405,14 @@ public class HostTest {
 		IStructureAddOrEdit_FieldsPage fieldsPage = structuresPage.getFieldsPage();
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextField(textFieldLabel, false, false, false, false, true);
+		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel2),"ERROR - The field ("+textFieldLabel2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(textFieldLabel2, false, false, false, false, true);
 		//Test that the field does exist
-		Assert.assertTrue(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(textFieldLabel2),"ERROR - The field ("+textFieldLabel2+") shoudl not exist at this time");
 
 		//delete field
-		fieldsPage = fieldsPage.deleteField(textFieldLabel);
-		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel),"ERROR - The field ("+textFieldLabel+") shoudl not exist at this time");	
+		fieldsPage = fieldsPage.deleteField(textFieldLabel2);
+		Assert.assertFalse(fieldsPage.doesFieldExist(textFieldLabel2),"ERROR - The field ("+textFieldLabel2+") shoudl not exist at this time");	
 	}
 
 	/**
@@ -422,30 +428,30 @@ public class HostTest {
 		String hostToCopy  = mobiledemoHostName;
 
 		// verify Host does not already exist
-		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+		Assert.assertFalse(hostPage.doesHostExist(testHostName4),"ERROR - The host ( "+testHostName4+" ) should not exist at this time");
 
 		// copy host
-		hostPage.addCopyExistingHost(testHostName1, hostToCopy);
+		hostPage.addCopyExistingHost(testHostName4, hostToCopy);
 		hostPage.sleep(5);
 
 		// verify it was created and listed on page
-		Assert.assertTrue(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) was not created");
+		Assert.assertTrue(hostPage.doesHostExist(testHostName4),"ERROR - The host ( "+testHostName4+" ) was not created");
 
 		// verify new host responds to traffic
-		IBasePage homePage = frontendMgr.loadPage("http://" + testHostName1 + ":8080/");
+		IBasePage homePage = frontendMgr.loadPage("http://" + testHostName4 + ":8080/");
 		String title = homePage.getTitle();
 		Assert.assertTrue(title != null && title.startsWith("Quest Financial"),"ERROR - The host should not have a page set");
 
 		// delete host
-		hostPage.stopHost(testHostName1, true);
+		hostPage.stopHost(testHostName4, true);
 		hostPage.sleep(1);
-		hostPage.archiveHost(testHostName1, true);
+		hostPage.archiveHost(testHostName4, true);
 		hostPage.toggleShowArchived();
-		hostPage.deleteHost(testHostName1, true);
+		hostPage.deleteHost(testHostName4, true);
 
 		hostPage.sleep(5);
 		// verify it is no longer listed on page
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+		Assert.assertFalse(hostPage.doesHostExist(testHostName4),"ERROR - The host ( "+testHostName4+" ) should not exist at this time");
 
 	}
 
@@ -463,31 +469,31 @@ public class HostTest {
 		String hostToCopy  = demoHostName;
 
 		// verify Host does not already exist
-		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
+		Assert.assertFalse(hostPage.doesHostExist(testHostName5),"ERROR - The host ( "+testHostName5+" ) should not exist at this time");
 
 		// copy host
-		hostPage.addCopyExistingHost(testHostName2, hostToCopy);
+		hostPage.addCopyExistingHost(testHostName5, hostToCopy);
 		hostPage.sleep(8);
 
 		// verify it was created and listed on page
-		Assert.assertTrue(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) was not created");
+		Assert.assertTrue(hostPage.doesHostExist(testHostName5),"ERROR - The host ( "+testHostName5+" ) was not created");
 
 		templatePage = portletMenu.getTemplatesPage();
-		int intCopyHostTemplates = templatePage.getNumberOfHostTemplates(testHostName2);
+		int intCopyHostTemplates = templatePage.getNumberOfHostTemplates(testHostName5);
 		int intBaseHostTemplates = templatePage.getNumberOfHostTemplates(demoHostName);
 		Assert.assertTrue(intBaseHostTemplates == intCopyHostTemplates,"ERROR - the number of templates don't match between the two host");
 
 		hostPage = portletMenu.getHostPage();
 		// delete host
-		hostPage.stopHost(testHostName2, true);
+		hostPage.stopHost(testHostName5, true);
 		hostPage.sleep(1);
-		hostPage.archiveHost(testHostName2, true);
+		hostPage.archiveHost(testHostName5, true);
 		hostPage.toggleShowArchived();
-		hostPage.deleteHost(testHostName2, true);
+		hostPage.deleteHost(testHostName5, true);
 
 		hostPage.sleep(10);
 		// verify it is no longer listed on page
-		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
+		Assert.assertFalse(hostPage.doesHostExist(testHostName5),"ERROR - The host ( "+testHostName5+" ) should not exist at this time");
 
 	}
 
@@ -506,6 +512,7 @@ public class HostTest {
 		browserPage.sleep(2);
 		browserPage.selectFolder(folderName);
 		String pageName = "index.html";
+		browserPage.sleep(2);
 		IPreviewHTMLPage_Page previewHTMLPage = browserPage.selectPageElement(pageName);
 
 		String containerName = "Default 1 (Page Content)";
@@ -562,38 +569,38 @@ public class HostTest {
 		//Add New Host
 		previewHTMLPage.returnToPortletsMenu();
 		IHostPage hostPage = portletMenu.getHostPage();
-		hostPage.addCopyExistingHost(testHostName1, demoHostName);
+		hostPage.addCopyExistingHost(testHostName6, demoHostName);
 		hostPage.sleep(20);
 
 		// verify it was created and listed on page
-		Assert.assertTrue(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) was not created");
+		Assert.assertTrue(hostPage.doesHostExist(testHostName6),"ERROR - The host ( "+testHostName6+" ) was not created");
 
 		//Validate in new host that the page have the two content in spanish
 		browserPage = portletMenu.getSiteBrowserPage();
-		browserPage.changeHost(testHostName1);
+		browserPage.changeHost(testHostName6);
 		browserPage.selectFolder(folderName);
 		previewHTMLPage = browserPage.selectPageElement(pageName);
 		previewHTMLPage.sleep(1);
 		String newContainerInode = previewHTMLPage.getContainerInode( containerName);
 		List<String> copyHostContainerEnglishContents = previewHTMLPage.getContainerContents(newContainerInode);
-		Assert.assertTrue(originalContainerEnglishContents.size() == copyHostContainerEnglishContents.size(),"ERROR - The number of contents in english is different in host ("+demoHostName+","+testHostName1+")");
+		Assert.assertTrue(originalContainerEnglishContents.size() == copyHostContainerEnglishContents.size(),"ERROR - The number of contents in english is different in host ("+demoHostName+","+testHostName6+")");
 		previewHTMLPage.changeLanguage(spanish);
 		previewHTMLPage.sleep(1);
 		List<String> copyHostContainerSpaishContents = previewHTMLPage.getContainerContents(newContainerInode);
-		Assert.assertTrue(originalContainerSpanishContents.size() == copyHostContainerSpaishContents.size(),"ERROR - The number of contents in spanish is different in host ("+demoHostName+","+testHostName1+")");
+		Assert.assertTrue(originalContainerSpanishContents.size() == copyHostContainerSpaishContents.size(),"ERROR - The number of contents in spanish is different in host ("+demoHostName+","+testHostName6+")");
 		
 		//delete newly added host
 		previewHTMLPage.returnToPortletsMenu();
 		hostPage = portletMenu.getHostPage();
-		hostPage.stopHost(testHostName1, true);
+		hostPage.stopHost(testHostName6, true);
 		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
-		hostPage.archiveHost(testHostName1, true);
+		hostPage.archiveHost(testHostName6, true);
 		hostPage.toggleShowArchived();
-		hostPage.deleteHost(testHostName1, true);
+		hostPage.deleteHost(testHostName6, true);
 		hostPage.sleep(1);
 		// verify host is no longer listed on page
 		hostPage.reload();
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+		Assert.assertFalse(hostPage.doesHostExist(testHostName6),"ERROR - The host ( "+testHostName6+" ) should not exist at this time");
 	}
 
 	/**
@@ -609,23 +616,23 @@ public class HostTest {
 		int numberOfDefaultHosts =0;
 
 		// add host
-		hostPage.addBlankHost(testHostName2);
+		hostPage.addBlankHost(testHostName7);
 		hostPage.sleep(5);
 		//set host as default
-		hostPage.makeDefultHost(testHostName2, true);
+		hostPage.makeDefultHost(testHostName7, true);
 		hostPage.sleep(1);	
 		hostPage.reload();
 		// verify it was created and listed on page
-		Assert.assertTrue(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) was not created");
+		Assert.assertTrue(hostPage.doesHostExist(testHostName7),"ERROR - The host ( "+testHostName7+" ) was not created");
 		//validate that the host is set as default
-		Assert.assertTrue(hostPage.isHostDefault(testHostName2), "ERROR -  This Host ("+testHostName2+") should be a default host at this moment");
+		Assert.assertTrue(hostPage.isHostDefault(testHostName7), "ERROR -  This Host ("+testHostName7+") should be a default host at this moment");
 
 
 		//setting list of servers to test
 		List<String> servers = new ArrayList<String>();
 		servers.add(mobiledemoHostName);
 		servers.add(qasharedHostName);
-		servers.add(testHostName2);
+		servers.add(testHostName7);
 		servers.add(demoHostName);
 		//validate the number of defaults servers
 		for(String server : servers){
@@ -647,15 +654,15 @@ public class HostTest {
 		}
 
 		//delete newly added host
-		hostPage.stopHost(testHostName2, true);
+		hostPage.stopHost(testHostName7, true);
 		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
-		hostPage.archiveHost(testHostName2, true);
+		hostPage.archiveHost(testHostName7, true);
 		hostPage.toggleShowArchived();
-		hostPage.deleteHost(testHostName2, true);
+		hostPage.deleteHost(testHostName7, true);
 		hostPage.sleep(1);
 		// verify host is no longer listed on page
 		hostPage.reload();
-		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
+		Assert.assertFalse(hostPage.doesHostExist(testHostName7),"ERROR - The host ( "+testHostName7+" ) should not exist at this time");
 
 	}
 
