@@ -27,7 +27,7 @@ public class SeleniumConfig {
     private SeleniumConfig(String configFileName) {
         InputStream in = getClass().getClassLoader().getResourceAsStream(configFileName);
         logger.info("configFileName = " + configFileName);
-        logger.debug("in = " + in);
+        logger.info("in = " + in);
         try {
             props.load(in);
         }
