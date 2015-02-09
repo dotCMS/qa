@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 
@@ -24,6 +25,7 @@ public interface IBasePage {
     public boolean isElementPresent(By by);
     public boolean isElementPresent(String cssSelector);
     public boolean isElementPresentAndDisplay(By by);
+    public ExpectedCondition<Boolean> elementNotStale(final By by);
 	public String getSystemMessage();
     public String getTitle();
     public WebDriverWait getWaitObject(long timeoutInSeconds);

@@ -310,6 +310,7 @@ public class UsersPage extends BasePage implements IUsersPage {
 	 */
 	private boolean selectUser(String userEmail){
 		boolean retValue = false;
+		usersFilter = this.getWebElement(By.name("usersFilter"));
 		usersFilter.clear();
 		usersFilter.sendKeys(userEmail);
 		sleep(2);

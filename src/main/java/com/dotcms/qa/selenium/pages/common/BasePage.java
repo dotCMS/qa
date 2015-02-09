@@ -10,10 +10,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -36,7 +38,7 @@ public class BasePage implements IBasePage {
 
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
-		this.wait = getWaitObject(30, 500);
+		this.wait = getWaitObject(10, 500);
 	}
 
 	public String getLocalizedString(String key) {
@@ -138,6 +140,21 @@ public class BasePage implements IBasePage {
 		}
 	}
 
+	public ExpectedCondition<Boolean> elementNotStale(final By by) {
+		return new ExpectedCondition<Boolean> () {
+			@Override
+			public Boolean apply(WebDriver localdriver) {
+				try {
+					WebElement temp = localdriver.findElement(by);
+					return true;
+				}
+				catch (StaleElementReferenceException e) {
+					return false;
+				}
+			}
+		};
+	}
+
 	public String getSystemMessage() {
 		this.waitForPresenseOfElement(By.className("systemMessages"), 10);
 		return driver.findElement(By.className("systemMessages")).getText();
@@ -160,6 +177,7 @@ public class BasePage implements IBasePage {
 	* @return 		the first WebElement matching locator
 	*/
 	public WebElement getWebElement(By by){
+		wait.until(elementNotStale(by));
 		return driver.findElement(by);
 	}
 
