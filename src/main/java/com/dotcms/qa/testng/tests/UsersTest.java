@@ -392,7 +392,7 @@ public class UsersTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/14129
 	 * @throws Exception
 	 */
-	@Test (groups = {"Users"})
+	@Test (groups = {"Broken", "Users"})
 	public void tc14129_AddRoleWithApostrophe() throws Exception {
 		rolesPage = portletMenu.getRolesPage();
 		//Creating role with apostrophe
