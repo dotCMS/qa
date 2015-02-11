@@ -208,7 +208,6 @@ public class HostTest {
 		Assert.assertFalse(hostPage.doesHostHaveHostThumbnail(qasharedHostName),"ERROR -  the host ("+qasharedHostName+") should not have a host thumbnail");
 		hostPage.addHostThumbnail(qasharedHostName);
 		hostPage.sleep(5);
-		hostPage.reload();
 		Assert.assertTrue(hostPage.doesHostHaveHostThumbnail(qasharedHostName),"ERROR -  the host ("+qasharedHostName+") does not have a host thumbnail");
 		hostPage.removeHostThumbnail(qasharedHostName);
 		hostPage.sleep(5);

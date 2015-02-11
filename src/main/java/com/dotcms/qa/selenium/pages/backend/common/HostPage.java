@@ -188,7 +188,8 @@ public class HostPage extends BasePage implements IHostPage  {
 	}
 
 	/**
-	 * Add a host thumbnail into the specified host
+	 * WARNING This test doesn't work in chrome
+	 * Add a host thumbnail into the specified host. 
 	 * @param hostName Name of the host where the thumbnail will be added
 	 * @throws Exception
 	 */
@@ -205,14 +206,13 @@ public class HostPage extends BasePage implements IHostPage  {
 		File file = new File(path+"/dotcms_logo.png");
 		WebElement input = getWebElement(By.cssSelector("input[type='file'][name='binary1FileUpload']"));
 		if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
-			input.click();
+			/*For some unknown reason this throws a render time out exception  */
 			input.sendKeys(file.getAbsolutePath());
-			sleep(5);
 		}else{
 			input.sendKeys(file.getAbsolutePath());
-			sleep(5);
 		}		
-		
+
+		sleep(5);
 		//Save the changes
 		getSaveActivateButton().click();
 	}
