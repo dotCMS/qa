@@ -56,7 +56,7 @@ public class POC {
         addContentPage.toggleWYSIWYGUnderline();
         addContentPage.addWYSIWYGText("This is the story that goes on and on my friend." + Keys.RETURN + Keys.RETURN + ".... but since you are my friend, I will end it now.");
         addContentPage.saveAndPublish();
-        logger.debug("Pause - admire handiwork");
+        logger.info("Pause - admire handiwork");
         
         Thread.sleep(5000);
         logger.info("Shutting Down....");

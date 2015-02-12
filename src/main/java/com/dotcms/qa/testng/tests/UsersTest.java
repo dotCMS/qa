@@ -80,32 +80,31 @@ public class UsersTest {
 	 */
 	@BeforeGroups (groups = {"Users"})
 	public void init() throws Exception {
-		logger.info("**UsersTests.init() beginning**");
-		config = SeleniumConfig.getConfig();
-		demoServerURL = config.getProperty("demoServerURL");
-		mobileServerURL = config.getProperty("mobileServerURL");
-		sharedServerURL = config.getProperty("sharedServerURL");
+		try {
+			logger.info("**UsersTests.init() beginning**");
+			config = SeleniumConfig.getConfig();
+			demoServerURL = config.getProperty("demoServerURL");
+			mobileServerURL = config.getProperty("mobileServerURL");
+			sharedServerURL = config.getProperty("sharedServerURL");
 
-		// Backend login
-		backendUserEmail = config.getProperty("backend.user.Email");
-		backendUserPassword = config.getProperty("backend.user.Password");
-		backendMgr = RegressionSuiteEnv.getBackendPageManager();
-		loginPage = backendMgr.getPageObject(ILoginPage.class);
-		loginPage.login(backendUserEmail, backendUserPassword);
+			// Backend login
+			backendUserEmail = config.getProperty("backend.user.Email");
+			backendUserPassword = config.getProperty("backend.user.Password");
+			backendMgr = RegressionSuiteEnv.getBackendPageManager();
+			loginPage = backendMgr.getPageObject(ILoginPage.class);
+			loginPage.login(backendUserEmail, backendUserPassword);
 
-		//Frontend login
-		frontendMgr = RegressionSuiteEnv.getFrontendPageManager(); 
+			//Frontend login
+			frontendMgr = RegressionSuiteEnv.getFrontendPageManager(); 
 
-		//Initialize portletMenu and UsersPage
-		portletMenu = backendMgr.getPageObject(IPortletMenu.class);
-		usersPage = portletMenu.getUsersPage();
-		Map<String, String> fakeUser = usersPage.getUserProperties(fakeEmail);
-		fakeUserId = fakeUser.get("userId");
-		if(fakeUserId != null && !fakeUserId.equals("")){
-			UsersPageUtil.deleteTag(tag);
-			UsersPageUtil.deleteTag(tagBase);
-			UsersPageUtil.deleteUser(fakeUserId);
+			//Initialize portletMenu and UsersPage
+			portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+			logger.info("**UsersTests.init() ending**");
 		}
+		catch(Exception e) {
+    		logger.error("ERROR - UsersTests.init()", e);
+    		throw(e);
+    	}
 	}
 
 	/**
@@ -114,21 +113,28 @@ public class UsersTest {
 	 */
 	@AfterGroups (groups = {"Users"})
 	public void teardown() throws Exception {
-		logger.info("**UsersTests.teardown() beginning**");
 
-		//setting userId to delete at the end of the test
-		usersPage = portletMenu.getUsersPage();
-		Map<String, String> fakeUser = usersPage.getUserProperties(fakeEmail);
-		fakeUserId = fakeUser.get("userId");
-		if(fakeUserId != null && !fakeUserId.equals("")){
-			UsersPageUtil.deleteTag(tag);
-			UsersPageUtil.deleteTag(tagBase);
-			UsersPageUtil.deleteUser(fakeUserId);
+		try {
+			logger.info("**UsersTests.teardown() beginning**");
+
+			//setting userId to delete at the end of the test
+			usersPage = portletMenu.getUsersPage();
+			Map<String, String> fakeUser = usersPage.getUserProperties(fakeEmail);
+			fakeUserId = fakeUser.get("userId");
+			if(fakeUserId != null && !fakeUserId.equals("")){
+				UsersPageUtil.deleteTag(tag);
+				UsersPageUtil.deleteTag(tagBase);
+				UsersPageUtil.deleteUser(fakeUserId);
+			}
+
+			// logout
+			backendMgr.logoutBackend();
+			logger.info("**UsersTests.teardown() ending**");
 		}
-
-		// logout
-		backendMgr.logoutBackend();
-		logger.info("**UsersTests.teardown() ending**");
+		catch(Exception e) {
+			logger.error("ERROR - UsersTests.teardown()", e);
+			throw(e);
+		}
 	}
 
 	/**
@@ -386,7 +392,7 @@ public class UsersTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/14129
 	 * @throws Exception
 	 */
-	@Test (groups = {"Users"})
+	@Test (groups = {"Broken", "Users"})
 	public void tc14129_AddRoleWithApostrophe() throws Exception {
 		rolesPage = portletMenu.getRolesPage();
 		//Creating role with apostrophe

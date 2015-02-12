@@ -50,7 +50,7 @@ public class SelectAFileDialog extends BasePage implements ISelectAFileDialog {
     		WebElement span = spans.get(1);
     		logger.info("span.getText() = " + span.getText());
     		WebElement img = div.findElement(By.tagName("img"));
-    		logger.debug("data-dojo-attach-point=" + img.getAttribute("data-dojo-attach-point"));
+    		logger.info("data-dojo-attach-point=" + img.getAttribute("data-dojo-attach-point"));
     		img.click();
     	}
 	}

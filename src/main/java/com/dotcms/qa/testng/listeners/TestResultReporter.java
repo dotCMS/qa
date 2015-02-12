@@ -23,6 +23,7 @@ public class TestResultReporter extends TestListenerAdapter implements ITestList
 		super.onTestFailure(result);
 		SeleniumPageManager.takeSnapshots(result.getName());
 		recordTestCaseResult(result, TestCase.Status.FAILED);
+		logger.info("***** Test " + result.getName() + " failed *****");
 	}
 
 	public void onTestSkipped(ITestResult result) {
@@ -32,6 +33,7 @@ public class TestResultReporter extends TestListenerAdapter implements ITestList
 	public void onTestSuccess(ITestResult result) {
 		super.onTestSuccess(result);
 		recordTestCaseResult(result, TestCase.Status.PASSED);
+		logger.info("***** Test " + result.getName() + " succeeded *****");
 	}
 	
 	private void recordTestCaseResult(ITestResult result, TestCase.Status status) {

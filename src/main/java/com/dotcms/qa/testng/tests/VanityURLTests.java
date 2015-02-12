@@ -27,28 +27,41 @@ public class VanityURLTests {
 
     @BeforeGroups (groups = {"VanityURLs"})
     public void init() throws Exception {
-    	logger.info("**VanityURLTests.init() beginning**");
-        SeleniumConfig config = SeleniumConfig.getConfig();
-        demoServerURL = config.getProperty("demoServerURL");
-        mobileServerURL = config.getProperty("mobileServerURL");
-        sharedServerURL = config.getProperty("sharedServerURL");
-
-        // login
-        backendMgr = RegressionSuiteEnv.getBackendPageManager();
-        loginPage = backendMgr.getPageObject(ILoginPage.class);
-        loginPage.login("admin@dotcms.com", "admin");
-        
-        // create frontendMgr for verification of frontend functionality
-        frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
-    	logger.info("**VanityURLTests.init() ending**");
+    	try {
+	    	logger.info("**VanityURLTests.init() beginning**");
+	        SeleniumConfig config = SeleniumConfig.getConfig();
+	        demoServerURL = config.getProperty("demoServerURL");
+	        mobileServerURL = config.getProperty("mobileServerURL");
+	        sharedServerURL = config.getProperty("sharedServerURL");
+	
+	        // login
+	        backendMgr = RegressionSuiteEnv.getBackendPageManager();
+	        loginPage = backendMgr.getPageObject(ILoginPage.class);
+	        loginPage.login("admin@dotcms.com", "admin");
+	        
+	        // create frontendMgr for verification of frontend functionality
+	        frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
+	    	logger.info("**VanityURLTests.init() ending**");
+    	}
+    	catch(Exception e) {
+    		logger.error("ERROR - VanityURLTests.init()", e);
+    		throw(e);
+    	}
+    	
     }
     
     @AfterGroups (groups = {"VanityURLs"})
     public void teardown() throws Exception {
-    	logger.info("**VanityURLTests.teardown() beginning**");
-        // logout
-        backendMgr.logoutBackend();
-    	logger.info("**VanityURLTests.teardown() ending**");
+    	try {
+	    	logger.info("**VanityURLTests.teardown() beginning**");
+	        // logout
+	        backendMgr.logoutBackend();
+	    	logger.info("**VanityURLTests.teardown() ending**");
+    	}
+    	catch (Exception e) {
+    		logger.error("ERROR - VanityURLTests.teardown()", e);
+    		throw e;
+    	}
     }
 
     public void sleep() {
