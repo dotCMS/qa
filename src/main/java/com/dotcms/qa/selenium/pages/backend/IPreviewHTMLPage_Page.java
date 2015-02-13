@@ -76,4 +76,19 @@ public interface IPreviewHTMLPage_Page extends IBasePage {
      * @throws Exception
      */
 	public String getContainerInode(String containerName) throws Exception;
+	
+	/**
+	 * Click the edit mode tab
+	 */
+	public void selectEditModeView() throws Exception;
+	
+	/**
+	 * Click the preview mode tab
+	 */
+	public void selectPreviewModeView() throws Exception;
+	
+	/**
+	 * Click the live mode tab
+	 */
+	public void selectLiveModeView() throws Exception;
 }

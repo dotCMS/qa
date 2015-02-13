@@ -472,7 +472,7 @@ public class HostTest {
 
 		// copy host
 		hostPage.addCopyExistingHost(testHostName5, hostToCopy);
-		hostPage.sleep(8);
+		hostPage.sleep(10);
 
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName5),"ERROR - The host ( "+testHostName5+" ) was not created");
@@ -513,7 +513,8 @@ public class HostTest {
 		String pageName = "index.html";
 		browserPage.sleep(2);
 		IPreviewHTMLPage_Page previewHTMLPage = browserPage.selectPageElement(pageName);
-
+		//validate that the edit mode is selected
+		previewHTMLPage.selectEditModeView();
 		String containerName = "Default 1 (Page Content)";
 		String containerInode = previewHTMLPage.getContainerInode( containerName);
 
@@ -553,9 +554,10 @@ public class HostTest {
 		wysiwyg_fields.put("body", "prueba2 prueba2 prueba2 prueba2 prueba2");
 		content2.add(text_fields);
 		content2.add(wysiwyg_fields);
-		
+		previewHTMLPage.selectEditModeView();
 		previewHTMLPage.addContent(containerInode,content2, spanish);
 		previewHTMLPage.sleep(3);
+		previewHTMLPage.selectEditModeView();
 		List<String> originalContainerSpanishContents = previewHTMLPage.getContainerContents(containerInode);
 		
 		String newLanguaje = previewHTMLPage.getCurrentLanguage();

@@ -152,9 +152,12 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 			lang.sendKeys(language);
 			sleep(3);
 			lang.sendKeys(Keys.RETURN);
-
-			this.switchToPopup();
-
+			try{
+				switchToAlert().accept();
+			}catch(Exception e){
+				logger.error(e.getMessage());
+			}
+			switchToPopup();
 			String compareText  = (keepPreviousContent?getLocalizedString("Yes"):getLocalizedString("No"));
 			List<WebElement> buttons = getWebElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 			for(WebElement elem : buttons){
@@ -163,7 +166,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 					break;
 				}
 			}
-			this.switchToDefaultContent();
+			switchToDefaultContent();
 		}
 	}
 

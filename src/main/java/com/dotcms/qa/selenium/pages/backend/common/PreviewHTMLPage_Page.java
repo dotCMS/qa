@@ -217,4 +217,28 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		}
 		return inode;
 	}
+	
+	/**
+	 * Click the edit mode tab
+	 */
+	public void selectEditModeView() throws Exception{
+		getMenuFrameElement("mainTabContainer_tablist_editModeTab", WebKeys.BY_ID).click();
+		returnToPageDefaultContent();
+	}
+	
+	/**
+	 * Click the preview mode tab
+	 */
+	public void selectPreviewModeView() throws Exception{
+		getMenuFrameElement("mainTabContainer_tablist_previewModeTab", WebKeys.BY_ID).click();
+		returnToPageDefaultContent();
+	}
+	
+	/**
+	 * Click the live mode tab
+	 */
+	public void selectLiveModeView() throws Exception{
+		getMenuFrameElement("mainTabContainer_tablist_liveModeTab", WebKeys.BY_ID).click();
+		returnToPageDefaultContent();
+	}
 }
