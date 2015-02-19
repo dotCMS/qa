@@ -1,5 +1,6 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -8,8 +9,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import com.dotcms.qa.selenium.pages.backend.IFolderAddOrEditPage;
-import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_PropertiesPage;
+import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddDialog;
+import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.ISiteBrowserPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
@@ -42,7 +45,9 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		getWebElementClickable(By.id("addNewButton_arrow")).click();
 		WebElement addFolderButton = getWebElement(By.className("newPageIcon"));
 		addFolderButton.click();
-		IHTMLPageAddOrEdit_PropertiesPage htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_PropertiesPage.class);
+		IHTMLPageAddDialog htmlAddDlg = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddDialog.class);
+		htmlAddDlg.select();
+		IHTMLPageAddOrEdit_ContentPage htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_ContentPage.class);
 		htmlAddPage.setTitle(title);
 		htmlAddPage.setURL(title);
 		htmlAddPage.setTemplate(templateName);

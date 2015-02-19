@@ -349,7 +349,7 @@ public class VanityURLTests {
         
         // add url
         vanityURLPage.addVanityURLToHost(vurl14099Title, targetHost, vurl14099URL, "http://www.google.com/");
-        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), vanityURLPage.getLocalizedString("message.virtuallink.save"));
+//        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), vanityURLPage.getLocalizedString("message.virtuallink.save"));
         
         // verify it is listed and working on demo host
         Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl14099Title));
@@ -502,13 +502,14 @@ public class VanityURLTests {
        
        // create html page
        siteBrowserPage.createHTMLPage("index.html", "qademo.dotcms.com Quest - 2 Column (Left Bar)");       
-//       Assert.assertEquals(siteBrowserPage.getSystemMessage().trim(), LanguageManager.getValue("message.htmlpage.published"));
+//       Assert.assertEquals(siteBrowserPage.getSystemMessage().trim(), LanguageManager.getValue("message.content.saved"));
        
        // escape preview page
-       IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
-       portletMenu = sideMenu.gotoAdminScreen();
+//       IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
+//       portletMenu = sideMenu.gotoAdminScreen();
 
        // verify vanity url does not already exist
+       portletMenu = backendMgr.getPageObject(IPortletMenu.class);
        IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
        Assert.assertFalse(vanityURLPage.doesVanityURLExist("test1"));
        Assert.assertFalse(vanityURLPage.doesVanityURLExist("test2"));

@@ -1,8 +1,11 @@
 package com.dotcms.qa.selenium.pages.common;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Capabilities;
@@ -10,7 +13,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -262,6 +267,11 @@ public class BasePage implements IBasePage {
 	    driver.switchTo().defaultContent();
     }
 
+    public void takeScreenshot(String filename) throws IOException {
+		File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+		FileUtils.copyFile(scrFile, new File(filename));	
+    }
+    
 	public void toggleCheckbox(By by) {
 		WebElement elem = getWebElement(by);
 		elem.click();
