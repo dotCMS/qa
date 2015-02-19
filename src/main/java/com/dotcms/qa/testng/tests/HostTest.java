@@ -6,19 +6,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.dotcms.qa.selenium.util.SeleniumConfig;
-import com.dotcms.qa.selenium.util.SeleniumPageManager;
-import com.dotcms.qa.selenium.pages.IBasePage;
-import com.dotcms.qa.selenium.pages.backend.*;
-import com.dotcms.qa.util.WebKeys;
-import com.thoughtworks.selenium.webdriven.commands.GetLocation;
-
 import org.apache.log4j.Logger;
-import org.openqa.selenium.support.ui.Sleeper;
 import org.testng.Assert;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
+
+import com.dotcms.qa.selenium.pages.IBasePage;
+import com.dotcms.qa.selenium.pages.backend.IContentAddOrEdit_ContentPage;
+import com.dotcms.qa.selenium.pages.backend.IContentSearchPage;
+import com.dotcms.qa.selenium.pages.backend.IHostPage;
+import com.dotcms.qa.selenium.pages.backend.ILoginPage;
+import com.dotcms.qa.selenium.pages.backend.IPortletMenu;
+import com.dotcms.qa.selenium.pages.backend.IPreviewHTMLPage_Page;
+import com.dotcms.qa.selenium.pages.backend.ISiteBrowserPage;
+import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_FieldsPage;
+import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_PropertiesPage;
+import com.dotcms.qa.selenium.pages.backend.IStructuresPage;
+import com.dotcms.qa.selenium.pages.backend.ITemplatesPage;
+import com.dotcms.qa.selenium.util.SeleniumConfig;
+import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.WebKeys;
 
 /**
  * This class manage the TestRail suite of test for Hosts
@@ -514,6 +522,13 @@ public class HostTest {
 		browserPage.sleep(2);
 		IPreviewHTMLPage_Page previewHTMLPage = browserPage.selectPageElement(pageName);
 		//validate that the edit mode is selected
+		try{
+			if(previewHTMLPage.isLocked()){
+				previewHTMLPage.unLockPage();
+			}
+		}catch(Exception e){
+			//is not a page asset contentlet
+		}
 		previewHTMLPage.selectEditModeView();
 		String containerName = "Default 1 (Page Content)";
 		String containerInode = previewHTMLPage.getContainerInode( containerName);
@@ -554,9 +569,23 @@ public class HostTest {
 		wysiwyg_fields.put("body", "prueba2 prueba2 prueba2 prueba2 prueba2");
 		content2.add(text_fields);
 		content2.add(wysiwyg_fields);
+		try{
+			if(previewHTMLPage.isLocked()){
+				previewHTMLPage.unLockPage();
+			}
+		}catch(Exception e){
+			//is not a page asset contentlet
+		}
 		previewHTMLPage.selectEditModeView();
 		previewHTMLPage.addContent(containerInode,content2, spanish);
 		previewHTMLPage.sleep(3);
+		try{
+			if(previewHTMLPage.isLocked()){
+				previewHTMLPage.unLockPage();
+			}
+		}catch(Exception e){
+			//is not a page asset contentlet
+		}
 		previewHTMLPage.selectEditModeView();
 		List<String> originalContainerSpanishContents = previewHTMLPage.getContainerContents(containerInode);
 		

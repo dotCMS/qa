@@ -73,6 +73,7 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 	 */
 	private WebElement getMenuFrameElement(String elementName, String bySearch) throws Exception{
 		WebElement elem = null;
+		returnToPageDefaultContent();
 		if(bySearch.equals(WebKeys.BY_ID)){
 			elem = myDriver.switchTo().frame("frameMenu").findElement(By.id(elementName));
 		}else if(bySearch.equals(WebKeys.BY_CSS_SELECTOR)){
@@ -239,6 +240,29 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 	 */
 	public void selectLiveModeView() throws Exception{
 		getMenuFrameElement("mainTabContainer_tablist_liveModeTab", WebKeys.BY_ID).click();
+		returnToPageDefaultContent();
+	}
+	
+	/**
+	 * Validate if the page is locked
+	 * @return true if it is locked, false if not
+	 * @throws Exception
+	 */
+	public boolean isLocked() throws Exception{
+		Boolean value = false;
+		WebElement lockButton = getMenuFrameElement("previewModeTools", WebKeys.BY_ID).findElement(By.id("lockBtn"));
+		if(lockButton != null){
+			value= true;
+		}
+		returnToPageDefaultContent();
+		return value;
+	}
+	
+	/**
+	 * Click the unlock link for the current page
+	 */
+	public void unLockPage() throws Exception{
+		getMenuFrameElement("previewModeTools", WebKeys.BY_ID).findElement(By.id("lockBtn")).findElement(By.tagName("a")).click();
 		returnToPageDefaultContent();
 	}
 }

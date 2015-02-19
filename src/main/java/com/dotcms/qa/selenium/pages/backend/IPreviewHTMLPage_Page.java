@@ -91,4 +91,16 @@ public interface IPreviewHTMLPage_Page extends IBasePage {
 	 * Click the live mode tab
 	 */
 	public void selectLiveModeView() throws Exception;
+	
+	/**
+	 * Validate if the page is locked
+	 * @return true if it is locked, false if not
+	 * @throws Exception
+	 */
+	public boolean isLocked() throws Exception;
+	
+	/**
+	 * Click the unlock link for the current page
+	 */
+	public void unLockPage() throws Exception;
 }

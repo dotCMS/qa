@@ -187,8 +187,8 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 						this.switchToFrame(key+"_ifr");
 						WebElement elem = getWebElement(By.id("tinymce"));
 						elem.click();
-						String currentText = elem.getText();
-						elem.sendKeys(currentText+(String)content.get(key));
+						//String currentText = elem.getText();
+						elem.sendKeys((String)content.get(key));
 						this.switchToDefaultContent();
 					}
 				}else if(type.equals(WebKeys.HOST_FIELD)){
