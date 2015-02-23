@@ -1,5 +1,6 @@
 package com.dotcms.qa.selenium.pages;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.openqa.selenium.Alert;
@@ -47,6 +48,7 @@ public interface IBasePage {
     public void switchToFrame(String frameName);
     public Alert switchToAlert();
     public void switchToDefaultContent();
+    public void takeScreenshot(String filename) throws IOException;
 	public void toggleCheckbox(By by);
     public void waitForPresenseOfElement(By by, int secondsToWait);
     public void waitForVisibilityOfElement(By by, int secondsToWait);

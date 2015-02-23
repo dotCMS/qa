@@ -162,8 +162,8 @@ public class UsersTest {
 		usersPage = portletMenu.getUsersPage();
 		Map<String, String> originalUser = usersPage.getUserProperties(editUserEmail);
 
-		String firstName2=originalUser.get("firstName")+"_tc258";
-		String lastName2=originalUser.get("lastName")+"_tc258";
+		String firstName2=originalUser.get("firstName")+"tc258";
+		String lastName2=originalUser.get("lastName")+"tc258";
 		String emailAddress2="fake_tc258@dotcms.com";
 		//User values to update
 		Map<String, String> properties = new HashMap<String,String>();
@@ -173,7 +173,7 @@ public class UsersTest {
 
 		//Update User
 		Assert.assertTrue(usersPage.editUser(editUserEmail,properties),"ERROR - User could not be edited. User Email:"+editUserEmail);
-
+		
 		//Verify if the user still exist with the previous email
 		Assert.assertFalse(usersPage.doesUserEmailExist(editUserEmail),"ERROR - User email was not edited. It is using the old User Email:"+editUserEmail);     
 

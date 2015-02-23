@@ -2,7 +2,7 @@ package com.dotcms.qa.selenium.pages.backend;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 
-public interface IHTMLPageAddOrEdit_PropertiesPage extends IBasePage {
+public interface IHTMLPageAddOrEdit_ContentPage extends IBasePage {
 	public void setTitle(String title);
 	public void setURL(String URL);
 	public void setTemplate(String templateName) throws Exception;
