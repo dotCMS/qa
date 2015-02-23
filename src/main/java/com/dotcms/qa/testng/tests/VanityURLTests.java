@@ -70,6 +70,7 @@ public class VanityURLTests {
     
     @Test (groups = {"VanityURLs"})
     public void tc383_AddVanityURLOnDemoHost() throws Exception {
+    	backendMgr.loadPage(demoServerURL + "admin"); 
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
     	
@@ -118,6 +119,7 @@ public class VanityURLTests {
 
     @Test (groups = {"VanityURLs"})
     public void tc384_EditVanityURLToDirectoryOnDemoHost() throws Exception{
+    	backendMgr.loadPage(demoServerURL + "admin"); 
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
 
@@ -186,6 +188,7 @@ public class VanityURLTests {
 
     @Test (groups = {"VanityURLs"})
     public void tc385_AddVanityURLOnAllHosts() throws Exception{
+    	backendMgr.loadPage(demoServerURL + "admin"); 
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
         String vurl385Title = "385 Vanity URL";
@@ -229,6 +232,7 @@ public class VanityURLTests {
 
     @Test (groups = {"VanityURLs"})
     public void tc386_AddVanityURLToDirectoryOnAllHosts() throws Exception{
+    	backendMgr.loadPage(demoServerURL + "admin"); 
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
 
@@ -274,6 +278,7 @@ public class VanityURLTests {
 
     @Test (groups = {"VanityURLs"})
     public void tc387_VerifyHostSpecificVanityURLOverridesAllHostsVanityURL() throws Exception{
+    	backendMgr.loadPage(demoServerURL + "admin"); 
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
         
@@ -336,6 +341,7 @@ public class VanityURLTests {
 
     @Test (groups = {"VanityURLs"})
     public void tc14099_AddVanityURLToExternalURLOnDemoHost() throws Exception{
+    	backendMgr.loadPage(demoServerURL + "admin"); 
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
 
@@ -373,6 +379,7 @@ public class VanityURLTests {
     
     @Test (groups = {"VanityURLs"})
     public void tc14100_AddVanityURLToExternalURLOnAllHosts() throws Exception{
+    	backendMgr.loadPage(demoServerURL + "admin"); 
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
         String vurl14100Title = "14100 Vanity URL";
@@ -415,6 +422,7 @@ public class VanityURLTests {
     
     @Test (groups = {"VanityURLs"})
     public void tc14101_AddVanityURLWithParametersOnDemoHost() throws Exception{
+    	backendMgr.loadPage(demoServerURL + "admin"); 
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
         String vurl14101Title = "14101 Vanity URL";
@@ -445,6 +453,7 @@ public class VanityURLTests {
 
     @Test (groups = {"VanityURLs"})
     public void tc14102_AddVanityURLToExternalURLWithParametersOnDemoHost() throws Exception{
+    	backendMgr.loadPage(demoServerURL + "admin"); 
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
         String vurl14102Title = "14102 Vanity URL";
@@ -474,6 +483,7 @@ public class VanityURLTests {
     
     @Test (groups = {"VanityURLs"})
     public void tc14105_VanityURLWithAbsoluteAddressOnANewHost() throws Exception{
+    	backendMgr.loadPage(demoServerURL + "admin"); 
         IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
         IHostPage hostPage = portletMenu.getHostPage();
     	
@@ -505,8 +515,8 @@ public class VanityURLTests {
 //       Assert.assertEquals(siteBrowserPage.getSystemMessage().trim(), LanguageManager.getValue("message.content.saved"));
        
        // escape preview page
-//       IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
-//       portletMenu = sideMenu.gotoAdminScreen();
+       IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
+       portletMenu = sideMenu.gotoAdminScreen();
 
        // verify vanity url does not already exist
        portletMenu = backendMgr.getPageObject(IPortletMenu.class);
