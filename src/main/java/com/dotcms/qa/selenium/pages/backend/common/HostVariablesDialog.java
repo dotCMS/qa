@@ -29,6 +29,7 @@ public class HostVariablesDialog extends BasePage implements IHostVariablesDialo
 	
 	public void addNewHostVariable(String name, String key, String value) throws Exception {
 		IHostVariablesAddOrEditDialog addVarPage = getHostVariablesAddScreen();
+		sleep(2);
 		addVarPage.setFields(name, key, value);
 		addVarPage.save();
 	}

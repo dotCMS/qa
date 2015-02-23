@@ -196,7 +196,7 @@ public class HostTest {
 
 		Assert.assertFalse(hostPage.doesHostVariableExist(qasharedHostName, hostVariableName),"ERROR -  the host variable ("+hostVariableName+") should not exist in host ("+qasharedHostName+")");
 		hostPage.addHostVariable(qasharedHostName, hostVariableName, hostVariableKey, hostVariableValue);
-		hostPage.sleep(1);
+		hostPage.sleep(2);
 		Assert.assertTrue(hostPage.doesHostVariableExist(qasharedHostName, hostVariableName),"ERROR -  the host variable ("+hostVariableName+") does not exist in host ("+qasharedHostName+")");
 		hostPage = backendMgr.getPageObject(IHostPage.class);
 		hostPage.deleteHostVariable(qasharedHostName, hostVariableName, true);
@@ -214,7 +214,13 @@ public class HostTest {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
 		Assert.assertFalse(hostPage.doesHostHaveHostThumbnail(qasharedHostName),"ERROR -  the host ("+qasharedHostName+") should not have a host thumbnail");
-		hostPage.addHostThumbnail(qasharedHostName);
+		/**
+		 * This "if" condition should be removed, once the problem with the upload 
+		 * thumbnail is fixed on google chrome browser
+		 */
+		if(!hostPage.getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
+			hostPage.addHostThumbnail(qasharedHostName);
+		}
 		hostPage.sleep(5);
 		Assert.assertTrue(hostPage.doesHostHaveHostThumbnail(qasharedHostName),"ERROR -  the host ("+qasharedHostName+") does not have a host thumbnail");
 		hostPage.removeHostThumbnail(qasharedHostName);
@@ -611,11 +617,27 @@ public class HostTest {
 		browserPage.selectFolder(folderName);
 		previewHTMLPage = browserPage.selectPageElement(pageName);
 		previewHTMLPage.sleep(1);
+		try{
+			if(previewHTMLPage.isLocked()){
+				previewHTMLPage.unLockPage();
+			}
+		}catch(Exception e){
+			//is not a page asset contentlet
+		}
+		previewHTMLPage.selectEditModeView();
 		String newContainerInode = previewHTMLPage.getContainerInode( containerName);
 		List<String> copyHostContainerEnglishContents = previewHTMLPage.getContainerContents(newContainerInode);
 		Assert.assertTrue(originalContainerEnglishContents.size() == copyHostContainerEnglishContents.size(),"ERROR - The number of contents in english is different in host ("+demoHostName+","+testHostName6+")");
 		previewHTMLPage.changeLanguage(spanish);
 		previewHTMLPage.sleep(1);
+		try{
+			if(previewHTMLPage.isLocked()){
+				previewHTMLPage.unLockPage();
+			}
+		}catch(Exception e){
+			//is not a page asset contentlet
+		}
+		previewHTMLPage.selectEditModeView();
 		List<String> copyHostContainerSpaishContents = previewHTMLPage.getContainerContents(newContainerInode);
 		Assert.assertTrue(originalContainerSpanishContents.size() == copyHostContainerSpaishContents.size(),"ERROR - The number of contents in spanish is different in host ("+demoHostName+","+testHostName6+")");
 		
