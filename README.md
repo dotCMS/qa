@@ -14,16 +14,16 @@ Setup a dotcms instance running https://s3.amazonaws.com/qa.dotcms.com/starters/
 Ensure you have a valid dotCMS license for your server.  Some of the tests require enterprise functionality in order to run.
 
 Make sure your host file has entries for the following:
-*qademo.dotcms.com
-*m.qademo.dotcms.com
-*qashared.dotcms.com
-*qahost01.dotcms.com
-*qahost02.dotcms.com
-*qahost03.dotcms.com
-*qahost04.dotcms.com
-*qahost05.dotcms.com
-*qahost06.dotcms.com
-*qahost07.dotcms.com
+* qademo.dotcms.com
+* m.qademo.dotcms.com
+* qashared.dotcms.com
+* qahost01.dotcms.com
+* qahost02.dotcms.com
+* qahost03.dotcms.com
+* qahost04.dotcms.com
+* qahost05.dotcms.com
+* qahost06.dotcms.com
+* qahost07.dotcms.com
 
 Verify that the properties in src/main/resources/qa.properties are correct.  Especially focus on the server port numbers.
 
