@@ -79,7 +79,7 @@ def main(nameOfRun,caseId,status,comment):
     else:
         statusVal = '0'     
             
-    print('values: ',runId,caseId,statusVal,comment)
+    #print('values: ',runId,caseId,statusVal,comment)
     results = testrail.addResultsForCase(runId,caseId,statusVal,comment)
     print("Case result status submitted")
     
