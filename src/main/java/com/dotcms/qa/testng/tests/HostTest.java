@@ -193,7 +193,7 @@ public class HostTest {
 		String hostVariableName = "var1";
 		String hostVariableKey = "key1";
 		String hostVariableValue = "value1";
-
+		hostPage.sleep(1);
 		Assert.assertFalse(hostPage.doesHostVariableExist(qasharedHostName, hostVariableName),"ERROR -  the host variable ("+hostVariableName+") should not exist in host ("+qasharedHostName+")");
 		hostPage.addHostVariable(qasharedHostName, hostVariableName, hostVariableKey, hostVariableValue);
 		hostPage.sleep(2);
@@ -644,6 +644,7 @@ public class HostTest {
 		
 		//delete newly added host
 		previewHTMLPage.returnToPortletsMenu();
+		hostPage.sleep(2);
 		hostPage = portletMenu.getHostPage();
 		hostPage.stopHost(testHostName6, true);
 		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
