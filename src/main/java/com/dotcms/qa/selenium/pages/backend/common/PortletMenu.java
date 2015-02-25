@@ -105,7 +105,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	public WebElement getPortletElement(String portletTextKey) {
 		WebElement retValue = null;
 		String portletText = getLocalizedString(portletTextKey);
-		logger.info("portletTextKey=" + portletTextKey + "|portletText=" + portletText);
+		logger.debug("portletTextKey=" + portletTextKey + "|portletText=" + portletText);
 		List<WebElement> allElements = getWebElements(By.className("navMenu-title")); 
 		for (WebElement element: allElements) {
 			try {

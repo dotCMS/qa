@@ -147,14 +147,14 @@ public class HostPage extends BasePage implements IHostPage  {
 		WebElement prevRow = null;
 		for(WebElement row : rows) {
 			if(prevRow != null) {
-				logger.info("* prevRow.isDisplayed() = " + prevRow.isDisplayed());
-				logger.info("* prevRow.isEnabled() = " + prevRow.isEnabled());
+				logger.debug("* prevRow.isDisplayed() = " + prevRow.isDisplayed());
+				logger.debug("* prevRow.isEnabled() = " + prevRow.isEnabled());
 			}
-			logger.info("* isDisplayed() = " + row.isDisplayed());
-			logger.info("* isEnabled() = " + row.isEnabled());
+			logger.debug("* isDisplayed() = " + row.isDisplayed());
+			logger.debug("* isEnabled() = " + row.isEnabled());
 			List<WebElement> labels = row.findElements(By.className("dijitMenuItemLabel"));
 			for(WebElement label : labels) {
-				logger.info("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
+				logger.debug("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
 				if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
 					this.hoverOverElement(label);
 					getWebElementClickable(label).click();
