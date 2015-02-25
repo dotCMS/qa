@@ -63,7 +63,7 @@ public class HostVariablesDialog extends BasePage implements IHostVariablesDialo
 		for(WebElement row : rows) {
 			List<WebElement> columns = row.findElements(By.tagName("td"));
 			for(WebElement column : columns) {
-				System.out.println("*** column.getAttribute(\"innerHTML\").trim() = |" + column.getAttribute("innerHTML").trim() + "|***");
+				logger.debug("*** column.getAttribute(\"innerHTML\").trim() = |" + column.getAttribute("innerHTML").trim() + "|***");
 				if(variableName.equals(column.getAttribute("innerHTML").trim())) {
 					retValue = row;
 					break;
@@ -81,7 +81,7 @@ public class HostVariablesDialog extends BasePage implements IHostVariablesDialo
 		List<WebElement> spans = div.findElements(By.tagName("span"));
 		for(WebElement span : spans) {
 			String widgetId = span.getAttribute("widgetid");
-			logger.info("widgetId = " + widgetId);
+			logger.debug("widgetId = " + widgetId);
 			if(widgetId != null && "dijit_form_Button_13".equals(widgetId.trim())) {
 				addNewSiteVariableButton = span.findElement(By.className("dijitButtonNode"));
 				break;
