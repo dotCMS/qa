@@ -102,12 +102,12 @@ public class HostTest {
 		IHostPage hostPage = portletMenu.getHostPage();
 		
 		// verify Host does not already exist
-		Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
-
-		// add host
-		hostPage.addBlankHost(testHostName1);
-		hostPage.sleep(5);
-
+		//Assert.assertFalse(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should not exist at this time");
+		if(!hostPage.doesHostExist(testHostName1)){
+			// add host
+			hostPage.addBlankHost(testHostName1);
+			hostPage.sleep(5);
+		}
 		// verify Host does exist
 		Assert.assertTrue(hostPage.doesHostExist(testHostName1),"ERROR - The host ( "+testHostName1+" ) should exist at this time");
 
