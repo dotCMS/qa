@@ -81,7 +81,7 @@ public class HostVariablesDialog extends BasePage implements IHostVariablesDialo
 		List<WebElement> spans = div.findElements(By.tagName("span"));
 		for(WebElement span : spans) {
 			String widgetId = span.getAttribute("widgetid");
-			logger.info("widgetId = " + widgetId);
+			logger.debug("widgetId = " + widgetId);
 			if(widgetId != null && "dijit_form_Button_13".equals(widgetId.trim())) {
 				addNewSiteVariableButton = span.findElement(By.className("dijitButtonNode"));
 				break;
