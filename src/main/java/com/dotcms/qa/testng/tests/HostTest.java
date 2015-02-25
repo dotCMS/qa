@@ -350,7 +350,8 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/203
 	 * @throws Exception
 	 */
-	@Test (groups = {"Host"})
+	// Marked as broken, pending fix for https://github.com/dotCMS/core/issues/7362
+	@Test (groups = {"Broken", "Host"})
 	public void tc203_ChangeDefaultHost() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
@@ -660,7 +661,8 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/688
 	 * @throws Exception
 	 */
-	@Test (groups = {"Host"})
+	// Marked as broken, pending fix for https://github.com/dotCMS/core/issues/7362
+	@Test (groups = {"Broken", "Host"})
 	public void tc688_OnlyOneDefaultHost() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
