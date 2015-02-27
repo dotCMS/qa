@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeGroups;
@@ -26,6 +28,7 @@ import com.dotcms.qa.selenium.pages.backend.IStructuresPage;
 import com.dotcms.qa.selenium.pages.backend.ITemplatesPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.Evaluator;
 import com.dotcms.qa.util.WebKeys;
 
 /**
@@ -487,7 +490,34 @@ public class HostTest {
 
 		// copy host
 		hostPage.addCopyExistingHost(testHostName5, hostToCopy);
-		hostPage.sleep(10);
+		hostPage.sleep(2); // wait to ensure hostpage is now loaded
+		Evaluator eval1 = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns true if progress bar is done
+				boolean done = false;
+				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
+
+				WebElement progressBar = null;
+				WebElement tableOfHost = evalHostPage.getWebElement(By.className("listingTable"));
+				for(WebElement tr : tableOfHost.findElements(By.className("alternate_1"))) {
+					WebElement anchor = tr.findElement(By.tagName("a"));
+					String host = anchor.getAttribute("innerHTML").replaceAll("<b>", "").replaceAll("</b>", "");
+					if(host.startsWith(testHostName5)) {
+						progressBar = tr.findElement(By.className("dijitProgressBar"));
+						if(progressBar != null) {
+							System.out.println("progressBar.getAttribute('style') = " + progressBar.getAttribute("style"));
+							String style = progressBar.getAttribute("style").trim();
+							if(style.contains("display: none;"))
+								done = true;
+						}
+						else	// if no progress bar element then page must have been refreshed and there is no copy in progress
+							done = true;
+						break;
+					}
+				}				
+				return done;
+			}
+		};
+		hostPage.pollForValue(eval1, true, 5000, 20);		// Poll every second for up to 2 minutes
 
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName5),"ERROR - The host ( "+testHostName5+" ) was not created");
@@ -498,16 +528,31 @@ public class HostTest {
 		Assert.assertTrue(intBaseHostTemplates == intCopyHostTemplates,"ERROR - the number of templates don't match between the two host");
 
 		hostPage = portletMenu.getHostPage();
+		Evaluator eval2 = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns true if host exists
+				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
+				return evalHostPage.doesHostExist(testHostName5);
+			}
+		};
+		hostPage.pollForValue(eval2, true, 1000, 20);
 		// delete host
 		hostPage.stopHost(testHostName5, true);
 		hostPage.sleep(1);
 		hostPage.archiveHost(testHostName5, true);
 		hostPage.toggleShowArchived();
 		hostPage.deleteHost(testHostName5, true);
-
-		hostPage.sleep(10);
-		// verify it is no longer listed on page
-		Assert.assertFalse(hostPage.doesHostExist(testHostName5),"ERROR - The host ( "+testHostName5+" ) should not exist at this time");
+		Evaluator eval3 = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns false if host exists
+				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
+				evalHostPage.reload();
+				evalHostPage.toggleShowArchived();
+				return !evalHostPage.doesHostExist(testHostName5);
+			}
+		};
+		boolean hostDeleted = hostPage.pollForValue(eval3, true, 5000, 24);	// Check every 5 seconds for up to 2 minutes
+		
+		// verify it host has been deleted
+		Assert.assertTrue(hostDeleted,"ERROR - The host ( "+testHostName5+" ) should not exist at this time");
 
 	}
 
