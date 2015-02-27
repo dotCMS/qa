@@ -393,7 +393,7 @@ public class BasePage implements IBasePage {
 			try {retValue = eval.evaluate();} catch(Exception e) {logger.warn("Exception in call to evaluate()", e);}
 			remainingPolls--;
 		}
-		logger.info("pollForValue: retValue = " + retValue + " - remainingPolls = " + remainingPolls);
+		logger.trace("pollForValue: retValue = " + retValue + " - remainingPolls = " + remainingPolls);
 		return retValue;
 	}
 }

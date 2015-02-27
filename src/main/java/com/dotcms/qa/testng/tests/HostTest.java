@@ -490,34 +490,14 @@ public class HostTest {
 
 		// copy host
 		hostPage.addCopyExistingHost(testHostName5, hostToCopy);
-		hostPage.sleep(2); // wait to ensure hostpage is now loaded
+		hostPage.sleep(2); // wait to ensure hostpage is loaded
 		Evaluator eval1 = new Evaluator() {
-			public boolean evaluate() throws Exception {  // returns true if progress bar is done
-				boolean done = false;
+			public boolean evaluate() throws Exception {  // returns true if host copy is done
 				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
-
-				WebElement progressBar = null;
-				WebElement tableOfHost = evalHostPage.getWebElement(By.className("listingTable"));
-				for(WebElement tr : tableOfHost.findElements(By.className("alternate_1"))) {
-					WebElement anchor = tr.findElement(By.tagName("a"));
-					String host = anchor.getAttribute("innerHTML").replaceAll("<b>", "").replaceAll("</b>", "");
-					if(host.startsWith(testHostName5)) {
-						progressBar = tr.findElement(By.className("dijitProgressBar"));
-						if(progressBar != null) {
-							System.out.println("progressBar.getAttribute('style') = " + progressBar.getAttribute("style"));
-							String style = progressBar.getAttribute("style").trim();
-							if(style.contains("display: none;"))
-								done = true;
-						}
-						else	// if no progress bar element then page must have been refreshed and there is no copy in progress
-							done = true;
-						break;
-					}
-				}				
-				return done;
+				return !evalHostPage.isHostCopyInProgress(testHostName5);
 			}
 		};
-		hostPage.pollForValue(eval1, true, 5000, 20);		// Poll every second for up to 2 minutes
+		hostPage.pollForValue(eval1, true, 1000, 120);		// Poll every second for up to 2 minutes
 
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName5),"ERROR - The host ( "+testHostName5+" ) was not created");

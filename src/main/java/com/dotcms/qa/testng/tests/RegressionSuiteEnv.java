@@ -30,7 +30,7 @@ public class RegressionSuiteEnv {
             diagMsg.append(key + "=" + System.getProperty(key) + "\r\n");
         }       
         diagMsg.append("**************************");
-        logger.info(diagMsg.toString());
+        logger.debug(diagMsg.toString());
     }
     
     @AfterSuite (alwaysRun = true)

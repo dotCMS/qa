@@ -401,4 +401,27 @@ public class HostPage extends BasePage implements IHostPage  {
 		}
 		reload();
 	}
+
+	public boolean isHostCopyInProgress(String hostName) throws Exception {
+		boolean copyInProgress = true;
+		WebElement progressBar = null;
+		WebElement tableOfHost = getWebElement(By.className("listingTable"));
+		for(WebElement tr : tableOfHost.findElements(By.className("alternate_1"))) {
+			WebElement anchor = tr.findElement(By.tagName("a"));
+			String host = anchor.getAttribute("innerHTML").replaceAll("<b>", "").replaceAll("</b>", "");
+			if(host.startsWith(hostName)) {
+				progressBar = tr.findElement(By.className("dijitProgressBar"));
+				if(progressBar != null) {
+					logger.trace("progressBar.getAttribute('style') = " + progressBar.getAttribute("style"));
+					String style = progressBar.getAttribute("style").trim();
+					if(style.contains("display: none;"))
+						copyInProgress = false;
+				}
+				else	// if no progress bar element then page must have been refreshed and there is no copy in progress
+					copyInProgress = false;
+				break;
+			}
+		}
+		return copyInProgress;
+	}
 }
