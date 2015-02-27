@@ -61,6 +61,7 @@ public class HostPage extends BasePage implements IHostPage  {
 
 	public boolean doesHostVariableExist(String hostName, String variableName) throws Exception {
 		IHostVariablesDialog hostVarPage = getHostVariablesPage(hostName);
+		sleep(2);
 		boolean retValue =  hostVarPage.doesHostVariableExist(variableName);
 		hostVarPage.close();
 		//    	reload();			// TODO - remove need for this reload call
