@@ -309,7 +309,7 @@ public class HostTest {
 	 * @throws Exception
 	 */
 	@Test (groups = {"Host"})
-	public void tc201_StopAHost() throws Exception {
+	public void tc201_StopAndActivateHost() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
 
@@ -318,19 +318,6 @@ public class HostTest {
 		hostPage.sleep(1);
 		Assert.assertFalse(hostPage.isHostActive(mobiledemoHostName), "ERROR -  This Host ("+mobiledemoHostName+") should not be active at this moment");
 
-	}
-
-	/**
-	 * Test the activate host functionality. See here:
-	 * http://qa.dotcms.com/index.php?/cases/view/202
-	 * @throws Exception
-	 */
-	@Test (groups = {"Host"})
-	public void tc202_ActivateHost() throws Exception {
-		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
-		IHostPage hostPage = portletMenu.getHostPage();
-
-		Assert.assertFalse(hostPage.isHostActive(mobiledemoHostName), "ERROR -  This Host ("+mobiledemoHostName+") should not be active at this moment");
 		hostPage.startHost(mobiledemoHostName, true);
 		hostPage.sleep(1);
 		Assert.assertTrue(hostPage.isHostActive(mobiledemoHostName), "ERROR -  This Host ("+mobiledemoHostName+") should be active at this moment");
