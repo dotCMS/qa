@@ -70,20 +70,28 @@ public class HostTest {
 
 	@BeforeGroups (groups = {"Host"})
 	public void init() throws Exception {
-		SeleniumConfig config = SeleniumConfig.getConfig();
-		demoServerURL = config.getProperty("demoServerURL");
-		mobileDemoServerURL = config.getProperty("mobileServerURL");
-		logger.info("demoServerURL = " + demoServerURL);
-
-		// create frontendMgr for verification of frontend functionality
-		frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
-
-		// login
-		backendUserEmail = config.getProperty("backend.user.Email");
-		backendUserPassword = config.getProperty("backend.user.Password");
-		backendMgr = RegressionSuiteEnv.getBackendPageManager();
-		loginPage = backendMgr.getPageObject(ILoginPage.class);
-		loginPage.login(backendUserEmail, backendUserPassword);       
+		try{
+	    	logger.info("**HostTest.init() beginning**");
+			SeleniumConfig config = SeleniumConfig.getConfig();
+			demoServerURL = config.getProperty("demoServerURL");
+			mobileDemoServerURL = config.getProperty("mobileServerURL");
+			logger.info("demoServerURL = " + demoServerURL);
+	
+			// create frontendMgr for verification of frontend functionality
+			frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
+	
+			// login
+			backendUserEmail = config.getProperty("backend.user.Email");
+			backendUserPassword = config.getProperty("backend.user.Password");
+			backendMgr = RegressionSuiteEnv.getBackendPageManager();
+			loginPage = backendMgr.getPageObject(ILoginPage.class);
+			loginPage.login(backendUserEmail, backendUserPassword);
+	    	logger.info("**HostTest.init() ending**");
+		}
+		catch (Exception e) {
+    		logger.error("ERROR - HostTest.init()", e);
+    		throw(e);
+		}
 	}
 
 	@AfterGroups (groups = {"Host"})
@@ -571,11 +579,11 @@ public class HostTest {
 		String contentInode= originalContainerEnglishContents.get(0);
 		
 
-		String currentLanguaje = previewHTMLPage.getCurrentLanguage();
-		currentLanguaje = currentLanguaje.substring(0, currentLanguaje.indexOf(" "));
+		String currentLanguage = previewHTMLPage.getCurrentLanguage();
+		currentLanguage = currentLanguage.substring(0, currentLanguage.indexOf(" "));
 		
 		//Adding spanish version to current content
-		Assert.assertFalse(currentLanguaje.equals(spanishLanguage), "ERROR - Spanish should not be the current language");
+		Assert.assertFalse(currentLanguage.equals(spanishLanguage), "ERROR - Spanish should not be the current language");
 		previewHTMLPage.sleep(3);
 		previewHTMLPage.editContent(contentInode,content1, spanish,true);
 		previewHTMLPage.sleep(1);
@@ -596,7 +604,7 @@ public class HostTest {
 				previewHTMLPage.unLockPage();
 			}
 		}catch(Exception e){
-			//is not a page asset contentlet
+			logger.error("This is not a page asset contentlet", e);
 		}
 		previewHTMLPage.selectEditModeView();
 		previewHTMLPage.addContent(containerInode,content2, spanish);
@@ -606,7 +614,7 @@ public class HostTest {
 				previewHTMLPage.unLockPage();
 			}
 		}catch(Exception e){
-			//is not a page asset contentlet
+			logger.error("This is not a page asset contentlet", e);
 		}
 		previewHTMLPage.selectEditModeView();
 		List<String> originalContainerSpanishContents = previewHTMLPage.getContainerContents(containerInode);
@@ -614,7 +622,7 @@ public class HostTest {
 		String newLanguaje = previewHTMLPage.getCurrentLanguage();
 		Assert.assertTrue(newLanguaje.equals(spanishLanguage), "ERROR - Spanish should be the current language");
 		previewHTMLPage.sleep(1);
-		previewHTMLPage.changeLanguage(currentLanguaje);
+		previewHTMLPage.changeLanguage(currentLanguage);
 		newLanguaje = previewHTMLPage.getCurrentLanguage();
 		Assert.assertFalse(newLanguaje.equals(spanishLanguage), "ERROR - Spanish should not be the current language");
 		previewHTMLPage.sleep(1);
