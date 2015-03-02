@@ -70,7 +70,7 @@ public interface IHostPage extends IBasePage {
 	 * @param confirm
 	 * @throws Exception
 	 */
-	public void makeDefultHost(String hostName, boolean confirm) throws Exception;
+	public void makeDefaultHost(String hostName, boolean confirm) throws Exception;
 	
 	public boolean isHostCopyInProgress(String hostName) throws Exception;
 }

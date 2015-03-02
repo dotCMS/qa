@@ -389,7 +389,7 @@ public class HostPage extends BasePage implements IHostPage  {
 	 * @param confirm
 	 * @throws Exception
 	 */
-	public void makeDefultHost(String hostName, boolean confirm) throws Exception{
+	public void makeDefaultHost(String hostName, boolean confirm) throws Exception{
 		sleep(2);
 		this.selectPopupMenuOption(hostName, getLocalizedString("Make-Default"));
 		Alert alert = this.switchToAlert();

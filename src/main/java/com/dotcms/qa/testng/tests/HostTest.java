@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeGroups;
@@ -164,7 +162,7 @@ public class HostTest {
 	 * @throws Exception
 	 */
 	@Test (groups = {"Host"})
-	public void tc196_AddHostManually() throws Exception  {
+	public void tc196_AddAndDeleteHostManually() throws Exception  {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		IHostPage hostPage = portletMenu.getHostPage();
 
@@ -182,6 +180,33 @@ public class HostTest {
 		IBasePage homePage = frontendMgr.loadPage("http://" + testHostName2 + ":8080/");
 		String title = homePage.getTitle();
 		Assert.assertTrue(title != null && title.startsWith("dotCMS: Page not found"),"ERROR - The host should not have a page set");
+		
+		// delete host
+		hostPage.stopHost(testHostName2, true);
+		hostPage.sleep(3);
+		hostPage.archiveHost(testHostName2, true);
+		hostPage.toggleShowArchived();
+		hostPage.deleteHost(testHostName2, true);
+		Evaluator eval = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns false if host exists
+				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
+				evalHostPage.reload();
+				evalHostPage.toggleShowArchived();
+				return !evalHostPage.doesHostExist(testHostName2);
+			}
+		};
+		hostPage.pollForValue(eval, true, 5000, 24);	// Check every 5 seconds for up to 2 minutes
+		
+		// verify host is no longer listed on page
+		hostPage.reload();
+		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
+		hostPage.toggleShowArchived();
+		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
+
+		// verify host is no longer responding to requests
+		IBasePage homePage2 = frontendMgr.loadPage("http://" + testHostName2 + ":8080/");
+		String title2 = homePage2.getTitle();
+		Assert.assertFalse(title != null && title2 != null && title2.equals(title), "Page should not be responding.  title=|" + title + "| title2 = |" + title2 + "|");
 	}
 
 	/**
@@ -230,44 +255,6 @@ public class HostTest {
 		hostPage.removeHostThumbnail(qasharedHostName);
 		hostPage.sleep(5);
 		Assert.assertFalse(hostPage.doesHostHaveHostThumbnail(qasharedHostName),"ERROR -  the host ("+qasharedHostName+") should not have a host thumbnail");
-	}
-
-	/**
-	 * Test the delete host added manually functionality case. See here:
-	 * http://qa.dotcms.com/index.php?/cases/view/199
-	 * @throws Exception
-	 */
-	@Test (groups = {"Host"})
-	public void tc199_DeleteHostAddedManually() throws Exception  {
-		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
-		IHostPage hostPage = portletMenu.getHostPage();
-
-		// verify it was created and listed on page
-		Assert.assertTrue(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) was not created");
-
-		// verify new host responds to traffic
-		IBasePage homePage = frontendMgr.loadPage("http://" + testHostName2 + ":8080/");
-		String title = homePage.getTitle();
-
-		hostPage.stopHost(testHostName2, true);
-		hostPage.sleep(1);						// TODO - remove cluginess and be able to remove this sleep call
-		hostPage.archiveHost(testHostName2, true);
-		hostPage.sleep(1);
-		hostPage.toggleShowArchived();
-		hostPage.deleteHost(testHostName2, true);
-		hostPage.sleep(1);
-		// verify host is no longer listed on page
-		hostPage.reload();
-		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
-		hostPage.toggleShowArchived();
-		Assert.assertFalse(hostPage.doesHostExist(testHostName2),"ERROR - The host ( "+testHostName2+" ) should not exist at this time");
-
-		// verify host is no longer responding to requests
-		IBasePage demoHomePage = frontendMgr.loadPage(demoServerURL);
-		String demoHomePageTitle = demoHomePage.getTitle();
-		homePage = frontendMgr.loadPage("http://" + testHostName2 + ":8080/");
-		title = homePage.getTitle();
-		Assert.assertTrue(demoHomePageTitle != null && title != null && demoHomePageTitle.equals(title), "Page titles do not match.  demoHomePageTitle=|" + demoHomePageTitle + "| title = |" + title + "|");
 	}
 
 	/**
@@ -361,7 +348,7 @@ public class HostTest {
 		IHostPage hostPage = portletMenu.getHostPage();
 
 		Assert.assertFalse(hostPage.isHostDefault(mobiledemoHostName), "ERROR -  This Host ("+mobiledemoHostName+") should not be a default host at this moment");
-		hostPage.makeDefultHost(mobiledemoHostName, true);
+		hostPage.makeDefaultHost(mobiledemoHostName, true);
 		hostPage.sleep(1);
 		Assert.assertTrue(hostPage.isHostDefault(mobiledemoHostName), "ERROR -  This Host ("+mobiledemoHostName+") should be a default host at this moment");
 		Assert.assertFalse(hostPage.isHostDefault(demoHostName), "ERROR -  This Host ("+demoHostName+") should not be a default host at this moment");
@@ -372,7 +359,7 @@ public class HostTest {
 		if(!hostPage.isHostActive(demoHostName)){
 			hostPage.startHost(demoHostName, true);
 		}
-		hostPage.makeDefultHost(demoHostName, true);
+		hostPage.makeDefaultHost(demoHostName, true);
 		hostPage.sleep(1);
 		Assert.assertTrue(hostPage.isHostDefault(demoHostName), "ERROR -  This Host ("+demoHostName+") should be a default host at this moment");
 		Assert.assertFalse(hostPage.isHostDefault(mobiledemoHostName), "ERROR -  This Host ("+mobiledemoHostName+") should not be a default host at this moment");
@@ -450,7 +437,14 @@ public class HostTest {
 
 		// copy host
 		hostPage.addCopyExistingHost(testHostName4, hostToCopy);
-		hostPage.sleep(5);
+		hostPage.sleep(1);
+		Evaluator eval1 = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns true if host copy is done
+				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
+				return !evalHostPage.isHostCopyInProgress(testHostName4);
+			}
+		};
+		hostPage.pollForValue(eval1, true, 1000, 120);		// Poll every second for up to 2 minutes
 
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName4),"ERROR - The host ( "+testHostName4+" ) was not created");
@@ -466,8 +460,16 @@ public class HostTest {
 		hostPage.archiveHost(testHostName4, true);
 		hostPage.toggleShowArchived();
 		hostPage.deleteHost(testHostName4, true);
+		Evaluator eval3 = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns false if host exists
+				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
+				evalHostPage.reload();
+				evalHostPage.toggleShowArchived();
+				return !evalHostPage.doesHostExist(testHostName4);
+			}
+		};
+		hostPage.pollForValue(eval3, true, 5000, 24);	// Check every 5 seconds for up to 2 minutes
 
-		hostPage.sleep(5);
 		// verify it is no longer listed on page
 		Assert.assertFalse(hostPage.doesHostExist(testHostName4),"ERROR - The host ( "+testHostName4+" ) should not exist at this time");
 
@@ -700,7 +702,7 @@ public class HostTest {
 		hostPage.addBlankHost(testHostName7);
 		hostPage.sleep(5);
 		//set host as default
-		hostPage.makeDefultHost(testHostName7, true);
+		hostPage.makeDefaultHost(testHostName7, true);
 		hostPage.sleep(1);	
 		hostPage.reload();
 		// verify it was created and listed on page
@@ -729,7 +731,7 @@ public class HostTest {
 			hostPage.startHost(demoHostName, true);
 		}
 		if(!hostPage.isHostDefault(demoHostName)){
-			hostPage.makeDefultHost(demoHostName, true);
+			hostPage.makeDefaultHost(demoHostName, true);
 			hostPage.sleep(1);
 			Assert.assertTrue(hostPage.isHostDefault(demoHostName), "ERROR -  This Host ("+demoHostName+") should be a default host at this moment");
 		}
