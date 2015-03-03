@@ -236,7 +236,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 				isShown = true;
 			}
 		}catch(Exception e){
-			logger.error("ERROR - Getting field. Detail: " + e.getMessage());
+			logger.debug("ERROR - Getting field. Detail: " + e.getMessage());
 		}
 		return  isShown;
 	}
