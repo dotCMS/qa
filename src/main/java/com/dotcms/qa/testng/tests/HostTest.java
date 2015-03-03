@@ -126,6 +126,11 @@ public class HostTest {
 			structureName = "Content ";
 		}
 		IContentAddOrEdit_ContentPage content = contentSearch.getAddContentPage(structureName);
+		
+		//Validate that the structure content was set
+		if(content.isStructureBoxDisplayed()){
+			content.setStructure(structureName);
+		}
 		content.changeContentLanguage(spanish, false);
 		
 		//content.

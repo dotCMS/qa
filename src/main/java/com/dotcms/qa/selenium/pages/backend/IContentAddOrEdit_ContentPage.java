@@ -34,4 +34,17 @@ public interface IContentAddOrEdit_ContentPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public void setFields(List<Map<String, Object>> map) throws Exception;
+	
+	/**
+	 * This method validate if the add content didn't find the structure name.
+	 * Displaying the select structure dialog
+	 * @return true if the box is displayed, false if not
+	 * @throws Exception
+	 */
+	public boolean isStructureBoxDisplayed() throws Exception;
+	
+	/**
+	 * Set the structure name in the select structure dialog 
+	 */
+	public void setStructure(String structureName) throws Exception;
 }

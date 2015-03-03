@@ -221,4 +221,36 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 			}
 		}
 	}
+	
+	/**
+	 * This method validate if the add content didn't find the structure name.
+	 * Displaying the select structure dialog
+	 * @return true if the box is displayed, false if not
+	 * @throws Exception
+	 */
+	public boolean isStructureBoxDisplayed() throws Exception{
+		boolean isShown = false;
+		try {
+			WebElement selectStructureBox = getWebElement(By.id("selectStructureDiv"));
+			if(selectStructureBox.getAttribute("id") != null){
+				isShown = true;
+			}
+		}catch(Exception e){
+			logger.error("ERROR - Getting field. Detail: " + e.getMessage());
+		}
+		return  isShown;
+	}
+	/**
+	 * Set the structure name in the select structure dialog 
+	 */
+	public void setStructure(String structureName) throws Exception{
+		WebElement selectStructureBox = getWebElement(By.id("selectStructureDiv"));
+		WebElement input = selectStructureBox.findElement(By.id("selectedStructAux"));
+		input.sendKeys(structureName);
+		sleep(2);
+		input.sendKeys(Keys.TAB);
+		sleep(1);
+		input.sendKeys(Keys.RETURN);
+		this.switchToAlert().accept();
+	}
 }
