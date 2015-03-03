@@ -96,8 +96,14 @@ public class HostTest {
 
 	@AfterGroups (groups = {"Host"})
 	public void teardown() throws Exception {
-		// logout
-		backendMgr.logoutBackend();
+		try{
+	    	logger.info("**HostTest.teardown() beginning**");
+	    	// logout
+	    	backendMgr.logoutBackend();
+		}
+		catch (Exception e) {
+	    	logger.info("**HostTest.teardown() ending**");			
+		}
 	}
 	
 	/**
