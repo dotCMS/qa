@@ -128,6 +128,3 @@ rm /home/ubuntu/${QA_TestArtifactFilename}
 
 echo "EXIT_CODE=${EXIT_CODE}"
 exit ${EXIT_CODE}
-
-#curl -u b.rent.griffin@dotcms.com:@s3cur3  https://raw.githubusercontent.com/dotCMS/qa/master/artifacts/aws/runubuntuseleniumtest.sh | bash -s
-
