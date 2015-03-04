@@ -79,6 +79,7 @@ ssh-add /home/ubuntu/.ssh/dotcmsqa
 # clone qa repo
 cd /home/ubuntu
 git clone git@github.com:dotCMS/qa.git
+git checkout master-${DOTCMS_VERSION}
 
 # build and deploy qa plugin
 cd /home/ubuntu/qa/plugins/com.dotcms.rest.qa_automation
