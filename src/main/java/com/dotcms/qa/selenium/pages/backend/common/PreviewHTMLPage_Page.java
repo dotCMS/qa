@@ -141,6 +141,9 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		getMainFrameElement("edit-"+contentInode,WebKeys.BY_ID).findElement(By.className("dotEditContent")).click();
 		IContentAddOrEdit_ContentPage contentPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IContentAddOrEdit_ContentPage.class);
 		contentPage.changeContentLanguage(language,keepPreviousContent);
+		if(contentPage.isPresentContentLockButton()){
+			contentPage.clickLockForEditingButton();
+		}
 		contentPage.setFields(content);
 		contentPage.saveAndPublish();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IPreviewHTMLPage_Page.class);

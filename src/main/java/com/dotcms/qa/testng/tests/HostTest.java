@@ -206,15 +206,6 @@ public class HostTest {
 		hostPage.archiveHost(testHostName2, true);
 		hostPage.toggleShowArchived();
 		hostPage.deleteHost(testHostName2, true);
-		Evaluator eval = new Evaluator() {
-			public boolean evaluate() throws Exception {  // returns false if host exists
-				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
-				evalHostPage.reload();
-				evalHostPage.toggleShowArchived();
-				return !evalHostPage.doesHostExist(testHostName2);
-			}
-		};
-		hostPage.pollForValue(eval, true, 5000, 24);	// Check every 5 seconds for up to 2 minutes
 		
 		// verify host is no longer listed on page
 		hostPage.reload();
@@ -444,14 +435,7 @@ public class HostTest {
 		// copy host
 		hostPage.addCopyExistingHost(testHostName4, hostToCopy);
 		hostPage.sleep(1);
-		Evaluator eval1 = new Evaluator() {
-			public boolean evaluate() throws Exception {  // returns true if host copy is done
-				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
-				return !evalHostPage.isHostCopyInProgress(testHostName4);
-			}
-		};
-		hostPage.pollForValue(eval1, true, 1000, 120);		// Poll every second for up to 2 minutes
-
+		
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName4),"ERROR - The host ( "+testHostName4+" ) was not created");
 
@@ -466,16 +450,7 @@ public class HostTest {
 		hostPage.archiveHost(testHostName4, true);
 		hostPage.toggleShowArchived();
 		hostPage.deleteHost(testHostName4, true);
-		Evaluator eval3 = new Evaluator() {
-			public boolean evaluate() throws Exception {  // returns false if host exists
-				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
-				evalHostPage.reload();
-				evalHostPage.toggleShowArchived();
-				return !evalHostPage.doesHostExist(testHostName4);
-			}
-		};
-		hostPage.pollForValue(eval3, true, 5000, 24);	// Check every 5 seconds for up to 2 minutes
-
+		
 		// verify it is no longer listed on page
 		Assert.assertFalse(hostPage.doesHostExist(testHostName4),"ERROR - The host ( "+testHostName4+" ) should not exist at this time");
 
@@ -500,14 +475,7 @@ public class HostTest {
 		// copy host
 		hostPage.addCopyExistingHost(testHostName5, hostToCopy);
 		hostPage.sleep(2); // wait to ensure hostpage is loaded
-		Evaluator eval1 = new Evaluator() {
-			public boolean evaluate() throws Exception {  // returns true if host copy is done
-				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
-				return !evalHostPage.isHostCopyInProgress(testHostName5);
-			}
-		};
-		hostPage.pollForValue(eval1, true, 1000, 120);		// Poll every second for up to 2 minutes
-
+	
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName5),"ERROR - The host ( "+testHostName5+" ) was not created");
 
@@ -529,16 +497,7 @@ public class HostTest {
 		hostPage.sleep(1);
 		hostPage.archiveHost(testHostName5, true);
 		hostPage.toggleShowArchived();
-		hostPage.deleteHost(testHostName5, true);
-		Evaluator eval3 = new Evaluator() {
-			public boolean evaluate() throws Exception {  // returns false if host exists
-				IHostPage evalHostPage = backendMgr.getPageObject(IHostPage.class);
-				evalHostPage.reload();
-				evalHostPage.toggleShowArchived();
-				return !evalHostPage.doesHostExist(testHostName5);
-			}
-		};
-		boolean hostDeleted = hostPage.pollForValue(eval3, true, 5000, 24);	// Check every 5 seconds for up to 2 minutes
+		boolean hostDeleted = hostPage.deleteHost(testHostName5, true);
 		
 		// verify it host has been deleted
 		Assert.assertTrue(hostDeleted,"ERROR - The host ( "+testHostName5+" ) should not exist at this time");
@@ -569,6 +528,7 @@ public class HostTest {
 			}
 		}catch(Exception e){
 			//is not a page asset contentlet
+			logger.debug("This is not a page asset contentlet", e);
 		}
 		previewHTMLPage.selectEditModeView();
 		String containerName = "Default 1 (Page Content)";
@@ -615,7 +575,7 @@ public class HostTest {
 				previewHTMLPage.unLockPage();
 			}
 		}catch(Exception e){
-			logger.error("This is not a page asset contentlet", e);
+			logger.debug("This is not a page asset contentlet", e);
 		}
 		previewHTMLPage.selectEditModeView();
 		previewHTMLPage.addContent(containerInode,content2, spanish);
@@ -625,7 +585,7 @@ public class HostTest {
 				previewHTMLPage.unLockPage();
 			}
 		}catch(Exception e){
-			logger.error("This is not a page asset contentlet", e);
+			logger.debug("This is not a page asset contentlet", e);
 		}
 		previewHTMLPage.selectEditModeView();
 		List<String> originalContainerSpanishContents = previewHTMLPage.getContainerContents(containerInode);
@@ -641,8 +601,7 @@ public class HostTest {
 		previewHTMLPage.returnToPortletsMenu();
 		IHostPage hostPage = portletMenu.getHostPage();
 		hostPage.addCopyExistingHost(testHostName6, demoHostName);
-		hostPage.sleep(20);
-
+		
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName6),"ERROR - The host ( "+testHostName6+" ) was not created");
 
@@ -658,6 +617,7 @@ public class HostTest {
 			}
 		}catch(Exception e){
 			//is not a page asset contentlet
+			logger.debug("This is not a page asset contentlet", e);
 		}
 		previewHTMLPage.selectEditModeView();
 		String newContainerInode = previewHTMLPage.getContainerInode( containerName);
@@ -671,6 +631,7 @@ public class HostTest {
 			}
 		}catch(Exception e){
 			//is not a page asset contentlet
+			logger.debug("This is not a page asset contentlet", e);
 		}
 		previewHTMLPage.selectEditModeView();
 		List<String> copyHostContainerSpaishContents = previewHTMLPage.getContainerContents(newContainerInode);
@@ -686,8 +647,8 @@ public class HostTest {
 		hostPage.toggleShowArchived();
 		hostPage.deleteHost(testHostName6, true);
 		hostPage.sleep(1);
-		// verify host is no longer listed on page
-		hostPage.reload();
+		
+		// verify it host has been deleted
 		Assert.assertFalse(hostPage.doesHostExist(testHostName6),"ERROR - The host ( "+testHostName6+" ) should not exist at this time");
 	}
 

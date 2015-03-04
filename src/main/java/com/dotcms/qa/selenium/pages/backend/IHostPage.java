@@ -7,9 +7,51 @@ import com.dotcms.qa.selenium.pages.IBasePage;
 public interface IHostPage extends IBasePage {
 	public boolean doesHostExist(String hostName);
 	public void addBlankHost(String hostName) throws Exception;
-	public void addCopyExistingHost(String hostName, String setHost) throws Exception;
+	/**
+	 * Create a new host by copying an existing one. 
+	 * Checking every second for up to 2 minutes to see if the host was copied
+	 * @param hostName - name of tne new host
+	 * @param hostToCopy - name of the host to be copied
+	 * @return true if the host was copied, false if not
+	 * @throws Exception 
+	 */
+	public boolean addCopyExistingHost(String hostName, String hostToCopy) throws Exception;
+	
+	/**
+	 * Create a new host by copying an existing one.This method allows to specify the time to wait to check if the host was copied
+	 * @param hostName - name of tne new host
+	 * @param hostToCopy - name of the host to be copied
+	 * @param poolInterval - how many milliseconds to wait between polling
+	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @return true if the host was copied, false if not
+	 * @throws Exception
+	 */
+	public boolean addCopyExistingHost(String hostName, String hostToCopy, long poolInterval, int maxPoolCount) throws Exception;
+	
 	public void archiveHost(String hostName, boolean confirm) throws Exception;
-	public void deleteHost(String hostName, boolean confirm) throws Exception;
+	
+	/**
+	 * Delete a host.Checking every 2 second for up to 2 minutes to see if the host was deleted
+	 * @param hostName - name of tne new host
+	 * @param confirm - accept or refuse the confirmation popup
+	 * @param poolInterval - how many milliseconds to wait between polling
+	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @return true if the host was deleted, false if not
+	 * @throws Exception
+	 */
+	public boolean deleteHost(String hostName, boolean confirm) throws Exception;
+	
+	/**
+	 * Delete a host.This method allows to specify the time to wait to check if the host was deleted
+	 * @param hostName - name of tne new host
+	 * @param confirm - accept or refuse the confirmation popup
+	 * @param poolInterval - how many milliseconds to wait between polling
+	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @return true if the host was deleted, false if not
+	 * @throws Exception
+	 */
+	public boolean deleteHost(String hostName, boolean confirm, long poolInterval, int maxPoolCount) throws Exception;
+	
 	public void stopHost(String hostName, boolean confirm) throws Exception;
 	public void editHost(String hostName, String newHostName, String palians);
 	public void addHostVariable(String hostName, String varName, String varKey, String varValue) throws Exception;

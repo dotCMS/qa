@@ -17,11 +17,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.Evaluator;
 import com.dotcms.qa.util.WebKeys;
 
 public class HostPage extends BasePage implements IHostPage  {
 	private static final Logger logger = Logger.getLogger(HostPage.class);
 
+	private String newHostName,deleteHostName;
 	@FindBy(how = How.ID, using = "dijit_form_Button_5")
 	private WebElement addSiteButton;
 
@@ -74,10 +76,40 @@ public class HostPage extends BasePage implements IHostPage  {
 		createNewSiteDlg.addBlankHost(hostName);
 	}
 
-	public void addCopyExistingHost(String hostName, String hostToCopy) throws Exception {
+	/**
+	 * Create a new host by copying an existing one. 
+	 * Checking every second for up to 2 minutes to see if the host was copied
+	 * @param hostName - name of tne new host
+	 * @param hostToCopy - name of the host to be copied
+	 * @return true if the host was copied, false if not
+	 * @throws Exception 
+	 */
+	public boolean addCopyExistingHost(String hostName, String hostToCopy) throws Exception {
+		return addCopyExistingHost(hostName, hostToCopy, 1000, 120); // Poll every second for up to 2 minutes
+	}
+	
+	/**
+	 * Create a new host by copying an existing one.This method allows to specify the time to wait to check if the host was copied
+	 * @param hostName - name of tne new host
+	 * @param hostToCopy - name of the host to be copied
+	 * @param poolInterval - how many milliseconds to wait between polling
+	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @return true if the host was copied, false if not
+	 * @throws Exception
+	 */
+	public boolean addCopyExistingHost(String hostName, String hostToCopy, long poolInterval, int maxPoolCount) throws Exception {
 		addSiteButton.click();
 		IHostCreateNewSiteDialog createNewSiteDlg = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostCreateNewSiteDialog.class);
 		createNewSiteDlg.addCopyExistingHost(hostName, hostToCopy);
+		//Wait until the host is created using evaluator pattern
+		newHostName = hostName;
+		Evaluator eval = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns true if host copy is done
+				return !isHostCopyInProgress(newHostName);
+			}
+			
+		};
+		return pollForValue(eval, true, poolInterval, maxPoolCount);
 	}
 
 	public void archiveHost(String hostName, boolean confirm) throws Exception {
@@ -92,7 +124,29 @@ public class HostPage extends BasePage implements IHostPage  {
 		reload();			// TODO - remove need for this reload call
 	}
 
-	public void deleteHost(String hostName, boolean confirm) throws Exception {
+	/**
+	 * Delete a host.Checking every 2 second for up to 2 minutes to see if the host was deleted
+	 * @param hostName - name of tne new host
+	 * @param confirm - accept or refuse the confirmation popup
+	 * @param poolInterval - how many milliseconds to wait between polling
+	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @return true if the host was deleted, false if not
+	 * @throws Exception
+	 */
+	public boolean deleteHost(String hostName, boolean confirm) throws Exception {
+		return deleteHost(hostName, confirm,  5000, 24);	// Check every 5 seconds for up to 2 minutes
+	}
+	
+	/**
+	 * Delete a host.This method allows to specify the time to wait to check if the host was deleted
+	 * @param hostName - name of tne new host
+	 * @param confirm - accept or refuse the confirmation popup
+	 * @param poolInterval - how many milliseconds to wait between polling
+	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @return true if the host was deleted, false if not
+	 * @throws Exception
+	 */
+	public boolean deleteHost(String hostName, boolean confirm, long poolInterval, int maxPoolCount) throws Exception {
 		this.selectPopupMenuOption(hostName, getLocalizedString("Delete-Host"));
 		Alert alert = this.switchToAlert();
 		if(confirm) {
@@ -102,6 +156,16 @@ public class HostPage extends BasePage implements IHostPage  {
 			alert.dismiss();
 		}
 		reload();			// TODO - remove need for this reload call
+		//Wait until the host is deleted using evaluator pattern
+		deleteHostName = hostName;
+		Evaluator eval = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns false if host exists
+				reload();
+				toggleShowArchived();
+				return !doesHostExist(deleteHostName);
+			}
+		};
+		return pollForValue(eval, true, 5000, 24);	// Check every 5 seconds for up to 2 minutes
 	}
 
 	public void stopHost(String hostName, boolean confirm) throws Exception {

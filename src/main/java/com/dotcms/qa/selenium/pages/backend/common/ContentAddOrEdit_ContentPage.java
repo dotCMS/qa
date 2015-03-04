@@ -253,4 +253,39 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 		input.sendKeys(Keys.RETURN);
 		this.switchToAlert().accept();
 	}
+	
+	/**
+	 * Check if the lock for editing button is present
+	 * @return true if the content is locked, false if not
+	 * @throws Exception
+	 */
+	public boolean isPresentContentLockButton() throws Exception{
+		boolean isShown = false;
+		
+		try{
+			WebElement lockButton = getWebElement(By.id("lockContentButton"));
+			if(lockButton.getAttribute("id") != null){
+				isShown = true;
+			} 
+		}catch(Exception e){
+			logger.debug("ERROR - Getting field. Detail: " + e.getMessage());
+		}
+		return isShown;
+	}
+	
+	/**
+	 * Click the lock for editing button
+	 * @throws Exception
+	 */
+	public void clickLockForEditingButton() throws Exception{
+		getWebElement(By.id("lockContentButton")).click();
+	}
+	
+	/**
+	 * Click the release lock button
+	 * @throws Exception
+	 */
+	public void clickReleaseLockButton() throws Exception{
+		getWebElement(By.id("unlockContentButton")).click();
+	}
 }

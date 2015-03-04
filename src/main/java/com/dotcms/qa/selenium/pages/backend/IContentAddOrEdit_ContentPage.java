@@ -47,4 +47,24 @@ public interface IContentAddOrEdit_ContentPage extends IBasePage {
 	 * Set the structure name in the select structure dialog 
 	 */
 	public void setStructure(String structureName) throws Exception;
+	
+	/**
+	 * Check if the lock for editing button is present
+	 * @return true if the content is locked, false if not
+	 * @throws Exception
+	 */
+	public boolean isPresentContentLockButton() throws Exception;
+	
+	/**
+	 * Click the lock for editing button
+	 * @throws Exception
+	 */
+	public void clickLockForEditingButton() throws Exception;
+	
+	/**
+	 * Click the release lock button
+	 * @throws Exception
+	 */
+	public void clickReleaseLockButton() throws Exception;
+	
 }
