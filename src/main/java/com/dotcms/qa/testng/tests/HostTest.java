@@ -510,7 +510,7 @@ public class HostTest {
 	 * http://qa.dotcms.com/index.php?/cases/view/684
 	 * @throws Exception
 	 */
-	@Test (groups = {"Host"})
+	@Test (groups = {"Broken","Host"})
 	public void tc684_ContentNotDisappearingAfterCopy() throws Exception {
 		IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
 		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
