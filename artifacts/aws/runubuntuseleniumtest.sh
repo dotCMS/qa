@@ -19,7 +19,7 @@ export QA_Browser=FIREFOX
 export QA_Country=US
 export QA_Language=en
 export QA_OS=Ubuntu
-export QA_Milestone=3.1
+export QA_Milestone=${DOTCMS_VERSION}
 export QA_RunLabel=${QA_Milestone}_JenkinsSeleniumTester_${BUILD_NUMBER}_${QA_OS}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
 
@@ -91,6 +91,7 @@ cp ./build/libs/com.dotcms.rest.qa_automation-0.1.jar ${QA_TomcatFolder}/webapps
 echo 'Building testng/selenium tests'
 cd /home/ubuntu/qa
 ./gradlew installapp
+wait
 
 echo 'Running testng/selenium tests'
 pushd /home/ubuntu/qa/build/install/qa
