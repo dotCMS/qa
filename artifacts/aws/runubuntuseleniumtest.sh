@@ -86,7 +86,7 @@ git checkout master-${DOTCMS_VERSION}
 echo 'Building and deploying qa_automation plugin'
 cd /home/ubuntu/qa/plugins/com.dotcms.rest.qa_automation
 ./gradlew jar
-cp ./build/lib/com.dotcms.rest.qa_automation-0.1.jar ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/felix/load/.
+cp ./build/libs/com.dotcms.rest.qa_automation-0.1.jar ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/felix/load/.
 
 echo 'Building testng/selenium tests'
 cd /home/ubuntu/qa
