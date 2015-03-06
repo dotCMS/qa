@@ -12,7 +12,6 @@ export QA_TomcatFolder=/opt/dotcms/dotserver/tomcat-7.0.54
 export QA_TomcatLogFile=${QA_TomcatFolder}/logs/catalina.out
 export QA_StarterFullFilePath=${QA_TomcatFolder}/webapps/ROOT/starter.zip
 export QA_TAR_GZ_URL=$TAR_GZ_URL
-#export QA_TAR_GZ_URL=http://dotcms.com/contentAsset/raw-data/d1c6451b-8253-4cc9-bda6-1653077b0ef6/targz/dotcms-2015-01-20_10-15.tar.gz
 
 export QA_DB=H2
 export QA_Browser=FIREFOX
@@ -43,7 +42,6 @@ tar -xvf /home/ubuntu/downloads/dotcms.targz
 
 echo 'Pulling down and replacing starter'
 aws s3 cp ${QA_StarterURL} ${QA_StarterFullFilePath}
-#aws s3 cp s3://qa.dotcms.com/starters/3.0_qastarter_v.0.4b_release.zip ./dotserver/tomcat-7.0.54/webapps/ROOT/starter.zip
 
 echo 'Setting index pages to legacy setting'
 sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/classes/dotmarketing-config.properties
@@ -74,7 +72,6 @@ echo "    StrictHostKeyChecking no">>/home/ubuntu/.ssh/config
 
 eval $(ssh-agent)
 ssh-add /home/ubuntu/.ssh/dotcmsqa
-#ssh -Tq -o StrictHostKeyChecking=no git@github.com
 
 echo 'Cloning qa repo'
 cd /home/ubuntu
@@ -99,8 +96,6 @@ export JAVA_OPTS="-Dtestrail.Milestone=${QA_Milestone} -Dtestrail.RunLabel=${QA_
 bin/qa  -testjar lib/qa-0.1.jar -listener com.dotcms.qa.testng.listeners.TestRunCreator.class,com.dotcms.qa.testng.listeners.TestResultReporter.class -d "/home/ubuntu/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}"
 EXIT_CODE=$?
 echo "EXIT_CODE=${EXIT_CODE}"
-#mv ./qa.log "${resultsdirectory}/testngresults_${database}_${browser}_${language}_${country}/qa.log"
-#mv ./*.png "${resultsdirectory}/testngresults_${database}_${browser}_${language}_${country}/."
 wait
 popd
 
