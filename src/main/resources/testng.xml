@@ -5,10 +5,11 @@
     <groups>
       <run>
         <exclude name="Broken"/>
-        <exclude name="Host"/>
-        <exclude name="Structures"/>
+        <include name="Host"/>
+        <include name="Structures"/>
         <include name="VanityURLs"/>
         <include name="Users"/>
+        <include name="PushPublishing"/>
         <!-- <include name="WIP"/> -->
       </run>
     </groups>

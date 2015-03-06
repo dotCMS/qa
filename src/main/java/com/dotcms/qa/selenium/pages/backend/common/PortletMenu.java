@@ -91,6 +91,17 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMailingListPage.class);		
 	}
 	
+	/**
+	 * Get the configuration manager page
+	 * @return IConfigurationPage
+	 * @throws Exception
+	 */
+	public IConfigurationPage getConfigurationPage() throws Exception {
+	    hoverOverElement(getPortletElement("System"));
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.9"))).click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IConfigurationPage.class);		
+	}
+	
 	public WebElement getPortletElement(String portletTextKey) {
 		WebElement retValue = null;
 		String portletText = getLocalizedString(portletTextKey);
