@@ -47,6 +47,13 @@ public interface IPortletMenu extends IBasePage {
 	 * @throws Exception
 	 */
 	public IConfigurationPage getConfigurationPage() throws Exception;
+	
+	/**
+	 * Get the containers manager page
+	 * @return IContainersPage
+	 * @throws Exception
+	 */
+	public IContainersPage getContainersPage() throws Exception;
 
 	
 	public WebElement getPortletElement(String portletTextKey);

@@ -74,7 +74,31 @@ public class RegressionSuiteEnv {
     	return backendMgr;
     }
     
+    /**
+     * Allows connect to backend using a different port
+     * @param serverUrl Server url
+     * @return SeleniumPageManager
+     * @throws Exception
+     */
+    public static SeleniumPageManager getBackendPageManager(String serverUrl) throws Exception {
+    	SeleniumPageManager backendMgr = null;
+    	if(backendMgr == null) {
+            backendMgr = SeleniumPageManager.getBackEndPageManager();
+            backendMgr.loadPage(serverUrl + "admin"); 
+            Thread.sleep(250);	// This pause improves login reliability with the chrome driver
+    	}
+    	return backendMgr;
+    }
+    
     public static SeleniumPageManager getFrontendPageManager() throws Exception {
+    	if(frontendMgr == null) {
+            frontendMgr = SeleniumPageManager.getFrontEndPageManager();    		
+    	}
+    	return frontendMgr;
+    }
+    
+    public static SeleniumPageManager getFrontendPageManager(String serverUrl) throws Exception {
+    	SeleniumPageManager frontendMgr = null;
     	if(frontendMgr == null) {
             frontendMgr = SeleniumPageManager.getFrontEndPageManager();    		
     	}
