@@ -48,6 +48,21 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		}
 		AddEnvironmentDialog.findElement(By.id(pushMode)).click();
 		AddEnvironmentDialog.findElement(By.id("save_label")).click();
+		
+		//Add server
+		
+		
+	}
+	
+	public WebElement findEnvironment(String EnvironmentName) throws{
+		List<WebElement> tables = getWebElement(By.id("remotePublishingTabContent")).findElements(By.tagName("table"));
+		boolean found = false;
+		for(WebElement tables){
+			
+			if(found){
+				break;
+			}
+		}
 	}
 
 	/**
