@@ -7,10 +7,12 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 import com.dotcms.qa.selenium.util.SeleniumConfig;
+import com.dotcms.qa.util.Evaluator;
 
 public interface IBasePage {
 	public String getLocalizedString(String key);
@@ -52,7 +54,7 @@ public interface IBasePage {
     public void waitForPresenseOfElement(By by, int secondsToWait);
     public void waitForVisibilityOfElement(By by, int secondsToWait);
     public void selectBackendHost(String host) throws NoSuchElementException;
-    public Object executeScript(String script);
+	public Object executeScript(String script);
     
     /**
 	 * Get the browser name and version
@@ -71,5 +73,32 @@ public interface IBasePage {
 	 */
 	public void sleep(int seconds);
     
-    
+	/**
+	 * Gets the current WebElement Parent
+	 * @param childElement Child WebElement
+	 * @return WebElement
+	 */
+	public WebElement getParent(WebElement childElement);
+	
+	/**
+	 * Do a double click over the element
+	 * @param element 
+	 */
+	public void doubleClickElement(WebElement element);
+	
+	/**
+	 * Switch to popup window
+	 */
+	 public void switchToPopup();
+
+	/**
+	* Poll until evaluate method of Evaluator returns the value specified by the desiredValue parameter or until maxPollCount is reached. 
+	* 
+	* @param eval - Evaluator instance that provides the evaluate method to call for each poll
+	* @param desiredValue - value to poll for
+	* @param maxPollCount - maximum number of times to poll before returning value of eval.evaluate()
+	* @param poolInterval - how many milliseconds to wait between polling
+	* @return true or false based on the last value received from eval.evaluate()
+	*/
+	 public boolean pollForValue(Evaluator eval, boolean desiredValue, long pollInterval, int maxPollCount);
 }

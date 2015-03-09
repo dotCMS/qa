@@ -28,26 +28,39 @@ public class StructureTests {
 
     @BeforeGroups (groups = {"Structures"})
     public void init() throws Exception {
-        SeleniumConfig config = SeleniumConfig.getConfig();
-        demoServerURL = config.getProperty("demoServerURL");
-        mobileServerURL = config.getProperty("mobileServerURL");
-        sharedServerURL = config.getProperty("sharedServerURL");
-
-        // login
-        backendMgr = RegressionSuiteEnv.getBackendPageManager();
-        loginPage = backendMgr.getPageObject(ILoginPage.class);
-        loginPage.login("admin@dotcms.com", "admin");
-        
-        // create frontendMgr for verification of frontend functionality
-        //frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
-
+		try{
+	    	logger.info("**StructureTests.init() beginning**");
+	        SeleniumConfig config = SeleniumConfig.getConfig();
+	        demoServerURL = config.getProperty("demoServerURL");
+	        mobileServerURL = config.getProperty("mobileServerURL");
+	        sharedServerURL = config.getProperty("sharedServerURL");
+	
+	        // login
+	        backendMgr = RegressionSuiteEnv.getBackendPageManager();
+	        loginPage = backendMgr.getPageObject(ILoginPage.class);
+	        loginPage.login("admin@dotcms.com", "admin");
+	        
+	        // create frontendMgr for verification of frontend functionality
+	        //frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
+	    	logger.info("**StructureTests.init() ending**");
+		}
+		catch (Exception e) {
+	    	logger.error("**StructureTests.init()", e);
+		}
     }
 
     @AfterGroups (groups = {"Structures"})
     public void teardown() throws Exception {
-        // logout
-        backendMgr.logoutBackend();
-    }
+    	try {
+	    	logger.info("**StructureTests.teardown() beginning**");
+	    	// logout
+	        backendMgr.logoutBackend();
+	    	logger.info("**StructureTests.teardown() ending**");
+    	}
+    	catch (Exception e) {
+	    	logger.error("StructureTests.teardown()", e);
+    	}
+	}
 
     @Test (groups = {"Structures"})
     public void testCase630_AddStructureWithEveryFieldType() throws Exception {

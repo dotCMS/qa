@@ -92,6 +92,17 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	}
 	
 	/**
+	 * Get the Templates manager page
+	 * @return IMailingListPage
+	 * @throws Exception
+	 */
+	public ITemplatesPage getTemplatesPage() throws Exception {
+	    hoverOverElement(getPortletElement("Site Browser"));
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_13"))).click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplatesPage.class);		
+	}
+	
+	/**
 	 * Get the configuration manager page
 	 * @return IConfigurationPage
 	 * @throws Exception
@@ -99,13 +110,13 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	public IConfigurationPage getConfigurationPage() throws Exception {
 	    hoverOverElement(getPortletElement("System"));
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.9"))).click();
-		return SeleniumPageManager.getBackEndPageManager().getPageObject(IConfigurationPage.class);		
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IConfigurationPage.class);	
 	}
 	
 	public WebElement getPortletElement(String portletTextKey) {
 		WebElement retValue = null;
 		String portletText = getLocalizedString(portletTextKey);
-		logger.info("portletTextKey=" + portletTextKey + "|portletText=" + portletText);
+		logger.debug("portletTextKey=" + portletTextKey + "|portletText=" + portletText);
 		List<WebElement> allElements = getWebElements(By.className("navMenu-title")); 
 		for (WebElement element: allElements) {
 			try {

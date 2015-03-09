@@ -20,7 +20,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 	public IContentAddOrEdit_ContentPage getAddContentPage(String structureName) throws Exception {
 	    structure_inode.clear();
 	    structure_inode.sendKeys(structureName);
-	    Thread.sleep(250);
+	    sleep(3);
 	    structure_inode.sendKeys(Keys.TAB);
 	    dijit_form_ComboButton_0_label.click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentAddOrEdit_ContentPage.class);

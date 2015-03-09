@@ -54,15 +54,30 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		
 	}
 	
-	public WebElement findEnvironment(String EnvironmentName) throws{
+	/**
+	 * Return the environment row
+	 * @param environmentName Name of the environment
+	 * @return WebElement
+	 */
+	public WebElement findEnvironment(String environmentName) throws Exception{
 		List<WebElement> tables = getWebElement(By.id("remotePublishingTabContent")).findElements(By.tagName("table"));
 		boolean found = false;
-		for(WebElement tables){
-			
+		WebElement environmentRow=null;
+		for(WebElement table : tables){
+			List<WebElement> rows = table.findElements(By.tagName("tr"));
+			for(WebElement row : rows){
+				List<WebElement> columns = row.findElements(By.tagName("td"));
+				if(columns.get(1).getText().equals(environmentName)){
+					environmentRow=row;
+					found=true;
+					break;
+				}
+			}
 			if(found){
 				break;
 			}
 		}
+		return environmentRow;
 	}
 
 	/**
