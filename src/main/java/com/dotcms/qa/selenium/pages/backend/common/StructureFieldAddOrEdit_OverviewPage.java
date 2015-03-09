@@ -35,7 +35,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 
 	public IStructureAddOrEdit_FieldsPage addBinaryField(String label, String hint, boolean required) throws Exception {
-	    elementSelectBox.sendKeys("Binary");         // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("Binary"));         // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
@@ -48,7 +48,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 
 	public IStructureAddOrEdit_FieldsPage addCategory(String label, String category, String hint, boolean required, boolean userSearchable) throws Exception {
-	    elementSelectBox.sendKeys("Category");       // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("Category"));       // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label); 		 // Label
@@ -68,7 +68,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 
 	public IStructureAddOrEdit_FieldsPage addCheckbox(String label, String value, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed) throws Exception {
-	    elementSelectBox.sendKeys("Checkbox");       // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("Checkbox"));       // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
@@ -90,7 +90,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addConstantField(String label, String value, String hint) throws Exception {
-	    elementSelectBox.sendKeys("Constant"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Constant")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Constant Field"); // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
@@ -103,7 +103,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addCustomField(String label, String value, String validationRegEx, String validation, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing, boolean unique) throws Exception {
-	    elementSelectBox.sendKeys("Custom"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Custom")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Custom Field");   // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
@@ -139,7 +139,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addDateField(String label, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception {
-	    elementSelectBox.sendKeys("Date");   		 // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("Date"));   		 // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
@@ -159,7 +159,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addDateAndTimeField(String label, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception {
-	    elementSelectBox.sendKeys("Date"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Date")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Date and Time");	 // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
@@ -185,7 +185,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addFileField(String label, String hint, boolean required) throws Exception {
-	    elementSelectBox.sendKeys("File");			 // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("File"));			 // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
@@ -198,7 +198,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addHiddenField(String label, String value) throws Exception {
-	    elementSelectBox.sendKeys("Hidden"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Hidden")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Hidden Field");	 // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
@@ -210,7 +210,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addHostOrFolderField(String label, String hint, boolean required, boolean userSearchable) throws Exception {
-	    elementSelectBox.sendKeys("Host"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Host")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Host or Folder"); // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
@@ -226,7 +226,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 
 	public IStructureAddOrEdit_FieldsPage addImageField(String label, String hint, boolean required) throws Exception {
-	    elementSelectBox.sendKeys("Image");          // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("Image"));          // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
@@ -239,7 +239,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 
 	public IStructureAddOrEdit_FieldsPage addLineDividerField(String label) throws Exception {
-	    elementSelectBox.sendKeys("Line"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Line")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Line Divider");   // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
@@ -250,7 +250,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addMultiSelectField(String label, String value, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean unique) throws Exception{
-	    elementSelectBox.sendKeys("Multi"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Multi")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Multi Select");   // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
@@ -275,7 +275,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addPermissionsField(String label) throws Exception {
-	    elementSelectBox.sendKeys("Permissions"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Permissions")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Permisions Field");// Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
@@ -286,7 +286,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addRadioField(String label, String value, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception {
-	    elementSelectBox.sendKeys("Radio");			 // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("Radio"));			 // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
@@ -310,7 +310,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addRelationshipsField(String label) throws Exception {
-	    elementSelectBox.sendKeys("Relationships"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Relationships")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Relationships Field");// Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
@@ -321,7 +321,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addSelectField(String label, String value, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception {
-	    elementSelectBox.sendKeys("Select");		 // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("Select"));		 // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
@@ -346,7 +346,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addTabDividerField(String label) throws Exception {
-	    elementSelectBox.sendKeys("Tab"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Tab")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Tab Divider");	 // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
@@ -357,7 +357,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addTagField(String label, String defaultValue, String hint, boolean required, boolean userSearchable) throws Exception {
-	    elementSelectBox.sendKeys("Tag");   // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("Tag"));   // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
@@ -373,7 +373,8 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 
 	public IStructureAddOrEdit_FieldsPage addTextField(String label, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing, boolean unique) throws Exception{
-		elementSelectBox.sendKeys("Text");           // Display type
+		elementSelectBox.clear();
+		elementSelectBox.sendKeys(getLocalizedString("Text"));           // Display type
 	    Thread.sleep(500);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);      	 // Label
@@ -395,7 +396,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 
 	public IStructureAddOrEdit_FieldsPage addTextareaField(String label, String validationRegEx, String validation, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed) throws Exception {
-	    elementSelectBox.sendKeys("Textarea");		 // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("Textarea"));		 // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
@@ -421,7 +422,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 	
 	public IStructureAddOrEdit_FieldsPage addTimeField(String label, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception {
-	    elementSelectBox.sendKeys("Time");   // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("Time"));   // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);        // Label
@@ -441,7 +442,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 
 	public IStructureAddOrEdit_FieldsPage addWYSIWYGField(String label, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed) throws Exception {
-	    elementSelectBox.sendKeys("WYSIWYG");        // Display type
+	    elementSelectBox.sendKeys(getLocalizedString("WYSIWYG"));        // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear
 	    dijit_form_TextBox_0.sendKeys(label);    	 // Label
@@ -455,7 +456,7 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 	}
 
 	public IStructureAddOrEdit_FieldsPage addKeyValueField(String label, String hint, boolean required, boolean userSearchable) throws Exception {
-	    elementSelectBox.sendKeys("Key"); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
+	    elementSelectBox.sendKeys(getLocalizedString("Key")); // Workaround for https://github.com/dotCMS/dotCMS/issues/4943
 //	    elementSelectBox.sendKeys("Key/Value");		 // Display type
 	    Thread.sleep(250);
 	    elementSelectBox.sendKeys(Keys.RETURN);      // Activates display type selection and dynamically additional fields appear

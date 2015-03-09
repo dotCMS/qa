@@ -1,5 +1,8 @@
 package com.dotcms.qa.selenium.pages.backend;
 
+import java.util.List;
+import java.util.Map;
+
 import org.openqa.selenium.By;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
@@ -16,4 +19,52 @@ public interface IContentAddOrEdit_ContentPage extends IBasePage {
 	public void addKeyValuePair(By by);
 
 	public IContentSearchPage saveAndPublish() throws Exception;
+	
+	/**
+	 * Modify the current content language
+	 * @param language language name
+	 * @param keepPreviousContent keep original text  in new language content
+	 * @throws Exception
+	 */
+	public void changeContentLanguage(String language, boolean keepPreviousContent) throws Exception;
+	
+	/**
+	 *  Set Content text, textarea and wysiwyg Fields
+	 * @param map List Map with contents fields
+	 * @throws Exception
+	 */
+	public void setFields(List<Map<String, Object>> map) throws Exception;
+	
+	/**
+	 * This method validate if the add content didn't find the structure name.
+	 * Displaying the select structure dialog
+	 * @return true if the box is displayed, false if not
+	 * @throws Exception
+	 */
+	public boolean isStructureBoxDisplayed() throws Exception;
+	
+	/**
+	 * Set the structure name in the select structure dialog 
+	 */
+	public void setStructure(String structureName) throws Exception;
+	
+	/**
+	 * Check if the lock for editing button is present
+	 * @return true if the content is locked, false if not
+	 * @throws Exception
+	 */
+	public boolean isPresentContentLockButton() throws Exception;
+	
+	/**
+	 * Click the lock for editing button
+	 * @throws Exception
+	 */
+	public void clickLockForEditingButton() throws Exception;
+	
+	/**
+	 * Click the release lock button
+	 * @throws Exception
+	 */
+	public void clickReleaseLockButton() throws Exception;
+	
 }

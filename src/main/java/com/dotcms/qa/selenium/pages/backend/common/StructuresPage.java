@@ -2,6 +2,7 @@ package com.dotcms.qa.selenium.pages.backend.common;
 
 import java.util.List;
 
+import org.apache.commons.lang3.text.StrTokenizer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -19,7 +20,7 @@ public class StructuresPage extends BasePage implements IStructuresPage {
     private static final Logger logger = Logger.getLogger(StructuresPage.class);
 
 	private WebElement dijit_form_ComboButton_0_label;
-
+	private WebElement dijit_form_Button_4_label;
 	@FindBy(how = How.CLASS_NAME, using = "listingTable")
     private WebElement tableOfStructures;
 	
@@ -80,13 +81,74 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 		}
 	}
 
+	/**
+	 * Validate if the structure exist
+	 * @param structureName Name of the structure
+	 * @return true if the structure exist, false if not
+	 */
 	public boolean doesStructureExist(String structureName) {
 		boolean retValue = false;
+		//search in the structures filter
+		WebElement textBox = getWebElement(By.cssSelector("input[type='text'][name='query']"));
+		textBox.clear();
+		textBox.sendKeys(structureName);
+		dijit_form_Button_4_label.click();
+		sleep(1);
+		List<WebElement> results = getWebElement(By.id("results_table_popup_menus")).findElements(By.tagName("tr"));
+		for(WebElement result : results){
+			List<WebElement> tds =  getWebElements(By.tagName("td"));
+			for(WebElement td : tds){
+				if(td.getText().equals(structureName)){
+					retValue = true;
+					break;
+				}
+			}
+			if(retValue){
+				break;
+			}
+		} 
 		return retValue;
 	}
 
 	public IStructureAddOrEdit_PropertiesPage getAddNewStructurePage() throws Exception {
 		dijit_form_ComboButton_0_label.click();	// Add new structure button
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_PropertiesPage.class);
+	}
+	
+	/**
+	 * Get the field tab page
+	 * @return IStructureAddOrEdit_FieldsPage
+	 * @throws Exception
+	 */
+	public IStructureAddOrEdit_FieldsPage getFieldsPage() throws Exception {
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+	}
+	/**
+	 * Validate if the structure exist
+	 * @param structureName Name of the structure
+	 * @return true if the structure exist, false if not
+	 */
+	public IStructureAddOrEdit_PropertiesPage getStructurePage(String structureName) throws Exception{
+		WebElement textBox = getWebElement(By.cssSelector("input[type='text'][name='query']"));
+		textBox.clear();
+		textBox.sendKeys(structureName);
+		dijit_form_Button_4_label.click();
+		sleep(1);
+		boolean found = false;
+		List<WebElement> results = getWebElement(By.id("results_table_popup_menus")).findElements(By.tagName("tr"));
+		for(WebElement result : results){
+			List<WebElement> tds =  getWebElements(By.tagName("td"));
+			for(WebElement td : tds){
+				if(td.getText().equals(structureName)){
+					found = true;
+					td.click();
+					break;
+				}
+			}
+			if(found){
+				break;
+			}
+		} 
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_PropertiesPage.class);
 	}
 }

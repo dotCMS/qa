@@ -26,6 +26,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
+import com.dotcms.qa.util.Evaluator;
 import com.dotcms.qa.util.WebKeys;
 import com.dotcms.qa.util.language.LanguageManager;
 
@@ -302,7 +303,7 @@ public class BasePage implements IBasePage {
 //			subNavHost.sendKeys(Keys.TAB);
 		}
 	}
-		
+
 	public Object  executeScript(final String script){
 		Object  obj = null;
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -339,5 +340,60 @@ public class BasePage implements IBasePage {
 		}catch(Exception e){
 			logger.error(e);
 		}
+	}
+	
+	/**
+	 * Gets the current WebElement Parent
+	 * @param childElement Child WebElement
+	 * @return WebElement
+	 */
+	public WebElement getParent(WebElement childElement){	
+		WebElement parentElement = null;
+		try{
+			JavascriptExecutor executor = (JavascriptExecutor)driver;
+			parentElement = (WebElement)executor.executeScript("return arguments[0].parentNode;", childElement);
+		}catch(Exception e){
+			parentElement = childElement.findElement(By.xpath(".."));
+		}
+			return parentElement;
+	}
+	
+	/**
+	 * Do a double click over the element
+	 * @param element 
+	 */
+	public void doubleClickElement(WebElement element){
+		Actions action = new Actions(driver);
+		action.moveToElement(element).doubleClick();
+		action.build().perform();
+	}
+	
+	/**
+	 * Switch to popup window
+	 */
+	 public void switchToPopup(){
+		 driver.switchTo().activeElement();
+	 }
+	 
+	/**
+	* Poll until evaluate method of Evaluator returns the value specified by the desiredValue parameter or until maxPollCount is reached. 
+	* 
+	* @param eval - Evaluator instance that provides the evaluate method to call for each poll
+	* @param desiredValue - value to poll for
+	* @param maxPollCount - maximum number of times to poll before returning value of eval.evaluate()
+	* @param poolInterval - how many milliseconds to wait between polling
+	* @return true or false based on the last value received from eval.evaluate()
+	*/
+	public boolean pollForValue(Evaluator eval, boolean desiredValue,  long pollInterval, int maxPollCount) {
+		boolean retValue = !desiredValue;
+		try {eval.evaluate();} catch(Exception e) {logger.warn("Exception in first call to evaluate()", e);}
+		int remainingPolls = (maxPollCount > 0) ? maxPollCount : 0;
+		while (retValue != desiredValue && remainingPolls > 0) {
+			try{Thread.sleep(pollInterval);} catch(InterruptedException e){/*do nothing*/};
+			try {retValue = eval.evaluate();} catch(Exception e) {logger.warn("Exception in call to evaluate()", e);}
+			remainingPolls--;
+		}
+		logger.trace("pollForValue: retValue = " + retValue + " - remainingPolls = " + remainingPolls);
+		return retValue;
 	}
 }

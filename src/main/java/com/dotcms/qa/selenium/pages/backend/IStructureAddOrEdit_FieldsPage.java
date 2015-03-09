@@ -27,4 +27,19 @@ public interface IStructureAddOrEdit_FieldsPage extends IBasePage {
 	public IStructureAddOrEdit_FieldsPage addTimeField(String label, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed, boolean showInListing) throws Exception;
 	public IStructureAddOrEdit_FieldsPage addWYSIWYGField(String label, String defaultValue, String hint, boolean required, boolean userSearchable, boolean systemIndexed) throws Exception;
 	public IStructureAddOrEdit_FieldsPage addKeyValueField(String label, String hint, boolean required, boolean userSearchable) throws Exception;
+	/**
+	 * Validate if a field exist
+	 * @param label name of the field
+	 * @return true if exist false if not
+	 * @throws Exception
+	 */
+	public boolean doesFieldExist(String label) throws Exception;
+	
+	/**
+	 * Delete a field from the structure
+	 * @param label Name of the field
+	 * @return IStructureAddOrEdit_FieldsPage
+	 * @throws Exception
+	 */
+	public IStructureAddOrEdit_FieldsPage deleteField (String label) throws Exception;
 }
