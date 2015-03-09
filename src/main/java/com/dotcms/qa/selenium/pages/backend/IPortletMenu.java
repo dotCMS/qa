@@ -34,5 +34,12 @@ public interface IPortletMenu extends IBasePage {
 	 */
 	public IMailingListPage getMailingListPage() throws Exception;
 	
+	/**
+	 * Get the Templates manager page
+	 * @return IMailingListPage
+	 * @throws Exception
+	 */
+	public ITemplatesPage getTemplatesPage() throws Exception;
+	
 	public WebElement getPortletElement(String portletTextKey);
 }
