@@ -85,6 +85,10 @@ cd /home/ubuntu/qa/plugins/com.dotcms.rest.qa_automation
 ./gradlew jar
 cp ./build/libs/com.dotcms.rest.qa_automation-0.1.jar ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/felix/load/.
 
+echo 'Getting trial license'
+cp /home/ubuntu/qa/artifacts/license/trial.jsp ${QA_TomcatFolder}/webapps/ROOT/trial.jsp
+curl http://localhost:8080/trial.jsp
+
 echo 'Building testng/selenium tests'
 cd /home/ubuntu/qa
 ./gradlew installapp
