@@ -38,7 +38,7 @@ wget -q -O ./downloads/dotcms.targz $QA_TAR_GZ_URL
 sudo mkdir -p /opt/dotcms
 sudo chown -R ubuntu:ubuntu /opt/dotcms
 cd /opt/dotcms
-tar -xvf /home/ubuntu/downloads/dotcms.targz
+tar -xvf /home/ubuntu/downloads/dotcms.targz > /dev/null
 
 echo 'Pulling down and replacing starter'
 aws s3 cp ${QA_StarterURL} ${QA_StarterFullFilePath}
