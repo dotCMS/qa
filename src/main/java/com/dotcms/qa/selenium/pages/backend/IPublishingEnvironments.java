@@ -2,6 +2,8 @@ package com.dotcms.qa.selenium.pages.backend;
 
 import java.util.List;
 
+import org.openqa.selenium.WebElement;
+
 import com.dotcms.qa.selenium.pages.IBasePage;
 
 /**
@@ -42,4 +44,18 @@ public interface IPublishingEnvironments extends IBasePage {
 	 * @throws Exception
 	 */
 	public void addReceiveFrom(String serverName, String address,String key) throws Exception;
+	
+	/**
+	 * Delete the specified environment
+	 * @param environmentName Name of the environment
+	  * @throws Exception
+	 */
+	public void deleteEnvironment(String environmentName) throws Exception;
+	
+	/**
+	 * Delete the specified receive from server
+	 * @param serverName  Receiver Server Name 
+	 * @throws Exception
+	 */
+	public void deleteReceiveFromServer(String serverName) throws Exception;
 }

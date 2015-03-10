@@ -124,6 +124,17 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContainersPage.class);	
 	}
 	
+	/**
+	 * Get the publishing queue manager page
+	 * @return IPublishingQueuePage
+	 * @throws Exception
+	 */
+	public IPublishingQueuePage getPublishingQueuePage() throws Exception {
+		hoverOverElement(getPortletElement("Site Browser"));
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_CONTENT_PUBLISHING_TOOL"))).click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IPublishingQueuePage.class);
+	}
+	
 	public WebElement getPortletElement(String portletTextKey) {
 		WebElement retValue = null;
 		String portletText = getLocalizedString(portletTextKey);

@@ -1,7 +1,9 @@
 package com.dotcms.qa.testng.tests;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -17,6 +19,7 @@ import com.dotcms.qa.selenium.pages.backend.IHostPage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
 import com.dotcms.qa.selenium.pages.backend.IPortletMenu;
 import com.dotcms.qa.selenium.pages.backend.IPublishingEnvironments;
+import com.dotcms.qa.selenium.pages.backend.IPublishingQueuePage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
@@ -78,24 +81,6 @@ public class PushPublishTest {
 			receiverServerPort = config.getProperty("pushpublising.receiver.server.port");
 			logger.info("Receiver server = " + authoringServer+":"+receiverServerPort);
 
-			//login Authoring server
-			authoringBackendMgr = RegressionSuiteEnv.getBackendPageManager(serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
-			authoringLoginPage = authoringBackendMgr.getPageObject(ILoginPage.class);
-			authoringLoginPage.login(backendUserEmail, backendUserPassword);
-
-			//Validate if push publishing servers are configured
-			authoringPortletMenu = authoringBackendMgr.getPageObject(IPortletMenu.class);
-			authoringConfigurationPage = authoringPortletMenu.getConfigurationPage();
-			
-			//load the Pushblish environment tab
-			authoringPublishingEnvironments = authoringConfigurationPage.getPublishingEnvironmentsTab();
-			List<String> whoCanUse = new ArrayList<String>();
-			whoCanUse.add("Admin User");
-			authoringPublishingEnvironments.createEnvironment(environmentName, whoCanUse, "pushToOne");
-			//Adding receiver server to the environment
-			authoringPublishingEnvironments.addServerToEnvironment(environmentName, receiverServer, receiverServer, receiverServerPort, serversProtocol, serversKey);
-	
-			
 			//login Receiver server
 			receiverBackendMgr = RegressionSuiteEnv.getBackendPageManager(serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
 			receiverLoginPage = receiverBackendMgr.getPageObject(ILoginPage.class);
@@ -106,6 +91,24 @@ public class PushPublishTest {
 			receiverConfigurationPage = receiverPortletMenu.getConfigurationPage();
 			receiverPublishingEnvironments = receiverConfigurationPage.getPublishingEnvironmentsTab();
 			receiverPublishingEnvironments.addReceiveFrom(authoringServer, authoringServer, serversKey);
+			
+			//login Authoring server
+			authoringBackendMgr = RegressionSuiteEnv.getBackendPageManager(serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+			authoringLoginPage = authoringBackendMgr.getPageObject(ILoginPage.class);
+			authoringLoginPage.login(backendUserEmail, backendUserPassword);
+
+			//Validate if push publishing servers are configured
+			authoringPortletMenu = authoringBackendMgr.getPageObject(IPortletMenu.class);
+			authoringConfigurationPage = authoringPortletMenu.getConfigurationPage();
+			
+			//load the Push publish environment tab
+			authoringPublishingEnvironments = authoringConfigurationPage.getPublishingEnvironmentsTab();
+			List<String> whoCanUse = new ArrayList<String>();
+			whoCanUse.add("Admin User");
+			authoringPublishingEnvironments.createEnvironment(environmentName, whoCanUse, "pushToOne");
+			//Adding receiver server to the environment
+			authoringPublishingEnvironments.addServerToEnvironment(environmentName, receiverServer, receiverServer, receiverServerPort, serversProtocol, serversKey);
+	
 			logger.info("**PushPublishTests.init() ending**");
 		}catch(Exception e) {
 			logger.error("ERROR - PushPublishTests.init()", e);
@@ -118,7 +121,32 @@ public class PushPublishTest {
 		try {
 			logger.info("**PushPublishTests.teardown() beginning**");
 			// logout
+			authoringBackendMgr = RegressionSuiteEnv.getBackendPageManager(serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+			authoringLoginPage = authoringBackendMgr.getPageObject(ILoginPage.class);
+			try{
+				authoringLoginPage.login(backendUserEmail, backendUserPassword);
+			}catch(Exception e){
+				//its already logged
+			}
+			//Validate if push publishing servers are configured
+			authoringPortletMenu = authoringBackendMgr.getPageObject(IPortletMenu.class);
+			authoringConfigurationPage = authoringPortletMenu.getConfigurationPage();
+			
+			//load the Push publish environment tab
+			authoringPublishingEnvironments = authoringConfigurationPage.getPublishingEnvironmentsTab();
+			authoringPublishingEnvironments.deleteEnvironment(environmentName);
 			authoringBackendMgr.logoutBackend();
+			
+			//cleaning receiver
+			receiverBackendMgr = RegressionSuiteEnv.getBackendPageManager(serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+			receiverLoginPage = receiverBackendMgr.getPageObject(ILoginPage.class);
+			receiverLoginPage.login(backendUserEmail, backendUserPassword);
+			
+			//Validate if push publishing servers are configured
+			receiverPortletMenu = receiverBackendMgr.getPageObject(IPortletMenu.class);
+			receiverConfigurationPage = receiverPortletMenu.getConfigurationPage();
+			receiverPublishingEnvironments = receiverConfigurationPage.getPublishingEnvironmentsTab();
+			receiverPublishingEnvironments.deleteReceiveFromServer(authoringServer);
 			receiverBackendMgr.logoutBackend();
 
 			logger.info("**PushPublishTests.teardown() ending**");
@@ -128,6 +156,9 @@ public class PushPublishTest {
 		}
 	}
 	
+	/**
+	 * CONTAINERS PUSH PUBLIHING TESTS
+	 */
 	
 	/**
 	 * 	Add a new Container and push to remote server:
@@ -139,7 +170,25 @@ public class PushPublishTest {
 		IPortletMenu portletMenu = authoringBackendMgr.getPageObject(IPortletMenu.class);
 		IContainersPage containersPage = portletMenu.getContainersPage();
 		
-		IContainerAddOrEditPage addContainer = containersPage.addContainer();
+		IContainerAddOrEditPage addContainerPage = containersPage.getAddContainerPage();
 		
+		String containerTitle="Test 559 Container";
+		String containerCode ="<h2>Test 559</h2><br/><p>This is a test for push publishing</p>";
+		//simple container
+		Map<String, String> container = new HashMap<String,String>();
+		container.put("titleField", containerTitle);
+		container.put("friendlyNameField", containerTitle);
+		container.put("code", containerCode);
+		
+		addContainerPage.setFields(container);
+		containersPage = addContainerPage.saveAndPublish();
+		
+		String bundleName = "test559";
+		containersPage.addToBundle(containerTitle, bundleName);
+		
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		publishingQueuePage.getBundlesTab();
+		publishingQueuePage.pushPublishBundle(bundleName);
+		 
 	}
 }

@@ -76,6 +76,7 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		//Setting receiver server connection info
 		WebElement AddNewServerDialog = getWebElement(By.id("addEndpoint"));
 		AddNewServerDialog.findElement(By.id("serverName")).sendKeys(serverName);
+		sleep(1);
 		AddNewServerDialog.findElement(By.id("address")).sendKeys(address);
 		AddNewServerDialog.findElement(By.id("port")).clear();
 		AddNewServerDialog.findElement(By.id("port")).sendKeys(port);
@@ -159,8 +160,61 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		getAddServerButton().click();
 		WebElement receiveFromDialog = getWebElement(By.id("addEndpoint"));
 		receiveFromDialog.findElement(By.id("serverName")).sendKeys(serverName);
+		sleep(1);
 		receiveFromDialog.findElement(By.id("address")).sendKeys(address);
 		receiveFromDialog.findElement(By.id("authKey")).sendKeys(key);
 		receiveFromDialog.findElement(By.id("save_label")).click();
+	}
+	
+	/**
+	 * Delete the specified environment
+	 * @param environmentName Name of the environment
+	  * @throws Exception
+	 */
+	public void deleteEnvironment(String environmentName) throws Exception{
+		WebElement environment = findEnvironment(environmentName);
+		List<WebElement> columns = environment.findElements(By.tagName("td"));
+		columns.get(0).findElement(By.cssSelector("span[class='deleteIcon']")).click(); 
+		switchToAlert().accept();
+	}
+	
+	/**
+	 * Return the environment row
+	 * @param environmentName Name of the environment
+	 * @return WebElement
+	 */
+	public WebElement findReceiveFromServer(String serverName) throws Exception{
+		List<WebElement> tables = getWebElement(By.id("remotePublishingTabContent")).findElements(By.tagName("table"));
+		boolean found = false;
+		WebElement serverRow=null;
+		for(WebElement table : tables){
+			List<WebElement> rows = table.findElements(By.tagName("tr"));
+			for(WebElement row : rows){
+				List<WebElement> columns = row.findElements(By.tagName("td"));
+				if(columns.size() == 2){
+					if(columns.get(1).getText().contains(serverName)){
+						serverRow=row;
+						found=true;
+						break;
+					}
+				}
+			}
+			if(found){
+				break;
+			}
+		}
+		return serverRow;
+	}
+	
+	/**
+	 * Delete the specified receive from server
+	 * @param serverName  Receiver Server Name 
+	 * @throws Exception
+	 */
+	public void deleteReceiveFromServer(String serverName) throws Exception{
+		WebElement receiver = findReceiveFromServer(serverName);
+		List<WebElement> columns = receiver.findElements(By.tagName("td"));
+		columns.get(0).findElement(By.cssSelector("span[class='deleteIcon']")).click(); 
+		switchToAlert().accept();
 	}
 }
