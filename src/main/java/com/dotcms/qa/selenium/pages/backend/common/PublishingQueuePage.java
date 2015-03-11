@@ -1,6 +1,9 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,6 +11,7 @@ import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.backend.IPublishingQueuePage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
+import com.dotcms.qa.util.Evaluator;
 
 /**
  * This class implements the methods defined in the IPublishingQueuePage interface
@@ -18,6 +22,7 @@ import com.dotcms.qa.selenium.pages.common.BasePage;
  */
 public class PublishingQueuePage extends BasePage implements IPublishingQueuePage{
 
+	private String bundle=null;
 	public PublishingQueuePage(WebDriver driver) {
 		super(driver);
 	}
@@ -46,6 +51,9 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 				break;
 			}
 		}
+		sleep(2);
+		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
+		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
 	}
 
 	/**
@@ -56,8 +64,7 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 	 */
 	private WebElement findBundle(String bundleName) throws Exception{
 		WebElement bundleRow = null;
-		List<WebElement> bundles = getWebElement(By.id("unpushedBundlesDiv")).findElements(By.tagName(bundleName));
-		boolean found = false;
+		List<WebElement> bundles = getWebElement(By.id("unpushedBundlesDiv")).findElements(By.tagName("table"));
 		for(WebElement bundle : bundles){
 			List<WebElement> ths = bundle.findElements(By.tagName("th"));
 			if(ths.get(0).getText().trim().equals(bundleName)){
@@ -68,5 +75,102 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 		return bundleRow;
 	}
 
+	/**
+	 * Get the pending bundles tab active
+	 * @throws Exception
+	 */
+	public void getPendingBundlesTab() throws Exception {
+		getWebElement(By.id("mainTabContainer_tablist_queue")).click();
+	}
 
+	/**
+	 * Verifies if in the pending tab the bundle is still listed
+	 * @param bundleName Name of the bundle
+	 * @param poolInterval - how many milliseconds to wait between polling
+	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @return true if the bundle was pushed, false if is still pending
+	 * @throws Exception
+	 */
+	public boolean isBundlePushed(String bundleName,long poolInterval,int maxPoolCount) throws Exception{
+		bundle = bundleName;
+		Evaluator eval = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns true if host copy is done
+				return !isBundlePending(bundle);
+			}
+		};
+		return pollForValue(eval, true, poolInterval, maxPoolCount);
+	}
+
+	/**
+	 * Verifies if the bundle is pending for push
+	 * @param bundleName Name of the bundle
+	 * @return true if the bundle was pushed, false if is still pending
+	 * @throws Exception
+	 */
+	public boolean isBundlePending(String bundleName) throws Exception{
+		boolean isPending = false;
+		getPendingBundlesTab();
+		List<WebElement> bundles = getWebElement(By.id("queueContent")).findElements(By.tagName("table"));
+		for(WebElement bundle: bundles){ 
+			List<WebElement> rows = bundle.findElements(By.tagName("tr"));
+			for(WebElement row : rows){
+				List<WebElement> columns = row.findElements(By.tagName("td"));
+				if(columns.size() > 1){
+					if(columns.get(1).getText().trim().equals(bundleName)){
+						isPending=true;
+						break;
+					}
+				}
+			}
+		}
+		return isPending;
+	}
+
+	/**
+	 * Get the status/History tab active
+	 * @throws Exception
+	 */
+	public void getStatusHistoryTab() throws Exception{
+		getWebElement(By.id("mainTabContainer_tablist_audit")).click();
+	}
+
+	/**
+	 * Get the bundle most registered entries in the status history tab 
+	 * @param bundleName Name of the bundle
+	 * @return List<Map<String,String>>
+	 * @throws Exception
+	 */
+	public List<Map<String,String>> getBundleHistoryStatus(String bundleName) throws Exception{
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		List<WebElement> bundles = getWebElement(By.id("auditContent")).findElements(By.tagName("table"));
+		for(WebElement bundle: bundles){ 
+			List<WebElement> rows = bundle.findElements(By.tagName("tr"));
+			for(WebElement row : rows){
+				List<WebElement> columns = row.findElements(By.tagName("td"));
+				if(columns.size() > 1){
+					if(columns.get(2).getText().trim().equals(bundleName)){
+						Map<String, String> map = new HashMap<String, String>();
+						String id = columns.get(1).getAttribute("onclick");
+						map.put("bundleId", id.substring(id.indexOf("'")+1, id.lastIndexOf("'")));
+						map.put("bundleName", columns.get(2).getText());
+						map.put("bundleTitle", columns.get(3).getText());
+						map.put("bundleStatus", columns.get(4).getText());
+						map.put("bundleDateEntered", columns.get(5).getText());
+						map.put("bundleDateUpdated", columns.get(6).getText());
+						results.add(map);
+					}
+				}
+			}
+		}
+		return results;
+	}
+	
+	/**
+	 * Delete all the entries in the history/status tab
+	 * @throws Exception
+	 */
+	public void deleteAllHistoryStatus() throws Exception{
+		getWebElement(By.id("chkBoxAllAudits")).click();
+		getWebElement(By.id("deleteAuditsBtn")).click();
+	}
 }

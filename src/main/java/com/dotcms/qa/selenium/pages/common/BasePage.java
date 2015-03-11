@@ -396,4 +396,43 @@ public class BasePage implements IBasePage {
 		logger.trace("pollForValue: retValue = " + retValue + " - remainingPolls = " + remainingPolls);
 		return retValue;
 	}
+	
+	/**
+	 * allows to select right click menu options over a WebElement 
+	 * @param elem Element where the right click will be applied
+	 * @param menuOption Name of the option label to select
+	 * @return true if the option was found and clicked, false if not
+	 * @throws Exception
+	 */
+	public boolean selectRightClickPopupMenuOption(WebElement elem, String menuOption) throws Exception {
+		boolean foundValue = false;
+		sleep(1);
+		rightClickElement(elem);	
+		WebElement popupMenu = getWebElementClickable(By.className("dijitMenuPopup"));
+		//this.hoverOverElement(popupMenu);
+		List<WebElement> rows = popupMenu.findElements(By.tagName("tr"));
+		WebElement prevRow = null;
+		for(WebElement row : rows) {
+			if(prevRow != null) {
+				logger.debug("* prevRow.isDisplayed() = " + prevRow.isDisplayed());
+				logger.debug("* prevRow.isEnabled() = " + prevRow.isEnabled());
+			}
+			logger.debug("* isDisplayed() = " + row.isDisplayed());
+			logger.debug("* isEnabled() = " + row.isEnabled());
+			List<WebElement> labels = row.findElements(By.className("dijitMenuItemLabel"));
+			for(WebElement label : labels) {
+				logger.debug("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
+				if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
+					this.hoverOverElement(label);
+					getWebElementClickable(label).click();
+					foundValue = true;
+					break;
+				}
+			}
+			if(foundValue)
+				break;
+			prevRow = row;
+		}
+		return foundValue;
+	}
 }

@@ -23,7 +23,7 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
 public class ContainersPage extends BasePage implements IContainersPage {
 
 	private static final Logger logger = Logger.getLogger(ContainersPage.class);
-	
+
 	public ContainersPage(WebDriver driver) {
 		super(driver);
 	}
@@ -34,7 +34,7 @@ public class ContainersPage extends BasePage implements IContainersPage {
 	 * @throws Exception
 	 */
 	public IContainerAddOrEditPage getAddContainerPage() throws Exception{
-		
+
 		List<WebElement> spans = getWebElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonNode']"));
 		for(WebElement span : spans){
 			if(span.getText().equals(getLocalizedString("add-container"))){
@@ -44,7 +44,7 @@ public class ContainersPage extends BasePage implements IContainersPage {
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContainerAddOrEditPage.class);
 	}
-	
+
 	/**
 	 * Add the container to a particular bundle 
 	 * @param containerName   Name of the container
@@ -54,44 +54,12 @@ public class ContainersPage extends BasePage implements IContainersPage {
 	public void addToBundle(String containerName, String bundleName) throws Exception{
 		WebElement containerRow = findContainerRow(containerName);
 		List<WebElement> columns = containerRow.findElements(By.tagName("td"));
-		 selectPopupMenuOption(columns.get(1),getLocalizedString("Add-To-Bundle"));
-		 getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).sendKeys(bundleName);
-		 getWebElement(By.id("addToBundleDia")).findElement(By.id("addToBundleSaveButton_label")).click();
-		 
+		selectRightClickPopupMenuOption(columns.get(1),getLocalizedString("Add-To-Bundle"));
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).sendKeys(bundleName);
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("addToBundleSaveButton_label")).click();
+
 	}
-	
-	private boolean selectPopupMenuOption(WebElement elem, String menuOption) throws Exception {
-		boolean foundValue = false;
-		sleep(1);
-		rightClickElement(elem);	
-		WebElement popupMenu = getWebElementClickable(By.className("dijitMenuPopup"));
-		//this.hoverOverElement(popupMenu);
-		List<WebElement> rows = popupMenu.findElements(By.tagName("tr"));
-		WebElement prevRow = null;
-		for(WebElement row : rows) {
-			if(prevRow != null) {
-				logger.debug("* prevRow.isDisplayed() = " + prevRow.isDisplayed());
-				logger.debug("* prevRow.isEnabled() = " + prevRow.isEnabled());
-			}
-			logger.debug("* isDisplayed() = " + row.isDisplayed());
-			logger.debug("* isEnabled() = " + row.isEnabled());
-			List<WebElement> labels = row.findElements(By.className("dijitMenuItemLabel"));
-			for(WebElement label : labels) {
-				logger.debug("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
-				if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
-					this.hoverOverElement(label);
-					getWebElementClickable(label).click();
-					foundValue = true;
-					break;
-				}
-			}
-			if(foundValue)
-				break;
-			prevRow = row;
-		}
-		return foundValue;
-	}
-	
+
 	/**
 	 * Get the container row
 	 * @param containerName
@@ -101,6 +69,7 @@ public class ContainersPage extends BasePage implements IContainersPage {
 	public WebElement findContainerRow(String containerName) throws Exception{
 		WebElement containerRow = null;
 		WebElement div = getWebElement(By.cssSelector("div[class='yui-gc portlet-toolbar']"));
+		div.findElement(By.id("dijit_form_TextBox_0")).clear();
 		div.findElement(By.id("dijit_form_TextBox_0")).sendKeys(containerName);
 		div.findElement(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']")).click();
 		sleep(3);
@@ -115,5 +84,36 @@ public class ContainersPage extends BasePage implements IContainersPage {
 			}
 		}
 		return containerRow;
+	}
+	
+	/**
+	 * Delete the specified container
+	 * @param containerName Name of the container
+	 * @throws Exception
+	 */
+	public void deleteContainer(String containerName) throws Exception{
+		WebElement containerRow = findContainerRow(containerName);
+		List<WebElement> columns = containerRow.findElements(By.tagName("td"));
+		WebElement checkbox = columns.get(0).findElement(By.cssSelector("input[class='dijitReset dijitCheckBoxInput']"));
+		checkbox.click();
+		sleep(2);
+		getWebElement(By.id("deleteButton_label")).click();
+		switchToAlert().accept();
+		sleep(2);
+	}
+	
+	/**
+	 * Validate if the specified container exist
+	 * @param containerName Name of the container
+	 * @return true if the containers exist, false if not
+	 * @throws Exception
+	 */
+	public boolean existContainer(String containerName) throws Exception{
+		boolean exist=false;
+		WebElement containerRow = findContainerRow(containerName);
+		if(containerRow != null){
+			exist=true;
+		}
+		return exist;
 	}
 }

@@ -25,4 +25,19 @@ public interface IContainersPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public void addToBundle(String containerName, String bundleName) throws Exception;
+	
+	/**
+	 * Delete the specified container
+	 * @param containerName Name of the container
+	 * @throws Exception
+	 */
+	public void deleteContainer(String containerName) throws Exception;
+	
+	/**
+	 * Validate if the specified container exist
+	 * @param containerName Name of the container
+	 * @return true if the containers exist, false if not
+	 * @throws Exception
+	 */
+	public boolean existContainer(String containerName) throws Exception;
 }
