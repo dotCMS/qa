@@ -3,7 +3,6 @@ package com.dotcms.qa.selenium.pages.backend.common;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -94,22 +93,16 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 	 */
 	public WebElement findEnvironment(String environmentName) throws Exception{
 		List<WebElement> tables = getWebElement(By.id("remotePublishingTabContent")).findElements(By.tagName("table"));
-		boolean found = false;
 		WebElement environmentRow=null;
-		for(WebElement table : tables){
-			List<WebElement> rows = table.findElements(By.tagName("tr"));
-			for(WebElement row : rows){
-				List<WebElement> columns = row.findElements(By.tagName("td"));
-				if(columns.size() == 5){
-					if(columns.get(1).getText().equals(environmentName)){
-						environmentRow=row;
-						found=true;
-						break;
-					}
+		WebElement table = tables.get(0);
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		for(WebElement row : rows){
+			List<WebElement> columns = row.findElements(By.tagName("td"));
+			if(columns.size() == 5){
+				if(columns.get(1).getText().equals(environmentName)){
+					environmentRow=row;
+					break;
 				}
-			}
-			if(found){
-				break;
 			}
 		}
 		return environmentRow;
@@ -131,7 +124,7 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		}
 		return button;
 	}
-	
+
 	/**
 	 * Get the Add Server button
 	 * @return WebElement
@@ -148,7 +141,7 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		}
 		return button;
 	}
-	
+
 	/**
 	 * Add a receive from server
 	 * @param serverName      Receiver Server Name 
@@ -165,11 +158,11 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		receiveFromDialog.findElement(By.id("authKey")).sendKeys(key);
 		receiveFromDialog.findElement(By.id("save_label")).click();
 	}
-	
+
 	/**
 	 * Delete the specified environment
 	 * @param environmentName Name of the environment
-	  * @throws Exception
+	 * @throws Exception
 	 */
 	public void deleteEnvironment(String environmentName) throws Exception{
 		WebElement environment = findEnvironment(environmentName);
@@ -177,7 +170,7 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		columns.get(0).findElement(By.cssSelector("span[class='deleteIcon']")).click(); 
 		switchToAlert().accept();
 	}
-	
+
 	/**
 	 * Return the environment row
 	 * @param environmentName Name of the environment
@@ -185,27 +178,21 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 	 */
 	public WebElement findReceiveFromServer(String serverName) throws Exception{
 		List<WebElement> tables = getWebElement(By.id("remotePublishingTabContent")).findElements(By.tagName("table"));
-		boolean found = false;
 		WebElement serverRow=null;
-		for(WebElement table : tables){
-			List<WebElement> rows = table.findElements(By.tagName("tr"));
-			for(WebElement row : rows){
-				List<WebElement> columns = row.findElements(By.tagName("td"));
-				if(columns.size() == 2){
-					if(columns.get(1).getText().contains(serverName)){
-						serverRow=row;
-						found=true;
-						break;
-					}
+		WebElement table = tables.get(1);
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		for(WebElement row : rows){
+			List<WebElement> columns = row.findElements(By.tagName("td"));
+			if(columns.size() == 2){
+				if(columns.get(1).getText().contains(serverName)){
+					serverRow=row;
+					break;
 				}
-			}
-			if(found){
-				break;
 			}
 		}
 		return serverRow;
 	}
-	
+
 	/**
 	 * Delete the specified receive from server
 	 * @param serverName  Receiver Server Name 
@@ -217,4 +204,51 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		columns.get(0).findElement(By.cssSelector("span[class='deleteIcon']")).click(); 
 		switchToAlert().accept();
 	}
+
+	/**
+	 * Validate if a publish environment exist
+	 * @param environmentName Name of the environment
+	 * @return true if exist, false if not
+	 * @throws Exception
+	 */
+	public boolean existPublishingEnvironment(String environmentName) throws Exception{
+		boolean exist=false;
+		List<WebElement> tables = getWebElement(By.id("remotePublishingTabContent")).findElements(By.tagName("table"));
+		WebElement table = tables.get(0);
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		for(WebElement row : rows){
+			List<WebElement> columns = row.findElements(By.tagName("td"));
+			if(columns.size() == 5){
+				if(columns.get(1).getText().equals(environmentName)){
+					exist=true;
+					break;
+				}
+			}
+		}
+		return exist;
+	}
+
+	/**
+	 * Validate if a Receiver from server entry exist
+	 * @param serverName Name of the server
+	 * @return true if the server exist, false if not
+	 * @throws Exception
+	 */
+	public boolean existReceiveFromServer(String serverName) throws Exception{
+		boolean exist=false;
+		List<WebElement> tables = getWebElement(By.id("remotePublishingTabContent")).findElements(By.tagName("table"));
+		WebElement table = tables.get(1);
+		List<WebElement> rows = table.findElements(By.tagName("tr"));
+		for(WebElement row : rows){
+			List<WebElement> columns = row.findElements(By.tagName("td"));
+			if(columns.size() == 2){
+				if(columns.get(1).getText().contains(serverName)){
+					exist=true;
+					break;
+				}
+			}
+		}
+		return exist;
+	}
+
 }

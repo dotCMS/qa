@@ -21,11 +21,12 @@ public interface IPublishingQueuePage extends IBasePage{
 	public void getBundlesTab() throws Exception;
 	
 	/**
-	 * Search the especified bundle and click the push publish button
+	 * Search the specified bundle and click the push publish button. This method return the bundle Id
 	 * @param bundleName Name of the bundle
+	 * @return bundle id 
 	 * @throws Exception
 	 */
-	public void pushPublishBundle(String bundleName) throws Exception;
+	public String pushPublishBundle(String bundleName) throws Exception;
 	
 	/**
 	 * Get the pending bundles tab active
@@ -35,21 +36,21 @@ public interface IPublishingQueuePage extends IBasePage{
 	
 	/**
 	 * Verifies if in the pending tab the bundle is still listed
-	 * @param bundleName Name of the bundle
+	 * @param bundleId Id of the bundle
 	 * @param poolInterval - how many milliseconds to wait between polling
 	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
 	 * @return true if the bundle was pushed, false if is still pending
 	 * @throws Exception
 	 */
-	public boolean isBundlePushed(String bundleName,long poolInterval,int maxPoolCount) throws Exception;
+	public boolean isBundlePushed(String bundleId,long poolInterval,int maxPoolCount) throws Exception;
 	
 	/**
 	 * Verifies if the bundle is pending for push
-	 * @param bundleName Name of the bundle
+	 * @param bundleId Id of the bundle
 	 * @return true if the bundle was pushed, false if is still pending
 	 * @throws Exception
 	 */
-	public boolean isBundlePending(String bundleName) throws Exception;
+	public boolean isBundlePending(String bundleId) throws Exception;
 	
 	/**
 	 * Get the status/History tab active

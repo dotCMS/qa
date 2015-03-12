@@ -39,5 +39,4 @@ public class ConfigurationPage extends BasePage implements IConfigurationPage {
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IPublishingEnvironments.class);
 	}
 
-
 }

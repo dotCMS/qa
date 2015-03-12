@@ -85,8 +85,10 @@ public class PushPublishTest {
 			//Validate if push publishing servers are configured
 			receiverConfigurationPage = receiverPortletMenu.getConfigurationPage();
 			receiverPublishingEnvironments = receiverConfigurationPage.getPublishingEnvironmentsTab();
-			receiverPublishingEnvironments.addReceiveFrom(authoringServer, authoringServer, serversKey);
-			receiverPublishingEnvironments.sleep(3);
+			if(!receiverPublishingEnvironments.existReceiveFromServer(authoringServer)){
+				receiverPublishingEnvironments.addReceiveFrom(authoringServer, authoringServer, serversKey);
+				receiverPublishingEnvironments.sleep(3);
+			}
 			//login Authoring server
 			authoringPortletMenu = callAuthoringServer();
 
@@ -95,12 +97,13 @@ public class PushPublishTest {
 
 			//load the Push publish environment tab
 			authoringPublishingEnvironments = authoringConfigurationPage.getPublishingEnvironmentsTab();
-			List<String> whoCanUse = new ArrayList<String>();
-			whoCanUse.add("Admin User");
-			authoringPublishingEnvironments.createEnvironment(environmentName, whoCanUse, "pushToOne");
-			//Adding receiver server to the environment
-			authoringPublishingEnvironments.addServerToEnvironment(environmentName, receiverServer, receiverServer, receiverServerPort, serversProtocol, serversKey);
-
+			if(!authoringPublishingEnvironments.existPublishingEnvironment(environmentName)){
+				List<String> whoCanUse = new ArrayList<String>();
+				whoCanUse.add("Admin User");
+				authoringPublishingEnvironments.createEnvironment(environmentName, whoCanUse, "pushToOne");
+				//Adding receiver server to the environment
+				authoringPublishingEnvironments.addServerToEnvironment(environmentName, receiverServer, receiverServer, receiverServerPort, serversProtocol, serversKey);
+			}
 			logger.info("**PushPublishTests.init() ending**");
 		}catch(Exception e) {
 			logger.error("ERROR - PushPublishTests.init()", e);
@@ -114,11 +117,11 @@ public class PushPublishTest {
 			logger.info("**PushPublishTests.teardown() beginning**");
 			// logout
 			authoringPortletMenu =callAuthoringServer();
-			
+
 			IPublishingQueuePage publishingQueuePage = authoringPortletMenu.getPublishingQueuePage();
 			publishingQueuePage.getStatusHistoryTab();
 			publishingQueuePage.deleteAllHistoryStatus();
-			
+
 			//Validate if push publishing servers are configured
 			authoringConfigurationPage = authoringPortletMenu.getConfigurationPage();
 
@@ -134,13 +137,13 @@ public class PushPublishTest {
 			publishingQueuePage = receiverPortletMenu.getPublishingQueuePage();
 			publishingQueuePage.getStatusHistoryTab();
 			publishingQueuePage.deleteAllHistoryStatus();
-			
+
 			//Validate if push publishing servers are configured
 			receiverConfigurationPage = receiverPortletMenu.getConfigurationPage();
 			receiverPublishingEnvironments = receiverConfigurationPage.getPublishingEnvironmentsTab();
 			receiverPublishingEnvironments.deleteReceiveFromServer(authoringServer);
 			receiverBackendMgr.logoutBackend();
-
+			receiverBackendMgr.shutdown();
 			logger.info("**PushPublishTests.teardown() ending**");
 		}catch(Exception e) {
 			logger.error("ERROR - PushPublishTests.teardown()", e);
@@ -184,20 +187,16 @@ public class PushPublishTest {
 		//add container to bundle
 		String bundleName = "test559";
 		containersPage.addToBundle(containerTitle, bundleName);
-		
-		
+
+
 		//push container
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		publishingQueuePage.getBundlesTab();
-		publishingQueuePage.pushPublishBundle(bundleName);
+		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
 
-		//wait until 4 minutes to check if the container was pushed
-		boolean isPushed = publishingQueuePage.isBundlePushed(bundleName,5000,48);
+		//wait until 2 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isBundlePushed(authoringServerBundleId,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Container push should not be in pending list.");
-
-		//getting bundleId
-		publishingQueuePage.getStatusHistoryTab();
-		List<Map<String,String>> authoringBundle = publishingQueuePage.getBundleHistoryStatus(bundleName);
 
 		//delete container from authoring server
 		containersPage = portletMenu.getContainersPage();
@@ -211,24 +210,21 @@ public class PushPublishTest {
 		publishingQueuePage = portletMenu.getPublishingQueuePage();
 		publishingQueuePage.getStatusHistoryTab();
 		List<Map<String,String>> receiverBundle = publishingQueuePage.getBundleHistoryStatus(bundleName);
-		Assert.assertTrue(authoringBundle.size() != 0,"ERROR - the authoring server doesn't have the bundle in registered");
-		Assert.assertTrue(receiverBundle.size() != 0,"ERROR - the receiver server doesn't have the bundle in registered");
-		String authoringServerBundleId = authoringBundle.get(0).get("bundleId");
+		Assert.assertTrue(authoringServerBundleId != null,"ERROR - the authoring server doesn't have the bundle registered");
+		Assert.assertTrue(receiverBundle.size() != 0,"ERROR - the receiver server doesn't have the bundle registered");
 		String receiverServerBundleId = receiverBundle.get(0).get("bundleId");
 		Assert.assertTrue(authoringServerBundleId.equals(receiverServerBundleId),"ERROR - The bundle should have the same Id");
 
 
-		//delete container from authoring server
+		//validate and delete container from receiver server
 		containersPage = portletMenu.getContainersPage();
 		Assert.assertTrue(containersPage.existContainer(containerTitle), "ERROR - Receiver Server: Container should exist at this moment in receiver server.");
-
-		//deleting container in receiver server
 		containersPage.deleteContainer(containerTitle);
-		Assert.assertFalse(containersPage.existContainer(containerTitle), "ERROR - Receiver Server: Container pushed should not be in pending list.");
+		Assert.assertFalse(containersPage.existContainer(containerTitle), "ERROR - Receiver Server: should exist at this moment in receiver server.");
 
 
 	}
-	
+
 	/**
 	 * Activate in the browser the Authoring server
 	 * @return IPortletMenu
@@ -244,7 +240,7 @@ public class PushPublishTest {
 		}
 		return authoringBackendMgr.getPageObject(IPortletMenu.class);
 	}
-	
+
 	/**
 	 * Activate in the browser the Receiver server
 	 * @return IPortletMenu

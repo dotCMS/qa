@@ -37,13 +37,17 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 	}
 
 	/**
-	 * Search the especified bundle and click the push publish button
+	 * Search the specified bundle and click the push publish button. This method return the bundle Id
 	 * @param bundleName Name of the bundle
+	 * @return bundle id 
 	 * @throws Exception
 	 */
-	public void pushPublishBundle(String bundleName) throws Exception{
+	public String pushPublishBundle(String bundleName) throws Exception{
 		WebElement bundle = findBundle(bundleName);
+		String bundleId = null;
 		List<WebElement> ths = bundle.findElements(By.tagName("th"));
+		bundleId = ths.get(0).getAttribute("onclick");
+		bundleId=bundleId.substring(bundleId.indexOf("'")+1, bundleId.lastIndexOf("'"));
 		List<WebElement> buttons = ths.get(1).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement button : buttons){
 			if(button.getText().equals(getLocalizedString("Remote-Publish"))){
@@ -54,6 +58,7 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 		sleep(2);
 		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
 		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
+		return bundleId;
 	}
 
 	/**
@@ -85,14 +90,14 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 
 	/**
 	 * Verifies if in the pending tab the bundle is still listed
-	 * @param bundleName Name of the bundle
+	 * @param bundleId Id of the bundle
 	 * @param poolInterval - how many milliseconds to wait between polling
 	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
 	 * @return true if the bundle was pushed, false if is still pending
 	 * @throws Exception
 	 */
-	public boolean isBundlePushed(String bundleName,long poolInterval,int maxPoolCount) throws Exception{
-		bundle = bundleName;
+	public boolean isBundlePushed(String bundleId,long poolInterval,int maxPoolCount) throws Exception{
+		bundle = bundleId;
 		Evaluator eval = new Evaluator() {
 			public boolean evaluate() throws Exception {  // returns true if host copy is done
 				return !isBundlePending(bundle);
@@ -103,20 +108,20 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 
 	/**
 	 * Verifies if the bundle is pending for push
-	 * @param bundleName Name of the bundle
+	 * @param bundleId Id of the bundle
 	 * @return true if the bundle was pushed, false if is still pending
 	 * @throws Exception
 	 */
-	public boolean isBundlePending(String bundleName) throws Exception{
+	public boolean isBundlePending(String bundleId) throws Exception{
 		boolean isPending = false;
 		getPendingBundlesTab();
 		List<WebElement> bundles = getWebElement(By.id("queueContent")).findElements(By.tagName("table"));
 		for(WebElement bundle: bundles){ 
 			List<WebElement> rows = bundle.findElements(By.tagName("tr"));
 			for(WebElement row : rows){
-				List<WebElement> columns = row.findElements(By.tagName("td"));
+				List<WebElement> columns = row.findElements(By.tagName("th"));
 				if(columns.size() > 1){
-					if(columns.get(1).getText().trim().equals(bundleName)){
+					if(columns.get(1).getText().contains(bundleId)){
 						isPending=true;
 						break;
 					}
@@ -141,6 +146,7 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 	 * @throws Exception
 	 */
 	public List<Map<String,String>> getBundleHistoryStatus(String bundleName) throws Exception{
+		getStatusHistoryTab();
 		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
 		List<WebElement> bundles = getWebElement(By.id("auditContent")).findElements(By.tagName("table"));
 		for(WebElement bundle: bundles){ 
@@ -170,6 +176,7 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 	 * @throws Exception
 	 */
 	public void deleteAllHistoryStatus() throws Exception{
+		getStatusHistoryTab();
 		getWebElement(By.id("chkBoxAllAudits")).click();
 		getWebElement(By.id("deleteAuditsBtn")).click();
 	}

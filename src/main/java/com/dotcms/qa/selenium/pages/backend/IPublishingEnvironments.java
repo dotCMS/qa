@@ -58,4 +58,20 @@ public interface IPublishingEnvironments extends IBasePage {
 	 * @throws Exception
 	 */
 	public void deleteReceiveFromServer(String serverName) throws Exception;
+	
+	/**
+	 * Validate if a publish environment exist
+	 * @param environmentName Name of the environment
+	 * @return true if exist, false if not
+	 * @throws Exception
+	 */
+	public boolean existPublishingEnvironment(String environmentName) throws Exception;
+	
+	/**
+	 * Validate if a Receiver from server entry exist
+	 * @param serverName Name of the server
+	 * @return true if the server exist, false if not
+	 * @throws Exception
+	 */
+	public boolean existReceiveFromServer(String serverName) throws Exception;
 }
