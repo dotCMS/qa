@@ -40,4 +40,20 @@ public interface IContainersPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public boolean existContainer(String containerName) throws Exception;
+	
+	/**
+	 * Returns the edit container page
+	 * @param containerName Container Name
+	 * @return IContentAddOrEdit_ContentPage
+	 * @throws Exception
+	 */
+	public IContainerAddOrEditPage getEditContainerPage(String containerName) throws Exception;
+	
+	/**
+	 * Click the push publish option from the right click menu options
+	 * @param containerName Container Name
+	 * @throws Exception
+	 */
+	public void pushContainer(String containerName) throws Exception;
+	
 }

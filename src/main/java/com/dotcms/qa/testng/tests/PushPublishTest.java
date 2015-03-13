@@ -59,6 +59,14 @@ public class PushPublishTest {
 	private IConfigurationPage receiverConfigurationPage=null;
 	private IPublishingEnvironments receiverPublishingEnvironments = null;
 
+	/**
+	 * Container test variables
+	 */
+	private String containerTitle="Test 559 Container";
+	private String containerCode ="<h2>Test 559</h2><br/><p>This is a test for push publishing</p>";
+	private String containerCode2 ="<h2>Test 559 and 560</h2><br/><p>This is a test for push publishing</p>";
+
+
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
 		try {
@@ -151,80 +159,6 @@ public class PushPublishTest {
 		}
 	}
 
-
-	/**
-	 * CONTAINERS PUSH PUBLISHING TESTS
-	 */
-
-	/**
-	 * 	Add a new Container and push to remote server:
-	 * http://qa.dotcms.com/index.php?/cases/view/559
-	 * @throws Exception
-	 */
-	@Test (groups = {"PushPublishing"})
-	public void tc559_AddNewContainerAndPush() throws Exception {
-
-		//connect to receiver sevrer
-		IPortletMenu portletMenu = callAuthoringServer();
-
-		IContainersPage containersPage = portletMenu.getContainersPage();
-
-		IContainerAddOrEditPage addContainerPage = containersPage.getAddContainerPage();
-
-		String containerTitle="Test 559 Container";
-		String containerCode ="<h2>Test 559</h2><br/><p>This is a test for push publishing</p>";
-		//simple container
-		Map<String, String> container = new HashMap<String,String>();
-		container.put("titleField", containerTitle);
-		container.put("friendlyNameField", containerTitle);
-		container.put("code", containerCode);
-		//create test container to push
-		addContainerPage.setFields(container);
-		containersPage = addContainerPage.saveAndPublish();
-
-		Assert.assertTrue(containersPage.existContainer(containerTitle), "ERROR - Container should exist at this moment in authoring server.");
-
-		//add container to bundle
-		String bundleName = "test559";
-		containersPage.addToBundle(containerTitle, bundleName);
-
-
-		//push container
-		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		publishingQueuePage.getBundlesTab();
-		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
-
-		//wait until 2 minutes to check if the container was pushed
-		boolean isPushed = publishingQueuePage.isBundlePushed(authoringServerBundleId,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Container push should not be in pending list.");
-
-		//delete container from authoring server
-		containersPage = portletMenu.getContainersPage();
-		containersPage.deleteContainer(containerTitle);
-		Assert.assertFalse(containersPage.existContainer(containerTitle), "ERROR - Authoring Server: Container should not exist at this moment in authoring.");
-
-		//connect to receiver sevrer
-		portletMenu = callReceiverServer();
-
-		//getting bundleId
-		publishingQueuePage = portletMenu.getPublishingQueuePage();
-		publishingQueuePage.getStatusHistoryTab();
-		List<Map<String,String>> receiverBundle = publishingQueuePage.getBundleHistoryStatus(bundleName);
-		Assert.assertTrue(authoringServerBundleId != null,"ERROR - the authoring server doesn't have the bundle registered");
-		Assert.assertTrue(receiverBundle.size() != 0,"ERROR - the receiver server doesn't have the bundle registered");
-		String receiverServerBundleId = receiverBundle.get(0).get("bundleId");
-		Assert.assertTrue(authoringServerBundleId.equals(receiverServerBundleId),"ERROR - The bundle should have the same Id");
-
-
-		//validate and delete container from receiver server
-		containersPage = portletMenu.getContainersPage();
-		Assert.assertTrue(containersPage.existContainer(containerTitle), "ERROR - Receiver Server: Container should exist at this moment in receiver server.");
-		containersPage.deleteContainer(containerTitle);
-		Assert.assertFalse(containersPage.existContainer(containerTitle), "ERROR - Receiver Server: should exist at this moment in receiver server.");
-
-
-	}
-
 	/**
 	 * Activate in the browser the Authoring server
 	 * @return IPortletMenu
@@ -256,4 +190,126 @@ public class PushPublishTest {
 		}
 		return receiverBackendMgr.getPageObject(IPortletMenu.class);
 	}
+
+	/**
+	 * CONTAINERS PUSH PUBLISHING TESTS
+	 */
+
+	/**
+	 * 	Add a new Container and push to remote server:
+	 * http://qa.dotcms.com/index.php?/cases/view/559
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc559_AddNewContainerAndPush() throws Exception {
+
+		//connect to receiver server
+		IPortletMenu portletMenu = callAuthoringServer();
+
+		IContainersPage containersPage = portletMenu.getContainersPage();
+
+		IContainerAddOrEditPage addContainerPage = containersPage.getAddContainerPage();
+
+		//simple container
+		Map<String, String> container = new HashMap<String,String>();
+		container.put("titleField", containerTitle);
+		container.put("friendlyNameField", containerTitle);
+		container.put("ace", containerCode);
+		//create test container to push
+		addContainerPage.setFields(container);
+		containersPage = addContainerPage.saveAndPublish();
+
+		Assert.assertTrue(containersPage.existContainer(containerTitle), "ERROR - Container should exist at this moment in authoring server.");
+
+		//add container to bundle
+		String bundleName = "test559";
+		containersPage.addToBundle(containerTitle, bundleName);
+
+
+		//push container
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		publishingQueuePage.getBundlesTab();
+		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
+
+		//wait until 5 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isBundlePushed(authoringServerBundleId,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Container push should not be in pending list.");
+
+		//delete container from authoring server
+		containersPage = portletMenu.getContainersPage();
+		//containersPage.deleteContainer(containerTitle);
+		//Assert.assertFalse(containersPage.existContainer(containerTitle), "ERROR - Authoring Server: Container should not exist at this moment in authoring server.");
+
+		//connect to receiver server
+		portletMenu = callReceiverServer();
+
+		//getting bundleId
+		publishingQueuePage = portletMenu.getPublishingQueuePage();
+		publishingQueuePage.getStatusHistoryTab();
+		List<Map<String,String>> receiverBundle = publishingQueuePage.getBundleHistoryStatus(bundleName);
+		Assert.assertTrue(authoringServerBundleId != null,"ERROR - the authoring server doesn't have the bundle registered");
+		Assert.assertTrue(receiverBundle.size() != 0,"ERROR - the receiver server doesn't have the bundle registered");
+		String receiverServerBundleId = receiverBundle.get(0).get("bundleId");
+		Assert.assertTrue(authoringServerBundleId.equals(receiverServerBundleId),"ERROR - The bundle should have the same Id");
+
+
+		//validate and delete container from receiver server
+		containersPage = portletMenu.getContainersPage();
+		Assert.assertTrue(containersPage.existContainer(containerTitle), "ERROR - Receiver Server: Container should exist at this moment in receiver server.");
+		//containersPage.deleteContainer(containerTitle);
+		//Assert.assertFalse(containersPage.existContainer(containerTitle), "ERROR - Receiver Server: should exist at this moment in receiver server.");
+
+
+	}
+
+	/**
+	 * 	Edit an existing pushed Container and push to remote server:
+	 * http://qa.dotcms.com/index.php?/cases/view/560
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc560_EditContainerAndPush() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+
+		//Getting and editing container
+		IContainersPage containersPage = portletMenu.getContainersPage();
+		IContainerAddOrEditPage editContainerPage = containersPage.getEditContainerPage(containerTitle);
+
+		Map<String, String> container = new HashMap<String,String>();
+		container.put("titleField", containerTitle);
+		container.put("friendlyNameField", containerTitle);
+		container.put("ace", containerCode2);
+		editContainerPage.setFields(container);
+		containersPage = editContainerPage.saveAndPublish();
+
+		//Push modified container
+		containersPage.pushContainer(containerTitle);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(containerTitle,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Container push should not be in pending list.");
+
+		//delete containers
+		//Authoring server
+		containersPage = portletMenu.getContainersPage();
+		containersPage.deleteContainer(containerTitle);
+		Assert.assertFalse(containersPage.existContainer(containerTitle), "ERROR - Authoring Server: Container should not exist at this moment in authoring server.");
+
+
+		//connect to receiver server
+		portletMenu = callReceiverServer();
+		containersPage = portletMenu.getContainersPage();
+		editContainerPage = containersPage.getEditContainerPage(containerTitle);
+		String codeValue= editContainerPage.getFieldValue("ace");
+		editContainerPage.cancel();
+		Assert.assertTrue(codeValue.equals(containerCode2),"ERROR - Container in receiver server doesn't match the version in the authoring server");
+
+		//delete containers
+		//Receiver server
+		containersPage.deleteContainer(containerTitle);
+		Assert.assertFalse(containersPage.existContainer(containerTitle), "ERROR - Receiver Server: should exist at this moment in receiver server.");
+	}
+
 }

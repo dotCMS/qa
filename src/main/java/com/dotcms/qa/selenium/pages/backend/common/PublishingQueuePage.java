@@ -180,4 +180,47 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 		getWebElement(By.id("chkBoxAllAudits")).click();
 		getWebElement(By.id("deleteAuditsBtn")).click();
 	}
+	
+	/**
+	 * Verifies if in the pending tab the object(container, cotentlet,etc) bundle is still listed
+	 * @param elementTitle name of the containers,content,etc element pushed individually
+	 * @param poolInterval - how many milliseconds to wait between polling
+	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @return true if the bundle was pushed, false if is still pending
+	 * @throws Exception
+	 */
+	public boolean isObjectBundlePushed(String elementTitle,long poolInterval,int maxPoolCount) throws Exception{
+		bundle = elementTitle;
+		Evaluator eval = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns true if host copy is done
+				return !isObjectBundlePending(bundle);
+			}
+		};
+		return pollForValue(eval, true, poolInterval, maxPoolCount);
+	}
+
+	/**
+	 * Verifies if the object bundle is pending for push
+	 * @param elementTitle name of the containers,content,etc element pushed individually
+	 * @return true if the bundle was pushed, false if is still pending
+	 * @throws Exception
+	 */
+	public boolean isObjectBundlePending(String elementTitle) throws Exception{
+		boolean isPending = false;
+		getPendingBundlesTab();
+		List<WebElement> bundles = getWebElement(By.id("queueContent")).findElements(By.tagName("table"));
+		for(WebElement bundle: bundles){ 
+			List<WebElement> rows = bundle.findElements(By.tagName("tr"));
+			for(WebElement row : rows){
+				List<WebElement> columns = row.findElements(By.tagName("td"));
+				if(columns.size() > 1){
+					if(columns.get(1).getText().contains(elementTitle)){
+						isPending=true;
+						break;
+					}
+				}
+			}
+		}
+		return isPending;
+	}
 }

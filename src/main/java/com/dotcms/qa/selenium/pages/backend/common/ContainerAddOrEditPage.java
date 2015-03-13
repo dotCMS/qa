@@ -40,12 +40,8 @@ public class ContainerAddOrEditPage extends BasePage implements IContainerAddOrE
 				element.sendKeys(containerFields.get(key));
 				element.sendKeys(Keys.TAB);
 			}catch(Exception e){
-				WebElement elem = getWebElement(By.id(key+"EditorArea"));
-				elem.click();
-				
-				WebElement element = elem.findElement(By.className("ace_text-input"));
-				element.clear();
-				element.sendKeys(containerFields.get(key));
+				//if is a ace editor field
+				executeJavaScript("ace.edit('"+key+"Editor').getSession().setValue('"+containerFields.get(key)+"');");
 			}
 		}
 	}
@@ -93,5 +89,25 @@ public class ContainerAddOrEditPage extends BasePage implements IContainerAddOrE
 			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContainersPage.class);
+	}
+
+	/**
+	 * Return the string value of the specified container field
+	 * @param key	Key Name of the field
+	 * @throws Exception
+	 */
+	public String getFieldValue(String key) throws Exception{
+		String value=null;
+		try{
+			WebElement element = getWebElement(By.id(key));
+			value = element.getText();
+
+			if(value.equals("")){
+				value = (String) executeScript("var editor = ace.edit('"+key+"Editor');return editor.getSession().getValue();");
+			}
+		}catch(Exception e){
+			value = (String) executeScript("var editor = ace.edit('"+key+"Editor');return editor.getSession().getValue();");
+		}
+		return value;
 	}
 }

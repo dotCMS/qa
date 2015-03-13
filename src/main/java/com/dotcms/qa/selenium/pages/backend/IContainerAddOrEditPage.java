@@ -37,4 +37,11 @@ public interface IContainerAddOrEditPage extends IBasePage {
 	 * @return ICOntainersPage
 	 */
 	public IContainersPage cancel() throws Exception;
+	
+	/**
+	 * Return the string value of the specified container field
+	 * @param fieldName	Name of the field
+	 * @throws Exception
+	 */
+	public String getFieldValue(String fieldName) throws Exception;
 }

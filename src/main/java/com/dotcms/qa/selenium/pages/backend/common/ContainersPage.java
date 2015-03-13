@@ -116,4 +116,31 @@ public class ContainersPage extends BasePage implements IContainersPage {
 		}
 		return exist;
 	}
+	
+	/**
+	 * Returns the edit container page
+	 * @param containerName Container Name
+	 * @return IContentAddOrEdit_ContentPage
+	 * @throws Exception
+	 */
+	public IContainerAddOrEditPage getEditContainerPage(String containerName) throws Exception{
+		WebElement container = findContainerRow(containerName);
+		List<WebElement> columns = container.findElements(By.tagName("td"));
+		columns.get(1).click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContainerAddOrEditPage.class);
+	}
+	
+	/**
+	 * Click the push publish option from the right click menu options
+	 * @param containerName Container Name
+	 * @throws Exception
+	 */
+	public void pushContainer(String containerName) throws Exception{
+		WebElement container = findContainerRow(containerName);
+		List<WebElement> columns = container.findElements(By.tagName("td"));
+		selectRightClickPopupMenuOption(columns.get(1),getLocalizedString("Remote-Publish"));
+		sleep(2);
+		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
+		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
+	}
 }

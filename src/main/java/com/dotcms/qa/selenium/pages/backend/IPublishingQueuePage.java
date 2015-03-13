@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
+import com.dotcms.qa.util.Evaluator;
 
 /**
  * Publishing Queue Page Interface
@@ -71,4 +72,22 @@ public interface IPublishingQueuePage extends IBasePage{
 	 * @throws Exception
 	 */
 	public void deleteAllHistoryStatus() throws Exception;
+	
+	/**
+	 * Verifies if in the pending tab the object(container, cotentlet,etc) bundle is still listed
+	 * @param elementTitle name of the containers,content,etc element pushed individually
+	 * @param poolInterval - how many milliseconds to wait between polling
+	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @return true if the bundle was pushed, false if is still pending
+	 * @throws Exception
+	 */
+	public boolean isObjectBundlePushed(String elementTitle,long poolInterval,int maxPoolCount) throws Exception;
+
+	/**
+	 * Verifies if the object bundle is pending for push
+	 * @param elementTitle name of the containers,content,etc element pushed individually
+	 * @return true if the bundle was pushed, false if is still pending
+	 * @throws Exception
+	 */
+	public boolean isObjectBundlePending(String elementTitle) throws Exception;
 }
