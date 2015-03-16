@@ -1,13 +1,14 @@
 #!/bin/sh
 
+echo 'Working dir:'
+pwd
+
 # ensure clean workspace
 rm -rf *
 
 # expects these two environment variables to be set
 echo zip: $DOTCMS_ZIP_URL
 echo tar: $DOTCMS_TAR_GZ_URL
-
-pwd
 
 env
 
@@ -30,4 +31,3 @@ tar -xvf ../temp.targz
 cd ..
 
 diff -r tarcontents zipcontents
-
