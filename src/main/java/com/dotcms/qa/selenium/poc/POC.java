@@ -38,7 +38,7 @@ public class POC {
         String structureName = "QA" + System.currentTimeMillis();
         IStructuresPage structsPage = portletMenu.getStructuresPage();
         IStructureAddOrEdit_PropertiesPage structAddPage= structsPage.getAddNewStructurePage();
-        IStructureAddOrEdit_FieldsPage addFieldPage = structAddPage.createNewStructure(structureName, structureName+"Desc", "System Host");
+        IStructureAddOrEdit_FieldsPage addFieldPage = structAddPage.createNewStructure(structureName,"Content", structureName+"Desc", "System Host");
         addFieldPage = addFieldPage.addTextField("Title", true, true, true, true, true);
         addFieldPage = addFieldPage.addWYSIWYGField("Article", "", "", true, true, true);
         addFieldPage = addFieldPage.addImageField("Photo", "You know the photo / aka the picture file", false);

@@ -69,7 +69,7 @@ public class StructureTests {
     	
         // Create structure and add fields
         IStructureAddOrEdit_PropertiesPage propPage = structuresPage.getAddNewStructurePage();
-        IStructureAddOrEdit_FieldsPage addOrEditFieldsPage = propPage.createNewStructure("OneOfEverything", "Structure with every field type", "qashared");
+        IStructureAddOrEdit_FieldsPage addOrEditFieldsPage = propPage.createNewStructure("OneOfEverything", "Content", "Structure with every field type", "qashared");
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savestructure"));
         addOrEditFieldsPage.addTextField("TextField", false, true, true, true, false);
         Assert.assertEquals(structuresPage.getSystemMessage().trim(), LanguageManager.getValue("message.structure.savefield"));

@@ -18,6 +18,9 @@ import com.dotcms.qa.selenium.pages.backend.ILoginPage;
 import com.dotcms.qa.selenium.pages.backend.IPortletMenu;
 import com.dotcms.qa.selenium.pages.backend.IPublishingEnvironments;
 import com.dotcms.qa.selenium.pages.backend.IPublishingQueuePage;
+import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_FieldsPage;
+import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_PropertiesPage;
+import com.dotcms.qa.selenium.pages.backend.IStructuresPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
@@ -34,6 +37,7 @@ public class PushPublishTest {
 	private SeleniumConfig config = null;
 	private String backendUserEmail = null;
 	private String backendUserPassword = null;
+	private String demoServer = "qademo.dotcms.com";
 
 
 	//Push publishing general properties
@@ -65,6 +69,8 @@ public class PushPublishTest {
 	private String containerTitle="Test 559 Container";
 	private String containerCode ="<h2>Test 559</h2><br/><p>This is a test for push publishing</p>";
 	private String containerCode2 ="<h2>Test 559 and 560</h2><br/><p>This is a test for push publishing</p>";
+	private String containerTitle2="Test 562 Container";
+	private String structureName = "Test562";
 
 
 	@BeforeGroups (groups = {"PushPublishing"})
@@ -123,6 +129,8 @@ public class PushPublishTest {
 	public void teardown() throws Exception {
 		try {
 			logger.info("**PushPublishTests.teardown() beginning**");
+			
+			deletePreviousTest();
 			// logout
 			authoringPortletMenu =callAuthoringServer();
 
@@ -189,6 +197,52 @@ public class PushPublishTest {
 			//already logged in
 		}
 		return receiverBackendMgr.getPageObject(IPortletMenu.class);
+	}
+
+	/**
+	 * Delete the test to avoid issue with next test runs
+	 * @throws Exception
+	 */
+	private void deletePreviousTest() throws Exception{
+		//Authoring Server
+		try{
+			
+			/*Containers Test*/
+			IPortletMenu portletMenu = callAuthoringServer();
+			IContainersPage containersPage = portletMenu.getContainersPage();
+			if(containersPage.existContainer(containerTitle)){
+				containersPage.deleteContainer(containerTitle);
+			}
+			if(containersPage.existContainer(containerTitle2)){
+				containersPage.deleteContainer(containerTitle2);
+			}
+
+			IStructuresPage structurePage = portletMenu.getStructuresPage();
+			if(structurePage.doesStructureExist(structureName)){
+				structurePage.deleteStructureAndContent(structureName, true);
+			}
+		}catch(Exception e){
+			logger.error(e.getMessage(), e);
+		}
+		//Receiver Server
+		try{
+			/*Containers Test*/
+			IPortletMenu portletMenu = callReceiverServer();
+			IContainersPage containersPage = portletMenu.getContainersPage();
+			if(containersPage.existContainer(containerTitle)){
+				containersPage.deleteContainer(containerTitle);
+			}
+			if(containersPage.existContainer(containerTitle2)){
+				containersPage.deleteContainer(containerTitle2);
+			}
+
+			IStructuresPage structurePage = portletMenu.getStructuresPage();
+			if(structurePage.doesStructureExist(structureName)){
+				structurePage.deleteStructureAndContent(structureName, true);
+			}
+		}catch(Exception e){
+			logger.error(e.getMessage(), e);
+		}
 	}
 
 	/**
@@ -312,4 +366,85 @@ public class PushPublishTest {
 		Assert.assertFalse(containersPage.existContainer(containerTitle), "ERROR - Receiver Server: should exist at this moment in receiver server.");
 	}
 
+	/**
+	 * Set a container with a new structure, to check pushing dependencies into remote server:
+	 * http://qa.dotcms.com/index.php?/cases/view/562
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc562_FormatContainerToAddNewStructureDependency() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		IStructuresPage structurePage = portletMenu.getStructuresPage();
+
+		//create new structure
+		Assert.assertFalse(structurePage.doesStructureExist(structureName),"ERROR - The Structure ("+structureName+") shoudl not exist at this time.");
+
+		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(structureName, "Content",structureName, demoServer);
+
+		//Test that the field doesn't exist
+		String titleField = "Title";
+		String descriptionField = "Description";
+		Assert.assertFalse(fieldsPage.doesFieldExist(titleField),"ERROR - The field ("+titleField+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(titleField, false, false, false, false, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(titleField),"ERROR - The field ("+titleField+") shoudl exist at this time");
+
+		Assert.assertFalse(fieldsPage.doesFieldExist(descriptionField),"ERROR - The field ("+descriptionField+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(descriptionField, "", "", "","", false, false, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(descriptionField),"ERROR - The field ("+descriptionField+") shoudl exist at this time");
+
+		//add container
+		IContainersPage containersPage = portletMenu.getContainersPage();
+		IContainerAddOrEditPage addContainerPage = containersPage.getAddContainerPage();
+
+		Map<String, String> container = new HashMap<String,String>();
+		container.put("titleField", containerTitle2);
+		container.put("friendlyNameField", containerTitle2);
+		container.put("maxContentlets", "1");
+		container.put("structureSelect", structureName);
+		container.put("AddVariables", titleField+","+descriptionField);
+		//create test container to push
+		addContainerPage.setFields(container);
+		containersPage = addContainerPage.saveAndPublish();
+
+		Assert.assertTrue(containersPage.existContainer(containerTitle2), "ERROR - Container should exist at this moment in authoring server.");
+
+		//Pushing Container
+		containersPage.pushContainer(containerTitle2);
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(containerTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Container push should not be in pending list.");
+
+		//connect to receiver server
+		portletMenu = callReceiverServer();
+		containersPage = portletMenu.getContainersPage();
+		Assert.assertTrue(containersPage.existContainer(containerTitle2),"ERROR - Container in receiver server doesn't exist");
+
+		structurePage = portletMenu.getStructuresPage();
+		Assert.assertTrue(structurePage.doesStructureExist(structureName),"ERROR - Structure ('"+structureName+"') doesn't exist in receiver server");
+		//delete structure and containers
+		//Receiver server
+		containersPage = portletMenu.getContainersPage();
+		containersPage.deleteContainer(containerTitle2);
+		Assert.assertFalse(containersPage.existContainer(containerTitle2), "ERROR - Receiver Server: container ('"+containerTitle2+"') should not exist at this moment in receiver server.");
+
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(structureName, true);
+		Assert.assertFalse(structurePage.doesStructureExist(structureName), "ERROR - Receiver Server: structure ('"+structureName+"') should not exist at this moment in receiver server.");
+
+		//Authoring server
+		portletMenu = callAuthoringServer();
+		containersPage = portletMenu.getContainersPage();
+		containersPage.deleteContainer(containerTitle2);
+		Assert.assertFalse(containersPage.existContainer(containerTitle2), "ERROR - Receiver Server: container ('"+containerTitle2+"') should not exist at this moment in receiver server.");
+
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(structureName, true);
+		Assert.assertFalse(structurePage.doesStructureExist(structureName), "ERROR - Receiver Server: structure ('"+structureName+"') should not exist at this moment in receiver server.");
+
+	}
 }

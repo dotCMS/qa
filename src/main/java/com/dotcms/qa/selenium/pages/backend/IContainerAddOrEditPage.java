@@ -1,5 +1,6 @@
 package com.dotcms.qa.selenium.pages.backend;
 
+import java.util.List;
 import java.util.Map;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
@@ -15,7 +16,7 @@ public interface IContainerAddOrEditPage extends IBasePage {
 
 	/**
 	 * Fill the container page fields
-	 * @param containerFields	String map wit all the field of the container to be set
+	 * @param containerFields	List of String map wit all the field of the container to be set
 	 * @throws Exception
 	 */
 	public void setFields(Map<String,String> containerFields) throws Exception;
