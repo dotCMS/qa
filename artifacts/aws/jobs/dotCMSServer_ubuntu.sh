@@ -132,9 +132,6 @@ rm -rf ${WORKSPACE}/temp_log/
 
 echo 'Storing logs into s3'
 aws s3 cp ${WORKSPACE}/${QA_TestArtifactFilename} s3://qa.dotcms.com/testartifacts/${QA_TestArtifactFilename}
-
-#echo 'Coping testng results to workspace'
-#cp -a "/home/ubuntu/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}" "${WORKSPACE}"
  
 echo 'Cleaning up - preparing for another possible run'
 rm -rf /home/ubuntu/.aws
