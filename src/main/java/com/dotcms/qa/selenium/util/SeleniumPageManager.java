@@ -142,6 +142,9 @@ public class SeleniumPageManager{
         loadPage(demoServerURL + "c/portal/logout?referer=/c");
     }
     
+    public void logoutBackend(String serverURL) throws Exception {
+        loadPage(serverURL + "c/portal/logout?referer=/c");
+    }
     public void shutdown() {
     	if(this == backendMgrInstance)
     		backendMgrInstance = null;

@@ -42,8 +42,9 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		AddEnvironmentDialog.findElement(By.id("environmentName")).sendKeys(environmentName);
 		for(String user : whocanUse){
 			WebElement select = AddEnvironmentDialog.findElement(By.id("whoCanUseSelect"));
+			select.clear();
 			select.sendKeys(user);
-			sleep(1);
+			sleep(2);
 			getWebElement(By.id("whoCanUseSelect_popup")).findElement(By.id("whoCanUseSelect_popup0")).findElement(By.tagName("span")).click();			
 		}
 		AddEnvironmentDialog.findElement(By.id(pushMode)).click();
