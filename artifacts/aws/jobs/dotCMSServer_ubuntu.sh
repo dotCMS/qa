@@ -134,8 +134,8 @@ echo 'Storing logs into s3'
 aws s3 cp ${WORKSPACE}/${QA_TestArtifactFilename} s3://qa.dotcms.com/testartifacts/${QA_TestArtifactFilename}
  
 echo 'Cleaning up - preparing for another possible run'
-rm -rf /home/ubuntu/.aws
 rm -rf ${WORKSPACE}/downloads
 #rm -rf ${WORKSPACE}/*
 aws s3 rm ${QA_SERVER_IP_URL}
 aws s3 rm ${QA_SERVER_STATUS_URL}
+rm -rf /home/ubuntu/.aws
