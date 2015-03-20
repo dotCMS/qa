@@ -83,9 +83,8 @@ pushd qa
 git checkout master-${DOTCMS_VERSION}
 
 echo 'Building testng/selenium tests'
-./gradlew installapp
-echo "installapp return code = $?"
-#wait
+./gradlew installapp &
+wait
 popd
 
 echo 'Running testng/selenium tests'
