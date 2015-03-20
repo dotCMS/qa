@@ -84,6 +84,7 @@ git checkout master-${DOTCMS_VERSION}
 
 echo 'Building testng/selenium tests'
 ./gradlew installapp
+echo "installapp return code = $?"
 #wait
 popd
 
@@ -111,7 +112,7 @@ aws s3 cp ${QA_TestArtifactFilename} s3://qa.dotcms.com/testartifacts/${QA_TestA
 echo 'Copying testng results to workspace'
 cp -a "testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}" "${WORKSPACE}"
 
-echo 'Shuting down dotCMS server'
+echo 'Shutting down dotCMS server'
 curl -I http://${DOTCMS_SERVER_IP}:8080/shutdown.jsp
 
 echo 'Cleaning up - preparing for another possible run'
