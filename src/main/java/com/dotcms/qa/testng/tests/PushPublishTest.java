@@ -76,7 +76,7 @@ public class PushPublishTest {
 	private String structureName = "Test562";
 	private String containerTitle3="Test 569 Container";
 	private String containerCode3 ="<h2>Test 569</h2><br/><p>This is a test for limited user push publishing</p>";
-	private String containerCode3a ="<h2>Test 569</h2><br/><p>This is a test edited for limited user push publishing</p>";
+	private String containerCode3a ="<h2>Test 569 and 571</h2><br/><p>This is a test edited for limited user push publishing</p>";
 
 	private String limitedRole="limitedRole";
 	private String limitedUserName="MyLimited";
@@ -155,8 +155,10 @@ public class PushPublishTest {
 		try {
 			logger.info("**PushPublishTests.teardown() beginning**");
 
+			//Remove old test data
 			deletePreviousTest();
-			// logout
+			
+			//cleaning authoring server push publishing registers
 			authoringPortletMenu =callAuthoringServer();
 
 			IPublishingQueuePage publishingQueuePage = authoringPortletMenu.getPublishingQueuePage();
@@ -166,20 +168,20 @@ public class PushPublishTest {
 			//Validate if push publishing servers are configured
 			authoringConfigurationPage = authoringPortletMenu.getConfigurationPage();
 
-			//load the Push publish environment tab
+			//load the Push publish environment tab and delete it
 			authoringPublishingEnvironments = authoringConfigurationPage.getPublishingEnvironmentsTab();
 			authoringPublishingEnvironments.deleteEnvironment(environmentName);
 			authoringPublishingEnvironments.sleep(3);
 			authoringBackendMgr.logoutBackend();
 
-			//cleaning receiver
+			//cleaning receiver server push publishing registers
 			receiverPortletMenu = callReceiverServer();
 
 			publishingQueuePage = receiverPortletMenu.getPublishingQueuePage();
 			publishingQueuePage.getStatusHistoryTab();
 			publishingQueuePage.deleteAllHistoryStatus();
 
-			//Validate if push publishing servers are configured
+			//Validate if push publishing servers are configured and delete it
 			receiverConfigurationPage = receiverPortletMenu.getConfigurationPage();
 			receiverPublishingEnvironments = receiverConfigurationPage.getPublishingEnvironmentsTab();
 			receiverPublishingEnvironments.deleteReceiveFromServer(authoringServer);
@@ -261,7 +263,8 @@ public class PushPublishTest {
 	}
 
 	/**
-	 * Delete the test to avoid issue with next test runs
+	 * Delete the previous test to avoid issue with next test runs
+	 * on authoring and receiver servers
 	 * @throws Exception
 	 */
 	private void deletePreviousTest() throws Exception{
