@@ -28,9 +28,9 @@ public class VanityURLsAddOrEditPage extends BasePage implements IVanityURLsAddO
 		vlTitle.sendKeys(title);
 		hostId.clear();
 		hostId.sendKeys(hostName);
-		try{Thread.sleep(500);}catch(Exception e){};
+		sleep(1);
 		hostId.sendKeys(Keys.TAB);
-		try{Thread.sleep(500);}catch(Exception e){};
+		sleep(1);
 		url.sendKeys(vanityURL);
 		vlUri.sendKeys(URLtoRedirectTo);
 		dijit_form_Button_6_label.click();
