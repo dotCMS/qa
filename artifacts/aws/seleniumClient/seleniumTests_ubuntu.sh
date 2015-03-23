@@ -5,5 +5,5 @@ pwd
 cd ./qa
 
 echo 'Building testng/selenium tests'
-./gradlew installApp
+./gradlew installDist
 echo '********** END OF PART 1b **********'
