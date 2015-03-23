@@ -2,7 +2,8 @@
 # Must be run as ubuntu user
 
 pwd
+cd ./qa
 
 echo 'Building testng/selenium tests'
-./qa/gradlew installApp
+gradlew installApp
 echo '********** END OF PART 1b **********'
