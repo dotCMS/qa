@@ -16,7 +16,6 @@ public class StructureFieldAddOrEdit_OverviewPage extends BasePage implements IS
 
 	private WebElement elementSelectBox;			// Display Type
 	private WebElement dijit_form_TextBox_0;		// Label
-	private WebElement dataTypetext;				// Data Type Radio Button
 	private WebElement categories;
 	private WebElement textAreaValues;				// Value
 	private WebElement regexCheck;					// Validation RegEx

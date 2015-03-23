@@ -141,9 +141,6 @@ public class RolesPage extends BasePage implements IRolesPage {
 					retValue = true;
 					break;
 				}
-			}catch(NoSuchElementException e) {
-				logger.trace("Row does not include td element", e);
-				// Move on to next row and keep going
 			}catch(Exception e) {
 				logger.error("Unexpected error attempting to iterate over Roles - name=" + roleName, e);
 				// Move on to next row and keep going
@@ -171,9 +168,6 @@ public class RolesPage extends BasePage implements IRolesPage {
 					retValue = true;
 					break;
 				}
-			}catch(NoSuchElementException e) {
-				logger.trace("Row does not include td element", e);
-				// Move on to next row and keep going
 			}catch(Exception e) {
 				logger.error("Unexpected error attempting to iterate over Roles - name=" + roleName, e);
 				// Move on to next row and keep going
@@ -321,7 +315,7 @@ public class RolesPage extends BasePage implements IRolesPage {
 					}
 				}
 			}catch(NoSuchElementException e) {
-				logger.trace("Row does not include td element", e);
+				logger.trace("Row does not include input element", e);
 				// Move on to next row and keep going
 			}catch(Exception e) {
 				logger.error("Unexpected error attempting to iterate over Roles - name=" + roleName, e);
@@ -419,9 +413,6 @@ public class RolesPage extends BasePage implements IRolesPage {
 				if(retValue){
 					break;
 				}
-			}catch(NoSuchElementException e) {
-				logger.trace("Row does not include td element", e);
-				// Move on to next row and keep going
 			}catch(Exception e) {
 				logger.error("Unexpected error attempting to iterate over Roles - name=" + roleName, e);
 				// Move on to next row and keep going

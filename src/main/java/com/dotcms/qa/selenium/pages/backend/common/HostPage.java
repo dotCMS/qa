@@ -206,30 +206,15 @@ public class HostPage extends BasePage implements IHostPage  {
 		boolean foundValue = false;
 		sleep(1);
 		rightClickElement(returnHost(hostName));	
-		WebElement popupMenu = getWebElementClickable(By.className("dijitMenuPopup"));
-		//this.hoverOverElement(popupMenu);
-		List<WebElement> rows = popupMenu.findElements(By.tagName("tr"));
-		WebElement prevRow = null;
-		for(WebElement row : rows) {
-			if(prevRow != null) {
-				logger.debug("* prevRow.isDisplayed() = " + prevRow.isDisplayed());
-				logger.debug("* prevRow.isEnabled() = " + prevRow.isEnabled());
-			}
-			logger.debug("* isDisplayed() = " + row.isDisplayed());
-			logger.debug("* isEnabled() = " + row.isEnabled());
-			List<WebElement> labels = row.findElements(By.className("dijitMenuItemLabel"));
-			for(WebElement label : labels) {
-				logger.debug("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
-				if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
-					this.hoverOverElement(label);
-					getWebElementClickable(label).click();
-					foundValue = true;
-					break;
-				}
-			}
-			if(foundValue)
+		List<WebElement> labels = getWebElements(By.cssSelector(".dijitMenuPopup tr .dijitMenuItemLabel"));
+		for(WebElement label : labels) {
+			logger.debug("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
+			if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
+				this.hoverOverElement(label);
+				getWebElementClickable(label).click();
+				foundValue = true;
 				break;
-			prevRow = row;
+			}
 		}
 		return foundValue;
 	}
@@ -389,7 +374,7 @@ public class HostPage extends BasePage implements IHostPage  {
 						break;
 					}
 				}catch(Exception e){
-
+					logger.debug("Unknown exception in isHostActive()", e);
 				}
 			}
 			if(retValue){
@@ -419,7 +404,7 @@ public class HostPage extends BasePage implements IHostPage  {
 						break;
 					}
 				}catch(Exception e){
-
+					logger.debug("Unknown exception in isHostDefault()", e);
 				}
 			}
 			if(retValue){
