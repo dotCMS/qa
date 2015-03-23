@@ -80,5 +80,7 @@ git clone git@github.com:dotCMS/qa.git
 echo "Checking out master-${DOTCMS_VERSION} branch"
 cd qa
 git checkout master-${DOTCMS_VERSION}
+cd ..
 
 echo '********** END OF PART 1 **********'
+
