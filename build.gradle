@@ -26,3 +26,7 @@ run {
 	args '-listener', 'com.dotcms.qa.testng.listeners.TestRunCreator.class,com.dotcms.qa.testng.listeners.TestResultReporter.class'
 	args 'build/resources/main/testng.xml'
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}
