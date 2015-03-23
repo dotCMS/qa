@@ -75,4 +75,10 @@ echo "    StrictHostKeyChecking no">>/home/ubuntu/.ssh/config
 eval $(ssh-agent)
 ssh-add /home/ubuntu/.ssh/dotcmsqa
 
+echo 'Cloning qa repo'
+git clone git@github.com:dotCMS/qa.git
+echo "Checking out master-${DOTCMS_VERSION} branch"
+cd qa
+git checkout master-${DOTCMS_VERSION}
+
 echo '********** END OF PART 1 **********'

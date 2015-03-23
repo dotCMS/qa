@@ -3,13 +3,12 @@
 export EXIT_CODE=255
 
 echo "Running testng/selenium tests - pwd = $(pwd)"
-pushd ${WORKSPACE}/qa/build/install/qa
+cd ${WORKSPACE}/qa/build/install/qa
 export JAVA_OPTS="-Dtestrail.Milestone=${QA_Milestone} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
 bin/qa  -testjar lib/qa-0.1.jar -listener com.dotcms.qa.testng.listeners.TestRunCreator.class,com.dotcms.qa.testng.listeners.TestResultReporter.class -d "${WORKSPACE}/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}"
 EXIT_CODE=$?
 echo "EXIT_CODE=${EXIT_CODE}"
-#wait
-popd
+cd ${WORKSPACE}
 
 echo 'Grabbing and packaging logs'
 sleep 10
