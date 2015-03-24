@@ -163,7 +163,7 @@ public class HostPage extends BasePage implements IHostPage  {
 				return !doesHostExist(deleteHostName);
 			}
 		};
-		return pollForValue(eval, true, poolInterval, maxPoolCount);
+		return pollForValue(eval, true, pollInterval, maxPollCount);
 	}
 
 	public void stopHost(String hostName, boolean confirm) throws Exception {
