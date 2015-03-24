@@ -15,7 +15,7 @@ export QA_TomcatLogFile=${QA_TomcatFolder}/logs/catalina.out
 export QA_AccessLogFile=${QA_TomcatFolder}/logs/dotcms_access.$(date +%Y-%m-%d).log
 export QA_StarterFullFilePath=${QA_TomcatFolder}/webapps/ROOT/starter.zip
 
-export QA_DB=H2
+#export QA_DB=H2
 export QA_Browser=FIREFOX
 export QA_Country=US
 export QA_Language=en
