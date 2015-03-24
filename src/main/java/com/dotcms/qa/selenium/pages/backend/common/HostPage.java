@@ -85,19 +85,19 @@ public class HostPage extends BasePage implements IHostPage  {
 	 * @throws Exception 
 	 */
 	public boolean addCopyExistingHost(String hostName, String hostToCopy) throws Exception {
-		return addCopyExistingHost(hostName, hostToCopy, 1000, 120); // Poll every second for up to 2 minutes
+		return addCopyExistingHost(hostName, hostToCopy, 1000, 6000); // Poll every second for up to 100 minutes
 	}
 	
 	/**
 	 * Create a new host by copying an existing one.This method allows to specify the time to wait to check if the host was copied
 	 * @param hostName - name of tne new host
 	 * @param hostToCopy - name of the host to be copied
-	 * @param poolInterval - how many milliseconds to wait between polling
-	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @param pollInterval - how many milliseconds to wait between polling
+	 * @param maxPollCount - maximum number of times to poll before returning value of eval.evaluate()
 	 * @return true if the host was copied, false if not
 	 * @throws Exception
 	 */
-	public boolean addCopyExistingHost(String hostName, String hostToCopy, long poolInterval, int maxPoolCount) throws Exception {
+	public boolean addCopyExistingHost(String hostName, String hostToCopy, long pollInterval, int maxPollCount) throws Exception {
 		addSiteButton.click();
 		IHostCreateNewSiteDialog createNewSiteDlg = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostCreateNewSiteDialog.class);
 		createNewSiteDlg.addCopyExistingHost(hostName, hostToCopy);
@@ -109,7 +109,7 @@ public class HostPage extends BasePage implements IHostPage  {
 			}
 			
 		};
-		return pollForValue(eval, true, poolInterval, maxPoolCount);
+		return pollForValue(eval, true, pollInterval, maxPollCount);
 	}
 
 	public void archiveHost(String hostName, boolean confirm) throws Exception {
@@ -128,25 +128,23 @@ public class HostPage extends BasePage implements IHostPage  {
 	 * Delete a host.Checking every 2 second for up to 2 minutes to see if the host was deleted
 	 * @param hostName - name of tne new host
 	 * @param confirm - accept or refuse the confirmation popup
-	 * @param poolInterval - how many milliseconds to wait between polling
-	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
 	 * @return true if the host was deleted, false if not
 	 * @throws Exception
 	 */
 	public boolean deleteHost(String hostName, boolean confirm) throws Exception {
-		return deleteHost(hostName, confirm,  5000, 24);	// Check every 5 seconds for up to 2 minutes
+		return deleteHost(hostName, confirm,  5000, 1200);	// Check every 5 seconds for up to 100 minutes
 	}
 	
 	/**
 	 * Delete a host.This method allows to specify the time to wait to check if the host was deleted
 	 * @param hostName - name of tne new host
 	 * @param confirm - accept or refuse the confirmation popup
-	 * @param poolInterval - how many milliseconds to wait between polling
-	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @param pollInterval - how many milliseconds to wait between polling
+	 * @param maxPollCount - maximum number of times to poll before returning value of eval.evaluate()
 	 * @return true if the host was deleted, false if not
 	 * @throws Exception
 	 */
-	public boolean deleteHost(String hostName, boolean confirm, long poolInterval, int maxPoolCount) throws Exception {
+	public boolean deleteHost(String hostName, boolean confirm, long pollInterval, int maxPollCount) throws Exception {
 		this.selectPopupMenuOption(hostName, getLocalizedString("Delete-Host"));
 		Alert alert = this.switchToAlert();
 		if(confirm) {
@@ -165,7 +163,7 @@ public class HostPage extends BasePage implements IHostPage  {
 				return !doesHostExist(deleteHostName);
 			}
 		};
-		return pollForValue(eval, true, 5000, 24);	// Check every 5 seconds for up to 2 minutes
+		return pollForValue(eval, true, poolInterval, maxPoolCount);
 	}
 
 	public void stopHost(String hostName, boolean confirm) throws Exception {
@@ -206,30 +204,15 @@ public class HostPage extends BasePage implements IHostPage  {
 		boolean foundValue = false;
 		sleep(1);
 		rightClickElement(returnHost(hostName));	
-		WebElement popupMenu = getWebElementClickable(By.className("dijitMenuPopup"));
-		//this.hoverOverElement(popupMenu);
-		List<WebElement> rows = popupMenu.findElements(By.tagName("tr"));
-		WebElement prevRow = null;
-		for(WebElement row : rows) {
-			if(prevRow != null) {
-				logger.debug("* prevRow.isDisplayed() = " + prevRow.isDisplayed());
-				logger.debug("* prevRow.isEnabled() = " + prevRow.isEnabled());
-			}
-			logger.debug("* isDisplayed() = " + row.isDisplayed());
-			logger.debug("* isEnabled() = " + row.isEnabled());
-			List<WebElement> labels = row.findElements(By.className("dijitMenuItemLabel"));
-			for(WebElement label : labels) {
-				logger.debug("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
-				if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
-					this.hoverOverElement(label);
-					getWebElementClickable(label).click();
-					foundValue = true;
-					break;
-				}
-			}
-			if(foundValue)
+		List<WebElement> labels = getWebElements(By.cssSelector(".dijitMenuPopup tr .dijitMenuItemLabel"));
+		for(WebElement label : labels) {
+			logger.debug("label innerHTML = |" + label.getAttribute("innerHTML") + "|");
+			if(label.getAttribute("innerHTML").trim().startsWith(menuOption)) {
+				this.hoverOverElement(label);
+				getWebElementClickable(label).click();
+				foundValue = true;
 				break;
-			prevRow = row;
+			}
 		}
 		return foundValue;
 	}
@@ -389,7 +372,7 @@ public class HostPage extends BasePage implements IHostPage  {
 						break;
 					}
 				}catch(Exception e){
-
+					logger.debug("Unknown exception in isHostActive()", e);
 				}
 			}
 			if(retValue){
@@ -419,7 +402,7 @@ public class HostPage extends BasePage implements IHostPage  {
 						break;
 					}
 				}catch(Exception e){
-
+					logger.debug("Unknown exception in isHostDefault()", e);
 				}
 			}
 			if(retValue){

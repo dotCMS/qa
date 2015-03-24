@@ -1,24 +1,16 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.backend.IUsersPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
-import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.util.WebKeys;
 
 /**
@@ -325,9 +317,6 @@ public class UsersPage extends BasePage implements IUsersPage {
 					retValue = true;
 					break;
 				}
-			}catch(NoSuchElementException e) {
-				logger.trace("Row does not include td element", e);
-				// Move on to next row and keep going
 			}catch(Exception e) {
 				logger.error("Unexpected error attempting to iterate over Users - email=" + userEmail, e);
 				// Move on to next row and keep going

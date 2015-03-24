@@ -37,6 +37,7 @@ public class HostSelectSiteToCopyDialog extends BasePage implements IHostSelectS
 		siteToCopyDropdown.sendKeys(siteToCopy);
 		sleep(1);
 		siteToCopyDropdown.sendKeys(Keys.TAB);
+		sleep(1);
 	}
 	
 	public IHostAddOrEditPage next() throws Exception{

@@ -2,11 +2,9 @@ package com.dotcms.qa.selenium.pages.backend.common;
 
 import java.util.List;
 
-import org.apache.commons.lang3.text.StrTokenizer;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,18 +27,13 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 
 	public void deleteStructureAndContent(String structureName, boolean confirm) throws Exception {
 		WebElement structureElement = null;
-		List<WebElement> rows = tableOfStructures.findElements(By.tagName("tr"));
-		for(WebElement row : rows) {
+		List<WebElement> cols = tableOfStructures.findElements(By.cssSelector("tr td"));
+		for(WebElement col : cols) {
 			try {
-				WebElement col = row.findElement(By.tagName("td"));
 				if(col.getText().trim().equals(structureName)) {
 					structureElement = col;
 					break;
 				}
-			}
-			catch(NoSuchElementException e) {
-				logger.trace("Row does not include td element", e);
-				// Move on to next row and keep going
 			}
 			catch(Exception e) {
 				logger.error("Unexpected error attempting to iterate over structures - structureName =" + structureName, e);

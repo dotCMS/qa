@@ -12,12 +12,7 @@ public class HostAddOrEditPage extends BasePage implements IHostAddOrEditPage {
 	  private static final Logger logger = Logger.getLogger(HostAddOrEditPage.class);
 	  
 	  private WebElement hostName;
-	  private WebElement aliases;
-	  private WebElement dijit_MenuItem_2_text;
-	  private WebElement dijit_MenuItem_3_text;
-	  private WebElement showDeleted;
-	  private WebElement dijit_MenuItem_12_text;
-	  
+	  private WebElement aliases;	  
 	  
 	  public HostAddOrEditPage(WebDriver driver) {
 			super(driver);  
