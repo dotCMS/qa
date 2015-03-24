@@ -85,7 +85,7 @@ public class HostPage extends BasePage implements IHostPage  {
 	 * @throws Exception 
 	 */
 	public boolean addCopyExistingHost(String hostName, String hostToCopy) throws Exception {
-		return addCopyExistingHost(hostName, hostToCopy, 1000, 120); // Poll every second for up to 2 minutes
+		return addCopyExistingHost(hostName, hostToCopy, 1000, 6000); // Poll every second for up to 100 minutes
 	}
 	
 	/**
@@ -128,13 +128,11 @@ public class HostPage extends BasePage implements IHostPage  {
 	 * Delete a host.Checking every 2 second for up to 2 minutes to see if the host was deleted
 	 * @param hostName - name of tne new host
 	 * @param confirm - accept or refuse the confirmation popup
-	 * @param poolInterval - how many milliseconds to wait between polling
-	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
 	 * @return true if the host was deleted, false if not
 	 * @throws Exception
 	 */
 	public boolean deleteHost(String hostName, boolean confirm) throws Exception {
-		return deleteHost(hostName, confirm,  5000, 24);	// Check every 5 seconds for up to 2 minutes
+		return deleteHost(hostName, confirm,  5000, 1200);	// Check every 5 seconds for up to 100 minutes
 	}
 	
 	/**
@@ -165,7 +163,7 @@ public class HostPage extends BasePage implements IHostPage  {
 				return !doesHostExist(deleteHostName);
 			}
 		};
-		return pollForValue(eval, true, 5000, 24);	// Check every 5 seconds for up to 2 minutes
+		return pollForValue(eval, true, poolInterval, maxPoolCount);
 	}
 
 	public void stopHost(String hostName, boolean confirm) throws Exception {
