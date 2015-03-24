@@ -63,4 +63,11 @@ public interface IPortletMenu extends IBasePage {
 	public IPublishingQueuePage getPublishingQueuePage() throws Exception;
 	
 	public WebElement getPortletElement(String portletTextKey);
+	
+	/**
+	 * Get the HTML manager page
+	 * @return IMailingListPage
+	 * @throws Exception
+	 */
+	public IHTMLsPage getHTMLsPage() throws Exception;
 }

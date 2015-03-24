@@ -159,4 +159,15 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 			throw new NullPointerException("Active element not found:  portletTextKey=" + portletTextKey + " portletText=" + portletText);
 		return retValue;
 	}
+	
+	/**
+	 * Get the HTML manager page
+	 * @return IMailingListPage
+	 * @throws Exception
+	 */
+	public IHTMLsPage getHTMLsPage() throws Exception {
+	    hoverOverElement(getPortletElement("Site Browser"));
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_15"))).click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLsPage.class);		
+	}
 }

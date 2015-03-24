@@ -8,8 +8,12 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.dotcms.qa.selenium.pages.backend.IContainerAddOrEditPage;
+import com.dotcms.qa.selenium.pages.backend.ITemplateAddOrEditAdvanceTemplatePage;
+import com.dotcms.qa.selenium.pages.backend.ITemplateAddOrEditDesignTemplatePage;
 import com.dotcms.qa.selenium.pages.backend.ITemplatesPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
+import com.dotcms.qa.selenium.util.SeleniumPageManager;
 /**
  * This class implements the methods defined in the ITemplatesPage interface
  * to do the Users TestRail validations
@@ -56,6 +60,115 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 			}
 		}
 		return retValue;
+	}
+
+	/**
+	 * Add a new advance template
+	 * @return ITemplateAddOrEditPage
+	 * @throws Exception
+	 */
+	public ITemplateAddOrEditAdvanceTemplatePage addAdvanceTemplate() throws Exception{
+		List<WebElement> spans = getWebElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonNode']"));
+		for(WebElement span : spans){
+			if(span.getText().equals(getLocalizedString("Add-Template"))){
+				span.click();
+				for(WebElement option : getWebElements(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"))){
+					if(option.getText().trim().equals(getLocalizedString("code-template"))){
+						option.click();
+						break;
+					}
+				}
+				break;
+			}
+		}
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditAdvanceTemplatePage.class);
+	}
+
+	/**
+	 * Add a new advance template
+	 * @return ITemplateAddOrEditPage
+	 * @throws Exception
+	 */
+	public ITemplateAddOrEditDesignTemplatePage addDesignTemplate() throws Exception{
+		List<WebElement> spans = getWebElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonNode']"));
+		for(WebElement span : spans){
+			if(span.getText().equals(getLocalizedString("Add-Template"))){
+				span.click();
+				for(WebElement option : getWebElements(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"))){
+					if(option.getText().trim().equals(getLocalizedString("design-template"))){
+						option.click();
+						break;
+					}
+				}
+				break;
+			}
+		}
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditDesignTemplatePage.class);
+	}
+
+	/**
+	 * Validate if a template exist
+	 * @param templateName Name of the template
+	 * @return true if the template exist, false if not
+	 * @throws Exception
+	 */
+	public boolean doesTemplateExist(String templateName) throws Exception{
+		boolean exist = false;
+		WebElement searchBox = getWebElement(By.cssSelector("form[id='fm']")).findElement(By.name("query"));
+		searchBox.clear();
+		searchBox.sendKeys(templateName);
+
+		List<WebElement> buttons = getWebElement(By.cssSelector("form[id='fm']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString("search"))){
+				button.click();
+				break;
+			}
+		}
+		List<WebElement> results = getWebElement(By.cssSelector("form[id='fm_publish']")).findElement(By.cssSelector("table[class='listingTable']")).findElements(By.tagName("tr"));
+		for(WebElement row : results){
+			List<WebElement> columns = row.findElements(By.tagName("td"));
+			if(columns.size()> 2){
+				if(columns.get(1).getText().trim().equals(templateName)){
+					exist=true;
+					break;
+				}
+			}
+		}
+		return exist;
+	}
+
+	/**
+	 * delete a template
+	 * @param templateName Name of the template
+	 * @throws Exception
+	 */
+	public void deleteTemplate(String templateName) throws Exception{
+		boolean exist = false;
+		WebElement searchBox = getWebElement(By.cssSelector("form[id='fm']")).findElement(By.name("query"));
+		searchBox.clear();
+		searchBox.sendKeys(templateName);
+
+		List<WebElement> buttons = getWebElement(By.cssSelector("form[id='fm']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString("search"))){
+				button.click();
+				break;
+			}
+		}
+		List<WebElement> results = getWebElement(By.cssSelector("form[id='fm_publish']")).findElement(By.cssSelector("table[class='listingTable']")).findElements(By.tagName("tr"));
+		for(WebElement row : results){
+			List<WebElement> columns = row.findElements(By.tagName("td"));
+			if(columns.size() > 2){
+				if(columns.get(1).getText().trim().equals(templateName)){
+					columns.get(0).findElement(By.cssSelector("input[type='checkbox']")).click();
+					break;
+				}
+			}
+		}
+
+		getWebElement(By.id("deleteButton_label")).click();
+		switchToAlert().accept();
 	}
 
 }

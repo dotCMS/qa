@@ -19,9 +19,12 @@ import com.dotcms.qa.selenium.pages.backend.IPortletMenu;
 import com.dotcms.qa.selenium.pages.backend.IPublishingEnvironments;
 import com.dotcms.qa.selenium.pages.backend.IPublishingQueuePage;
 import com.dotcms.qa.selenium.pages.backend.IRolesPage;
+import com.dotcms.qa.selenium.pages.backend.ISiteBrowserPage;
 import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_FieldsPage;
 import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_PropertiesPage;
 import com.dotcms.qa.selenium.pages.backend.IStructuresPage;
+import com.dotcms.qa.selenium.pages.backend.ITemplateAddOrEditAdvanceTemplatePage;
+import com.dotcms.qa.selenium.pages.backend.ITemplatesPage;
 import com.dotcms.qa.selenium.pages.backend.IUsersPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
@@ -83,6 +86,10 @@ public class PushPublishTest {
 	private String limitedUserLastName="User";
 	private String limitedUserEmail="limited.user@dotcms.com";
 	private String limitedUserPaswword="limited123";
+	
+	private String templateTitle1="Test 555";
+	private String templateContainer1="Default 1";
+	private String pageTitle1="Test 555";
 
 
 	@BeforeGroups (groups = {"PushPublishing"})
@@ -104,10 +111,10 @@ public class PushPublishTest {
 			receiverServer = config.getProperty("pushpublising.receiver.server");
 			receiverServerPort = config.getProperty("pushpublising.receiver.server.port");
 			logger.info("Receiver server = " + authoringServer+":"+receiverServerPort);
-			
+
 			//cleaning previous test values
 			deletePreviousTest();
-			
+
 			//login Receiver server
 			receiverPortletMenu = callReceiverServer();    
 
@@ -157,7 +164,7 @@ public class PushPublishTest {
 
 			//Remove old test data
 			deletePreviousTest();
-			
+
 			//cleaning authoring server push publishing registers
 			authoringPortletMenu =callAuthoringServer();
 
@@ -289,6 +296,13 @@ public class PushPublishTest {
 			if(structurePage.doesStructureExist(structureName)){
 				structurePage.deleteStructureAndContent(structureName, true);
 			}
+			
+			/* Delete template*/
+			ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
+			if(templatesPage.doesTemplateExist(templateTitle1)){
+				templatesPage.deleteTemplate(templateTitle1);
+			}
+			
 			/*Delete limited user*/
 			IUsersPage usersPage = portletMenu.getUsersPage();
 			Map<String, String> fakeUser = usersPage.getUserProperties(limitedUserEmail);
@@ -343,7 +357,7 @@ public class PushPublishTest {
 			rolePage.createRole(limitedRole, limitedRole, "", true, true, true);
 			rolePage.checkUncheckCMSTab(limitedRole, "Site Browser");
 			rolePage.checkUncheckCMSTab(limitedRole, "Structures");
-			
+
 			List<Map<String,Object>> subpermissions = new ArrayList<Map<String,Object>>();
 			Map<String, Object> property= new HashMap<String, Object>();
 			property.put("name","folders");
@@ -354,7 +368,7 @@ public class PushPublishTest {
 			property.put("editPermission",false);
 			property.put("vanityUrl",false);
 			subpermissions.add(property);
-			
+
 			property= new HashMap<String, Object>();
 			property.put("name","Pages");
 			property.put("view",true);
@@ -364,7 +378,7 @@ public class PushPublishTest {
 			property.put("editPermission",false);
 			property.put("vanityUrl",false);
 			subpermissions.add(property);
-			
+
 			property= new HashMap<String, Object>();
 			property.put("name","Files-Legacy");
 			property.put("view",true);
@@ -374,7 +388,7 @@ public class PushPublishTest {
 			property.put("editPermission",false);
 			property.put("vanityUrl",false);
 			subpermissions.add(property);
-			
+
 			property= new HashMap<String, Object>();
 			property.put("name","links");
 			property.put("view",true);
@@ -384,7 +398,7 @@ public class PushPublishTest {
 			property.put("editPermission",false);
 			property.put("vanityUrl",false);
 			subpermissions.add(property);
-			
+
 			property= new HashMap<String, Object>();
 			property.put("name","Structures");
 			property.put("view",true);
@@ -394,7 +408,7 @@ public class PushPublishTest {
 			property.put("editPermission",false);
 			property.put("vanityUrl",false);
 			subpermissions.add(property);
-			
+
 			property= new HashMap<String, Object>();
 			property.put("name","Content-Files");
 			property.put("view",true);
@@ -404,7 +418,7 @@ public class PushPublishTest {
 			property.put("editPermission",false);
 			property.put("vanityUrl",false);
 			subpermissions.add(property);
-			
+
 			property= new HashMap<String, Object>();
 			property.put("name","Containers");
 			property.put("view",true);
@@ -414,27 +428,27 @@ public class PushPublishTest {
 			property.put("editPermission",false);
 			property.put("vanityUrl",false);
 			subpermissions.add(property);
-			
+
 			property= new HashMap<String, Object>();
 			property.put("name","Templates");
 			property.put("view",true);
 			property.put("addChildren",false);
 			property.put("edit",true);
-			property.put("publish",false);
+			property.put("publish",true);
 			property.put("editPermission",false);
 			property.put("vanityUrl",false);
 			subpermissions.add(property);
-			
+
 			property= new HashMap<String, Object>();
 			property.put("name","Template-Layouts");
 			property.put("view",true);
 			property.put("addChildren",false);
 			property.put("edit",true);
-			property.put("publish",false);
+			property.put("publish",true);
 			property.put("editPermission",false);
 			property.put("vanityUrl",false);
 			subpermissions.add(property);
-			
+
 			rolePage.addPermissionOnHost(limitedRole, demoServer, subpermissions,true, false, false, false, false, false);
 		}
 		IUsersPage userPage = portletMenu.getUsersPage();
@@ -684,9 +698,6 @@ public class PushPublishTest {
 
 		//connect to receiver server
 		portletMenu = callReceiverServer();
-
-		//connect to receiver server
-		portletMenu = callReceiverServer();
 		containersPage = portletMenu.getContainersPage();
 		//validate that the container was pushed
 		Assert.assertTrue(containersPage.existContainer(containerTitle3), "ERROR - Container ('"+containerTitle3+"') should exist at this moment in authoring server.");
@@ -744,5 +755,44 @@ public class PushPublishTest {
 		containersPage.deleteContainer(containerTitle3);
 		Assert.assertFalse(containersPage.existContainer(containerTitle3), "ERROR - Receiver Server: Container ('"+containerTitle3+"') should exist at this moment in receiver server.");
 		logoutReceiverServer();
+	}
+
+	/**
+	 * TEMPLATES PUSH PUBLISHING TESTS
+	 */
+
+	/**
+	 * Create an advance template and push it to remote server
+	 * http://qa.dotcms.com/index.php?/cases/view/555
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc555_AddNewAdvanceTemplateAndPush() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
+		
+		ITemplateAddOrEditAdvanceTemplatePage advanceTemplate = templatesPage.addAdvanceTemplate();
+		Map<String,String> template = new HashMap<String, String>();
+		template.put("titleField",templateTitle1);
+		template.put("friendlyNameField", templateTitle1);
+		template.put("AddContainers", templateContainer1);
+		advanceTemplate.setTemplateFields(template);
+		templatesPage= advanceTemplate.saveAndPublish();
+		
+		templatesPage = portletMenu.getTemplatesPage();
+		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle1), "ERROR - Authoring Server: Template ('"+templateTitle1+"') should exist at this moment in authoring server.");
+		
+		//create test page
+		ISiteBrowserPage siteBrowser= portletMenu.getSiteBrowserPage();
+		siteBrowser.createHTMLPage(pageTitle1, templateTitle1);
+		
+		
+		
+		//Delete template
+		templatesPage = portletMenu.getTemplatesPage();
+		templatesPage.deleteTemplate(templateTitle1);
+		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle1), "ERROR - Authoring Server: Template ('"+templateTitle1+"') should not exist at this moment in authoring server.");
+		
 	}
 }

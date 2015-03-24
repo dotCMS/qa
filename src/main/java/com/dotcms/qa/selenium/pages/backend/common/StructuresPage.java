@@ -20,7 +20,6 @@ public class StructuresPage extends BasePage implements IStructuresPage {
     private static final Logger logger = Logger.getLogger(StructuresPage.class);
 
 	private WebElement dijit_form_ComboButton_0_label;
-	private WebElement dijit_form_Button_4_label;
 	@FindBy(how = How.CLASS_NAME, using = "listingTable")
     private WebElement tableOfStructures;
 	
@@ -92,7 +91,7 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 		WebElement textBox = getWebElement(By.cssSelector("input[type='text'][name='query']"));
 		textBox.clear();
 		textBox.sendKeys(structureName);
-		dijit_form_Button_4_label.click();
+		getSearchButton().click();
 		sleep(1);
 		List<WebElement> results = getWebElement(By.id("results_table_popup_menus")).findElements(By.tagName("tr"));
 		for(WebElement result : results){
@@ -132,7 +131,7 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 		WebElement textBox = getWebElement(By.cssSelector("input[type='text'][name='query']"));
 		textBox.clear();
 		textBox.sendKeys(structureName);
-		dijit_form_Button_4_label.click();
+		getSearchButton().click();
 		sleep(1);
 		boolean found = false;
 		List<WebElement> results = getWebElement(By.id("results_table_popup_menus")).findElements(By.tagName("tr"));
@@ -150,5 +149,21 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 			}
 		} 
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_PropertiesPage.class);
+	}
+	
+	/**
+	 * get the search button because the dynamic id changes
+	 * @return WebElement
+	 */
+	public WebElement getSearchButton(){
+		WebElement button=null;
+		List<WebElement> buttons =getWebElement(By.id("fm")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement span : buttons){
+			if(span.getText().trim().equals(getLocalizedString("Search"))){
+				button=span;
+				break;
+			}
+		}
+		return button;
 	}
 }
