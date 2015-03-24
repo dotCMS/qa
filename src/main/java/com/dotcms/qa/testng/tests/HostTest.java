@@ -284,7 +284,6 @@ public class HostTest {
 
 		// copy host
 		hostPage.addCopyExistingHost(testHostName3, hostToCopy);
-		hostPage.sleep(10);
 
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName3),"ERROR - The host ( "+testHostName3+" ) was not created");
@@ -301,7 +300,6 @@ public class HostTest {
 		hostPage.toggleShowArchived();
 		hostPage.deleteHost(testHostName3, true);
 
-		hostPage.sleep(10);
 		// verify it is no longer listed on page
 		Assert.assertFalse(hostPage.doesHostExist(testHostName3),"ERROR - The host ( "+testHostName3+" ) should not exist at this time");
 
@@ -474,7 +472,6 @@ public class HostTest {
 
 		// copy host
 		hostPage.addCopyExistingHost(testHostName5, hostToCopy);
-		hostPage.sleep(2); // wait to ensure hostpage is loaded
 	
 		// verify it was created and listed on page
 		Assert.assertTrue(hostPage.doesHostExist(testHostName5),"ERROR - The host ( "+testHostName5+" ) was not created");
@@ -482,7 +479,7 @@ public class HostTest {
 		templatePage = portletMenu.getTemplatesPage();
 		int intCopyHostTemplates = templatePage.getNumberOfHostTemplates(testHostName5);
 		int intBaseHostTemplates = templatePage.getNumberOfHostTemplates(demoHostName);
-		Assert.assertTrue(intBaseHostTemplates == intCopyHostTemplates,"ERROR - the number of templates don't match between the two host");
+		Assert.assertTrue(intBaseHostTemplates == intCopyHostTemplates,"ERROR - the number of templates don't match between the two hosts - baseTemplateCount = " + intBaseHostTemplates + " - copyHOostTemplateCount = " + intCopyHostTemplates);
 
 		hostPage = portletMenu.getHostPage();
 		Evaluator eval2 = new Evaluator() {
