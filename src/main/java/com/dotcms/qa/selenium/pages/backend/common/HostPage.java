@@ -92,12 +92,12 @@ public class HostPage extends BasePage implements IHostPage  {
 	 * Create a new host by copying an existing one.This method allows to specify the time to wait to check if the host was copied
 	 * @param hostName - name of tne new host
 	 * @param hostToCopy - name of the host to be copied
-	 * @param poolInterval - how many milliseconds to wait between polling
-	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @param pollInterval - how many milliseconds to wait between polling
+	 * @param maxPollCount - maximum number of times to poll before returning value of eval.evaluate()
 	 * @return true if the host was copied, false if not
 	 * @throws Exception
 	 */
-	public boolean addCopyExistingHost(String hostName, String hostToCopy, long poolInterval, int maxPoolCount) throws Exception {
+	public boolean addCopyExistingHost(String hostName, String hostToCopy, long pollInterval, int maxPollCount) throws Exception {
 		addSiteButton.click();
 		IHostCreateNewSiteDialog createNewSiteDlg = SeleniumPageManager.getBackEndPageManager().getPageObject(IHostCreateNewSiteDialog.class);
 		createNewSiteDlg.addCopyExistingHost(hostName, hostToCopy);
@@ -109,7 +109,7 @@ public class HostPage extends BasePage implements IHostPage  {
 			}
 			
 		};
-		return pollForValue(eval, true, poolInterval, maxPoolCount);
+		return pollForValue(eval, true, pollInterval, maxPollCount);
 	}
 
 	public void archiveHost(String hostName, boolean confirm) throws Exception {
@@ -128,8 +128,6 @@ public class HostPage extends BasePage implements IHostPage  {
 	 * Delete a host.Checking every 2 second for up to 2 minutes to see if the host was deleted
 	 * @param hostName - name of tne new host
 	 * @param confirm - accept or refuse the confirmation popup
-	 * @param poolInterval - how many milliseconds to wait between polling
-	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
 	 * @return true if the host was deleted, false if not
 	 * @throws Exception
 	 */
@@ -141,12 +139,12 @@ public class HostPage extends BasePage implements IHostPage  {
 	 * Delete a host.This method allows to specify the time to wait to check if the host was deleted
 	 * @param hostName - name of tne new host
 	 * @param confirm - accept or refuse the confirmation popup
-	 * @param poolInterval - how many milliseconds to wait between polling
-	 * @param maxPoolCount - maximum number of times to poll before returning value of eval.evaluate()
+	 * @param pollInterval - how many milliseconds to wait between polling
+	 * @param maxPollCount - maximum number of times to poll before returning value of eval.evaluate()
 	 * @return true if the host was deleted, false if not
 	 * @throws Exception
 	 */
-	public boolean deleteHost(String hostName, boolean confirm, long poolInterval, int maxPoolCount) throws Exception {
+	public boolean deleteHost(String hostName, boolean confirm, long pollInterval, int maxPollCount) throws Exception {
 		this.selectPopupMenuOption(hostName, getLocalizedString("Delete-Host"));
 		Alert alert = this.switchToAlert();
 		if(confirm) {
