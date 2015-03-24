@@ -16,8 +16,12 @@ DOTCMS_TAR_GZ_URL=http://dotcms.com$(cat buildinfo.txt | python -c 'import sys, 
 DOTCMS_COMMIT=$(cat buildinfo.txt | python -c 'import sys, json; print json.load(sys.stdin)["contentlets"][0]["commitNumber"]')
 
 # only do something if commit is different than the last commit processed
+echo "LASTCOMMIT = ${LASTCOMMIT}"
+echo "DOTCMS_COMMIT = ${DOTCMS_COMMIT}"
 if [ "$LASTCOMMIT" != "$DOTCMS_COMMIT" ]; then
+  echo 'calling saveParams'
   ./saveParams.sh
+  echo 'returned from saveParams'
 else
   if [ -f params ];
     then
