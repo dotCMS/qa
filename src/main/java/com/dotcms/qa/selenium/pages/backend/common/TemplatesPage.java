@@ -68,18 +68,26 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 	 * @throws Exception
 	 */
 	public ITemplateAddOrEditAdvanceTemplatePage addAdvanceTemplate() throws Exception{
-		List<WebElement> spans = getWebElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonNode']"));
+		boolean found = false;
+		WebElement toolbardiv = getWebElement(By.cssSelector("form[id='fm']")).findElement(By.cssSelector("div[class='yui-gc portlet-toolbar']"));
+		List<WebElement> spans= toolbardiv.findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonNode']"));
 		for(WebElement span : spans){
 			if(span.getText().equals(getLocalizedString("Add-Template"))){
 				span.click();
-				for(WebElement option : getWebElements(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"))){
+				sleep(4);
+				for(WebElement option : getWebElementsPresent(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"))){
 					if(option.getText().trim().equals(getLocalizedString("code-template"))){
 						option.click();
+						sleep(2);
+						found=true;
 						break;
 					}
 				}
 				break;
 			}
+		}
+		if(!found){
+			throw new Exception("Add advance template button not found"); 
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditAdvanceTemplatePage.class);
 	}
@@ -90,18 +98,24 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 	 * @throws Exception
 	 */
 	public ITemplateAddOrEditDesignTemplatePage addDesignTemplate() throws Exception{
-		List<WebElement> spans = getWebElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonNode']"));
+		boolean found=false;
+		List<WebElement> spans = getWebElement(By.cssSelector("form[id='fm']")).findElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonNode']"));
 		for(WebElement span : spans){
 			if(span.getText().equals(getLocalizedString("Add-Template"))){
 				span.click();
 				for(WebElement option : getWebElements(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"))){
 					if(option.getText().trim().equals(getLocalizedString("design-template"))){
 						option.click();
+						found=true;
+						sleep(2);
 						break;
 					}
 				}
 				break;
 			}
+		}
+		if(!found){
+			throw new Exception("Add design template button not found"); 
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditDesignTemplatePage.class);
 	}
@@ -125,6 +139,7 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 				break;
 			}
 		}
+		sleep(2);
 		List<WebElement> results = getWebElement(By.cssSelector("form[id='fm_publish']")).findElement(By.cssSelector("table[class='listingTable']")).findElements(By.tagName("tr"));
 		for(WebElement row : results){
 			List<WebElement> columns = row.findElements(By.tagName("td"));

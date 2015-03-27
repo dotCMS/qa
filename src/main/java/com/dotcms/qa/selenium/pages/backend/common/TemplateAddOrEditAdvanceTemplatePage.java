@@ -37,6 +37,7 @@ public class TemplateAddOrEditAdvanceTemplatePage extends BasePage implements IT
 		if(templateFields.keySet().contains("AddContainers")){
 			String values=templateFields.get("AddContainers");
 			for(String variable : values.split(",")){
+				sleep(3);
 				addContainer(variable);
 			}
 			templateFields.remove("AddContainers");
@@ -59,6 +60,7 @@ public class TemplateAddOrEditAdvanceTemplatePage extends BasePage implements IT
 	 * @param containerName name of the container
 	 */
 	private void addContainer(String containerName){
+		sleep(2);
 		List<WebElement> spans = getWebElements(By.cssSelector(("span[class='dijitReset dijitInline dijitButtonText']")));
 		for(WebElement span:spans){ 
 			if(span.getText().equals(getLocalizedString("add-container"))){
@@ -66,17 +68,19 @@ public class TemplateAddOrEditAdvanceTemplatePage extends BasePage implements IT
 				break;
 			}
 		}
+		sleep(2);
 		WebElement addVariableDialog = getWebElement(By.id("containerSelector")); 
 		WebElement searchBox = addVariableDialog.findElement(By.cssSelector("input[id='containersList']"));
 		searchBox.clear();
 		searchBox.sendKeys(containerName);
 		sleep(2);
 		getWebElement(By.id("containersList_popup0")).click();
-		
-		List<WebElement> buttons = getWebElement(By.cssSelector("div[class='buttonRow']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		sleep(2);
+		List<WebElement> buttons = addVariableDialog.findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement button : buttons){
 			if(button.getText().trim().equals(getLocalizedString("Add"))){
 				button.click();
+				sleep(2);
 				break;
 			}
 		}
@@ -93,6 +97,7 @@ public class TemplateAddOrEditAdvanceTemplatePage extends BasePage implements IT
 		for(WebElement button : buttons){
 			if(button.getText().trim().equals(getLocalizedString("save-and-publish"))){
 				button.click();
+				sleep(2);
 				break;
 			}
 		}

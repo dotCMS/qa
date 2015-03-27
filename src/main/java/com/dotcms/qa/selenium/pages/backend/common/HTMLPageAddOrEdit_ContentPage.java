@@ -8,7 +8,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
+import com.dotcms.qa.selenium.pages.backend.IPreviewHTMLPage_Page;
 import com.dotcms.qa.selenium.pages.common.BasePage;
+import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.language.LanguageManager;
 
 public class HTMLPageAddOrEdit_ContentPage extends BasePage implements
@@ -18,23 +20,42 @@ public class HTMLPageAddOrEdit_ContentPage extends BasePage implements
 	private WebElement url;
 	private WebElement templateSel;
 	private WebElement widget_templateSel;
+	private WebElement mainTabContainer_tablist_properties;
+	private WebElement mainTabContainer_tablist_advancetab;
+	private WebElement friendlyname;
 	
 	public HTMLPageAddOrEdit_ContentPage(WebDriver driver) {
 		super(driver);
 	}
 
 	public void setTitle(String title) {
+		mainTabContainer_tablist_properties.click();
 		titleBox.clear();
 		titleBox.sendKeys(title);
 		titleBox.sendKeys(Keys.TAB);
+		
+		//set Friendly Name
+		setFriendlyName(title);
+		
+		mainTabContainer_tablist_properties.click();
 	}
 
 	public void setURL(String URL) {
+		mainTabContainer_tablist_properties.click();
 		url.clear();
 		url.sendKeys(URL);
 	}
+	
+	public void setFriendlyName(String title) {
+		//set Friendly Name
+		mainTabContainer_tablist_advancetab.click();
+		friendlyname.clear();
+		friendlyname.sendKeys(title);
+		friendlyname.sendKeys(Keys.TAB);
+	}
 
 	public void setTemplate(String templateName) throws Exception {
+		mainTabContainer_tablist_properties.click();
 		WebElement downArrow = this.widget_templateSel.findElement(By.className("dijitDownArrowButton"));
 		downArrow.click();
 		try{Thread.sleep(1000);} catch(Exception e) {};
@@ -47,7 +68,7 @@ public class HTMLPageAddOrEdit_ContentPage extends BasePage implements
 		WebElement desiredTemplate = null;
 		List<WebElement> divs = popup.findElements(By.tagName("div"));
 		for(WebElement div : divs) {
-			if(div.getAttribute("class").contains("dijitMenuItem") && div.getText().trim().equals(templateName)) {
+			if(div.getAttribute("class").contains("dijitMenuItem") && div.getText().trim().contains(templateName)) {
 				desiredTemplate = div;
 				break;
 			}
@@ -57,7 +78,7 @@ public class HTMLPageAddOrEdit_ContentPage extends BasePage implements
 		desiredTemplate.click();
 	}
 
-	public void save() {
+	public void save(){
 		getWebElement(By.className("saveIcon")).click();
 	}
 
@@ -66,7 +87,7 @@ public class HTMLPageAddOrEdit_ContentPage extends BasePage implements
 		we.click();
 	}
 
-	public void cancel() {
+	public void cancel(){
 		getWebElement(By.className("cancelIcon")).click();
 	}
 }
