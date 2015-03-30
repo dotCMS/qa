@@ -47,4 +47,11 @@ public interface ITemplatesPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public void deleteTemplate(String templateName) throws Exception;
+	
+	/**
+	 * Click the push publish option from the right click menu options
+	 * @param templateName Template Name
+	 * @throws Exception
+	 */
+	public void pushTemplate(String templateName) throws Exception;
 }

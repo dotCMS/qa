@@ -14,7 +14,7 @@ import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 /**
- * This class implements the methods defined in the ITemplateAddOrEditPage interface
+ * This class implements the methods defined in the ITemplateAddOrEditAdvanceTemplatePage interface
  * to do the Users TestRail validations
  * @author Oswaldo Gallango
  * @since 03/23/2015

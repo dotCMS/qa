@@ -64,7 +64,7 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 
 	/**
 	 * Add a new advance template
-	 * @return ITemplateAddOrEditPage
+	 * @return ITemplateAddOrEditAdvanceTemplatePage
 	 * @throws Exception
 	 */
 	public ITemplateAddOrEditAdvanceTemplatePage addAdvanceTemplate() throws Exception{
@@ -93,8 +93,8 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 	}
 
 	/**
-	 * Add a new advance template
-	 * @return ITemplateAddOrEditPage
+	 * Add a new design template
+	 * @return ITemplateAddOrEditDesignTemplatePage
 	 * @throws Exception
 	 */
 	public ITemplateAddOrEditDesignTemplatePage addDesignTemplate() throws Exception{
@@ -184,6 +184,54 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 
 		getWebElement(By.id("deleteButton_label")).click();
 		switchToAlert().accept();
+	}
+	
+	/**
+	 * Click the push publish option from the right click menu options
+	 * @param templateName Template Name
+	 * @throws Exception
+	 */
+	public void pushTemplate(String templateName) throws Exception{
+		WebElement container = findTemplateRow(templateName);
+		List<WebElement> columns = container.findElements(By.tagName("td"));
+		selectRightClickPopupMenuOption(columns.get(1),getLocalizedString("Remote-Publish"));
+		sleep(2);
+		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
+		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
+	}
+	
+	/**
+	 * Get a template row 
+	 * @param templateName Name of the template
+	 * @return WebElement
+	 * @throws Exception
+	 */
+	private WebElement findTemplateRow(String templateName) throws Exception{
+		WebElement templateRow=null;
+		WebElement searchBox = getWebElement(By.cssSelector("form[id='fm']")).findElement(By.name("query"));
+		searchBox.clear();
+		searchBox.sendKeys(templateName);
+
+		List<WebElement> buttons = getWebElement(By.cssSelector("form[id='fm']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString("search"))){
+				button.click();
+				break;
+			}
+		}
+		sleep(2);
+		List<WebElement> results = getWebElement(By.cssSelector("form[id='fm_publish']")).findElement(By.cssSelector("table[class='listingTable']")).findElements(By.tagName("tr"));
+		for(WebElement row : results){
+			List<WebElement> columns = row.findElements(By.tagName("td"));
+			if(columns.size()> 2){
+				if(columns.get(1).getText().trim().equals(templateName)){
+					templateRow=row;
+					break;
+				}
+			}
+		}
+		
+		return templateRow;
 	}
 
 }
