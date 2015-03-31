@@ -387,7 +387,7 @@ public class BasePage implements IBasePage {
 	*/
 	public boolean pollForValue(Evaluator eval, boolean desiredValue,  long pollInterval, int maxPollCount) {
 		boolean retValue = !desiredValue;
-		try {eval.evaluate();} catch(Exception e) {logger.debug("Exception in first call to evaluate()", e);}
+		try {retValue = eval.evaluate();} catch(Exception e) {logger.debug("Exception in first call to evaluate()", e);}
 		int remainingPolls = (maxPollCount > 0) ? maxPollCount : 0;
 		while (retValue != desiredValue && remainingPolls > 0) {
 			try{Thread.sleep(pollInterval);} catch(InterruptedException e){/*do nothing*/};
