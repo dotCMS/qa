@@ -1,6 +1,9 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -59,6 +62,7 @@ public class TemplateAddOrEditDesignTemplatePage extends BasePage implements ITe
 		for(WebElement expand : expands){
 			expand.click();
 		}
+		sleep(2);
 		List<WebElement> themes = getWebElement(By.id("themeDiv-hostFoldersTreeWrapper")).findElements(By.cssSelector("span[class='dijitTreeLabel']"));
 		for(WebElement tm : themes){
 			if(tm.getText().trim().equals(theme)){
@@ -150,5 +154,24 @@ public class TemplateAddOrEditDesignTemplatePage extends BasePage implements ITe
 			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplatesPage.class);
+	}
+	
+	/**
+	 * Get the list of containers associated to the template
+	 * @return List<Map<String,String>>
+	 * @throws Exception
+	 */
+	public List<Map<String,String>> getTemplateContainers() throws Exception{
+		List<Map<String,String>> results = new ArrayList<Map<String,String>>();
+		List<WebElement> spans = getWebElements(By.cssSelector("span[class='titleContainerSpan']"));
+		for(WebElement span: spans){
+			String id=span.getAttribute("title").replace("container_", "");
+			String name= span.findElement(By.tagName("h2")).getText().trim();
+			Map<String,String> values = new HashMap<String, String>();
+			values.put("id", id);
+			values.put("name", name);
+			results.add(values);
+		}
+		return results;
 	}
 }

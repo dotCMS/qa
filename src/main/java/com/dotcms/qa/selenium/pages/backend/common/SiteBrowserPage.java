@@ -159,8 +159,8 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	}
 
 	/**
-	 * Validates if a page,file asset, link or folder exist
-	 * @param elementName Name of the page, folder or file asset
+	 * Validates if a page,file asset, link exist
+	 * @param elementName Name of the page or file asset
 	 * @return true if exist false if not
 	 * @throws Exception
 	 */
@@ -306,5 +306,91 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 			}
 		}
 		return foundValue;
+	}
+
+	/**
+	 * Delete a folder
+	 * @param folderName    Folder name
+	 * @throws Exception
+	 */
+	public void deleteFolder(String folderName) throws Exception{
+		WebElement folder = getFolder(folderName);
+		selectRightClickPopupMenuAction(folder, getLocalizedString("delete"));
+		sleep(2);
+	}
+
+	/**
+	 * Get Folder WebElement
+	 * @param folderName Folder name
+	 * @return WebElement
+	 * @throws Exception
+	 */
+	private WebElement getFolder(String folderName) throws Exception {
+		WebElement treeChildrenULTopLevel = null;
+		sleep(1);
+		List<WebElement> uls = TreeUL.findElements(By.tagName("ul"));
+		for(WebElement ul : uls) {
+			try {
+				if(ul.getAttribute("id").trim().endsWith("TreeChildrenUL")) {
+					treeChildrenULTopLevel = ul;
+					break;
+				}
+			}
+			catch(Exception e) {
+				logger.error("Unexpected error attempting to iterate over uls", e);
+				// Move on to next ul and keep going
+			}
+		}
+
+		if(treeChildrenULTopLevel == null)
+			throw new Exception("Unable to find treeChildrenULTopLevel");
+
+		WebElement desiredFolderSpan = null;
+		List<WebElement> spans = TreeUL.findElements(By.tagName("span"));
+		for(WebElement span : spans) {
+			try {
+				if(span.getAttribute("id").trim().endsWith("TreeFolderName")  && span.getText().trim().equals(folderName)) {
+					desiredFolderSpan = span;
+					break;
+				}
+			}
+			catch(Exception e) {
+				logger.error("Unexpected error attempting to iterate over spans", e);
+				// Move on to next span and keep going
+			}
+		}
+
+		if(desiredFolderSpan == null)
+			throw new Exception("Unable to find desired folder span");
+
+		return desiredFolderSpan;
+	}
+
+	/**
+	 * Click the push publish option from the right click menu options
+	 * @param folderName Folder Name
+	 * @throws Exception
+	 */
+	public void pushFolder(String folderName) throws Exception{
+		WebElement  folder = getFolder(folderName);
+		selectRightClickPopupMenuAction(folder,getLocalizedString("Remote-Publish"));
+		sleep(2);
+		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
+		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();		
+	}
+
+	/**
+	 * Validates if a folder exist
+	 * @param folderName Name of the folder
+	 * @return true if exist false if not
+	 * @throws Exception
+	 */
+	public boolean doesFolderExist(String folderName) throws Exception{
+		boolean exist=false;
+		WebElement  elem = getFolder(folderName);
+		if(elem != null && elem.getText().equals(folderName)){
+			exist=true;
+		}
+		return exist;
 	}
 }

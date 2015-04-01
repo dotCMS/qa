@@ -28,8 +28,8 @@ public interface ISiteBrowserPage extends IBasePage {
 	public void changeHost(String hostName)  throws Exception;
 	
 	/**
-	 * Validates if a page,file asset, link or folder exist
-	 * @param elementName Name of the page, folder or file asset
+	 * Validates if a page,file asset, link exist
+	 * @param elementName Name of the page or file asset
 	 * @return true if exist false if not
 	 * @throws Exception
 	 */
@@ -78,4 +78,26 @@ public interface ISiteBrowserPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public void deletePage(String pageName) throws Exception;
+	
+	/**
+	 * Delete a folder
+	 * @param folderName    Folder name
+	 * @throws Exception
+	 */
+	public void deleteFolder(String folderName) throws Exception;
+	
+	/**
+	 * Click the push publish option from the right click menu options
+	 * @param folderName Folder Name
+	 * @throws Exception
+	 */
+	public void pushFolder(String folderName) throws Exception;
+	
+	/**
+	 * Validates if a folder exist
+	 * @param folderName Name of the folder
+	 * @return true if exist false if not
+	 * @throws Exception
+	 */
+	public boolean doesFolderExist(String folderName)  throws Exception;
 }

@@ -68,18 +68,16 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 	 * @throws Exception
 	 */
 	public ITemplateAddOrEditAdvanceTemplatePage addAdvanceTemplate() throws Exception{
-		boolean found = false;
-		WebElement toolbardiv = getWebElement(By.cssSelector("form[id='fm']")).findElement(By.cssSelector("div[class='yui-gc portlet-toolbar']"));
-		List<WebElement> spans= toolbardiv.findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonNode']"));
+		boolean found=false;
+		List<WebElement> spans = getWebElement(By.cssSelector("form[id='fm']")).findElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonNode']"));
 		for(WebElement span : spans){
 			if(span.getText().equals(getLocalizedString("Add-Template"))){
 				span.click();
-				sleep(4);
-				for(WebElement option : getWebElementsPresent(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"))){
+				for(WebElement option : getWebElement(By.cssSelector("div[class='dijitPopup dijitMenuPopup']")).findElements(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"))){
 					if(option.getText().trim().equals(getLocalizedString("code-template"))){
 						option.click();
-						sleep(2);
 						found=true;
+						sleep(2);
 						break;
 					}
 				}
@@ -103,7 +101,7 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 		for(WebElement span : spans){
 			if(span.getText().equals(getLocalizedString("Add-Template"))){
 				span.click();
-				for(WebElement option : getWebElements(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"))){
+				for(WebElement option : getWebElement(By.cssSelector("div[class='dijitPopup dijitMenuPopup']")).findElements(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"))){
 					if(option.getText().trim().equals(getLocalizedString("design-template"))){
 						option.click();
 						found=true;
@@ -128,11 +126,11 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 	 */
 	public boolean doesTemplateExist(String templateName) throws Exception{
 		boolean exist = false;
-		WebElement searchBox = getWebElement(By.cssSelector("form[id='fm']")).findElement(By.name("query"));
+		WebElement searchBox = getWebElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElement(By.name("query"));
 		searchBox.clear();
 		searchBox.sendKeys(templateName);
 
-		List<WebElement> buttons = getWebElement(By.cssSelector("form[id='fm']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		List<WebElement> buttons = getWebElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement button : buttons){
 			if(button.getText().trim().equals(getLocalizedString("search"))){
 				button.click();
@@ -183,9 +181,13 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 		}
 
 		getWebElement(By.id("deleteButton_label")).click();
-		switchToAlert().accept();
+		try{
+			switchToAlert().accept();
+		}catch(Exception e){
+			logger.debug("No alert is present");
+		}
 	}
-	
+
 	/**
 	 * Click the push publish option from the right click menu options
 	 * @param templateName Template Name
@@ -199,7 +201,7 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
 		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
 	}
-	
+
 	/**
 	 * Get a template row 
 	 * @param templateName Name of the template
@@ -230,8 +232,20 @@ public class TemplatesPage extends BasePage implements ITemplatesPage {
 				}
 			}
 		}
-		
+
 		return templateRow;
+	}
+
+	/**
+	 * This method allows to go to the editing page for templates
+	 * @param templateName  Name of the template
+	 * @throws Exception
+	 */
+	public void editTemplate(String templateName) throws Exception{
+		WebElement container = findTemplateRow(templateName);
+		List<WebElement> columns = container.findElements(By.tagName("td"));
+		selectRightClickPopupMenuOption(columns.get(1),getLocalizedString("Edit"));
+		sleep(2);
 	}
 
 }

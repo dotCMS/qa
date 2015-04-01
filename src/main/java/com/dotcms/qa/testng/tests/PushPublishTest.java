@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.openqa.selenium.support.ui.Sleeper;
 import org.testng.Assert;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeGroups;
@@ -90,20 +89,28 @@ public class PushPublishTest {
 	private String limitedUserEmail="limited.user@dotcms.com";
 	private String limitedUserPaswword="limited123";
 
-	private String templateTitle1="Test 555";
+	private String templateTitle1="Test-555";
 	private String templateContainer1="Default 1";
-	private String pageTitle1="Test 555";
+	private String pageTitle1="Test-555";
 	private String pageUrl1="test-555.html";
 
-	private String templateTitle2="Test 556";
+	private String templateTitle2="Test-556";
 	private String templateTheme2="quest";
 	private String templateContainer2="Default 1";
+	private String templateContainer22="Default 2";
 
-	private String templateTitle3="Test 556 - 2";
+	private String templateTitle3="Test-556-2";
 	private String templateTheme3="quest";
 	private String templateContainer3="Default 1";
 	private String pageTitle2="Test 556";
 	private String pageUrl2="test-556.html";
+
+	private String folderName1="test558";
+	private String templateTitle4="Test-558";
+	private String templateTheme4="quest";
+	private String templateContainer4="Default 1";
+	private String pageTitle3="Test-558";
+	private String pageUrl3="test-558.html";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -318,17 +325,39 @@ public class PushPublishTest {
 				browserPage.deletePage(pageUrl1);
 			}
 
+			if(browserPage.doesElementExist(pageUrl2)){
+				browserPage.unPublishElement(pageUrl2);
+				browserPage.archiveElement(pageUrl2);
+				browserPage.deletePage(pageUrl2);
+			}
+
+			if(browserPage.doesElementExist(pageUrl3)){
+				browserPage.unPublishElement(pageUrl3);
+				browserPage.archiveElement(pageUrl3);
+				browserPage.deletePage(pageUrl3);
+			}
+			
+			if(browserPage.doesFolderExist(folderName1)){
+				browserPage.deleteFolder(folderName1);
+			}
+
 			/* Delete template*/
 			ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 			if(templatesPage.doesTemplateExist(templateTitle1)){
 				templatesPage.deleteTemplate(templateTitle1);
 			}
 
-			templatesPage = portletMenu.getTemplatesPage();
 			if(templatesPage.doesTemplateExist(templateTitle2)){
 				templatesPage.deleteTemplate(templateTitle2);
 			}
 
+			if(templatesPage.doesTemplateExist(templateTitle3)){
+				templatesPage.deleteTemplate(templateTitle3);
+			}
+
+			if(templatesPage.doesTemplateExist(templateTitle4)){
+				templatesPage.deleteTemplate(templateTitle4);
+			}
 
 			/*Delete limited user*/
 			IUsersPage usersPage = portletMenu.getUsersPage();
@@ -377,6 +406,22 @@ public class PushPublishTest {
 				browserPage.deletePage(pageUrl1);
 			}
 
+			if(browserPage.doesElementExist(pageUrl2)){
+				browserPage.unPublishElement(pageUrl2);
+				browserPage.archiveElement(pageUrl2);
+				browserPage.deletePage(pageUrl2);
+			}
+
+			if(browserPage.doesElementExist(pageUrl3)){
+				browserPage.unPublishElement(pageUrl3);
+				browserPage.archiveElement(pageUrl3);
+				browserPage.deletePage(pageUrl3);
+			}
+
+			if(browserPage.doesFolderExist(folderName1)){
+				browserPage.deleteFolder(folderName1);
+			}
+			
 			/* Delete template*/
 			ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 			if(templatesPage.doesTemplateExist(templateTitle1)){
@@ -386,6 +431,14 @@ public class PushPublishTest {
 			templatesPage = portletMenu.getTemplatesPage();
 			if(templatesPage.doesTemplateExist(templateTitle2)){
 				templatesPage.deleteTemplate(templateTitle2);
+			}
+
+			if(templatesPage.doesTemplateExist(templateTitle3)){
+				templatesPage.deleteTemplate(templateTitle3);
+			}
+
+			if(templatesPage.doesTemplateExist(templateTitle4)){
+				templatesPage.deleteTemplate(templateTitle4);
 			}
 
 			logoutReceiverServer();
@@ -907,9 +960,9 @@ public class PushPublishTest {
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+templateTitle2+"') push should not be in pending list.");
 
 		//delete template and page
-		templatesPage= portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle2);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should not exist at this moment in receiver server.");
+		//templatesPage= portletMenu.getTemplatesPage();
+		//templatesPage.deleteTemplate(templateTitle2);
+		//Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should not exist at this moment in receiver server.");
 		logoutAuthoringServer();
 
 		//Connect to receiver server
@@ -918,8 +971,8 @@ public class PushPublishTest {
 		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should exist at this moment in receiver server.");
 
 		//Delete template and page in receiver
-		templatesPage.deleteTemplate(templateTitle2);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should not exist at this moment in receiver server.");
+		//templatesPage.deleteTemplate(templateTitle2);
+		//Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 
 		//Second part of the test push a template as a page dependency
@@ -983,6 +1036,138 @@ public class PushPublishTest {
 		templatesPage = portletMenu.getTemplatesPage();
 		templatesPage.deleteTemplate(templateTitle3);
 		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle3), "ERROR - Receiver Server: Template ('"+templateTitle3+"') should not exist at this moment in receiver server.");
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Edit a design template and push it to remote server
+	 * http://qa.dotcms.com/index.php?/cases/view/557
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc557_EditDesignTemplateAndPush() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
+
+		//Add a new Container
+		templatesPage.editTemplate(templateTitle2);
+		ITemplateAddOrEditDesignTemplatePage designTemplate = SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditDesignTemplatePage.class);
+		designTemplate.addContainer(templateContainer22);
+		List<Map<String,String>> authoringContainers = designTemplate.getTemplateContainers();
+		templatesPage = designTemplate.saveAndPublish();
+		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Authoring Server: Template ('"+templateTitle2+"') should exist at this moment in authoring server.");
+
+
+		templatesPage.pushTemplate(templateTitle2);
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(templateTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+templateTitle2+"') push should not be in pending list.");
+		logoutAuthoringServer();
+
+		//Connect to receiver server
+		portletMenu = callReceiverServer();
+		templatesPage= portletMenu.getTemplatesPage();
+		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should exist at this moment in receiver server.");
+
+		templatesPage.editTemplate(templateTitle2);
+		designTemplate = SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditDesignTemplatePage.class);
+		List<Map<String,String>> containers = designTemplate.getTemplateContainers();
+		designTemplate.cancel();
+		Assert.assertTrue(containers.size()==authoringContainers.size(), "ERROR - Receiver Server: Template ('"+templateTitle2+"') doesn't have the same number of containers as the authoring server in receiver server.");
+		for(Map<String,String> map : authoringContainers){
+			boolean containerFound = false;
+			for(Map<String,String> map2 : containers){
+				if(map.get("name").equals(map2.get("name"))){
+					containerFound=true;
+					break;
+				}
+			}
+			Assert.assertTrue(containerFound, "ERROR - Receiver Server: Template ('"+templateTitle2+"') doesn't have this container ("+map.get("name")+") in receiver server.");
+		}
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Add a design template, include a page using the template and push the folder
+	 * where the page was added to remote server
+	 * http://qa.dotcms.com/index.php?/cases/view/558
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc558_AddDesignTemplateAndPushFolder() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
+
+		ITemplateAddOrEditDesignTemplatePage designTemplate = templatesPage.addDesignTemplate();
+		designTemplate.setTemplateTitle(templateTitle4);
+		designTemplate.setTheme(templateTheme4);
+		designTemplate.addContainer(templateContainer4);
+
+		templatesPage = designTemplate.saveAndPublish();
+		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle4), "ERROR - Authoring Server: Template ('"+templateTitle4+"') should exist at this moment in authoring server.");
+
+		//create test page
+		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.createFolder(null, folderName1);
+		browserPage.selectFolder(folderName1);
+		browserPage.createHTMLPage(pageTitle3, templateTitle4, pageUrl3);
+
+		// escape preview page
+		IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
+		portletMenu = sideMenu.gotoAdminScreen();
+
+		browserPage= portletMenu.getSiteBrowserPage();
+		Assert.assertTrue(browserPage.doesElementExist(pageUrl3), "ERROR - Authoring Server: Page ('"+pageUrl3+"') should exist at this moment in authoring server.");
+
+		browserPage.pushFolder(folderName1);
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(folderName1,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ('"+folderName1+"') push should not be in pending list.");
+
+		//delete template and page
+		browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.unPublishElement(pageUrl3);
+		browserPage.archiveElement(pageUrl3);
+		browserPage.deletePage(pageUrl3);
+		Assert.assertFalse(browserPage.doesElementExist(pageUrl3), "ERROR - Authoring Server: Page ('"+pageUrl3+"') should not exist at this moment in authoring server.");
+
+		browserPage.deleteFolder(folderName1);
+		Assert.assertFalse(browserPage.doesFolderExist(folderName1), "ERROR - Authoring Server: Folder ('"+folderName1+"') should not exist at this moment in authoring server.");
+		
+		templatesPage = portletMenu.getTemplatesPage();
+		templatesPage.deleteTemplate(templateTitle3);
+		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle4), "ERROR - Authoring Server: Template ('"+templateTitle4+"') should not exist at this moment in authoring server.");	
+		logoutAuthoringServer();
+
+		//Connect to receiver server
+		portletMenu = callReceiverServer();
+		browserPage = portletMenu.getSiteBrowserPage();
+		Assert.assertTrue(browserPage.doesFolderExist(folderName1), "ERROR - Receiver Server: Folder ('"+folderName1+"') should exist at this moment in receiver server.");
+		browserPage.selectFolder(folderName1);
+		Assert.assertTrue(browserPage.doesElementExist(pageUrl3), "ERROR - Receiver Server: Page ('"+pageUrl3+"') should exist at this moment in receiver server.");
+
+		templatesPage = portletMenu.getTemplatesPage();
+		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle4), "ERROR - Receiver Server: Template ('"+templateTitle4+"') should exist at this moment in receiver server.");
+
+
+		//Delete template and page in receiver
+		browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.selectFolder(folderName1);
+		browserPage.unPublishElement(pageUrl3);
+		browserPage.archiveElement(pageUrl3);
+		browserPage.deletePage(pageUrl3);
+		Assert.assertFalse(browserPage.doesElementExist(pageUrl3), "ERROR - Receiver Server: Page ('"+pageUrl3+"') should not exist at this moment in receiver server.");
+
+		browserPage.deleteFolder(folderName1);
+		Assert.assertFalse(browserPage.doesFolderExist(folderName1), "ERROR - Receiver Server: Folder ('"+folderName1+"') should not exist at this moment in receiver server.");
+
+		templatesPage = portletMenu.getTemplatesPage();
+		templatesPage.deleteTemplate(templateTitle3);
+		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle4), "ERROR - Receiver Server: Template ('"+templateTitle4+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 }

@@ -154,8 +154,9 @@ public class PublishingEnvironments extends BasePage implements IPublishingEnvir
 		getAddServerButton().click();
 		WebElement receiveFromDialog = getWebElement(By.id("addEndpoint"));
 		receiveFromDialog.findElement(By.id("serverName")).sendKeys(serverName);
-		sleep(1);
+		sleep(2);
 		receiveFromDialog.findElement(By.id("address")).sendKeys(address);
+		sleep(2);
 		receiveFromDialog.findElement(By.id("authKey")).sendKeys(key);
 		receiveFromDialog.findElement(By.id("save_label")).click();
 	}

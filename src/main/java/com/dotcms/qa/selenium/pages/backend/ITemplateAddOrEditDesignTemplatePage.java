@@ -1,5 +1,8 @@
 package com.dotcms.qa.selenium.pages.backend;
 
+import java.util.List;
+import java.util.Map;
+
 import com.dotcms.qa.selenium.pages.IBasePage;
 
 public interface ITemplateAddOrEditDesignTemplatePage extends IBasePage {
@@ -59,4 +62,11 @@ public interface ITemplateAddOrEditDesignTemplatePage extends IBasePage {
 	 * @throws Exception
 	 */
 	public ITemplatesPage cancel() throws Exception;
+	
+	/**
+	 * Get the list of containers associated to the template
+	 * @return List<Map<String,String>>
+	 * @throws Exception
+	 */
+	public List<Map<String,String>> getTemplateContainers() throws Exception; 
 }

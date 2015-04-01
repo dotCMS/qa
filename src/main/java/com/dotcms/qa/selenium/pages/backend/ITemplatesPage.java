@@ -54,4 +54,11 @@ public interface ITemplatesPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public void pushTemplate(String templateName) throws Exception;
+	
+	/**
+	 * This method allows to go to the editing page for templates
+	 * @param templateName  Name of the template
+	 * @throws Exception
+	 */
+	public void editTemplate(String templateName) throws Exception;
 }
