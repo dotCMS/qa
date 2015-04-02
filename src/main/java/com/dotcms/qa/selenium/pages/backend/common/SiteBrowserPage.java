@@ -359,10 +359,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 				// Move on to next span and keep going
 			}
 		}
-
-		if(desiredFolderSpan == null)
-			throw new Exception("Unable to find desired folder span");
-
+		
 		return desiredFolderSpan;
 	}
 

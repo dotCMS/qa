@@ -883,6 +883,7 @@ public class PushPublishTest {
 		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle1), "ERROR - Authoring Server: Template ('"+templateTitle1+"') should exist at this moment in authoring server.");
 
 		//create test page
+		templatesPage.sleep(3);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
 		browserPage.createHTMLPage(pageTitle1, templateTitle1, pageUrl1);
 
@@ -905,7 +906,7 @@ public class PushPublishTest {
 		browserPage.archiveElement(pageUrl1);
 		browserPage.deletePage(pageUrl1);
 		Assert.assertFalse(browserPage.doesElementExist(pageUrl1), "ERROR - Authoring Server: Page ('"+pageUrl1+"') should not exist at this moment in authoring server.");
-
+		browserPage.sleep(2);
 		templatesPage = portletMenu.getTemplatesPage();
 		templatesPage.deleteTemplate(templateTitle1);
 		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle1), "ERROR - Authoring Server: Template ('"+templateTitle1+"') should not exist at this moment in authoring server.");	
@@ -913,6 +914,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
+		portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(pageUrl1), "ERROR - Receiver Server: Page ('"+pageUrl1+"') should exist at this moment in receiver server.");
 
@@ -989,6 +991,7 @@ public class PushPublishTest {
 		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle3), "ERROR - Authoring Server: Template ('"+templateTitle3+"') should exist at this moment in authoring server.");
 
 		//create test page
+		templatesPage.sleep(2);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
 		browserPage.createHTMLPage(pageTitle2, templateTitle3, pageUrl2);
 
@@ -1134,12 +1137,11 @@ public class PushPublishTest {
 		browserPage.archiveElement(pageUrl3);
 		browserPage.deletePage(pageUrl3);
 		Assert.assertFalse(browserPage.doesElementExist(pageUrl3), "ERROR - Authoring Server: Page ('"+pageUrl3+"') should not exist at this moment in authoring server.");
-
 		browserPage.deleteFolder(folderName1);
 		Assert.assertFalse(browserPage.doesFolderExist(folderName1), "ERROR - Authoring Server: Folder ('"+folderName1+"') should not exist at this moment in authoring server.");
 		
 		templatesPage = portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle3);
+		templatesPage.deleteTemplate(templateTitle4);
 		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle4), "ERROR - Authoring Server: Template ('"+templateTitle4+"') should not exist at this moment in authoring server.");	
 		logoutAuthoringServer();
 
@@ -1166,7 +1168,7 @@ public class PushPublishTest {
 		Assert.assertFalse(browserPage.doesFolderExist(folderName1), "ERROR - Receiver Server: Folder ('"+folderName1+"') should not exist at this moment in receiver server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle3);
+		templatesPage.deleteTemplate(templateTitle4);
 		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle4), "ERROR - Receiver Server: Template ('"+templateTitle4+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
