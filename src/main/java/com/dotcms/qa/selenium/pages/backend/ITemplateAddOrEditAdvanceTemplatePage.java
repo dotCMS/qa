@@ -38,5 +38,13 @@ public interface ITemplateAddOrEditAdvanceTemplatePage extends IBasePage{
 	 * @throws Exception
 	 */
 	public ITemplatesPage cancel() throws Exception;
+	
+	/**
+	 * Return the template field value
+	 * @param field Name of the field
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getFieldValue(String field) throws Exception;
 
 }

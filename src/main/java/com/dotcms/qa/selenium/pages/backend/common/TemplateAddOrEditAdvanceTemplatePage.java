@@ -136,4 +136,24 @@ public class TemplateAddOrEditAdvanceTemplatePage extends BasePage implements IT
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplatesPage.class);
 	}
 	
+	/**
+	 * Return the template field value
+	 * @param field Name of the field
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getFieldValue(String field) throws Exception{
+		String value=null;
+		try{
+			WebElement element = getWebElement(By.id(field));
+			value = element.getText();
+
+			if(value.equals("")){
+				value = (String) executeScript("var editor = ace.edit('"+field+"EditorArea');return editor.getSession().getValue();");
+			}
+		}catch(Exception e){
+			value = (String) executeScript("var editor = ace.edit('"+field+"EditorArea');return editor.getSession().getValue();");
+		}
+		return value;
+	}
 }
