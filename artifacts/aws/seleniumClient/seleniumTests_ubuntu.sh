@@ -89,6 +89,26 @@ cd ./qa
 echo 'Building testng/selenium tests'
 ./gradlew installDist
 cd ..
+
+aws s3 cp ${QA_SERVER_STATUS_URL} ./status.txt
+while [ ! -f ./status.txt ]
+do
+    echo "waiting for server status file..."
+    sleep 30
+    aws s3 cp ${QA_SERVER_STATUS_URL} ./status.txt
+done
+
+running=`grep -c "Running" ./status.txt`
+echo "running=${running}"
+while [ $running -lt 1 ]
+do
+    echo "INFO - waiting for dotCMS server to be in Running state...."
+    sleep 60
+    aws s3 cp ${QA_SERVER_STATUS_URL} ./status.txt
+    running=`grep -c "Running" ./status.txt`
+done
+echo "running=$running"
+
 echo '********** END OF PART 2 **********'
 
 export EXIT_CODE=255
