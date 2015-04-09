@@ -4,16 +4,16 @@
 
 env
 
-LASTCOMMIT=$(cat buildinfo.txt | python -c 'import sys, json; print json.load(sys.stdin)["contentlets"][0]["commitNumber"]')
+export LASTCOMMIT=$(cat buildinfo.txt | python -c 'import sys, json; print json.load(sys.stdin)["contentlets"][0]["commitNumber"]')
 
 #curl http://dotcms.com/api/content/query/+structureName:DotcmsNightlyBuilds%20+conHost:SYSTEM_HOST%20+DotcmsNightlyBuilds.version:${DOTCMS_VERSION}/orderby/moddate%20desc/limit/1 2>/dev/null > buildinfo.txt
 curl http://dotcms.com/api/content/query/+structureName:DotcmsNightlyBuilds%20+conHost:SYSTEM_HOST%20+DotcmsNightlyBuilds.version:3.1/orderby/moddate%20desc/limit/1 2>/dev/null > buildinfo.txt
 
-DOTCMS_ZIP_URL=http://dotcms.com$(cat buildinfo.txt | python -c 'import sys, json; print json.load(sys.stdin)["contentlets"][0]["zip"]')
+export DOTCMS_ZIP_URL=http://dotcms.com$(cat buildinfo.txt | python -c 'import sys, json; print json.load(sys.stdin)["contentlets"][0]["zip"]')
 
-DOTCMS_TAR_GZ_URL=http://dotcms.com$(cat buildinfo.txt | python -c 'import sys, json; print json.load(sys.stdin)["contentlets"][0]["targz"]')
+export DOTCMS_TAR_GZ_URL=http://dotcms.com$(cat buildinfo.txt | python -c 'import sys, json; print json.load(sys.stdin)["contentlets"][0]["targz"]')
 
-DOTCMS_COMMIT=$(cat buildinfo.txt | python -c 'import sys, json; print json.load(sys.stdin)["contentlets"][0]["commitNumber"]')
+export DOTCMS_COMMIT=$(cat buildinfo.txt | python -c 'import sys, json; print json.load(sys.stdin)["contentlets"][0]["commitNumber"]')
 
 # only do something if commit is different than the last commit processed
 echo "LASTCOMMIT = ${LASTCOMMIT}"
