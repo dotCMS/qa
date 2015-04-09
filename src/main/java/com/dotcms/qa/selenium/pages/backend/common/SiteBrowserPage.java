@@ -390,4 +390,20 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		}
 		return exist;
 	}
+	
+	/**
+	 * Open the element in the right side of the site browser portlet and select the edit page properties
+	 * @param pageUrl Page Url
+	 * @throws Exception
+	 */
+	public void editHTMLPageProperties(String pageUrl) throws Exception{
+		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		for(WebElement elem : elements){
+			if(elem.getText().equals(pageUrl)){
+				this.selectPopupMenuOption(elem, getLocalizedString("Open-Edit"));
+				//doubleClickElement(elem);
+				break;
+			}
+		}
+	}
 }

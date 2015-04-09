@@ -13,6 +13,12 @@ import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.language.LanguageManager;
 
+/**
+ * Implements the IHTMLPageAddOrEdit_ContentPage interface
+ * @author Brent Griffin
+ * @author Oswaldo Gallango
+ *
+ */
 public class HTMLPageAddOrEdit_ContentPage extends BasePage implements
 IHTMLPageAddOrEdit_ContentPage {
 
@@ -97,5 +103,27 @@ IHTMLPageAddOrEdit_ContentPage {
 
 	public void cancel(){
 		getWebElement(By.className("cancelIcon")).click();
+	}
+	
+	/**
+	 * Validate if the page is locked
+	 * @return true is the page is locked, false if not
+	 * @throws Exception
+	 */
+	public boolean isLocked() throws Exception{
+		boolean isLocked= false;
+		WebElement link = getWebElementClickable(By.id("lockContentButton"));
+		if(link != null){
+			isLocked=true;
+		}
+		return isLocked;
+	}
+	/**
+	 * Unlock Page
+	 * @throws Exception
+	 */
+	public void unlock() throws Exception{
+		WebElement link = getWebElementClickable(By.id("lockContentButton"));
+		link.click();
 	}
 }

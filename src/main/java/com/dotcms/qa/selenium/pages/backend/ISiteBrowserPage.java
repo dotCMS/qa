@@ -100,4 +100,11 @@ public interface ISiteBrowserPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public boolean doesFolderExist(String folderName)  throws Exception;
+	
+	/**
+	 * Open the element in the right side of the site browser portlet and select the edit page properties
+	 * @param pageUrl Page Url
+	 * @throws Exception
+	 */
+	public void editHTMLPageProperties(String pageUrl) throws Exception;
 }
