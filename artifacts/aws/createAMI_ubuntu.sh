@@ -25,22 +25,14 @@ echo -e "session\trequired\tpam_limits.so" >> /etc/pam.d/common-session-noninter
 
 #install expected packages
 apt-get -y install telnet uuid xfsprogs git awscli xvfb firefox unzip
-#apt-get -y install bsd-mailx postfix
-#chkconfig postfix on
+apt-get -y install postgresql-9.3
+#mysql-server-5.6
 
 # Set timezone to central
 timedatectl set-timezone America/Chicago
 
 # create download folder
 mkdir /root/downloads
-
-# install ant
-#cd /root/downloads
-#wget http://apache.osuosl.org/ant/binaries/apache-ant-1.9.4-bin.tar.gz
-#mkdir -p /opt/apache/ant
-#cd /opt/apache/ant
-#tar -xvf /root/downloads/apache-ant-1.9.4-bin.tar.gz
-#ln -s apache-ant-1.9.4/ latest
 
 # create aws credentials
 mkdir /root/.aws
@@ -59,36 +51,17 @@ ln -s jdk1.7.0_*/ latest
 update-alternatives --install /usr/bin/java java /opt/oracle/java/latest/bin/java 99999
 update-alternatives --install /usr/bin/javac javac /opt/oracle/java/latest/bin/javac 99999
 
-# pull down and start dotCMS build
-# cd /root/downloads
-# aws s3 cp s3://qa.dotcms.com/testautomation/pullnightlybuild.sh .
-# chmod u+x ./pullnightlybuild.sh
-# ./pullnightlybuild.sh
-# mkdir -p /opt/dotcms
-# cd /opt/dotcms
-# tar -xvf /root/downloads/dotcms_*.targz
-# chown -R ubuntu:ubuntu /opt/dotcms
-#cd /opt/dotcms/
-#bin/startup.sh
+# configure postgreSQL
+cd /root/downloads
+curl -u b.rent.griffin@dotcms.com:@s3cur3 https://raw.githubusercontent.com/dotCMS/qa/master-${DOTCMS_VERSION}/artifacts/aws/database/postgres/postgresql.conf > postgresql.conf
+cp ./postgresql.conf /etc/postgresql/9.3/main/postgresql.conf
+curl -u b.rent.griffin@dotcms.com:@s3cur3 https://raw.githubusercontent.com/dotCMS/qa/master-${DOTCMS_VERSION}/artifacts/aws/database/postgres/pg_hba.conf > pg_hba.conf
+cp ./pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
+# restart postgresql server so configuration changes can take effect
+/etc/init.d/postgresql restart
 
-# add ssh keys
-#aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa /root/.ssh/dotcmsqa
-#chmod 600 /root/.ssh/dotcmsqa
-#aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa.pub /root/.ssh/dotcmsqa.pub
-#chmod 600 /root/.ssh/dotcmsqa.pub
-#cd /root
-#eval $(ssh-agent)
-#ssh-add /root/.ssh/dotcmsqa
-#ssh -Tq -o StrictHostKeyChecking=no git@github.com
-
-#git clone git@github.com:dotCMS/qa.git
-#mv /root/qa/ /home/ubuntu/qa/
-#chown -R ubuntu:ubuntu /home/ubuntu/qa
-
-# copy ssh keys
-#sudo cp /root/.ssh/dotcmsqa /home/ubuntu/.ssh/.
-#sudo cp /root/.ssh/dotcmsqa.pub /home/ubuntu/.ssh/.
-#sudo chown ubuntu:ubuntu /home/ubuntu/.ssh/dotcmsqa*
+# configure mySQL
+# TODO
 
 # configure and start Xvfb service
 aws s3 cp s3://qa.dotcms.com/testautomation/xvfb /etc/init.d/xvfb
