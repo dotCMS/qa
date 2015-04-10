@@ -18,7 +18,6 @@ import com.dotcms.qa.selenium.pages.backend.IContainersPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
 import com.dotcms.qa.selenium.pages.backend.IPortletMenu;
-import com.dotcms.qa.selenium.pages.backend.IPreviewHTMLPage_Page;
 import com.dotcms.qa.selenium.pages.backend.IPublishingEnvironments;
 import com.dotcms.qa.selenium.pages.backend.IPublishingQueuePage;
 import com.dotcms.qa.selenium.pages.backend.IRolesPage;
@@ -33,7 +32,6 @@ import com.dotcms.qa.selenium.pages.backend.IUsersPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.UsersPageUtil;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 /**
  * This class manage the TestRail suite of test for Push Publishing
@@ -134,6 +132,8 @@ public class PushPublishTest {
 	private String pageUrl5="test-507.html";
 	//test 577
 	private String pageTitle52="Test 507 and 577";
+	//test 578
+	private String pageTitle53 = "Test 507, 577 and 578";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -354,7 +354,7 @@ public class PushPublishTest {
 				browserPage.archiveElement(pageUrl5);
 				browserPage.deletePage(pageUrl5);
 			}
-
+						
 			if(browserPage.doesFolderExist(folderName1)){
 				browserPage.deleteFolder(folderName1);
 			}
@@ -468,7 +468,7 @@ public class PushPublishTest {
 				browserPage.archiveElement(pageUrl5);
 				browserPage.deletePage(pageUrl5);
 			}
-
+			
 			if(browserPage.doesFolderExist(folderName1)){
 				browserPage.deleteFolder(folderName1);
 			}
@@ -1601,6 +1601,69 @@ public class PushPublishTest {
 		htmlAddPage.cancel();
 
 		Assert.assertTrue(title.equals(pageTitle52), "ERROR - Receiver Server: Page ('"+pageUrl5+"') title doesn't match between authoring and receiver servers.");		
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Test pushing/updating pages as a limited user
+	 * http://qa.dotcms.com/index.php?/cases/view/578
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc578_UpdatePageAndPushAsLimitedUser() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		portletMenu.sleep(2);
+		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.editHTMLPageProperties(pageUrl5);
+		IHTMLPageAddOrEdit_ContentPage htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_ContentPage.class);
+		if(htmlAddPage.isLocked()){
+			htmlAddPage.unlock();
+		}
+		htmlAddPage.setTitle(pageTitle53);
+		htmlAddPage.saveAndPublish();
+
+		// escape preview page
+		IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
+		portletMenu = sideMenu.gotoAdminScreen();
+
+		browserPage= portletMenu.getSiteBrowserPage();
+		Assert.assertTrue(browserPage.doesElementExist(pageUrl5), "ERROR - Authoring Server: Page ('"+pageUrl5+"') should exist at this moment in authoring server.");
+
+		browserPage.pushElement(pageUrl5);
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle53,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl5+"') push should not be in pending list.");
+		publishingQueuePage.sleep(2);
+		//Delete template and page in receiver
+		browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.unPublishElement(pageUrl5);
+		browserPage.archiveElement(pageUrl5);
+		browserPage.deletePage(pageUrl5);
+		Assert.assertFalse(browserPage.doesElementExist(pageUrl5), "ERROR - Authoring Server: Page ('"+pageUrl5+"') should not exist at this moment in authoring server.");
+
+		logoutAuthoringServer();
+
+		//Connect to receiver server
+		portletMenu = callReceiverServer();
+		portletMenu.sleep(2);
+		browserPage= portletMenu.getSiteBrowserPage();
+		Assert.assertTrue(browserPage.doesElementExist(pageUrl5), "ERROR - Receiver Server: Page ('"+pageUrl5+"') should exist at this moment in receiver server.");
+
+		browserPage.editHTMLPageProperties(pageUrl5);
+		htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_ContentPage.class);
+		String title = htmlAddPage.getPageTitle();
+		htmlAddPage.cancel();
+
+		Assert.assertTrue(title.equals(pageTitle53), "ERROR - Receiver Server: Page ('"+pageUrl5+"') title doesn't match between authoring and receiver servers.");		
+		
+		//Delete template and page in receiver
+		browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.unPublishElement(pageUrl5);
+		browserPage.archiveElement(pageUrl5);
+		browserPage.deletePage(pageUrl5);
+		Assert.assertFalse(browserPage.doesElementExist(pageUrl5), "ERROR - Receiver Server: Page ('"+pageUrl5+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
