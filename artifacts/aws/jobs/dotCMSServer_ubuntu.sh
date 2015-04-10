@@ -15,11 +15,6 @@ export QA_TomcatLogFile=${QA_TomcatFolder}/logs/catalina.out
 export QA_AccessLogFile=${QA_TomcatFolder}/logs/dotcms_access.$(date +%Y-%m-%d).log
 export QA_StarterFullFilePath=${QA_TomcatFolder}/webapps/ROOT/starter.zip
 
-#export QA_DB=H2
-#export QA_Browser=FIREFOX
-#export QA_Country=US
-#export QA_Language=en
-#export QA_OS=Ubuntu
 export QA_Milestone=${DOTCMS_VERSION}
 export QA_RunLabel=${QA_Milestone}_JenkinsSeleniumTester_${BUILD_NUMBER}_${QA_OS}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
