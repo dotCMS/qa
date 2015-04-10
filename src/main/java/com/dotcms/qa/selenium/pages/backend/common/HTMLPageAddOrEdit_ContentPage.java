@@ -126,4 +126,40 @@ IHTMLPageAddOrEdit_ContentPage {
 		WebElement link = getWebElementClickable(By.id("lockContentButton"));
 		link.click();
 	}
+	
+	/**
+	 * Get the page Title
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getPageTitle() throws Exception{
+		return titleBox.getAttribute("value");
+	}
+	
+	/**
+	 * get page Url
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getURL() throws Exception{
+		return url.getAttribute("value");
+	}
+	
+	/**
+	 * get page Template
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getTemplate() throws Exception{
+		return templateSel.getAttribute("value");
+	}
+	
+	/**
+	 * get page Friendly name
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getFriendlyName() throws Exception{
+		return friendlyname.getAttribute("value");
+	}
 }

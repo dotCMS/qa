@@ -1436,7 +1436,7 @@ public class PushPublishTest {
 
 		templatesPage = portletMenu.getTemplatesPage();
 		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle7), "ERROR - Receiver Server: Template ('"+templateTitle7+"') should exist at this moment in receiver server.");
-		templatesPage.editTemplate(templateContainer7);
+		templatesPage.editTemplate(templateTitle7);
 		advanceTemplate=  SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditAdvanceTemplatePage.class);
 		String receiverTemplateBody = advanceTemplate.getFieldValue("ace");
 		advanceTemplate.cancel();
@@ -1597,7 +1597,7 @@ public class PushPublishTest {
 
 		browserPage.editHTMLPageProperties(pageUrl5);
 		htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_ContentPage.class);
-		String title = htmlAddPage.getTitle();
+		String title = htmlAddPage.getPageTitle();
 		htmlAddPage.cancel();
 
 		Assert.assertTrue(title.equals(pageTitle52), "ERROR - Receiver Server: Page ('"+pageUrl5+"') title doesn't match between authoring and receiver servers.");		

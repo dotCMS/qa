@@ -27,4 +27,32 @@ public interface IHTMLPageAddOrEdit_ContentPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public void unlock() throws Exception;
+	
+	/**
+	 * Get the page Title
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getPageTitle() throws Exception;
+	
+	/**
+	 * get page Url
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getURL() throws Exception;
+	
+	/**
+	 * get page Template
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getTemplate() throws Exception;
+	
+	/**
+	 * get page Friendly name
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getFriendlyName() throws Exception;
 }
