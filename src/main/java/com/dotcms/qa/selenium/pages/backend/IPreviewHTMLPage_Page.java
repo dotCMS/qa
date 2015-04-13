@@ -103,4 +103,11 @@ public interface IPreviewHTMLPage_Page extends IBasePage {
 	 * Click the unlock link for the current page
 	 */
 	public void unLockPage() throws Exception;
+	
+	/**
+	 * Add the page to a bundle
+	 * @param bundleName Name of the bundle
+	 * @throws Exception
+	 */
+	public void addToBundle(String bundleName) throws Exception;
 }

@@ -268,4 +268,23 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		getMenuFrameElement("previewModeTools", WebKeys.BY_ID).findElement(By.id("lockBtn")).findElement(By.tagName("a")).click();
 		returnToPageDefaultContent();
 	}
+	
+	/**
+	 * Add the page to a bundle
+	 * @param bundleName Name of the bundle
+	 * @throws Exception
+	 */
+	public void addToBundle(String bundleName) throws Exception{
+		List<WebElement> buttons = getMenuFrameElement("previewModeTools", WebKeys.BY_ID).findElements(By.tagName("a"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString("Add-To-Bundle"))){
+				button.click();
+				returnToPageDefaultContent();
+				break;
+			}
+		}
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).sendKeys(bundleName);
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("addToBundleSaveButton_label")).click();
+		returnToPageDefaultContent();
+	}
 }

@@ -18,6 +18,7 @@ import com.dotcms.qa.selenium.pages.backend.IContainersPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
 import com.dotcms.qa.selenium.pages.backend.IPortletMenu;
+import com.dotcms.qa.selenium.pages.backend.IPreviewHTMLPage_Page;
 import com.dotcms.qa.selenium.pages.backend.IPublishingEnvironments;
 import com.dotcms.qa.selenium.pages.backend.IPublishingQueuePage;
 import com.dotcms.qa.selenium.pages.backend.IRolesPage;
@@ -29,6 +30,7 @@ import com.dotcms.qa.selenium.pages.backend.ITemplateAddOrEditAdvanceTemplatePag
 import com.dotcms.qa.selenium.pages.backend.ITemplateAddOrEditDesignTemplatePage;
 import com.dotcms.qa.selenium.pages.backend.ITemplatesPage;
 import com.dotcms.qa.selenium.pages.backend.IUsersPage;
+import com.dotcms.qa.selenium.pages.backend.common.PreviewHTMLPage_Page;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.UsersPageUtil;
@@ -134,6 +136,9 @@ public class PushPublishTest {
 	private String pageTitle52="Test 507 and 577";
 	//test 578
 	private String pageTitle53 = "Test 507, 577 and 578";
+	//test 582
+	private String pageTitle6="Test-582";
+	private String pageUrl6="test-582.html";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -354,7 +359,13 @@ public class PushPublishTest {
 				browserPage.archiveElement(pageUrl5);
 				browserPage.deletePage(pageUrl5);
 			}
-						
+			
+			if(browserPage.doesElementExist(pageUrl6)){
+				browserPage.unPublishElement(pageUrl6);
+				browserPage.archiveElement(pageUrl6);
+				browserPage.deletePage(pageUrl6);
+			}
+
 			if(browserPage.doesFolderExist(folderName1)){
 				browserPage.deleteFolder(folderName1);
 			}
@@ -469,6 +480,12 @@ public class PushPublishTest {
 				browserPage.deletePage(pageUrl5);
 			}
 			
+			if(browserPage.doesElementExist(pageUrl6)){
+				browserPage.unPublishElement(pageUrl6);
+				browserPage.archiveElement(pageUrl6);
+				browserPage.deletePage(pageUrl6);
+			}
+
 			if(browserPage.doesFolderExist(folderName1)){
 				browserPage.deleteFolder(folderName1);
 			}
@@ -1657,13 +1674,60 @@ public class PushPublishTest {
 		htmlAddPage.cancel();
 
 		Assert.assertTrue(title.equals(pageTitle53), "ERROR - Receiver Server: Page ('"+pageUrl5+"') title doesn't match between authoring and receiver servers.");		
-		
+
 		//Delete template and page in receiver
 		browserPage= portletMenu.getSiteBrowserPage();
 		browserPage.unPublishElement(pageUrl5);
 		browserPage.archiveElement(pageUrl5);
 		browserPage.deletePage(pageUrl5);
 		Assert.assertFalse(browserPage.doesElementExist(pageUrl5), "ERROR - Receiver Server: Page ('"+pageUrl5+"') should not exist at this moment in receiver server.");
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Test adding an HTML Page to Bundle on "Open Preview" view
+	 * http://qa.dotcms.com/index.php?/cases/view/582
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc582_AddHTMLPageToBundle() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(2);
+		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.createHTMLPage(pageTitle6, templateTitle8, pageUrl6);
+
+		IPreviewHTMLPage_Page pagePreview = SeleniumPageManager.getBackEndPageManager().getPageObject(IPreviewHTMLPage_Page.class);
+		String bundleName = "test582";
+		pagePreview.addToBundle(bundleName);
+
+		// escape preview page
+		IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
+		portletMenu = sideMenu.gotoAdminScreen();
+
+		//push container
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		publishingQueuePage.getBundlesTab();
+		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
+
+		//wait until 5 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isBundlePushed(authoringServerBundleId,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+pageUrl6+") push should not be in pending list.");
+		logoutAuthoringServer();
+
+
+		//Connect to receiver server
+		portletMenu = callReceiverServer();
+		portletMenu.sleep(2);
+		browserPage= portletMenu.getSiteBrowserPage();
+		Assert.assertTrue(browserPage.doesElementExist(pageUrl6), "ERROR - Receiver Server: Page ('"+pageUrl6+"') should exist at this moment in receiver server.");
+
+		//Delete template and page in receiver
+		browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.unPublishElement(pageUrl6);
+		browserPage.archiveElement(pageUrl6);
+		browserPage.deletePage(pageUrl6);
+		Assert.assertFalse(browserPage.doesElementExist(pageUrl6), "ERROR - Receiver Server: Page ('"+pageUrl6+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
