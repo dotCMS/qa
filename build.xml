@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+
+<project name="dotcms-qa-automation" default="test-dotcms" basedir=".">
+	<!-- include ant-contrib -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
+    
+    <target name="test-dotcms">
+        <echo message= "By default - do NOTHING" />
+    </target>
+
+
+    <target name="set-environment" >
+        <!--CHECK FOR FAMILY OS-->
+        <condition property="isWindows">
+            <os family="windows"/>
+        </condition>
+
+        <condition property="isUnix">
+            <os family="unix"/>
+        </condition>
+
+        <if>
+            <equals arg1="${isWindows}" arg2="true" />
+            <then>
+                <echo message= "FamilyOS - isWindows = ${isWindows}" />
+            </then>
+            <elseif>
+                <equals arg1="${isUnix}" arg2="true" />
+                <then>
+                    <echo message= "FamilyOS - isUnix = ${isUnix}" />
+                </then>
+            </elseif>
+        </if>               
+
+        <property environment="env"/>
+        <copy file="./artifacts/aws/database/context.xml" todir="${env.QA_TomcatFolder}/webapps/ROOT/META-INF" overwrite="true" />
+
+        <property file="./artifacts/aws/database/${env.QA_DB}.properties" />
+        
+        <!-- <replace file="${tomcat.dir}/conf/server.xml" token="{port}" value="${server.port}"/> -->
+        <!-- <replace file="${tomcat.dir}/conf/server.xml" token="{shutdown_port}" value="${server.shutdown.port}"/> -->
+        
+        <path id="files-classpath">      
+            <fileset dir="${env.QA_TomcatFolder}/lib">
+                <include name="*.jar" />
+            </fileset>
+            <fileset dir="${env.QA_TomcatFolder}/webapps/ROOT/WEB-INF/lib">
+                <include name="*.jar" />
+            </fileset>
+        </path>
+        
+        <replace file="${env.QA_TomcatFolder}/webapps/ROOT/META-INF/context.xml">
+            <replacefilter token="{driver}" value="${db.driver}"/>
+            <replacefilter token="{url}" value="${db.url}"/>
+            <replacefilter token="{username}" value="${db.username}"/>
+            <replacefilter token="{password}" value="${db.password}"/>
+            <replacefilter token="{valquery}" value="${db.valquery}"/>
+        </replace>
+    </target>
+
+
+    <target name="create-db" depends="set-environment">
+        <if>
+            <equals arg1="${db.driver}" arg2="oracle.jdbc.OracleDriver"/>
+            <then>
+                <sql driver="${db.driver}"
+                     url="${db.base.url}"
+                     userid="${db.oracleadmin.user}"
+                     password="${db.oracleadmin.pass}"
+                     autocommit="true"
+                     classpathref="files-classpath">
+                    create user ${db.username} identified by ${db.password};
+                    grant dba to ${db.username};
+                    grant connect,resource to ${db.username};
+                </sql>
+                <sql driver="${db.driver}"
+                     url="${db.base.url}"
+                     userid="${db.username}"
+                     password="${db.password}"
+                     autocommit="true"
+                     classpathref="files-classpath">
+                    CREATE OR REPLACE TRIGGER WORKAROUNDORA9965278 AFTER LOGON ON DATABASE BEGIN EXECUTE IMMEDIATE 'ALTER SESSION SET "_replace_virtual_columns"=false'; END;
+                </sql>
+            </then>
+            <elseif>
+                <equals arg1="${db.driver}" arg2="net.sourceforge.jtds.jdbc.Driver"/>
+                <then>
+                    <sql driver="${db.driver}"
+                         url="${db.admin.url}"
+                         userid="${db.username}"
+                         password="${db.password}"
+                         autocommit="true"
+                         classpathref="files-classpath">
+                        CREATE DATABASE ${db.name};
+                        ALTER DATABASE ${db.name} SET READ_COMMITTED_SNAPSHOT ON;
+                        ALTER DATABASE ${db.name} SET ALLOW_SNAPSHOT_ISOLATION ON;
+                    </sql>
+                </then>
+            </elseif>
+            <elseif>
+                <equals arg1="${db.driver}" arg2="com.mysql.jdbc.Driver"/>
+                <then>
+                    <sql driver="${db.driver}"
+                         url="${db.base.url}"
+                         userid="${db.username}"
+                         password="${db.password}"
+                         autocommit="true"
+                         classpathref="files-classpath">
+                        CREATE DATABASE ${db.name} DEFAULT CHARACTER SET = utf8 DEFAULT COLLATE = utf8_general_ci;
+                    </sql>
+                </then>
+            </elseif>
+            <elseif>
+                <equals arg1="${env.QA_DB}" arg2="PostgreSQL"/>
+                <then>
+                    <sql driver="${db.driver}"
+                         url="${db.base.url}"
+                         userid="${db.username}"
+                         password="${db.password}"
+                         autocommit="true"
+                         classpathref="files-classpath">
+                        CREATE DATABASE ${db.name};
+                    </sql>
+                </then>
+            </elseif>
+        </if>
+    </target>
+
+
+    <!-- Drops the test db. Attributes are defined in the build.properties file -->
+    <target name="drop-db" depends="set-environment">
+        <if>
+            <equals arg1="${db.driver}" arg2="oracle.jdbc.OracleDriver"/>
+            <then>
+                <sql driver="${db.driver}"
+                     url="${db.base.url}"
+                     userid="${db.oracleadmin.user}"
+                     password="${db.oracleadmin.pass}"
+                     autocommit="true" onerror="continue"
+                     classpathref="files-classpath">
+                    drop user ${db.username} cascade;
+                </sql>
+            </then>
+            <elseif>
+                <equals arg1="${db.driver}" arg2="net.sourceforge.jtds.jdbc.Driver"/>
+                <then>
+                    <sql driver="${db.driver}"
+                         url="${db.admin.url}"
+                         userid="${db.username}"
+                         password="${db.password}"
+                         autocommit="true" onerror="continue"
+                         classpathref="files-classpath">
+                        DROP DATABASE ${db.name};
+                    </sql>
+                </then>
+            </elseif>
+            <elseif>
+                <or>
+                    <equals arg1="${env.QA_DB}" arg2="PostgreSQL"/>
+                    <equals arg1="${db.driver}" arg2="com.mysql.jdbc.Driver"/>
+                </or>
+                <then>
+                    <sql driver="${db.driver}"
+                         url="${db.base.url}"
+                         userid="${db.username}"
+                         password="${db.password}"
+                         autocommit="true" onerror="continue"
+                         classpathref="files-classpath">
+                        DROP DATABASE IF EXISTS ${db.name};
+                    </sql>
+                </then>
+            </elseif>
+        </if>
+    </target>
+
+
+</project>

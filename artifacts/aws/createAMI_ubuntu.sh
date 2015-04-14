@@ -25,7 +25,7 @@ echo -e "session\trequired\tpam_limits.so" >> /etc/pam.d/common-session-noninter
 
 #install expected packages
 apt-get -y install telnet uuid xfsprogs git awscli xvfb firefox unzip
-apt-get -y install postgresql-9.3
+apt-get -y install postgresql-9.3 ant
 #mysql-server-5.6
 
 # Set timezone to central
