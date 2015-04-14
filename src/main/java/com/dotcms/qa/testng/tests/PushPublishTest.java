@@ -30,7 +30,6 @@ import com.dotcms.qa.selenium.pages.backend.ITemplateAddOrEditAdvanceTemplatePag
 import com.dotcms.qa.selenium.pages.backend.ITemplateAddOrEditDesignTemplatePage;
 import com.dotcms.qa.selenium.pages.backend.ITemplatesPage;
 import com.dotcms.qa.selenium.pages.backend.IUsersPage;
-import com.dotcms.qa.selenium.pages.backend.common.PreviewHTMLPage_Page;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.UsersPageUtil;
@@ -139,6 +138,10 @@ public class PushPublishTest {
 	//test 582
 	private String pageTitle6="Test-582";
 	private String pageUrl6="test-582.html";
+	//test 625
+	private String pageTitle7="Test-625";
+	private String pageUrl7="test-625.tml";
+	private String template625="Quest - 1 Column (With Content Padding)";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -359,11 +362,17 @@ public class PushPublishTest {
 				browserPage.archiveElement(pageUrl5);
 				browserPage.deletePage(pageUrl5);
 			}
-			
+
 			if(browserPage.doesElementExist(pageUrl6)){
 				browserPage.unPublishElement(pageUrl6);
 				browserPage.archiveElement(pageUrl6);
 				browserPage.deletePage(pageUrl6);
+			}
+			
+			if(browserPage.doesElementExist(pageUrl7)){
+				browserPage.unPublishElement(pageUrl7);
+				browserPage.archiveElement(pageUrl7);
+				browserPage.deletePage(pageUrl7);
 			}
 
 			if(browserPage.doesFolderExist(folderName1)){
@@ -479,13 +488,19 @@ public class PushPublishTest {
 				browserPage.archiveElement(pageUrl5);
 				browserPage.deletePage(pageUrl5);
 			}
-			
+
 			if(browserPage.doesElementExist(pageUrl6)){
 				browserPage.unPublishElement(pageUrl6);
 				browserPage.archiveElement(pageUrl6);
 				browserPage.deletePage(pageUrl6);
 			}
 
+			if(browserPage.doesElementExist(pageUrl7)){
+				browserPage.unPublishElement(pageUrl7);
+				browserPage.archiveElement(pageUrl7);
+				browserPage.deletePage(pageUrl7);
+			}
+			
 			if(browserPage.doesFolderExist(folderName1)){
 				browserPage.deleteFolder(folderName1);
 			}
@@ -1728,6 +1743,98 @@ public class PushPublishTest {
 		browserPage.archiveElement(pageUrl6);
 		browserPage.deletePage(pageUrl6);
 		Assert.assertFalse(browserPage.doesElementExist(pageUrl6), "ERROR - Receiver Server: Page ('"+pageUrl6+"') should not exist at this moment in receiver server.");
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Test pushshing an HTML Page with SAVED only content and Published content
+	 * http://qa.dotcms.com/index.php?/cases/view/625
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc625_PushHTMLPageWithSavedAndPublishContent() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(2);
+		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.createUnpublishHTMLPage(pageTitle7, template625, pageUrl7);
+
+		IPreviewHTMLPage_Page pagePreview = SeleniumPageManager.getBackEndPageManager().getPageObject(IPreviewHTMLPage_Page.class);
+		try{
+			if(pagePreview.isLocked()){
+				pagePreview.unLockPage();
+			}
+		}catch(Exception e){
+
+		}
+		pagePreview.selectEditModeView();
+
+		String containerName="Default 1 (Page Content)";
+		String content1="What We Do";
+		String containerInode = pagePreview.getContainerInode(containerName);
+		pagePreview.reuseContent(containerInode, content1,null);
+
+		// escape preview page
+		IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
+		portletMenu = sideMenu.gotoAdminScreen();
+
+		browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.pushElement(pageUrl7);
+		//push page
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isBundlePushed(pageTitle7,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+pageUrl7+") push should not be in pending list.");
+		logoutAuthoringServer();
+
+
+		//Connect to receiver server
+		portletMenu = callReceiverServer();
+		portletMenu.sleep(2);
+		browserPage= portletMenu.getSiteBrowserPage();
+		Assert.assertTrue(browserPage.doesElementExist(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+
+		Assert.assertFalse(browserPage.isElementPublish(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+
+		Assert.assertTrue(browserPage.isElementUnpublish(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+		logoutReceiverServer();
+
+		//connecting to authoring server
+		portletMenu = callAuthoringServer();
+		browserPage =portletMenu.getSiteBrowserPage();
+		browserPage.publishElement(pageUrl7);
+
+		browserPage.pushElement(pageUrl7);
+		//push page
+		publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the container was pushed
+		isPushed = publishingQueuePage.isBundlePushed(pageTitle7,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+pageUrl7+") push should not be in pending list.");
+
+		//Delete template and page in authoring
+		browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.unPublishElement(pageUrl7);
+		browserPage.archiveElement(pageUrl7);
+		browserPage.deletePage(pageUrl7);
+		Assert.assertFalse(browserPage.doesElementExist(pageUrl7), "ERROR - Authoring Server: Page ('"+pageUrl7+"') should not exist at this moment in authoring server.");
+		logoutAuthoringServer();
+
+		//Connect to receiver server
+		portletMenu = callReceiverServer();
+		portletMenu.sleep(2);
+		browserPage= portletMenu.getSiteBrowserPage();
+		Assert.assertTrue(browserPage.doesElementExist(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+
+		Assert.assertFalse(browserPage.isElementUnpublish(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+
+		Assert.assertTrue(browserPage.isElementPublish(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+
+		//Delete template and page in receiver
+		browserPage= portletMenu.getSiteBrowserPage();
+		browserPage.unPublishElement(pageUrl7);
+		browserPage.archiveElement(pageUrl7);
+		browserPage.deletePage(pageUrl7);
+		Assert.assertFalse(browserPage.doesElementExist(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 

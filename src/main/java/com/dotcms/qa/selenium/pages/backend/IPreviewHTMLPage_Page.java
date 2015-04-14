@@ -110,4 +110,12 @@ public interface IPreviewHTMLPage_Page extends IBasePage {
 	 * @throws Exception
 	 */
 	public void addToBundle(String bundleName) throws Exception;
+	
+	/**
+	 * Reuse a content in the specified container
+	 * @param containerInode Inode of container where the contentlet will be added
+	 * @param content HashMap with content info to add
+	 * @param language Language 
+	 */
+	public void reuseContent(String containerInode, String content, String language)   throws Exception;
 }

@@ -287,4 +287,41 @@ public class PreviewHTMLPage_Page extends BasePage implements IPreviewHTMLPage_P
 		getWebElement(By.id("addToBundleDia")).findElement(By.id("addToBundleSaveButton_label")).click();
 		returnToPageDefaultContent();
 	}
+	
+	/**
+	 * Reuse a content in the specified container
+	 * @param containerInode Inode of container where the contentlet will be added
+	 * @param content HashMap with content info to add
+	 * @param language Language
+	 */
+	public void reuseContent(String containerInode, String content, String language) throws Exception{
+		WebElement elem = getMainFrameElement("controlAnchor"+containerInode,WebKeys.BY_ID);
+		elem.click();
+		returnToPageDefaultContent();
+		getWebElement(By.id("control-"+containerInode)).findElement(By.cssSelector("span[class='dotReuseContent']")).findElement(By.tagName("a")).click();
+		
+		WebElement searchDialog = getWebElement(By.id("dijit_Dialog_1"));
+		searchDialog.findElement(By.id("webPageContent.titleField1")).clear();
+		searchDialog.findElement(By.id("webPageContent.titleField1")).sendKeys(content);
+		if(language != null){
+			searchDialog.findElement(By.id("langcombo+1")).sendKeys(language);
+			searchDialog.findElement(By.id("langcombo+1")).sendKeys(Keys.ENTER);
+		}
+		List<WebElement> buttons = searchDialog.findElement(By.className("buttonRow")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString("Search"))){
+				button.click();
+				break;
+			}
+		}
+		List<WebElement> results = getWebElement(By.id("dijit_layout_ContentPane_1")).findElement(By.cssSelector("table[class='listingTable']")).findElements(By.tagName("tr"));
+		for(WebElement row : results){
+			List<WebElement> columns = row.findElements(By.tagName("td"));
+			if(columns.get(2).getText().trim().equals(content)){
+				columns.get(0).findElement(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']")).click();
+				break;
+			}
+		}
+	}
+
 }

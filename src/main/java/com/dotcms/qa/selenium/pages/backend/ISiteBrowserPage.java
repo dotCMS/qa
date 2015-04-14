@@ -107,4 +107,29 @@ public interface ISiteBrowserPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public void editHTMLPageProperties(String pageUrl) throws Exception;
+	
+	/**
+	 * Create an unpublished page
+	 * @param title         Name of the page
+	 * @param templateName  Name of the template
+	 * @param url           Page url
+	 * @throws Exception
+	 */
+	public void createUnpublishHTMLPage(String title, String templateName,String url) throws Exception;
+	
+	/**
+	 * Validates if the page, link or file is unpublisehd
+	 * @param element Name of the element
+	 * @return boolean true ifis unpublish, false if not
+	 * @throws Exception
+	 */
+	public boolean isElementUnpublish(String element) throws Exception;
+	
+	/**
+	 * Validates if the page, link or file is publisehd
+	 * @param element Name of the element
+	 * @return boolean true ifis unpublish, false if not
+	 * @throws Exception
+	 */
+	public boolean isElementPublish(String element) throws Exception;
 }

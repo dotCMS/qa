@@ -196,6 +196,25 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		htmlAddPage.saveAndPublish();
 	}
 
+	/**
+	 * Create an unpublished page
+	 * @param title         Name of the page
+	 * @param templateName  Name of the template
+	 * @param url           Page url
+	 * @throws Exception
+	 */
+	public void createUnpublishHTMLPage(String title, String templateName,String url) throws Exception{
+		getWebElementClickable(By.id("addNewButton_arrow")).click();
+		WebElement addFolderButton = getWebElement(By.className("newPageIcon"));
+		addFolderButton.click();
+		IHTMLPageAddDialog htmlAddDlg = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddDialog.class);
+		htmlAddDlg.select();
+		IHTMLPageAddOrEdit_ContentPage htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_ContentPage.class);
+		htmlAddPage.setTitle(title);
+		htmlAddPage.setURL(url);
+		htmlAddPage.setTemplate(templateName);
+		htmlAddPage.save();
+	}
 
 	/**
 	 * Click the push publish option from the right click menu options
@@ -359,7 +378,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 				// Move on to next span and keep going
 			}
 		}
-		
+
 		return desiredFolderSpan;
 	}
 
@@ -390,7 +409,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		}
 		return exist;
 	}
-	
+
 	/**
 	 * Open the element in the right side of the site browser portlet and select the edit page properties
 	 * @param pageUrl Page Url
@@ -405,5 +424,57 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Validates if the page, link or file is unpublisehd
+	 * @param element Name of the element
+	 * @return boolean true if its unpublish, false if not
+	 * @throws Exception
+	 */
+	public boolean isElementUnpublish(String element) throws Exception{
+		boolean isUnpublish=false;
+		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		for(WebElement elem : elements){
+			if(elem.getText().equals(element)){
+				String id= elem.getAttribute("id").replace("-NameSPAN", "");
+				try{
+					WebElement status = getWebElement(By.id("rightContentPane")).findElement(By.id(id+"-StatusTD")).findElement(By.cssSelector("span[class='workingIcon']"));
+					if(status != null){
+						isUnpublish=true;
+						break;
+					}
+				}catch(Exception e){
+					logger.debug("Element not unpublished");
+				}
+			}
+		}
+		return isUnpublish;
+	}
+
+	/**
+	 * Validates if the page, link or file is publisehd
+	 * @param element Name of the element
+	 * @return boolean true if its publish, false if not
+	 * @throws Exception
+	 */
+	public boolean isElementPublish(String element) throws Exception{
+		boolean isPublish=false;
+		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		for(WebElement elem : elements){
+			if(elem.getText().equals(element)){
+				String id= elem.getAttribute("id").replace("-NameSPAN", "");
+				try{
+					WebElement status = getWebElement(By.id("rightContentPane")).findElement(By.id(id+"-StatusTD")).findElement(By.cssSelector("span[class='liveIcon']"));
+					if(status != null){
+						isPublish=true;
+						break;
+					}
+				}catch(Exception e){
+					logger.debug("Element not published");
+				}
+			}
+		}
+		return isPublish;
 	}
 }
