@@ -64,4 +64,11 @@ public interface IPortletMenu extends IBasePage {
 	
 	public WebElement getPortletElement(String portletTextKey);
 	
+	/**
+	 * Get the Menu links manager page
+	 * @return IMenuLinkPage
+	 * @throws Exception
+	 */
+	public IMenuLinkPage getMenuLinkPage() throws Exception;
+	
 }
