@@ -46,4 +46,12 @@ public interface IMenuLinkPage extends IBasePage{
 	 * @throws Exception
 	 */
 	public IMenuLinkAddOrEdit_Page editLink(String linkTitle) throws Exception;
+	
+	/**
+	 * Add the menu link to a particular bundle 
+	 * @param linkName   Name of the link
+	 * @param bundleName      Name of the bundle
+	 * @throws Exception
+	 */
+	public void addToBundle(String linkName, String bundleName) throws Exception;
 }

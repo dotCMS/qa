@@ -154,6 +154,30 @@ public class PushPublishTest {
 	private boolean linkShowOnMenu1=true;
 	//test 574
 	private String linkExternalUrl1="www.dotcms.com";
+	//test 575
+	private String linkTitle2="Test-575";
+	private String linkFolder2="services";
+	private String linkCode2="<a href='http://www.google.com'>Google</a>";
+	private int linkOrder2=1;
+	private boolean linkShowOnMenu2=true;
+	//test 575
+	private String linkCode22="<a href='http://www.google.com'>Google</a><a href='http://www.dotcms.com'>DotCMS</a>";
+	private boolean linkShowOnMenu22=false;
+	//test 
+	private String linkTitle3="Test-589A";
+	private String linkFolder3="services";
+	private String linkInternalHost3="qademo.dotcms.com";
+	private String linkInternalFolder3="about-us"; 
+	private String linkInternalUrl3="what-we-do.html";
+	private int linkOrder3=1;
+	private boolean linkShowOnMenu3=true;
+
+	private String linkTitle4="Test-589B";
+	private String linkFolder4="services";
+	private String linkCode4="<a href='http://www.google.com'>Google</a>";
+	private int linkOrder4=1;
+	private boolean linkShowOnMenu4=true;
+
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -440,11 +464,23 @@ public class PushPublishTest {
 			if(containersPage.existContainer(containerTitle4)){
 				containersPage.deleteContainer(containerTitle4);
 			}
-			
+
 			/* Delete Menu link*/
 			IMenuLinkPage menuLinkPage= portletMenu.getMenuLinkPage();
 			if(menuLinkPage.doesLinkExist(linkTitle1)){
 				menuLinkPage.deleteLink(linkTitle1);
+			}
+
+			if(menuLinkPage.doesLinkExist(linkTitle2)){
+				menuLinkPage.deleteLink(linkTitle2);
+			}
+
+			if(menuLinkPage.doesLinkExist(linkTitle3)){
+				menuLinkPage.deleteLink(linkTitle3);
+			}
+
+			if(menuLinkPage.doesLinkExist(linkTitle4)){
+				menuLinkPage.deleteLink(linkTitle4);
 			}
 
 			/* Delete structure*/
@@ -573,11 +609,23 @@ public class PushPublishTest {
 			if(containersPage.existContainer(containerTitle4)){
 				containersPage.deleteContainer(containerTitle4);
 			}
-			
+
 			/* Delete Menu link*/
 			IMenuLinkPage menuLinkPage= portletMenu.getMenuLinkPage();
 			if(menuLinkPage.doesLinkExist(linkTitle1)){
 				menuLinkPage.deleteLink(linkTitle1);
+			}
+
+			if(menuLinkPage.doesLinkExist(linkTitle2)){
+				menuLinkPage.deleteLink(linkTitle2);
+			}
+
+			if(menuLinkPage.doesLinkExist(linkTitle3)){
+				menuLinkPage.deleteLink(linkTitle3);
+			}
+
+			if(menuLinkPage.doesLinkExist(linkTitle4)){
+				menuLinkPage.deleteLink(linkTitle4);
 			}
 
 			/* Delete structure*/
@@ -1035,7 +1083,7 @@ public class PushPublishTest {
 
 		browserPage.pushElement(pageUrl1);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the page was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle1,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl1+"') push should not be in pending list.");
 
@@ -1094,14 +1142,10 @@ public class PushPublishTest {
 
 		templatesPage.pushTemplate(templateTitle2);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the template was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(templateTitle2,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+templateTitle2+"') push should not be in pending list.");
 
-		//delete template and page
-		//templatesPage= portletMenu.getTemplatesPage();
-		//templatesPage.deleteTemplate(templateTitle2);
-		//Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should not exist at this moment in receiver server.");
 		logoutAuthoringServer();
 
 		//Connect to receiver server
@@ -1109,9 +1153,6 @@ public class PushPublishTest {
 		templatesPage= portletMenu.getTemplatesPage();
 		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should exist at this moment in receiver server.");
 
-		//Delete template and page in receiver
-		//templatesPage.deleteTemplate(templateTitle2);
-		//Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 
 		//Second part of the test push a template as a page dependency
@@ -1141,7 +1182,7 @@ public class PushPublishTest {
 
 		browserPage.pushElement(pageUrl2);
 		publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the page was pushed
 		isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle2,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl2+"') push should not be in pending list.");
 
@@ -1189,7 +1230,7 @@ public class PushPublishTest {
 		IPortletMenu portletMenu = callAuthoringServer();
 		ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 
-		//Add a new Container
+		//Add a new template
 		templatesPage.editTemplate(templateTitle2);
 		ITemplateAddOrEditDesignTemplatePage designTemplate = SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditDesignTemplatePage.class);
 		designTemplate.addContainer(templateContainer22);
@@ -1199,7 +1240,7 @@ public class PushPublishTest {
 
 		templatesPage.pushTemplate(templateTitle2);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the template was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(templateTitle2,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+templateTitle2+"') push should not be in pending list.");
 		logoutAuthoringServer();
@@ -1263,7 +1304,7 @@ public class PushPublishTest {
 
 		browserPage.pushFolder(folderName1);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the folder was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(folderName1,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ('"+folderName1+"') push should not be in pending list.");
 
@@ -1333,7 +1374,7 @@ public class PushPublishTest {
 
 		templatesPage.pushTemplate(templateTitle5);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the template was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(templateTitle5,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+templateTitle5+"') push should not be in pending list.");
 		publishingQueuePage.sleep(3);
@@ -1349,7 +1390,7 @@ public class PushPublishTest {
 
 		templatesPage.pushTemplate(templateTitle6);
 		publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the template was pushed
 		isPushed = publishingQueuePage.isObjectBundlePushed(templateTitle6,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+templateTitle6+"') push should not be in pending list.");
 
@@ -1421,7 +1462,7 @@ public class PushPublishTest {
 
 		browserPage.pushElement(pageUrl4);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the page was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle4,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl4+"') push should not be in pending list.");
 		logoutAuthoringServer();
@@ -1466,7 +1507,7 @@ public class PushPublishTest {
 
 		browserPage.pushElement(pageUrl4);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the page was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle1,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl4+"') push should not be in pending list.");
 
@@ -1565,24 +1606,10 @@ public class PushPublishTest {
 
 		browserPage.pushElement(pageUrl5);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the page was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle5,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl5+"') push should not be in pending list.");
 
-		//delete pages
-		//browserPage= portletMenu.getSiteBrowserPage();
-		//browserPage.unPublishElement(pageUrl5);
-		//browserPage.archiveElement(pageUrl5);
-		//browserPage.deletePage(pageUrl5);
-		//Assert.assertFalse(browserPage.doesElementExist(pageUrl5), "ERROR - Authoring Server: Page ('"+pageUrl5+"') should not exist at this moment in authoring server.");
-
-		//templatesPage = portletMenu.getTemplatesPage();
-		//templatesPage.deleteTemplate(templateTitle8);
-		//Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle8), "ERROR - Authoring Server: Template ('"+templateTitle8+"') should not exist at this moment in authoring server.");
-
-		//containersPage = portletMenu.getContainersPage();
-		//containersPage.deleteContainer(containerTitle4);
-		//Assert.assertFalse(containersPage.existContainer(containerTitle4), "ERROR - Authoring Server: Container ('"+containerTitle4+"') should not exist at this moment in authoring server.");
 		logoutAuthoringServer();
 
 		//Connect to receiver server
@@ -1597,20 +1624,6 @@ public class PushPublishTest {
 		containersPage = portletMenu.getContainersPage();
 		Assert.assertTrue(containersPage.existContainer(containerTitle4), "ERROR - Authoring Server: Container ('"+containerTitle4+"') should not exist at this moment in authoring server.");
 
-		//Delete template and page in receiver
-		//browserPage= portletMenu.getSiteBrowserPage();
-		//browserPage.unPublishElement(pageUrl5);
-		//browserPage.archiveElement(pageUrl5);
-		//browserPage.deletePage(pageUrl5);
-		//Assert.assertFalse(browserPage.doesElementExist(pageUrl5), "ERROR - Receiver Server: Page ('"+pageUrl5+"') should not exist at this moment in receiver server.");
-
-		//templatesPage = portletMenu.getTemplatesPage();
-		//templatesPage.deleteTemplate(templateTitle8);
-		//Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle8), "ERROR - Receiver Server: Template ('"+templateTitle8+"') should not exist at this moment in receiver server.");
-
-		//containersPage = portletMenu.getContainersPage();
-		//containersPage.deleteContainer(containerTitle4);
-		//Assert.assertFalse(containersPage.existContainer(containerTitle4), "ERROR - Receiver Server: Container ('"+containerTitle4+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -1639,7 +1652,7 @@ public class PushPublishTest {
 		browserPage= portletMenu.getSiteBrowserPage();
 		browserPage.pushElement(pageUrl5);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the page was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle52,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl5+"') push should not be in pending list.");
 
@@ -1688,7 +1701,7 @@ public class PushPublishTest {
 
 		browserPage.pushElement(pageUrl5);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the page was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle53,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl5+"') push should not be in pending list.");
 		publishingQueuePage.sleep(2);
@@ -1749,7 +1762,7 @@ public class PushPublishTest {
 		publishingQueuePage.getBundlesTab();
 		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
 
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the page was pushed
 		boolean isPushed = publishingQueuePage.isBundlePushed(authoringServerBundleId,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+pageUrl6+") push should not be in pending list.");
 		logoutAuthoringServer();
@@ -1771,7 +1784,7 @@ public class PushPublishTest {
 	}
 
 	/**
-	 * Test pushshing an HTML Page with SAVED only content and Published content
+	 * Test pushing an HTML Page with SAVED only content and Published content
 	 * http://qa.dotcms.com/index.php?/cases/view/625
 	 * @throws Exception
 	 */
@@ -1806,7 +1819,7 @@ public class PushPublishTest {
 		browserPage.pushElement(pageUrl7);
 		//push page
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the page was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle7,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+pageUrl7+") push should not be in pending list.");
 		logoutAuthoringServer();
@@ -1885,26 +1898,26 @@ public class PushPublishTest {
 		editPage.setLinkOrder(linkOrder1);
 		editPage.setLinkShowOnMenu(linkShowOnMenu1);
 		editPage.setLinkInternalCode(linkInternalHost1, linkInternalFolder1, linkInternalUrl1);
-		menuLinkPage = editPage.saveAndPublish();
-
+		editPage.saveAndPublish();
+		menuLinkPage= portletMenu.getMenuLinkPage();
 		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
 
 		menuLinkPage.pushLink(linkTitle1);
-		//push page
+		//push link
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the link was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(linkTitle1,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+linkTitle1+") push should not be in pending list.");
 		logoutAuthoringServer();
 
 		//Calling receiver server
-		portletMenu = callAuthoringServer();
+		portletMenu = callReceiverServer();
 		menuLinkPage= portletMenu.getMenuLinkPage();
 
 		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
-	
+
 	/**
 	 *Edit and push menu link to update menu link on remote server 
 	 * http://qa.dotcms.com/index.php?/cases/view/574
@@ -1922,28 +1935,207 @@ public class PushPublishTest {
 		editPage.setLinkTarget(IMenuLinkAddOrEdit_Page.NEW_TARGET);
 		editPage.setLinkShowOnMenu(linkShowOnMenu1);
 		editPage.setLinkExternalCode(IMenuLinkAddOrEdit_Page.HTTP_PROTOCOL, linkExternalUrl1);
-		menuLinkPage = editPage.saveAndPublish();
-
+		editPage.saveAndPublish();
+		menuLinkPage= portletMenu.getMenuLinkPage();
 		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
 
 		menuLinkPage.pushLink(linkTitle1);
-		//push page
+		//push link
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
-		//wait until 5 minutes to check if the container was pushed
+		//wait until 5 minutes to check if the link was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(linkTitle1,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+linkTitle1+") push should not be in pending list.");
+
+		//delete Link
+		menuLinkPage= portletMenu.getMenuLinkPage();
+		menuLinkPage.deleteLink(linkTitle1);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
+
 		logoutAuthoringServer();
 
 		//Calling receiver server
-		portletMenu = callAuthoringServer();
+		portletMenu = callReceiverServer();
 		menuLinkPage= portletMenu.getMenuLinkPage();
 		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in receiver server.");
-		
+
 		editPage = menuLinkPage.editLink(linkTitle1);
 		Assert.assertTrue(editPage.getLinkType().equals(IMenuLinkAddOrEdit_Page.EXTERNAL_LINK), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') type doesn't match in authoring and receiver servers.");
 		Assert.assertTrue(editPage.getLinkTarget().equals(IMenuLinkAddOrEdit_Page.NEW_TARGET), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') target doesn't match in authoring and receiver servers.");
 		Assert.assertTrue(editPage.getLinkExternalCode().equals(IMenuLinkAddOrEdit_Page.HTTP_PROTOCOL+linkExternalUrl1), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') external link doesn't match in authoring and receiver servers.");
 		editPage.cancel();
+
+		//delete Link
+		menuLinkPage= portletMenu.getMenuLinkPage();
+		menuLinkPage.deleteLink(linkTitle1);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Receiver Server: Menu Link ('"+linkTitle3+"') should not exist at this moment in receiver server.");
+
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Push menu link as limited user
+	 * http://qa.dotcms.com/index.php?/cases/view/575
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc575_PushAMenuLinkAsLimitedUser() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		portletMenu.sleep(2);
+		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
+		IMenuLinkAddOrEdit_Page editPage = browserPage.addMenuLinkInFolder(linkFolder2);
+		editPage.setLinkTitle(linkTitle2); 
+		editPage.setLinkType(IMenuLinkAddOrEdit_Page.CODE_LINK);
+		editPage.setLinkOrder(linkOrder2);
+		editPage.setLinkShowOnMenu(linkShowOnMenu2);
+		editPage.setLinkCode(linkCode2);
+		editPage.save();
+
+		browserPage = portletMenu.getSiteBrowserPage();
+		browserPage.selectFolder(linkFolder2);
+		Assert.assertTrue(browserPage.doesElementExist(linkTitle2), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
+
+		browserPage.pushElement(linkTitle2);
+		//push link
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the link was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(linkTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+linkTitle2+") push should not be in pending list.");
+		logoutAuthoringServer();
+
+		//Calling receiver server
+		portletMenu = callReceiverServer();
+		IMenuLinkPage menuLinkPage= portletMenu.getMenuLinkPage();
+
+		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle2), "ERROR - Receiver Server: Menu Link ('"+linkTitle2+"') should not exist at this moment in receiver server.");
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Edit existing menu link and push/update remote server as limited user
+	 * http://qa.dotcms.com/index.php?/cases/view/576
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc576_EditMenuLinkAndPushAsLimitedUser() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		portletMenu.sleep(2);
+		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
+		browserPage.selectFolder(linkFolder2);
+		IMenuLinkAddOrEdit_Page editPage = browserPage.editMenuLink(linkTitle2);
+		editPage.setLinkShowOnMenu(linkShowOnMenu22);
+		editPage.setLinkCode(linkCode22);
+		editPage.save();
+
+		browserPage = portletMenu.getSiteBrowserPage();
+		browserPage.selectFolder(linkFolder2);
+		Assert.assertTrue(browserPage.doesElementExist(linkTitle2), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
+
+		browserPage.pushElement(linkTitle2);
+		//push link
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the link was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(linkTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+linkTitle2+") push should not be in pending list.");
+		logoutAuthoringServer();
+
+		//call Authoring server
+		portletMenu = callAuthoringServer();
+		IMenuLinkPage menuLinkPage = portletMenu.getMenuLinkPage();
+		
+		//delete link
+		menuLinkPage.deleteLink(linkTitle2);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle2), "ERROR - Authoring Server: Menu Link ('"+linkTitle2+"') should not exist at this moment in authorin server.");
+		logoutAuthoringServer();		
+
+		//Calling receiver server
+		portletMenu = callReceiverServer();
+		menuLinkPage= portletMenu.getMenuLinkPage();
+
+		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle2), "ERROR - Receiver Server: Menu Link ('"+linkTitle2+"') should exist at this moment in receiver server.");
+
+		editPage = menuLinkPage.editLink(linkTitle2);
+		Assert.assertTrue(editPage.getLinkType().equals(IMenuLinkAddOrEdit_Page.CODE_LINK), "ERROR - Receiver Server: Menu Link ('"+linkTitle2+"') type doesn't match in authoring and receiver servers.");
+		Assert.assertTrue(editPage.getLinkCode().equals(linkCode22), "ERROR - Receiver Server: Menu Link ('"+linkTitle2+"') external link doesn't match in authoring and receiver servers.");
+		editPage.cancel();
+
+		//delete link
+		menuLinkPage= portletMenu.getMenuLinkPage();
+		menuLinkPage.deleteLink(linkTitle2);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle2), "ERROR - Receiver Server: Menu Link ('"+linkTitle2+"') should not exist at this moment in receiver server.");
+
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Add a menu link to a bundle and push
+	 * http://qa.dotcms.com/index.php?/cases/view/589
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc589_PushAMenuLinkInBundle() throws Exception {
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(2);
+		IMenuLinkPage menuLinkPage = portletMenu.getMenuLinkPage();
+		IMenuLinkAddOrEdit_Page editPage = menuLinkPage.addLink();
+		editPage.setLinkTitle(linkTitle3); 
+		editPage.setLinkFolder(linkFolder3);
+		editPage.setLinkType(IMenuLinkAddOrEdit_Page.INTERNAL_LINK);
+		editPage.setLinkTarget(IMenuLinkAddOrEdit_Page.SAME_TARGET);
+		editPage.setLinkOrder(linkOrder3);
+		editPage.setLinkShowOnMenu(linkShowOnMenu3);
+		editPage.setLinkInternalCode(linkInternalHost3, linkInternalFolder3, linkInternalUrl3);
+		editPage.saveAndPublish();
+		portletMenu.sleep(2);
+		menuLinkPage = portletMenu.getMenuLinkPage();
+		String bundleName = "test589";
+		menuLinkPage.addToBundle(linkTitle3,bundleName);
+
+		editPage = menuLinkPage.addLink();
+		editPage.setLinkTitle(linkTitle4); 
+		editPage.setLinkFolder(linkFolder4);
+		editPage.setLinkType(IMenuLinkAddOrEdit_Page.CODE_LINK);
+		editPage.setLinkOrder(linkOrder4);
+		editPage.setLinkShowOnMenu(linkShowOnMenu4);
+		editPage.setLinkCode(linkCode4);
+		editPage.saveAndPublish();
+
+		menuLinkPage = portletMenu.getMenuLinkPage();
+		menuLinkPage.addToBundle(linkTitle4, bundleName);
+
+		//push bundle
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		publishingQueuePage.getBundlesTab();
+		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
+
+		//wait until 5 minutes to check if the bundle was pushed
+		boolean isPushed = publishingQueuePage.isBundlePushed(authoringServerBundleId,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu Link push should not be in pending list.");
+
+		//delete link
+		menuLinkPage= portletMenu.getMenuLinkPage();
+		menuLinkPage.deleteLink(linkTitle3);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle3), "ERROR - Receiver Server: Menu Link ('"+linkTitle3+"') should not exist at this moment in receiver server.");
+		menuLinkPage.deleteLink(linkTitle4);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle4), "ERROR - Receiver Server: Menu Link ('"+linkTitle4+"') should not exist at this moment in receiver server.");
+
+		logoutAuthoringServer();
+
+		//Calling receiver server
+		portletMenu = callReceiverServer();
+		menuLinkPage= portletMenu.getMenuLinkPage();
+
+		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle3), "ERROR - Receiver Server: Menu Link ('"+linkTitle3+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle4), "ERROR - Receiver Server: Menu Link ('"+linkTitle4+"') should  exist at this moment in receiver server.");
+
+		//delete Link
+		menuLinkPage.deleteLink(linkTitle3);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle3), "ERROR - Receiver Server: Menu Link ('"+linkTitle3+"') should not exist at this moment in receiver server.");
+		menuLinkPage.deleteLink(linkTitle4);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle4), "ERROR - Receiver Server: Menu Link ('"+linkTitle4+"') should not exist at this moment in receiver server.");
+
 		logoutReceiverServer();
 	}
 }

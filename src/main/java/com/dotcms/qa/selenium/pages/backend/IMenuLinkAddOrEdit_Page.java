@@ -153,19 +153,16 @@ public interface IMenuLinkAddOrEdit_Page extends IBasePage{
 	
 	/**
 	 * Click the save and publish button
-	 * @retun IMenuLinkPage
 	 */
-	public IMenuLinkPage saveAndPublish() throws Exception;
+	public void saveAndPublish() throws Exception;
 	
 	/**
 	 * Click the save button
-	 * @return IMenuLinkPage
 	 */
-	public IMenuLinkPage save() throws Exception;
+	public void save() throws Exception;
 	
 	/**
 	 * Click the cancel button
-	 * @return IMenuLinkPage
 	 */
-	public IMenuLinkPage cancel() throws Exception;
+	public void cancel() throws Exception;
 }

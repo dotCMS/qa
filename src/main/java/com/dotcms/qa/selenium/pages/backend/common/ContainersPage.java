@@ -55,6 +55,7 @@ public class ContainersPage extends BasePage implements IContainersPage {
 		WebElement containerRow = findContainerRow(containerName);
 		List<WebElement> columns = containerRow.findElements(By.tagName("td"));
 		selectRightClickPopupMenuOption(columns.get(1),getLocalizedString("Add-To-Bundle"));
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).clear();
 		getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).sendKeys(bundleName);
 		getWebElement(By.id("addToBundleDia")).findElement(By.id("addToBundleSaveButton_label")).click();
 

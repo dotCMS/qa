@@ -120,4 +120,20 @@ public class MenuLinkPage extends BasePage implements IMenuLinkPage{
 		columns.get(1).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMenuLinkAddOrEdit_Page.class);
 	}
+	
+	/**
+	 * Add the menu link to a particular bundle 
+	 * @param linkName   Name of the link
+	 * @param bundleName      Name of the bundle
+	 * @throws Exception
+	 */
+	public void addToBundle(String linkName, String bundleName) throws Exception{
+		WebElement linkRow = findLinkRow(linkName);
+		List<WebElement> columns = linkRow.findElements(By.tagName("td"));
+		selectRightClickPopupMenuOption(columns.get(1),getLocalizedString("Add-To-Bundle"));
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).clear();
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).sendKeys(bundleName);
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("addToBundleSaveButton_label")).click();
+
+	}
 }

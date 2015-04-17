@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import com.dotcms.qa.selenium.pages.backend.IFolderAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddDialog;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
+import com.dotcms.qa.selenium.pages.backend.IMenuLinkAddOrEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IPreviewHTMLPage_Page;
 import com.dotcms.qa.selenium.pages.backend.ISiteBrowserPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
@@ -64,43 +65,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	}
 
 	public void selectFolder(String folderName) throws Exception {
-		WebElement treeChildrenULTopLevel = null;
-		sleep(1);
-		List<WebElement> uls = TreeUL.findElements(By.tagName("ul"));
-		for(WebElement ul : uls) {
-			try {
-				if(ul.getAttribute("id").trim().endsWith("TreeChildrenUL")) {
-					treeChildrenULTopLevel = ul;
-					break;
-				}
-			}
-			catch(Exception e) {
-				logger.error("Unexpected error attempting to iterate over uls", e);
-				// Move on to next ul and keep going
-			}
-		}
-
-		if(treeChildrenULTopLevel == null)
-			throw new Exception("Unable to find treeChildrenULTopLevel");
-
-		WebElement desiredFolderSpan = null;
-		List<WebElement> spans = TreeUL.findElements(By.tagName("span"));
-		for(WebElement span : spans) {
-			try {
-				if(span.getAttribute("id").trim().endsWith("TreeFolderName")  && span.getText().trim().equals(folderName)) {
-					desiredFolderSpan = span;
-					break;
-				}
-			}
-			catch(Exception e) {
-				logger.error("Unexpected error attempting to iterate over spans", e);
-				// Move on to next span and keep going
-			}
-		}
-
-		if(desiredFolderSpan == null)
-			throw new Exception("Unable to find desired folder span");
-
+		WebElement desiredFolderSpan = findFolder(folderName);
 		desiredFolderSpan.click();
 	}
 
@@ -476,5 +441,84 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 			}
 		}
 		return isPublish;
+	}
+
+	/**
+	 * Open the add new menu link in the selected folder using the right click New option
+	 * @param folderName       Folder name
+	 * @throws Exception
+	 */
+	public IMenuLinkAddOrEdit_Page addMenuLinkInFolder(String folderName) throws Exception{
+		WebElement folder = findFolder(folderName);
+		selectRightClickPopupMenuAction(folder, getLocalizedString("new"));
+		WebElement popupDiv = getWebElement(By.id("popups"));
+		selectPopupMenuOption(popupDiv, getLocalizedString("Menu-Link"));
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMenuLinkAddOrEdit_Page.class);
+
+	}
+
+	/**
+	 * Get the folder span
+	 * @param folderName Folder name
+	 * @return WebElement
+	 * @throws Exception
+	 */
+	private WebElement findFolder(String folderName) throws Exception{
+		WebElement treeChildrenULTopLevel = null;
+		sleep(1);
+		List<WebElement> uls = TreeUL.findElements(By.tagName("ul"));
+		for(WebElement ul : uls) {
+			try {
+				if(ul.getAttribute("id").trim().endsWith("TreeChildrenUL")) {
+					treeChildrenULTopLevel = ul;
+					break;
+				}
+			}
+			catch(Exception e) {
+				logger.error("Unexpected error attempting to iterate over uls", e);
+				// Move on to next ul and keep going
+			}
+		}
+
+		if(treeChildrenULTopLevel == null)
+			throw new Exception("Unable to find treeChildrenULTopLevel");
+
+		WebElement desiredFolderSpan = null;
+		List<WebElement> spans = TreeUL.findElements(By.tagName("span"));
+		for(WebElement span : spans) {
+			try {
+				if(span.getAttribute("id").trim().endsWith("TreeFolderName")  && span.getText().trim().equals(folderName)) {
+					desiredFolderSpan = span;
+					break;
+				}
+			}
+			catch(Exception e) {
+				logger.error("Unexpected error attempting to iterate over spans", e);
+				// Move on to next span and keep going
+			}
+		}
+
+		if(desiredFolderSpan == null)
+			throw new Exception("Unable to find desired folder span");
+
+		return desiredFolderSpan;
+	}
+	
+	/**
+	 * Open the edit mode for the specified Menu link
+	 * @param linkName   Link Name
+	 * @return IMenuLinkAddOrEdit_Page
+	 * @throws Exception
+	 */
+	public IMenuLinkAddOrEdit_Page editMenuLink(String linkName) throws Exception{
+		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		for(WebElement elem : elements){
+			if(elem.getText().equals(linkName)){
+				this.selectPopupMenuOption(elem, getLocalizedString("Edit"));
+				//doubleClickElement(elem);
+				break;
+			}
+		}
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMenuLinkAddOrEdit_Page.class);
 	}
 }

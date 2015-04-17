@@ -64,20 +64,30 @@ public class MenuLinkAddOrEdit_Page extends BasePage implements IMenuLinkAddOrEd
 	 * @throws Exception
 	 */
 	public void setLinkFolder(String folderName) throws Exception{
+		boolean folderFound=false;
 		WebElement folderSearch = getWebElement(By.id("folder-hostFolderSelect"));
 		folderSearch.clear();
 		folderSearch.sendKeys(folderName);
+		sleep(2);
 		List<WebElement> expandFolders = getWebElement(By.id("folder-hostFoldersTreeWrapper")).findElements(By.cssSelector("img[class='dijitTreeExpando dijitTreeExpandoClosed']"));
 		for(WebElement plus : expandFolders){
-			plus.click();
+			if(plus.isDisplayed()){
+				plus.click();
+			}
 		}
+		sleep(2);
 		List<WebElement> folders = getWebElement(By.id("folder-hostFoldersTreeWrapper")).findElements(By.cssSelector("span[class='dijitTreeLabel']")); 
 		for(WebElement folder : folders){
 			if(folder.getText().trim().equals(folderName)){
 				folder.click();
+				folderFound=true;
 				break;
 			}
 		}
+		
+		if(!folderFound)
+			throw new Exception("Unable to find desired folder");
+			
 	}
 
 	/**
@@ -320,9 +330,8 @@ public class MenuLinkAddOrEdit_Page extends BasePage implements IMenuLinkAddOrEd
 
 	/**
 	 * Click the save and publish button
-	 * @retun IMenuLinkPage
 	 */
-	public IMenuLinkPage saveAndPublish() throws Exception{
+	public void saveAndPublish() throws Exception{
 		List<WebElement> buttons = getWebElement(By.id("editLinkButtonRow")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement button : buttons){
 			if(button.getText().equals(getLocalizedString("save-and-publish"))){
@@ -330,14 +339,12 @@ public class MenuLinkAddOrEdit_Page extends BasePage implements IMenuLinkAddOrEd
 				break;
 			}
 		}
-		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMenuLinkPage.class);
 	}
 
 	/**
 	 * Click the save button
-	 * @return IMenuLinkPage
 	 */
-	public IMenuLinkPage save() throws Exception{
+	public void save() throws Exception{
 		List<WebElement> buttons = getWebElement(By.id("editLinkButtonRow")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement button : buttons){
 			if(button.getText().equals(getLocalizedString("Save"))){
@@ -345,14 +352,12 @@ public class MenuLinkAddOrEdit_Page extends BasePage implements IMenuLinkAddOrEd
 				break;
 			}
 		}
-		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMenuLinkPage.class);
 	}
 
 	/**
 	 * Click the cancel button
-	 * @return IMenuLinkPage
 	 */
-	public IMenuLinkPage cancel() throws Exception{
+	public void cancel() throws Exception{
 		List<WebElement> buttons = getWebElement(By.id("editLinkButtonRow")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement button : buttons){
 			if(button.getText().equals(getLocalizedString("Cancel"))){
@@ -360,6 +365,5 @@ public class MenuLinkAddOrEdit_Page extends BasePage implements IMenuLinkAddOrEd
 				break;
 			}
 		}
-		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMenuLinkPage.class);
 	}	
 }

@@ -132,4 +132,19 @@ public interface ISiteBrowserPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public boolean isElementPublish(String element) throws Exception;
+	
+	/**
+	 * Open the add new menu link in the selected folder using the right click New option
+	 * @param folderName       Folder name
+	 * @throws Exception
+	 */
+	public IMenuLinkAddOrEdit_Page addMenuLinkInFolder(String folderName) throws Exception;
+	
+	/**
+	 * Open the edit mode for the specified Menu link
+	 * @param linkName   Link Name
+	 * @return IMenuLinkAddOrEdit_Page
+	 * @throws Exception
+	 */
+	public IMenuLinkAddOrEdit_Page editMenuLink(String linkName) throws Exception;
 }
