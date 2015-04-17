@@ -34,7 +34,6 @@
         </if>               
 
         <property environment="env"/>
-        <copy file="./artifacts/aws/database/context.xml" todir="${env.QA_TomcatFolder}/webapps/ROOT/META-INF" overwrite="true" />
 
         <property file="./artifacts/aws/database/${env.QA_DB}.properties" />
         
@@ -50,13 +49,33 @@
             </fileset>
         </path>
         
-        <replace file="${env.QA_TomcatFolder}/webapps/ROOT/META-INF/context.xml">
-            <replacefilter token="{driver}" value="${db.driver}"/>
-            <replacefilter token="{url}" value="${db.url}"/>
-            <replacefilter token="{username}" value="${db.username}"/>
-            <replacefilter token="{password}" value="${db.password}"/>
-            <replacefilter token="{valquery}" value="${db.valquery}"/>
-        </replace>
+    </target>
+
+
+    <target name ="create-context-xml" depends="set-environment">
+        <if>
+            <or>
+                <equals arg1="${env.QA_DB}" arg2="PostgreSQL"/>
+                <equals arg1="${env.QA_DB}" arg2="MySQL"/>
+                <equals arg1="${env.QA_DB}" arg2="MSSQL"/>
+                <equals arg1="${env.QA_DB}" arg2="Oracle"/>
+            </or>
+            <then>
+                <copy file="./artifacts/aws/database/context.xml" todir="${env.QA_TomcatFolder}/webapps/ROOT/META-INF" overwrite="true" />
+
+                <replace file="${env.QA_TomcatFolder}/webapps/ROOT/META-INF/context.xml">
+                    <replacefilter token="{driver}" value="${db.driver}"/>
+                    <replacefilter token="{url}" value="${db.url}"/>
+                    <replacefilter token="{username}" value="${db.username}"/>
+                    <replacefilter token="{password}" value="${db.password}"/>
+                    <replacefilter token="{valquery}" value="${db.valquery}"/>
+                </replace>
+            </then>
+            <else>
+                <echo message="ERROR: QA_DB environment variable not set to known value - not creating context.xml file." />
+            </else>
+        </if>
+
     </target>
 
 
@@ -173,6 +192,4 @@
             </elseif>
         </if>
     </target>
-
-
 </project>

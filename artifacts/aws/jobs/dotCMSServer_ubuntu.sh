@@ -34,37 +34,6 @@ aws s3 cp ./ip.txt ${QA_SERVER_IP_URL}
 echo "Initializing" > status.txt
 aws s3 cp ./status.txt ${QA_SERVER_STATUS_URL}
 
-echo 'Pulling down and extracting dotCMS build'
-mkdir ${WORKSPACE}/downloads
-wget -q -O ./downloads/dotcms.targz $DOTCMS_TAR_GZ_URL
-sudo mkdir -p ${WORKSPACE}/dotcms
-sudo chown -R ubuntu:ubuntu ${WORKSPACE}/dotcms
-pushd ${WORKSPACE}/dotcms
-tar -xvf ${WORKSPACE}/downloads/dotcms.targz > /dev/null
-
-echo 'Pulling down and replacing starter'
-aws s3 cp ${QA_StarterURL} ${QA_StarterFullFilePath}
-
-echo 'Setting index pages to legacy setting'
-sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/classes/dotmarketing-config.properties
-
-echo 'Starting dotCMS'
-echo "Starting dotCMS" > status.txt
-aws s3 cp ./status.txt ${QA_SERVER_STATUS_URL}
-
-bin/startup.sh
-sleep 30
-logcount=`grep -c "org.apache.catalina.startup.Catalina start" ${QA_TomcatLogFile}`
-echo "logcount=${logcount}"
-while [ $logcount -lt 1 ]
-do
-	echo "sleeping..."
-	sleep 10
-	logcount=`grep -c "org.apache.catalina.startup.Catalina start" ${QA_TomcatLogFile}`
-done
-echo "logcount=$logcount"
-popd
-
 echo 'Adding ssh keys'
 aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa /home/ubuntu/.ssh/dotcmsqa
 chmod 600 /home/ubuntu/.ssh/dotcmsqa
@@ -83,6 +52,45 @@ git clone git@github.com:dotCMS/qa.git
 echo "Checking out master-${DOTCMS_VERSION} branch"
 cd qa
 git checkout master-${DOTCMS_VERSION}
+cd ${WORKSPACE}
+
+echo 'Pulling down and extracting dotCMS build'
+mkdir ${WORKSPACE}/downloads
+wget -q -O ./downloads/dotcms.targz $DOTCMS_TAR_GZ_URL
+sudo mkdir -p ${WORKSPACE}/dotcms
+sudo chown -R ubuntu:ubuntu ${WORKSPACE}/dotcms
+pushd ${WORKSPACE}/dotcms
+tar -xvf ${WORKSPACE}/downloads/dotcms.targz > /dev/null
+
+echo 'Pulling down and replacing starter'
+aws s3 cp ${QA_StarterURL} ${QA_StarterFullFilePath}
+
+echo 'Setting index pages to legacy setting'
+sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/classes/dotmarketing-config.properties
+
+echo 'Creating and configuring DB'
+pushd qa
+ant create-db
+ant create-context-xml
+popd
+
+echo 'Starting dotCMS'
+echo "Starting dotCMS" > status.txt
+aws s3 cp ./status.txt ${QA_SERVER_STATUS_URL}
+
+bin/startup.sh
+sleep 30
+logcount=`grep -c "org.apache.catalina.startup.Catalina start" ${QA_TomcatLogFile}`
+echo "logcount=${logcount}"
+while [ $logcount -lt 1 ]
+do
+	echo "sleeping..."
+	sleep 10
+	logcount=`grep -c "org.apache.catalina.startup.Catalina start" ${QA_TomcatLogFile}`
+done
+echo "logcount=$logcount"
+popd
+
 
 echo 'Building and deploying qa_automation plugin'
 cd ${WORKSPACE}/qa/plugins/com.dotcms.rest.qa_automation
