@@ -69,7 +69,7 @@ echo 'Setting index pages to legacy setting'
 sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/classes/dotmarketing-config.properties
 
 echo 'Creating and configuring DB'
-pushd qa
+pushd ${WORKSPACE}/qa
 ant create-db
 ant create-context-xml
 popd
