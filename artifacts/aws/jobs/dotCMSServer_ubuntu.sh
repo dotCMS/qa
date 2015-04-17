@@ -36,8 +36,8 @@ aws s3 cp ./status.txt ${QA_SERVER_STATUS_URL}
 #echo "Host *">/home/ubuntu/.ssh/config
 #echo "    StrictHostKeyChecking no">>/home/ubuntu/.ssh/config
 
-#eval $(ssh-agent)
-#ssh-add /home/ubuntu/.ssh/dotcmsqa
+eval $(ssh-agent)
+ssh-add /home/ubuntu/.ssh/dotcmsqa
 
 echo 'Cloning qa repo'
 cd ${WORKSPACE}
