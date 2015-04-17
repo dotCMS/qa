@@ -17,12 +17,6 @@ export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
 echo 'Exporting display to use Xvfb service'
 export DISPLAY=:99
 
-echo 'Creating AWS credentials'
-mkdir /home/ubuntu/.aws
-echo '[default]' > /home/ubuntu/.aws/config
-echo 'region = us-east-1' >> /home/ubuntu/.aws/config
-echo 'aws_access_key_id = AKIAJB7GBDVDNTROV7LQ' >> /home/ubuntu/.aws/config
-echo 'aws_secret_access_key = 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' >> /home/ubuntu/.aws/config
 
 aws s3 cp ${QA_SERVER_IP_URL} ./ip.txt
 while [ ! -f ./ip.txt ]
@@ -58,17 +52,17 @@ fi
 echo '****************************************'
 cat /etc/hosts
 
-echo 'Adding ssh keys'
-aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa /home/ubuntu/.ssh/dotcmsqa
-chmod 600 /home/ubuntu/.ssh/dotcmsqa
-aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa.pub /home/ubuntu/.ssh/dotcmsqa.pub
-chmod 600 /home/ubuntu/.ssh/dotcmsqa.pub
+#echo 'Adding ssh keys'
+#aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa /home/ubuntu/.ssh/dotcmsqa
+#chmod 600 /home/ubuntu/.ssh/dotcmsqa
+#aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa.pub /home/ubuntu/.ssh/dotcmsqa.pub
+#chmod 600 /home/ubuntu/.ssh/dotcmsqa.pub
 
-echo "Host *">/home/ubuntu/.ssh/config
-echo "    StrictHostKeyChecking no">>/home/ubuntu/.ssh/config
+#echo "Host *">/home/ubuntu/.ssh/config
+#echo "    StrictHostKeyChecking no">>/home/ubuntu/.ssh/config
 
-eval $(ssh-agent)
-ssh-add /home/ubuntu/.ssh/dotcmsqa
+#eval $(ssh-agent)
+#ssh-add /home/ubuntu/.ssh/dotcmsqa
 
 echo 'Cloning qa repo'
 git clone git@github.com:dotCMS/qa.git
@@ -135,7 +129,6 @@ curl -I http://${DOTCMS_SERVER_IP}:8080/shutdown.jsp
 
 echo 'Cleaning up - preparing for another possible run'
 sudo cp -a /etc/hosts.backup /etc/hosts
-rm -rf /home/ubuntu/.aws
 rm ${QA_TestArtifactFilename}
 
 echo '********** END OF PART 3 **********'
