@@ -33,7 +33,7 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 	 */
 	public void getBundlesTab() throws Exception {
 		getWebElement(By.id("mainTabContainer_tablist_unpushedBundles")).click();
-
+		sleep(2);
 	}
 
 	/**
@@ -170,7 +170,7 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 		}
 		return results;
 	}
-	
+
 	/**
 	 * Delete all the entries in the history/status tab
 	 * @throws Exception
@@ -180,7 +180,7 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 		getWebElement(By.id("chkBoxAllAudits")).click();
 		getWebElement(By.id("deleteAuditsBtn")).click();
 	}
-	
+
 	/**
 	 * Verifies if in the pending tab the object(container, cotentlet,etc) bundle is still listed
 	 * @param elementTitle name of the containers,content,etc element pushed individually

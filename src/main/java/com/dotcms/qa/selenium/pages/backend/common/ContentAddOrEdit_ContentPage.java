@@ -221,7 +221,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 			}
 		}
 	}
-	
+
 	/**
 	 * This method validate if the add content didn't find the structure name.
 	 * Displaying the select structure dialog
@@ -253,7 +253,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 		input.sendKeys(Keys.RETURN);
 		this.switchToAlert().accept();
 	}
-	
+
 	/**
 	 * Check if the lock for editing button is present
 	 * @return true if the content is locked, false if not
@@ -261,7 +261,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	 */
 	public boolean isPresentContentLockButton() throws Exception{
 		boolean isShown = false;
-		
+
 		try{
 			WebElement lockButton = getWebElement(By.id("lockContentButton"));
 			if(lockButton.getAttribute("id") != null){
@@ -272,7 +272,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 		}
 		return isShown;
 	}
-	
+
 	/**
 	 * Click the lock for editing button
 	 * @throws Exception
@@ -280,12 +280,28 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	public void clickLockForEditingButton() throws Exception{
 		getWebElement(By.id("lockContentButton")).click();
 	}
-	
+
 	/**
 	 * Click the release lock button
 	 * @throws Exception
 	 */
 	public void clickReleaseLockButton() throws Exception{
 		getWebElement(By.id("unlockContentButton")).click();
+	}
+
+	/**
+	 * Click save button
+	 * @throws Exception
+	 */
+	public void save() throws Exception{
+		getWebElement(By.linkText(getLocalizedString("save"))).click();
+	}
+
+	/**
+	 * Click cancel button
+	 * @throws Exception
+	 */
+	public void cancel() throws Exception{
+		getWebElement(By.linkText(getLocalizedString("cancel"))).click();
 	}
 }

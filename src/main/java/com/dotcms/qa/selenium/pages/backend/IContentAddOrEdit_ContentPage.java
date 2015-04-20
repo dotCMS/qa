@@ -67,4 +67,16 @@ public interface IContentAddOrEdit_ContentPage extends IBasePage {
 	 */
 	public void clickReleaseLockButton() throws Exception;
 	
+	/**
+	 * Click save button
+	 * @throws Exception
+	 */
+	public void save() throws Exception;
+	
+	/**
+	 * Click cancel button
+	 * @throws Exception
+	 */
+	public void cancel() throws Exception;
+	
 }

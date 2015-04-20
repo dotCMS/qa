@@ -65,9 +65,10 @@ public class MenuLinkAddOrEdit_Page extends BasePage implements IMenuLinkAddOrEd
 	 */
 	public void setLinkFolder(String folderName) throws Exception{
 		boolean folderFound=false;
-		WebElement folderSearch = getWebElement(By.id("folder-hostFolderSelect"));
-		folderSearch.clear();
-		folderSearch.sendKeys(folderName);
+		//WebElement folderSearch = getWebElement(By.id("folder-hostFolderSelect"));
+		//folderSearch.clear();
+		//folderSearch.sendKeys(folderName);
+		getWebElement(By.cssSelector("div[id='folder']")).findElement(By.cssSelector("input[class='dijitReset dijitInputField dijitArrowButtonInner']")).click();
 		sleep(2);
 		List<WebElement> expandFolders = getWebElement(By.id("folder-hostFoldersTreeWrapper")).findElements(By.cssSelector("img[class='dijitTreeExpando dijitTreeExpandoClosed']"));
 		for(WebElement plus : expandFolders){
@@ -78,6 +79,7 @@ public class MenuLinkAddOrEdit_Page extends BasePage implements IMenuLinkAddOrEd
 		sleep(2);
 		List<WebElement> folders = getWebElement(By.id("folder-hostFoldersTreeWrapper")).findElements(By.cssSelector("span[class='dijitTreeLabel']")); 
 		for(WebElement folder : folders){
+			sleep(1);
 			if(folder.getText().trim().equals(folderName)){
 				folder.click();
 				folderFound=true;

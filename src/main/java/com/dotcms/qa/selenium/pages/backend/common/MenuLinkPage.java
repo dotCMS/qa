@@ -11,6 +11,7 @@ import com.dotcms.qa.selenium.pages.backend.IMenuLinkAddOrEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IMenuLinkPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.Evaluator;
 
 /**
  * This class implements the methods defined in the IMenuLinkPage interface
@@ -21,6 +22,8 @@ import com.dotcms.qa.selenium.util.SeleniumPageManager;
  */
 public class MenuLinkPage extends BasePage implements IMenuLinkPage{
 
+	private String linkName=null;
+	
 	public MenuLinkPage(WebDriver driver) {
 		super(driver);
 	}
@@ -31,7 +34,8 @@ public class MenuLinkPage extends BasePage implements IMenuLinkPage{
 	 * @throws Exception
 	 */
 	public IMenuLinkAddOrEdit_Page addLink() throws Exception{
-		List<WebElement> buttons = getWebElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		sleep(2);
+		List<WebElement> buttons = getWebElement(By.cssSelector("form[id='fm']")).findElement(By.cssSelector("div[class='yui-gc portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement button : buttons){
 			if(button.getText().trim().equals(getLocalizedString("add-link"))){
 				button.click();
@@ -49,12 +53,19 @@ public class MenuLinkPage extends BasePage implements IMenuLinkPage{
 	 * @throws Exception
 	 */
 	public boolean doesLinkExist(String linkTitle) throws Exception{
-		boolean found=false;
-		WebElement link = findLinkRow(linkTitle);
-		if(link != null){
-			found=true;
-		}
-		return found;
+		linkName = linkTitle;
+		Evaluator eval = new Evaluator() {
+			public boolean evaluate() throws Exception {  
+				boolean found=false;
+				reload();
+				WebElement link = findLinkRow(linkName);
+				if(link != null){
+					found=true;
+				}
+				return found;
+			}
+		};
+		return pollForValue(eval, true, 2000, 5);		
 	}
 
 	/**
@@ -105,7 +116,7 @@ public class MenuLinkPage extends BasePage implements IMenuLinkPage{
 		sleep(2);
 		getWebElement(By.id("deleteButton_label")).click();
 		switchToAlert().accept();
-		sleep(2);
+		sleep(3);
 	}
 	
 	/**

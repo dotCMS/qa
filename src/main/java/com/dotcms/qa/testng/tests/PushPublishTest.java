@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.AfterGroups;
 import org.testng.annotations.BeforeGroups;
@@ -15,6 +16,8 @@ import com.dotcms.qa.selenium.pages.backend.IBackendSideMenuPage;
 import com.dotcms.qa.selenium.pages.backend.IConfigurationPage;
 import com.dotcms.qa.selenium.pages.backend.IContainerAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IContainersPage;
+import com.dotcms.qa.selenium.pages.backend.IContentAddOrEdit_ContentPage;
+import com.dotcms.qa.selenium.pages.backend.IContentSearchPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
 import com.dotcms.qa.selenium.pages.backend.IMenuLinkAddOrEdit_Page;
@@ -35,6 +38,7 @@ import com.dotcms.qa.selenium.pages.backend.IUsersPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.UsersPageUtil;
+import com.dotcms.qa.util.WebKeys;
 
 /**
  * This class manage the TestRail suite of test for Push Publishing
@@ -177,7 +181,11 @@ public class PushPublishTest {
 	private String linkCode4="<a href='http://www.google.com'>Google</a>";
 	private int linkOrder4=1;
 	private boolean linkShowOnMenu4=true;
-
+	//test 520
+	private String contentStructure1="Content ";
+	private String contentTitle1="Test-520";
+	private String contentWYSIWYG1="Text 520";
+	
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -482,6 +490,15 @@ public class PushPublishTest {
 			if(menuLinkPage.doesLinkExist(linkTitle4)){
 				menuLinkPage.deleteLink(linkTitle4);
 			}
+			
+			/* Delete content*/
+			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
+			if(contentSearchPage.doesContentExist(contentTitle1, contentStructure1)){
+				contentSearchPage.unpublish(contentTitle1, contentStructure1);
+				contentSearchPage.archive(contentTitle1, contentStructure1);
+				contentSearchPage.delete(contentTitle1, contentStructure1);
+			}
+			
 
 			/* Delete structure*/
 			IStructuresPage structurePage = portletMenu.getStructuresPage();
@@ -628,6 +645,14 @@ public class PushPublishTest {
 				menuLinkPage.deleteLink(linkTitle4);
 			}
 
+			/* Delete content*/
+			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
+			if(contentSearchPage.doesContentExist(contentTitle1, contentStructure1)){
+				contentSearchPage.unpublish(contentTitle1, contentStructure1);
+				contentSearchPage.archive(contentTitle1, contentStructure1);
+				contentSearchPage.delete(contentTitle1, contentStructure1);
+			}
+			
 			/* Delete structure*/
 			IStructuresPage structurePage = portletMenu.getStructuresPage();
 			if(structurePage.doesStructureExist(structureName)){
@@ -1903,6 +1928,7 @@ public class PushPublishTest {
 		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
 
 		menuLinkPage.pushLink(linkTitle1);
+		menuLinkPage.sleep(1);
 		//push link
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the link was pushed
@@ -1912,6 +1938,7 @@ public class PushPublishTest {
 
 		//Calling receiver server
 		portletMenu = callReceiverServer();
+		portletMenu.sleep(2);
 		menuLinkPage= portletMenu.getMenuLinkPage();
 
 		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in receiver server.");
@@ -1947,6 +1974,7 @@ public class PushPublishTest {
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+linkTitle1+") push should not be in pending list.");
 
 		//delete Link
+		portletMenu.sleep(2);
 		menuLinkPage= portletMenu.getMenuLinkPage();
 		menuLinkPage.deleteLink(linkTitle1);
 		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
@@ -2027,7 +2055,7 @@ public class PushPublishTest {
 		editPage.setLinkShowOnMenu(linkShowOnMenu22);
 		editPage.setLinkCode(linkCode22);
 		editPage.save();
-
+		portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
 		browserPage.selectFolder(linkFolder2);
 		Assert.assertTrue(browserPage.doesElementExist(linkTitle2), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
@@ -2043,7 +2071,7 @@ public class PushPublishTest {
 		//call Authoring server
 		portletMenu = callAuthoringServer();
 		IMenuLinkPage menuLinkPage = portletMenu.getMenuLinkPage();
-		
+
 		//delete link
 		menuLinkPage.deleteLink(linkTitle2);
 		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle2), "ERROR - Authoring Server: Menu Link ('"+linkTitle2+"') should not exist at this moment in authorin server.");
@@ -2136,6 +2164,56 @@ public class PushPublishTest {
 		menuLinkPage.deleteLink(linkTitle4);
 		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle4), "ERROR - Receiver Server: Menu Link ('"+linkTitle4+"') should not exist at this moment in receiver server.");
 
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Content TESTS
+	 */
+
+	/**
+	 * Unpublish some Content and then push it R 
+	 * http://qa.dotcms.com/index.php?/cases/view/520
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc520_UnpublishContentAndPush() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(2);
+		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(contentStructure1);
+		
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put("title", contentTitle1);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.WYSIWYG_FIELD);
+		map.put("body", contentWYSIWYG1);
+		fields.add(map) ;
+		contentPage.setFields(fields);
+		contentPage.save();
+		
+		contentSearchPage = portletMenu.getContentSearchPage();
+		//push content
+		contentSearchPage.pushContent(contentTitle1,contentStructure1);
+		
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle1,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle1+") push should not be in pending list.");
+		
+		logoutAuthoringServer();
+
+		//calling receiver
+		portletMenu = callReceiverServer();
+		contentSearchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle1, contentStructure1), "ERROR - Receiver Server: Content ("+contentTitle1+") should exist at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.isUnpublish(contentTitle1, contentStructure1), "ERROR - Receiver Server: Content ("+contentTitle1+") should be unpublished at this moment in receiver server.");
+		Assert.assertFalse(contentSearchPage.isPublish(contentTitle1, contentStructure1), "ERROR - Receiver Server: Content ("+contentTitle1+") should not be live at this moment in receiver server.");
+		
 		logoutReceiverServer();
 	}
 }
