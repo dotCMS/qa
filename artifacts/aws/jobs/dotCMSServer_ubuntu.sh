@@ -130,7 +130,9 @@ echo 'Storing logs into s3'
 aws s3 cp ${WORKSPACE}/${QA_TestArtifactFilename} s3://qa.dotcms.com/testartifacts/${QA_TestArtifactFilename}
  
 echo 'Cleaning up - preparing for another possible run'
+pushd ${WORKSPACE}/qa
 ant drop-db
+popd 
 rm -rf ${WORKSPACE}/downloads
 #rm -rf ${WORKSPACE}/*
 aws s3 rm ${QA_SERVER_IP_URL}
