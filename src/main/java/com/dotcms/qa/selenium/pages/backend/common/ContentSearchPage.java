@@ -36,8 +36,12 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 	 * @throws Exception
 	 */
 	public IContentAddOrEdit_ContentPage addContent(String structure) throws Exception{
-		getWebElement(By.id("dijit_form_ComboButton_0_arrow")).click();
-		List<WebElement> options = getWebElement(By.id("dijit_form_ComboButton_0_dropdown")).findElements(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"));
+		boolean found = false;
+		sleep(2);
+		WebElement buttonDiv= getWebElement(By.cssSelector("table[id='dijit_form_ComboButton_0']")).findElement(By.cssSelector("td[id='dijit_form_ComboButton_0_arrow']"));
+		buttonDiv.click();
+		sleep(2);
+		List<WebElement> options = getWebElement(By.cssSelector("div[id='dijit_form_ComboButton_0_dropdown']")).findElements(By.cssSelector("td[class='dijitReset dijitMenuItemLabel']"));
 		for(WebElement elem : options){
 			if(elem.getText().trim().equals(getLocalizedString("Add-New-Content"))){
 				elem.click();
@@ -46,11 +50,16 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 				for(WebElement st : structures){
 					if(st.getText().trim().contains(structure)){
 						st.click();
+						sleep(2);
+						found=true;
 						break;
 					}
 				}
 				break;
 			}
+		}
+		if(!found){
+			throw new Exception("unable to find Add New Content button");
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentAddOrEdit_ContentPage.class);
 	}
@@ -104,12 +113,15 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 		WebElement content = null;
 		WebElement searchfield = getWebElement(By.id("allFieldTB"));
 		searchfield.clear();
+		sleep(6);
 		searchfield.sendKeys(contentName);
 
 		if(structure != null && !structure.equals("")){
 			WebElement structureFields = getWebElement(By.id("structure_inode"));
 			structureFields.clear();
+			sleep(2);
 			structureFields.sendKeys(structure);
+			sleep(1);
 			getWebElement(By.id("structure_inode_popup0")).click();
 		}else{
 			getWebElement(By.id("widget_structure_inode")).findElement(By.cssSelector("div[class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton dijitArrowButtonContainer']")).click();
@@ -123,6 +135,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 			WebElement showOptions = getWebElement(By.id("showingSelect"));
 			showOptions.clear();
 			showOptions.sendKeys(getLocalizedString("Archived"));
+			sleep(1);
 			getWebElement(By.id("showingSelect_popup0")).click();
 		}
 
@@ -195,6 +208,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 		List<WebElement> columns = content.findElements(By.tagName("td"));
 		columns.get(2).findElement(By.cssSelector("input[type='checkbox']")).click();
 		getWebElementPresent(By.id("deleteButton_label")).click();
+		switchToAlert().accept();
 	}
 
 	/**
