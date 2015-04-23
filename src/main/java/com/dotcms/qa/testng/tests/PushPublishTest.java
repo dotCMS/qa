@@ -2248,7 +2248,7 @@ public class PushPublishTest {
 	 * @throws Exception
 	 */
 	@Test (groups = {"PushPublishing"})
-	public void tc496_PushContentAndPushToTemove() throws Exception{
+	public void tc496_PushContentAndPushToRemove() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
 		portletMenu.sleep(2);
