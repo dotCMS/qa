@@ -63,9 +63,34 @@ sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolde
 
 echo 'Creating and configuring DB'
 pushd ${WORKSPACE}/qa
+
+if [ ${QA_DB}="PostgreSQL" ]
+then
+	ant -DDBInstanceID=${BUILD_TAG} start-aws-db-server
+	sleep 60
+	dbstatus=`aws rds describe-db-instances --db-instance-identifier ${BUILD_TAG} | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'`
+	echo "dbstatus=${dbstatus}"
+	while [ $dbstatus != "available" ]
+	do
+		echo "waiting for DB Server to become available..."
+		sleep 30
+		dbstatus=`aws rds describe-db-instances --db-instance-identifier ${BUILD_TAG} | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'`
+	done
+	echo "dbstatus=$dbstatus"
+	dbserver=`aws rds describe-db-instances --db-instance-identifier ${BUILD_TAG} | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["Endpoint"]["Address"]'`
+	export dbserver
+	echo "dbserver=${dbserver}"
+fi
+
 ant create-db
 ant create-context-xml
+
+if [ ${QA_DB}="PostgreSQL" ]
+then
+	ant -DDBInstanceID=${BUILD_TAG} shutdown-aws-db-server
+fi
 popd
+
 
 echo 'Starting dotCMS'
 echo "Starting dotCMS" > status.txt

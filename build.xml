@@ -34,9 +34,10 @@
         </if>               
 
         <property environment="env"/>
+        <property name="db.server" value="${env.dbserver}"/>
 
         <property file="./artifacts/aws/database/${env.QA_DB}.properties" />
-        
+
         <!-- <replace file="${tomcat.dir}/conf/server.xml" token="{port}" value="${server.port}"/> -->
         <!-- <replace file="${tomcat.dir}/conf/server.xml" token="{shutdown_port}" value="${server.shutdown.port}"/> -->
         
@@ -98,19 +99,17 @@
                     <arg value="--vpc-security-group-ids" />
                     <arg value="sg-9a9f8fff" />
                     <arg value="--engine" />
-                    <arg value="postgres" />
+                    <arg value="${db.engine}" />
                     <arg value="--engine-version" />
-                    <arg value="9.4.1" />
+                    <arg value="${db.engine.version}" />
                     <arg value="--license-model" />
-                    <arg value="postgresql-license" />
-                    <arg value="--db-name" />
-                    <arg value="dotcms_qaautotest" />
+                    <arg value="${db.license.model}" />
                     <arg value="--master-username" />
-                    <arg value="postgres" />
+                    <arg value="${db.master.username}" />
                     <arg value="--master-user-password" />
-                    <arg value="pgadmin27am93.b" />
+                    <arg value="${db.master.password}" />
                     <arg value="--allocated-storage" />
-                    <arg value="200" />
+                    <arg value="${db.storage}" />
                     <arg value="--backup-retention-period" />
                     <arg value="0" />
                     <arg value="--availability-zone" />
