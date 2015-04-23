@@ -79,9 +79,67 @@
     </target>
 
 
+    <target name="start-aws-db-server" depends="set-environment">
+        <if>
+            <or>
+                <equals arg1="${env.QA_DB}" arg2="PostgreSQL"/>
+                <equals arg1="${env.QA_DB}" arg2="MySQL"/>
+                <equals arg1="${env.QA_DB}" arg2="MSSQL"/>
+                <equals arg1="${env.QA_DB}" arg2="Oracle"/>
+            </or>
+            <then>
+                <exec executable="aws">
+                    <arg value="rds" />
+                    <arg value="create-db-instance" />
+                    <arg value="--db-instance-identifier" />
+                    <arg value="${DBInstanceID}" />
+                    <arg value="--db-instance-class" />
+                    <arg value="db.m3.large" />
+                    <arg value="--vpc-security-group-ids" />
+                    <arg value="sg-9a9f8fff" />
+                    <arg value="--engine" />
+                    <arg value="postgres" />
+                    <arg value="--engine-version" />
+                    <arg value="9.4.1" />
+                    <arg value="--license-model" />
+                    <arg value="postgresql-license" />
+                    <arg value="--db-name" />
+                    <arg value="dotcms_qaautotest" />
+                    <arg value="--master-username" />
+                    <arg value="postgres" />
+                    <arg value="--master-user-password" />
+                    <arg value="pgadmin27am93.b" />
+                    <arg value="--allocated-storage" />
+                    <arg value="200" />
+                    <arg value="--backup-retention-period" />
+                    <arg value="0" />
+                    <arg value="--availability-zone" />
+                    <arg value="us-east-1c" />
+                    <arg value="--db-subnet-group-name" />
+                    <arg value="default-vpc-d52fa7b0" />
+                </exec>
+            </then>
+            <else>
+                <echo message="ERROR: QA_DB environment variable not set to known value - not starting AWS DB Server." />
+            </else>
+        </if>
+    </target>
+
+
+    <target name="shutdown-aws-db-server" depends="set-environment">
+        <exec executable="aws">
+            <arg value="rds" />
+            <arg value="delete-db-instance" />
+            <arg value="--db-instance-identifier" />
+            <arg value="${DBInstanceID}" />
+            <arg value="--skip-final-snapshot" />
+        </exec>
+    </target>
+
+
     <target name="create-db" depends="set-environment">
         <if>
-            <equals arg1="${db.driver}" arg2="oracle.jdbc.OracleDriver"/>
+            <equals arg1="${env.QA_DB}" arg2="Oracle"/>
             <then>
                 <sql driver="${db.driver}"
                      url="${db.base.url}"
@@ -103,7 +161,7 @@
                 </sql>
             </then>
             <elseif>
-                <equals arg1="${db.driver}" arg2="net.sourceforge.jtds.jdbc.Driver"/>
+                <equals arg1="${env.QA_DB}" arg2="MSSQL"/>
                 <then>
                     <sql driver="${db.driver}"
                          url="${db.admin.url}"
@@ -118,7 +176,7 @@
                 </then>
             </elseif>
             <elseif>
-                <equals arg1="${db.driver}" arg2="com.mysql.jdbc.Driver"/>
+                <equals arg1="${env.QA_DB}" arg2="MySQL"/>
                 <then>
                     <sql driver="${db.driver}"
                          url="${db.base.url}"
