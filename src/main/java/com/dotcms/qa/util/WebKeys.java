@@ -27,4 +27,10 @@ public class WebKeys {
 	public static final String TEXT_FIELD = "text_field";
 	public static final String SELECT_FIELD = "select_field";
 	public static final String HOST_FIELD = "host_field";
+	
+	//push Publishing
+	public static final String PUSH_TO_REMOVE="expire";
+	public static final String PUSH_TO_ADD="publish";
+	public static final String PUSH_AND_REMOVE="publishexpire";
+	
 }

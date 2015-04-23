@@ -34,6 +34,7 @@ public class StructureAddOrEdit_PropertiesPage extends BasePage implements	IStru
 	 * @throws Exception
 	 */
 	public IStructureAddOrEdit_FieldsPage createNewStructure(String structureName, String type, String structureDescription, String hostName) throws Exception {
+		structureType.clear();
 		structureType.sendKeys(type);
 		structureType_popup0.click();
 	    Thread.sleep(500);
