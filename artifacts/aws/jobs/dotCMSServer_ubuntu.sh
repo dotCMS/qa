@@ -88,13 +88,6 @@ fi
 ant create-db
 ant create-context-xml
 
-if [ ${QA_DB}="PostgreSQL" ]
-then
-	ant -DDBInstanceID=${QA_DBInstance} shutdown-aws-db-server
-fi
-popd
-
-
 echo 'Starting dotCMS'
 echo "Starting dotCMS" > status.txt
 aws s3 cp ./status.txt ${QA_SERVER_STATUS_URL}
@@ -143,6 +136,14 @@ aws s3 cp ./status.txt ${QA_SERVER_STATUS_URL}
 
 echo 'Shutting down dotCMS'
 ${WORKSPACE}/dotcms/bin/shutdown.sh
+
+if [ ${QA_DB}="PostgreSQL" ]
+then
+	echo 'Shutting down RDS instance'
+	ant -DDBInstanceID=${QA_DBInstance} shutdown-aws-db-server
+fi
+popd
+
 
 echo 'Grabbing and packaging logs'
 sleep 10
