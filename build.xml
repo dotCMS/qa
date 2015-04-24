@@ -71,11 +71,8 @@
                 <echo message="************************************" />
                 <echo message="*** db.driver=${db.driver}" />
                 <echo message="*** db.url=${db.url}" />
-                <echo message="*** db.username=${db.username}" />
-                <echo message="*** db.password=${db.password}" />
                 <echo message="*** db.valquery=${db.valquery}" />
                 <echo message="*** db.base.url=${db.base.url}" />
-                <echo message="*** db.serverName=${db.serverName}" />
                 <echo message="************************************" />
 
                 <replace file="${env.QA_TomcatFolder}/webapps/ROOT/META-INF/context.xml">
