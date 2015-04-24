@@ -19,7 +19,7 @@ export QA_Milestone=${DOTCMS_VERSION}
 export QA_RunLabel=${QA_Milestone}_JenkinsSeleniumTester_${BUILD_NUMBER}_${QA_DB}_${QA_TestStartTime}
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
 
-QA_DBInstance=`echo ${BUILD_TAG} | sed 's/-/_/g'`
+QA_DBInstance=`echo ${BUILD_TAG} | sed 's/_/-/g'`
 export QA_DBInstance
 echo "QA_DBInstance=${QA_DBInstance}"
 
