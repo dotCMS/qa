@@ -66,7 +66,6 @@ sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolde
 
 echo 'Creating and configuring DB'
 pushd ${WORKSPACE}/qa
-
 if [ ${QA_DB}="PostgreSQL" ]
 then
 	ant -DDBInstanceID=${QA_DBInstance} start-aws-db-server
@@ -84,9 +83,9 @@ then
 	export dbserver
 	echo "dbserver=${dbserver}"
 fi
-
 ant create-db
 ant create-context-xml
+popd
 
 echo 'Starting dotCMS'
 echo "Starting dotCMS" > status.txt
@@ -103,7 +102,6 @@ do
 	logcount=`grep -c "org.apache.catalina.startup.Catalina start" ${QA_TomcatLogFile}`
 done
 echo "logcount=$logcount"
-popd
 
 
 echo 'Building and deploying qa_automation plugin'
@@ -136,13 +134,17 @@ aws s3 cp ./status.txt ${QA_SERVER_STATUS_URL}
 
 echo 'Shutting down dotCMS'
 ${WORKSPACE}/dotcms/bin/shutdown.sh
+popd
 
+
+pushd ${WORKSPACE}/qa
+ant drop-db
 if [ ${QA_DB}="PostgreSQL" ]
 then
 	echo 'Shutting down RDS instance'
 	ant -DDBInstanceID=${QA_DBInstance} shutdown-aws-db-server
 fi
-popd
+popd 
 
 
 echo 'Grabbing and packaging logs'
@@ -159,9 +161,6 @@ echo 'Storing logs into s3'
 aws s3 cp ${WORKSPACE}/${QA_TestArtifactFilename} s3://qa.dotcms.com/testartifacts/${QA_TestArtifactFilename}
  
 echo 'Cleaning up - preparing for another possible run'
-pushd ${WORKSPACE}/qa
-ant drop-db
-popd 
 rm -rf ${WORKSPACE}/downloads
 #rm -rf ${WORKSPACE}/*
 aws s3 rm ${QA_SERVER_IP_URL}
