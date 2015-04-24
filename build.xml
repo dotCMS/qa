@@ -1,15 +1,7 @@
 <?xml version="1.0"?>
 
-<project name="dotcms-qa-automation" default="test-dotcms" basedir="." xmlns:props="antlib:org.apache.ant.props">
+<project name="dotcms-qa-automation" default="test-dotcms" basedir="." >
     <!-- include propertyhelper to support nexted variable expansion --> 
-    <typedef uri="antlib:org.apache.ant.props"
-    resource="org/apache/ant/props/antlib.xml"
-    classpath="ant-props-1.0Alpha.jar"/>
-
-    <propertyhelper>
-    <props:nested />
-    </propertyhelper>
-
 	<!-- include ant-contrib -->
     <taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
@@ -43,11 +35,12 @@
         </if>               
 
         <property environment="env"/>
-        <property file="./artifacts/aws/database/${env.QA_DB}.properties" />
-        <condition property="db.serverName" value="${env.dbserver}" else="${db.server}">
+        <condition property="db.server" value="${env.dbserver}">
             <isset property="env.dbserver" />
         </condition>
-        <echo message="db.serverName=${db.serverName}" />
+
+        <property file="./artifacts/aws/database/${env.QA_DB}.properties" />
+        <echo message="db.server=${db.server}" />
 
         <!-- <replace file="${tomcat.dir}/conf/server.xml" token="{port}" value="${server.port}"/> -->
         <!-- <replace file="${tomcat.dir}/conf/server.xml" token="{shutdown_port}" value="${server.shutdown.port}"/> -->
