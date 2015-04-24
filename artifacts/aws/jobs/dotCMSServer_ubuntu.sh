@@ -18,7 +18,7 @@ export QA_StarterFullFilePath=${QA_TomcatFolder}/webapps/ROOT/starter.zip
 export QA_Milestone=${DOTCMS_VERSION}
 export QA_RunLabel=${QA_Milestone}_JenkinsSeleniumTester_${BUILD_NUMBER}_${QA_DB}_${QA_TestStartTime}
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
-
+export QA_DBInstance = `echo ${BUILD_TAG} | sed 's/-/_/g'`
 
 echo "Sending IP Address to ${QA_SERVER_IP_URL}"
 ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}' > ip.txt
@@ -66,18 +66,18 @@ pushd ${WORKSPACE}/qa
 
 if [ ${QA_DB}="PostgreSQL" ]
 then
-	ant -DDBInstanceID=${BUILD_TAG} start-aws-db-server
+	ant -DDBInstanceID=${QA_DBInstance} start-aws-db-server
 	sleep 60
-	dbstatus=`aws rds describe-db-instances --db-instance-identifier ${BUILD_TAG} | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'`
+	dbstatus=`aws rds describe-db-instances --db-instance-identifier ${QA_DBInstance} | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'`
 	echo "dbstatus=${dbstatus}"
 	while [ $dbstatus != "available" ]
 	do
 		echo "waiting for DB Server to become available..."
 		sleep 30
-		dbstatus=`aws rds describe-db-instances --db-instance-identifier ${BUILD_TAG} | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'`
+		dbstatus=`aws rds describe-db-instances --db-instance-identifier ${QA_DBInstance} | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'`
 	done
 	echo "dbstatus=$dbstatus"
-	dbserver=`aws rds describe-db-instances --db-instance-identifier ${BUILD_TAG} | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["Endpoint"]["Address"]'`
+	dbserver=`aws rds describe-db-instances --db-instance-identifier ${QA_DBInstance} | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["Endpoint"]["Address"]'`
 	export dbserver
 	echo "dbserver=${dbserver}"
 fi
@@ -87,7 +87,7 @@ ant create-context-xml
 
 if [ ${QA_DB}="PostgreSQL" ]
 then
-	ant -DDBInstanceID=${BUILD_TAG} shutdown-aws-db-server
+	ant -DDBInstanceID=${QA_DBInstance} shutdown-aws-db-server
 fi
 popd
 
