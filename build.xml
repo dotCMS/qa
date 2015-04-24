@@ -34,9 +34,11 @@
         </if>               
 
         <property environment="env"/>
-        <property name="db.server" value="${env.dbserver}"/>
-
         <property file="./artifacts/aws/database/${env.QA_DB}.properties" />
+        <condition property="db.serverName" value="${env.dbserver}" else="${db.server}">
+            <isset property="env.dbserver" />
+        </condition>
+        <echo message="db.serverName=${db.serverName}" />
 
         <!-- <replace file="${tomcat.dir}/conf/server.xml" token="{port}" value="${server.port}"/> -->
         <!-- <replace file="${tomcat.dir}/conf/server.xml" token="{shutdown_port}" value="${server.shutdown.port}"/> -->
