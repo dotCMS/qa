@@ -66,7 +66,7 @@ sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolde
 
 echo 'Creating and configuring DB'
 pushd ${WORKSPACE}/qa
-if [ ${QA_DB}="PostgreSQL" ]
+if [ ${QA_DB} = "Oracle" ] || [ ${QA_DB} = "MSSQL" ]
 then
 	ant -DDBInstanceID=${QA_DBInstance} start-aws-db-server
 	sleep 60
@@ -139,7 +139,7 @@ popd
 
 pushd ${WORKSPACE}/qa
 ant drop-db
-if [ ${QA_DB}="PostgreSQL" ]
+if [ ${QA_DB} = "Oracle" ] || [ ${QA_DB} = "MSSQL" ]
 then
 	echo 'Shutting down RDS instance'
 	ant -DDBInstanceID=${QA_DBInstance} shutdown-aws-db-server
