@@ -10,43 +10,52 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-import com.dotcms.qa.selenium.pages.backend.*;
+import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_FieldsPage;
+import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_PropertiesPage;
+import com.dotcms.qa.selenium.pages.backend.IStructuresPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
 public class StructuresPage extends BasePage implements IStructuresPage {
-    private static final Logger logger = Logger.getLogger(StructuresPage.class);
+	private static final Logger logger = Logger.getLogger(StructuresPage.class);
 
 	private WebElement dijit_form_ComboButton_0_label;
 	@FindBy(how = How.CLASS_NAME, using = "listingTable")
-    private WebElement tableOfStructures;
-	
+	private WebElement tableOfStructures;
+
 	public StructuresPage(WebDriver driver) {
 		super(driver);
 	}
 
 	public void deleteStructureAndContent(String structureName, boolean confirm) throws Exception {
 		WebElement structureElement = null;
-		List<WebElement> cols = tableOfStructures.findElements(By.cssSelector("tr td"));
-		for(WebElement col : cols) {
-			try {
-				if(col.getText().trim().equals(structureName)) {
-					structureElement = col;
-					break;
+		WebElement textBox = getWebElement(By.cssSelector("input[type='text'][name='query']"));
+		textBox.clear();
+		textBox.sendKeys(structureName);
+		getSearchButton().click();
+		sleep(1);
+		List<WebElement> results = getWebElement(By.cssSelector("table[class='listingTable']")).findElements(By.tagName("tr"));
+		for(WebElement result : results){
+			List<WebElement> cols =  result.findElements(By.tagName("td"));
+			if(cols.size() > 2){
+				try {
+					if(cols.get(0).getText().trim().equals(structureName)) {
+						structureElement = cols.get(0);
+						break;
+					}
+				}
+				catch(Exception e) {
+					logger.error("Unexpected error attempting to iterate over structures - structureName =" + structureName, e);
+					// Move on to next row and keep going
 				}
 			}
-			catch(Exception e) {
-				logger.error("Unexpected error attempting to iterate over structures - structureName =" + structureName, e);
-				// Move on to next row and keep going
-			}
 		}
-		
 		if(structureElement == null) {
 			throw new Exception("Unable to locate structure by name - structureName = " + structureName);
 		}
-		
+
 		moveToElement(structureElement);
-		
+
 		rightClickElement(structureElement);
 		String menuString = getLocalizedString("Delete-Structure-and-Content");
 		WebElement popup = this.getWebElement(By.className("dijitMenuPopup"));
@@ -86,19 +95,17 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 		textBox.sendKeys(structureName);
 		getSearchButton().click();
 		sleep(1);
-		List<WebElement> results = getWebElement(By.id("results_table_popup_menus")).findElements(By.tagName("tr"));
+		List<WebElement> results = getWebElement(By.cssSelector("table[class='listingTable']")).findElements(By.tagName("tr"));
 		for(WebElement result : results){
-			List<WebElement> tds =  getWebElements(By.tagName("td"));
-			for(WebElement td : tds){
-				if(td.getText().equals(structureName)){
+			List<WebElement> tds =  result.findElements(By.tagName("td"));
+			if(tds.size() > 2){
+				if(tds.get(0).getText().equals(structureName)){
 					retValue = true;
 					break;
 				}
 			}
-			if(retValue){
-				break;
-			}
-		} 
+		}			
+
 		return retValue;
 	}
 
@@ -106,7 +113,7 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 		dijit_form_ComboButton_0_label.click();	// Add new structure button
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_PropertiesPage.class);
 	}
-	
+
 	/**
 	 * Get the field tab page
 	 * @return IStructureAddOrEdit_FieldsPage
@@ -143,7 +150,7 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 		} 
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_PropertiesPage.class);
 	}
-	
+
 	/**
 	 * get the search button because the dynamic id changes
 	 * @return WebElement

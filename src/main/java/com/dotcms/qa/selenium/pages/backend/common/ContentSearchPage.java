@@ -1,5 +1,6 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -163,7 +164,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 	/**
 	 * Return the content row
 	 * @param contentName Name of the content
-	 * @param contentName Contentlet name
+	 * @param structure Contentlet structure name
 	 * @param showArchive Search for archive content
 	 * @return WebElement
 	 */
@@ -357,5 +358,82 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 			}catch(Exception e){}
 		}
 		return isPublish;
+	}
+
+	/**
+	 * 
+	 * @param contentTitles Title of the content
+	 * @param structure     Contentlet structure name
+	 * @param searchFilter  Text to filter the set of contentlet to search
+	 * @param showArchive   Search for archive content
+	 * @return List<WebElement>
+	 * @throws Exception
+	 */
+	private List<WebElement> findContentListRows(List<String> contentTitles, String structure, String searchFilter,boolean showArchive) throws Exception{
+		List<WebElement> contents = new ArrayList<WebElement>();
+		WebElement searchfield = getWebElement(By.id("allFieldTB"));
+		searchfield.clear();
+		sleep(6);
+		searchfield.sendKeys(searchFilter);
+
+		if(structure != null && !structure.equals("")){
+			WebElement structureFields = getWebElement(By.id("structure_inode"));
+			structureFields.clear();
+			sleep(2);
+			structureFields.sendKeys(structure);
+			sleep(1);
+			getWebElement(By.id("structure_inode_popup0")).click();
+		}else{
+			getWebElement(By.id("widget_structure_inode")).findElement(By.cssSelector("div[class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton dijitArrowButtonContainer']")).click();
+			getWebElement(By.id("structure_inode_popup0")).click();
+		}
+
+		if(showArchive){
+			WebElement advancedOptions = getWebElement(By.cssSelector("div[id='toggleDivText']"));
+			getParent(advancedOptions).click();
+			sleep(1);
+			WebElement showOptions = getWebElement(By.id("showingSelect"));
+			showOptions.clear();
+			showOptions.sendKeys(getLocalizedString("Archived"));
+			sleep(1);
+			getWebElement(By.id("showingSelect_popup0")).click();
+		}
+
+		getWebElement(By.id("searchButton_label")).click();
+		sleep(2);
+		List<WebElement> results = getWebElement(By.id("results_table")).findElements(By.tagName("tr"));
+		for(WebElement row : results){
+			List<WebElement> columns = row.findElements(By.tagName("td"));
+			if(columns.size() > 2){
+				for(String contentTitle : contentTitles){
+					if(columns.get(2).getText().trim().equals(contentTitle)){
+						contents.add(row);
+					}
+				}
+			}
+		}
+
+		return contents;
+	}
+
+	/**
+	 * push a list of contentlets
+	 * @param listOfContent  List of contentlet titles
+	 * @param structure      Content structure name
+	 * @param contentSearchFilterKey String to filter the search to get the contentlets
+	 * @throws Exception
+	 */
+	public void pushContentList(List<String>listOfContent,String structure,String contentSearchFilterKey) throws Exception{
+		List<WebElement> contents = findContentListRows(listOfContent, structure, contentSearchFilterKey,false);
+		for(WebElement content : contents){
+			List<WebElement> columns = content.findElements(By.tagName("td"));
+			columns.get(2).findElement(By.cssSelector("input[type='checkbox']")).click();
+			sleep(2);
+		}
+		getWebElement(By.id("pushPublishButton_label")).click();
+		sleep(2);
+		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
+		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
+
 	}
 }

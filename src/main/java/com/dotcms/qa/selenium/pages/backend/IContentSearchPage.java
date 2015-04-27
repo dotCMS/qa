@@ -1,5 +1,7 @@
 package com.dotcms.qa.selenium.pages.backend;
 
+import java.util.List;
+
 import com.dotcms.qa.selenium.pages.IBasePage;
 
 public interface IContentSearchPage extends IBasePage {
@@ -119,4 +121,13 @@ public interface IContentSearchPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public void pushContent(String contentName, String structure,String pushType, String pushDate, String pushTime, String expireDate, String expireTime, boolean force) throws Exception;
+	
+	/**
+	 * push a list of contentlets
+	 * @param listOfContent  List of contentlet titles
+	 * @param structure      Content structure name
+	 * @param contentSearchFilterKey String to filter the search to get the contentlets
+	 * @throws Exception
+	 */
+	public void pushContentList(List<String>listOfContent,String structure,String contentSearchFilterKey) throws Exception;
 }
