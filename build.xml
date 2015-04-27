@@ -174,7 +174,7 @@
                 <equals arg1="${env.QA_DB}" arg2="MSSQL"/>
                 <then>
                     <sql driver="${db.driver}"
-                         url="${db.admin.url}"
+                         url="${db.base.url}"
                          userid="${db.username}"
                          password="${db.password}"
                          autocommit="true"
