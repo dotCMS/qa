@@ -214,6 +214,12 @@ public class PushPublishTest {
 	private String contentStructureName6Field2="Description";
 	private String contentTitle6="Test-532";
 	private String contentTextArea6="Text 532";
+	//test 528
+	private String contentStructureName7="Content";
+	private String contentStructureName7Field1="Title";
+	private String contentTitle7="Test-528";
+	private String contentStructureName7Field2="Body";
+	private String contentTextArea7="Text 528";
 
 
 	@BeforeGroups (groups = {"PushPublishing"})
@@ -541,17 +547,23 @@ public class PushPublishTest {
 			if(structurePage.doesStructureExist(contentStructureName5)){
 				structurePage.deleteStructureAndContent(contentStructureName5, true);
 			}
-			
+
 			if(structurePage.doesStructureExist(contentStructureName6)){
 				structurePage.deleteStructureAndContent(contentStructureName6, true);
 			}
-			
+
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 			if(contentSearchPage.doesContentExist(contentTitle1, contentStructureName1)){
 				contentSearchPage.unpublish(contentTitle1, contentStructureName1);
 				contentSearchPage.archive(contentTitle1, contentStructureName1);
 				contentSearchPage.delete(contentTitle1, contentStructureName1);
+			}
+
+			if(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7)){
+				contentSearchPage.unpublish(contentTitle7, contentStructureName7);
+				contentSearchPage.archive(contentTitle7, contentStructureName7);
+				contentSearchPage.delete(contentTitle7, contentStructureName7);
 			}
 
 			/*Delete limited user*/
@@ -714,7 +726,7 @@ public class PushPublishTest {
 			if(structurePage.doesStructureExist(contentStructureName5)){
 				structurePage.deleteStructureAndContent(contentStructureName5, true);
 			}
-			
+
 			if(structurePage.doesStructureExist(contentStructureName6)){
 				structurePage.deleteStructureAndContent(contentStructureName6, true);
 			}
@@ -725,6 +737,12 @@ public class PushPublishTest {
 				contentSearchPage.unpublish(contentTitle1, contentStructureName1);
 				contentSearchPage.archive(contentTitle1, contentStructureName1);
 				contentSearchPage.delete(contentTitle1, contentStructureName1);
+			}
+
+			if(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7)){
+				contentSearchPage.unpublish(contentTitle7, contentStructureName7);
+				contentSearchPage.archive(contentTitle7, contentStructureName7);
+				contentSearchPage.delete(contentTitle7, contentStructureName7);
 			}
 
 			logoutReceiverServer();
@@ -2329,7 +2347,7 @@ public class PushPublishTest {
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
 		contentPage.saveAndPublish();
-		
+
 		contentPage.sleep(3);
 		contentSearchPage = portletMenu.getContentSearchPage();
 		//push content
@@ -2544,7 +2562,7 @@ public class PushPublishTest {
 		structurePage.deleteStructureAndContent(contentStructureName5, true);
 		logoutReceiverServer();
 	}
-	
+
 	/**
 	 * Push special characters in Content 
 	 * http://qa.dotcms.com/index.php?/cases/view/532
@@ -2612,9 +2630,83 @@ public class PushPublishTest {
 
 		contentSearchPage = portletMenu.getContentSearchPage();
 		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle6, structureKey), "ERROR - Receiver Server: Content ("+contentTitle6+") should exist at this moment in receiver server.");
-		
+
 		//delete structure and contents
 		structurePage = portletMenu.getStructuresPage();
 		structurePage.deleteStructureAndContent(contentStructureName6, true);
+	}
+
+	/**
+	 * Test Remote Publish, unpublish, and delete of content 
+	 * http://qa.dotcms.com/index.php?/cases/view/528
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc528_PublishUnpublishAndDelete() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+
+		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(contentStructureName7);
+
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put(contentStructureName7Field1.toLowerCase(), contentTitle7);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.WYSIWYG_FIELD);
+		map.put(contentStructureName7Field2.toLowerCase(), contentTextArea7);
+		fields.add(map) ;
+		contentPage.setFields(fields);
+		contentPage.sleep(2);
+		contentPage.saveAndPublish();
+		contentPage.sleep(3);
+		//Push Content
+		contentSearchPage = portletMenu.getContentSearchPage();
+		contentSearchPage.pushContent(contentTitle7,contentStructureName7);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle7,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle7+") push should not be in pending list.");
+		logoutAuthoringServer();
+
+		//Calling receiver
+		portletMenu=callAuthoringServer();
+		contentSearchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') doesn't exist in receiver server");
+		Assert.assertTrue(contentSearchPage.isPublish(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should be publish in receiver server");
+		//unpublish content
+		contentSearchPage.unpublish(contentTitle7, contentStructureName7);
+		Assert.assertTrue(contentSearchPage.isUnpublish(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should be unpublish in receiver server");
+		logoutReceiverServer();
+
+		//calling authoring server
+		portletMenu=callAuthoringServer();
+		contentSearchPage = portletMenu.getContentSearchPage();
+		//push to remove
+		contentSearchPage.pushContent(contentTitle7, contentStructureName7, WebKeys.PUSH_TO_REMOVE, null, null, null, null, false);
+
+		publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle7,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle7+") push should not be in pending list.");
+
+		//delete content
+		contentSearchPage = portletMenu.getContentSearchPage();
+		contentSearchPage.unpublish(contentTitle7, contentStructureName7);
+		contentSearchPage.archive(contentTitle7, contentStructureName7);
+		contentSearchPage.delete(contentTitle7, contentStructureName7);
+		Assert.assertFalse(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should not exist in authoring server");
+		logoutAuthoringServer();
+
+		//Calling receiver
+		portletMenu=callAuthoringServer();
+		contentSearchPage = portletMenu.getContentSearchPage();
+		Assert.assertFalse(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should not  exist in receiver server");
+		logoutReceiverServer();
+
 	}
 }
