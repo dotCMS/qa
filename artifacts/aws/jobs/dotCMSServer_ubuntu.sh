@@ -95,13 +95,13 @@ aws s3 cp ./status.txt ${QA_SERVER_STATUS_URL}
 
 bin/startup.sh
 sleep 30
-logcount=`grep -c "org.apache.catalina.startup.Catalina start" ${QA_TomcatLogFile}`
+logcount=`grep -c "org.apache.catalina.startup.Catalina.start Server startup in" ${QA_TomcatLogFile}`
 echo "logcount=${logcount}"
 while [ $logcount -lt 1 ]
 do
 	echo "sleeping..."
 	sleep 10
-	logcount=`grep -c "org.apache.catalina.startup.Catalina start" ${QA_TomcatLogFile}`
+	logcount=`grep -c "org.apache.catalina.startup.Catalina.start Server startup in" ${QA_TomcatLogFile}`
 done
 echo "logcount=$logcount"
 
