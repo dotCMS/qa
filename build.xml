@@ -153,8 +153,8 @@
             <then>
                 <sql driver="${db.driver}"
                      url="${db.base.url}"
-                     userid="${db.oracleadmin.user}"
-                     password="${db.oracleadmin.pass}"
+                     userid="${db.username}"
+                     password="${db.password}"
                      autocommit="true"
                      classpathref="files-classpath">
                     create user ${db.username} identified by ${db.password};
