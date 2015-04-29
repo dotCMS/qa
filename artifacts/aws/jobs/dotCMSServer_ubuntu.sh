@@ -52,8 +52,9 @@ git checkout master-${DOTCMS_VERSION}
 cd ${WORKSPACE}
 
 echo 'Pulling down and extracting dotCMS build'
-mkdir ${WORKSPACE}/downloads
-wget -q -O ./downloads/dotcms.targz $DOTCMS_TAR_GZ_URL
+sudo mkdir -p ${WORKSPACE}/downloads
+sudo chown -R ubuntu:ubuntu ${WORKSPACE}/downloads
+wget -q -O ${WORKSPACE}/downloads/dotcms.targz $DOTCMS_TAR_GZ_URL
 sudo mkdir -p ${WORKSPACE}/dotcms
 sudo chown -R ubuntu:ubuntu ${WORKSPACE}/dotcms
 pushd ${WORKSPACE}/dotcms
