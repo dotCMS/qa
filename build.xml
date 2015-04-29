@@ -222,8 +222,8 @@
             <then>
                 <sql driver="${db.driver}"
                      url="${db.base.url}"
-                     userid="${db.oracleadmin.user}"
-                     password="${db.oracleadmin.pass}"
+                     userid="${db.master.username}"
+                     password="${db.master.password}"
                      autocommit="true" onerror="continue"
                      classpathref="files-classpath">
                     drop user ${db.username} cascade;
