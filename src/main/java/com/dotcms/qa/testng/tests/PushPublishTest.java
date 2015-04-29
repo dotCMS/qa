@@ -1,6 +1,5 @@
 package com.dotcms.qa.testng.tests;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -2674,7 +2673,7 @@ public class PushPublishTest {
 		logoutAuthoringServer();
 
 		//Calling receiver
-		portletMenu=callAuthoringServer();
+		portletMenu=callReceiverServer();
 		contentSearchPage = portletMenu.getContentSearchPage();
 		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') doesn't exist in receiver server");
 		Assert.assertTrue(contentSearchPage.isPublish(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should be publish in receiver server");
@@ -2703,7 +2702,7 @@ public class PushPublishTest {
 		logoutAuthoringServer();
 
 		//Calling receiver
-		portletMenu=callAuthoringServer();
+		portletMenu=callReceiverServer();
 		contentSearchPage = portletMenu.getContentSearchPage();
 		Assert.assertFalse(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should not  exist in receiver server");
 		logoutReceiverServer();
