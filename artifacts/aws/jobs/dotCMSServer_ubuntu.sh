@@ -9,7 +9,7 @@ env
 rm -rf *
 
 export QA_TestStartTime=$(date +%Y%m%d_%H%M%S)
-export QA_StarterURL=s3://qa.dotcms.com/starters/3.1_qastarter_v.0.4b_c0ae3facdd.zip
+export QA_StarterURL=s3://qa.dotcms.com/starters/3.2_qastarter_v.0.4b.zip
 export QA_TomcatFolder=${WORKSPACE}/dotcms/dotserver/tomcat-8.0.18
 export QA_TomcatLogFile=${QA_TomcatFolder}/logs/catalina.out
 export QA_AccessLogFile=${QA_TomcatFolder}/logs/dotcms_access..$(date +%Y-%m-%d).log
