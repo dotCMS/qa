@@ -7,8 +7,8 @@
         <exclude name="Broken"/>
         <include name="Host"/>
         <exclude name="Structures"/>
-        <exclude name="VanityURLs"/>
-        <exclude name="Users"/>
+        <include name="VanityURLs"/>
+        <include name="Users"/>
         <!-- <include name="WIP"/> -->
       </run>
     </groups>
