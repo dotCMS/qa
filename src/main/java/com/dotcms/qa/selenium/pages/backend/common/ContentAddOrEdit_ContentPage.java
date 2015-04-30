@@ -304,4 +304,25 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	public void cancel() throws Exception{
 		getWebElement(By.linkText(getLocalizedString("cancel"))).click();
 	}
+	
+	/**
+	 * Get Content field value
+	 * @param fieldName Field name
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getFieldValue(String fieldName) throws Exception{
+		String value=null;
+		try{
+			WebElement element = getWebElement(By.id(fieldName));
+			value = element.getText();
+
+			if(value.equals("")){
+				value = (String) executeScript("var editor = ace.edit('"+fieldName+"Editor');return editor.getSession().getValue();");
+			}
+		}catch(Exception e){
+			value = (String) executeScript("var editor = ace.edit('"+fieldName+"Editor');return editor.getSession().getValue();");
+		}
+		return value;
+	}
 }

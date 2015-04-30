@@ -79,4 +79,12 @@ public interface IContentAddOrEdit_ContentPage extends IBasePage {
 	 */
 	public void cancel() throws Exception;
 	
+	/**
+	 * Get Content field value
+	 * @param fieldName Field name
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getFieldValue(String fieldName) throws Exception;
+	
 }

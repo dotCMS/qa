@@ -183,42 +183,50 @@ public class PushPublishTest {
 	//test 520
 	private String contentStructureName1="Content ";
 	private String contentTitle1="Test-520";
-	private String contentWYSIWYG1="Text 520";
+	private String contentWYSIWYG1="Test 520";
 	//test 496
 	private String contentStructureName2="Test-496";
 	private String contentStructureName2Field1="Headline";
 	private String contentStructureName2Field2="Description";
 	private String contentTitle2="Test-496";
-	private String contentTextArea2="Text 496";
+	private String contentTextArea2="Test 496";
 	//test 519
 	private String contentStructureName3="Test-519-A";
 	private String contentStructureName3Field1="Headline";
 	private String contentStructureName3Field2="Description";
 	private String contentTitle3="Test-519-A";
-	private String contentTextArea3="Text 519A";
+	private String contentTextArea3="Test 519A";
 	private String contentStructureName4="Test-519-B";
 	private String contentStructureName4Field1="Headline";
 	private String contentStructureName4Field2="Description";
 	private String contentTitle4="Test-519-B";
-	private String contentTextArea4="Text 519B";
+	private String contentTextArea4="Test 519B";
 	private String contentStructureName5="Test-519-C";
 	private String contentStructureName5Field1="Headline";
 	private String contentStructureName5Field2="Description";
 	private String contentTitle5="Test-519-C";
-	private String contentTextArea5="Text 519C";
+	private String contentTextArea5="Test 519C";
 	private String contentSearchFilterKey="Test-519";
 	//test 532
 	private String contentStructureName6="Test-532-#!%&*";
 	private String contentStructureName6Field1="Title";
 	private String contentStructureName6Field2="Description";
 	private String contentTitle6="Test-532";
-	private String contentTextArea6="Text 532";
+	private String contentTextArea6="Test 532";
 	//test 528
 	private String contentStructureName7="Content";
 	private String contentStructureName7Field1="Title";
 	private String contentTitle7="Test-528";
 	private String contentStructureName7Field2="Body";
-	private String contentTextArea7="Text 528";
+	private String contentTextArea7="Test 528";
+	//test 572
+	private String contentStructureName8="Test-572";
+	private String contentStructureName8Field1="Title";
+	private String contentTitle8="Test-572";
+	private String contentStructureName8Field2="Body";
+	private String contentTextArea8="Test 572";
+	//test 573
+	private String contentTextArea82="Test 572 and 573";
 
 
 	@BeforeGroups (groups = {"PushPublishing"})
@@ -551,6 +559,10 @@ public class PushPublishTest {
 				structurePage.deleteStructureAndContent(contentStructureName6, true);
 			}
 
+			if(structurePage.doesStructureExist(contentStructureName8)){
+				structurePage.deleteStructureAndContent(contentStructureName8, true);
+			}
+
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 			if(contentSearchPage.doesContentExist(contentTitle1, contentStructureName1)){
@@ -730,6 +742,10 @@ public class PushPublishTest {
 				structurePage.deleteStructureAndContent(contentStructureName6, true);
 			}
 
+			if(structurePage.doesStructureExist(contentStructureName8)){
+				structurePage.deleteStructureAndContent(contentStructureName8, true);
+			}
+
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 			if(contentSearchPage.doesContentExist(contentTitle1, contentStructureName1)){
@@ -760,6 +776,7 @@ public class PushPublishTest {
 			rolePage.createRole(limitedRole, limitedRole, "", true, true, true);
 			rolePage.checkUncheckCMSTab(limitedRole, "Site Browser");
 			rolePage.checkUncheckCMSTab(limitedRole, "Structures");
+			rolePage.checkUncheckCMSTab(limitedRole, "Content");
 
 			List<Map<String,Object>> subpermissions = new ArrayList<Map<String,Object>>();
 			Map<String, Object> property= new HashMap<String, Object>();
@@ -2707,5 +2724,162 @@ public class PushPublishTest {
 		Assert.assertFalse(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should not  exist in receiver server");
 		logoutReceiverServer();
 
+	}
+
+	/**
+	 * Push content created from a new structure as a limited user 
+	 * http://qa.dotcms.com/index.php?/cases/view/572
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc572_PushContentAsLimitedUser() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+
+		//create structure
+		IStructuresPage structurePage = portletMenu.getStructuresPage();
+		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(contentStructureName8, "Content",contentStructureName8, demoServer);
+
+		//Test that the field doesn't exist
+		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName8Field1),"ERROR - The field ("+contentStructureName8Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(contentStructureName8Field1, true, true, true, true, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName8Field1),"ERROR - The field ("+contentStructureName8Field1+") shoudl exist at this time");
+
+		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName8Field2),"ERROR - The field ("+contentStructureName8Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(contentStructureName8Field2, "", "", "","", false, false, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName8Field2),"ERROR - The field ("+contentStructureName8Field2+") shoudl exist at this time");
+		fieldsPage.sleep(3);
+		logoutAuthoringServer();
+
+		//login as limited user
+		portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		portletMenu.sleep(3);
+		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(contentStructureName8);
+
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put(contentStructureName8Field1.toLowerCase(), contentTitle8);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXTAREA_FIELD);
+		map.put(contentStructureName8Field2.toLowerCase(), contentTextArea8);
+		fields.add(map) ;
+		contentPage.setFields(fields);
+		contentPage.sleep(2);
+		contentPage.saveAndPublish();
+		contentPage.sleep(3);
+		//Push Content
+		contentSearchPage = portletMenu.getContentSearchPage();
+		contentSearchPage.pushContent(contentTitle8,contentStructureName8);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle8,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle8+") push should not be in pending list.");
+		logoutAuthoringServer();
+
+		//Calling receiver
+		portletMenu=callReceiverServer();
+		contentSearchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle8, contentStructureName8),"ERROR - content ('"+contentTitle8+"') doesn't exist in receiver server");
+		Assert.assertTrue(contentSearchPage.isPublish(contentTitle8, contentStructureName8),"ERROR - content ('"+contentTitle8+"') should be publish in receiver server");
+
+		structurePage = portletMenu.getStructuresPage();
+		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should exist in receiver server");
+
+		//delete structure and content
+		//structurePage.deleteStructureAndContent(contentStructureName8, true);
+		//Assert.assertFalse(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should not exist in receiver server");
+
+		logoutReceiverServer();
+
+		//calling authoring server
+		//portletMenu = callAuthoringServer();
+		//portletMenu.sleep(3);
+
+		//delete structure
+		//structurePage = portletMenu.getStructuresPage();
+		//structurePage.deleteStructureAndContent(contentStructureName8, true);
+		//Assert.assertFalse(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should not exist in authoring server");
+
+		//logoutAuthoringServer();
+	}
+
+	/**
+	 * Edit existing content and push as limited user to update remote content 
+	 * http://qa.dotcms.com/index.php?/cases/view/573
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc573_EditContentAndPushAsLimitedUser() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		portletMenu.sleep(3);
+		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.editContent(contentTitle8,contentStructureName8);
+
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put(contentStructureName8Field1.toLowerCase(), contentTitle8);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXTAREA_FIELD);
+		map.put(contentStructureName8Field2.toLowerCase(), contentTextArea82);
+		fields.add(map) ;
+		contentPage.setFields(fields);
+		contentPage.sleep(2);
+		if(contentPage.isPresentContentLockButton()){
+			contentPage.clickLockForEditingButton();
+		}
+		contentPage.saveAndPublish();
+		contentPage.sleep(3);
+		//Push Content
+		contentSearchPage = portletMenu.getContentSearchPage();
+		contentSearchPage.pushContent(contentTitle8,contentStructureName8);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle8,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle8+") push should not be in pending list.");
+		logoutAuthoringServer();
+
+		//Calling receiver
+		portletMenu=callReceiverServer();
+		IStructuresPage structurePage = portletMenu.getStructuresPage();
+		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should exist in receiver server");
+
+		contentSearchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle8, contentStructureName8),"ERROR - Content ('"+contentTitle8+"') should exist on receiver server");
+		Assert.assertTrue(contentSearchPage.isPublish(contentTitle8, contentStructureName8),"ERROR - content ('"+contentTitle8+"') should be publish in receiver server");
+
+		contentPage = contentSearchPage.editContent(contentTitle8,contentStructureName8);
+		String text	= contentPage.getFieldValue(contentStructureName8Field2.toLowerCase());
+		contentPage.cancel();
+		Assert.assertTrue(text.equals(contentTextArea82),"ERROR - Content ('"+contentTitle8+"') are not the same in authoring and receiver servers");
+		
+		//delete structure and content
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(contentStructureName8, true);
+		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should not exist in receiver server");
+
+		logoutReceiverServer();
+
+		//calling authoring server
+		portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+
+		//delete structure
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(contentStructureName8, true);
+		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should not exist in authoring server");
+
+		logoutAuthoringServer();
 	}
 }

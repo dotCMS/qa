@@ -80,7 +80,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 	public IContentAddOrEdit_ContentPage editContent(String contentName, String structure) throws Exception{
 		WebElement content = findContentRow(contentName, structure);
 		List<WebElement> columns = content.findElements(By.tagName("td"));
-		columns.get(2).click();
+		columns.get(2).findElement(By.tagName("a")).click(); 
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentAddOrEdit_ContentPage.class);
 	}
 
