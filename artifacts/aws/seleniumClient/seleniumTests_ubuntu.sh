@@ -114,6 +114,7 @@ sleep 10
 mkdir temp_log
 pushd temp_log
 cp -a ${WORKSPACE}/qa/build/install/qa/ .
+cp -a ${WORKSPACE}/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country} .
 tar -cvzf ../${QA_TestArtifactFilename} .
 popd
 rm -rf temp_log/
