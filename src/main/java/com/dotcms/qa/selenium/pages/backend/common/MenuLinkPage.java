@@ -9,9 +9,11 @@ import org.openqa.selenium.WebElement;
 import com.dotcms.qa.selenium.pages.backend.IContainerAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IMenuLinkAddOrEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IMenuLinkPage;
+import com.dotcms.qa.selenium.pages.backend.IPushPublishDialogPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.Evaluator;
+import com.dotcms.qa.util.WebKeys;
 
 /**
  * This class implements the methods defined in the IMenuLinkPage interface
@@ -78,8 +80,8 @@ public class MenuLinkPage extends BasePage implements IMenuLinkPage{
 		List<WebElement> columns = link.findElements(By.tagName("td"));
 		selectRightClickPopupMenuOption(columns.get(1),getLocalizedString("Remote-Publish"));
 		sleep(2);
-		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
-		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
+		IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
+		pushingDialog.push(WebKeys.PUSH_TO_ADD, null, null, null, null, false);
 	}
 
 	/**

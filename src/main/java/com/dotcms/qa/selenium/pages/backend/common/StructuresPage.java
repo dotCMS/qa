@@ -10,11 +10,13 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
+import com.dotcms.qa.selenium.pages.backend.IPushPublishDialogPage;
 import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_FieldsPage;
 import com.dotcms.qa.selenium.pages.backend.IStructureAddOrEdit_PropertiesPage;
 import com.dotcms.qa.selenium.pages.backend.IStructuresPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.WebKeys;
 
 public class StructuresPage extends BasePage implements IStructuresPage {
 	private static final Logger logger = Logger.getLogger(StructuresPage.class);
@@ -83,13 +85,13 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 	}
 
 	/**
-	 * Validate if the structure exist
+	 * return the structure Row if exist
 	 * @param structureName Name of the structure
-	 * @return true if the structure exist, false if not
+	 * @return WebElement
+	 * @throws Exception
 	 */
-	public boolean doesStructureExist(String structureName) {
-		boolean retValue = false;
-		//search in the structures filter
+	private WebElement findStructureRow(String structureName) throws Exception{
+		WebElement structureRow = null;
 		WebElement textBox = getWebElement(By.cssSelector("input[type='text'][name='query']"));
 		textBox.clear();
 		textBox.sendKeys(structureName);
@@ -100,12 +102,34 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 			List<WebElement> tds =  result.findElements(By.tagName("td"));
 			if(tds.size() > 2){
 				if(tds.get(0).getText().equals(structureName)){
-					retValue = true;
+					structureRow = result;
 					break;
 				}
 			}
-		}			
-
+		}
+		return structureRow; 
+	}
+	/**
+	 * Validate if the structure exist
+	 * @param structureName Name of the structure
+	 * @return true if the structure exist, false if not
+	 */
+	public boolean doesStructureExist(String structureName) {
+		boolean retValue = false;
+		//search in the structures filter
+		try{
+			WebElement result = findStructureRow(structureName);
+			if(result != null){
+				List<WebElement> tds =  result.findElements(By.tagName("td"));
+				if(tds.size() > 2){
+					if(tds.get(0).getText().equals(structureName)){
+						retValue = true;
+					}
+				}
+			}	
+		}catch(Exception e){
+			//structure not found
+		}
 		return retValue;
 	}
 
@@ -128,26 +152,14 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 	 * @return true if the structure exist, false if not
 	 */
 	public IStructureAddOrEdit_PropertiesPage getStructurePage(String structureName) throws Exception{
-		WebElement textBox = getWebElement(By.cssSelector("input[type='text'][name='query']"));
-		textBox.clear();
-		textBox.sendKeys(structureName);
-		getSearchButton().click();
-		sleep(1);
-		boolean found = false;
-		List<WebElement> results = getWebElement(By.id("results_table_popup_menus")).findElements(By.tagName("tr"));
-		for(WebElement result : results){
-			List<WebElement> tds =  getWebElements(By.tagName("td"));
-			for(WebElement td : tds){
-				if(td.getText().equals(structureName)){
-					found = true;
-					td.click();
-					break;
-				}
-			}
-			if(found){
+		WebElement result = findStructureRow(structureName);
+		List<WebElement> tds = result.findElements(By.tagName("td"));
+		for(WebElement td : tds){
+			if(td.getText().equals(structureName)){
+				td.click();
 				break;
 			}
-		} 
+		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_PropertiesPage.class);
 	}
 
@@ -165,5 +177,19 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 			}
 		}
 		return button;
+	}
+
+	/**
+	 * Push the selected structure
+	 * @param structureName Name of the structure
+	 * @throws Exception
+	 */
+	public void pushStructure(String structureName) throws Exception{
+		WebElement result = findStructureRow(structureName);
+		List<WebElement> columns = result.findElements(By.tagName("td"));
+		selectRightClickPopupMenuOption(columns.get(0),getLocalizedString("Remote-Publish"));
+		sleep(2);
+		IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
+		pushingDialog.push(WebKeys.PUSH_TO_ADD, null, null, null, null, false);
 	}
 }

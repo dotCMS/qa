@@ -10,8 +10,10 @@ import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.backend.IContainerAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IContainersPage;
+import com.dotcms.qa.selenium.pages.backend.IPushPublishDialogPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.WebKeys;
 
 /**
  * This class implements the methods defined in the IContainersPage interface
@@ -141,7 +143,7 @@ public class ContainersPage extends BasePage implements IContainersPage {
 		List<WebElement> columns = container.findElements(By.tagName("td"));
 		selectRightClickPopupMenuOption(columns.get(1),getLocalizedString("Remote-Publish"));
 		sleep(2);
-		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
-		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
+		IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
+		pushingDialog.push(WebKeys.PUSH_TO_ADD, null, null, null, null, false);
 	}
 }

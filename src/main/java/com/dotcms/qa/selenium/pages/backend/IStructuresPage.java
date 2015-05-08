@@ -41,4 +41,11 @@ public interface IStructuresPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public IStructureAddOrEdit_PropertiesPage getStructurePage(String structureName) throws Exception;
+	
+	/**
+	 * Push the selected structure
+	 * @param structureName Name of the structure
+	 * @throws Exception
+	 */
+	public void pushStructure(String structureName) throws Exception;
 }

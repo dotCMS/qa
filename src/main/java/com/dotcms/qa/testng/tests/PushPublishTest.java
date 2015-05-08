@@ -34,10 +34,15 @@ import com.dotcms.qa.selenium.pages.backend.ITemplateAddOrEditAdvanceTemplatePag
 import com.dotcms.qa.selenium.pages.backend.ITemplateAddOrEditDesignTemplatePage;
 import com.dotcms.qa.selenium.pages.backend.ITemplatesPage;
 import com.dotcms.qa.selenium.pages.backend.IUsersPage;
+import com.dotcms.qa.selenium.pages.backend.IWorkFlowStepsAddOrEdit_Page;
+import com.dotcms.qa.selenium.pages.backend.IWorkflowActionAddOrEdit_Page;
+import com.dotcms.qa.selenium.pages.backend.IWorkflowSchemeAddOrEditPage;
+import com.dotcms.qa.selenium.pages.backend.IWorkflowSchemesPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.UsersPageUtil;
 import com.dotcms.qa.util.WebKeys;
+import com.dotcms.qa.util.WorkflowPageUtil;
 
 /**
  * This class manage the TestRail suite of test for Push Publishing
@@ -227,7 +232,28 @@ public class PushPublishTest {
 	private String contentTextArea8="Test 572";
 	//test 573
 	private String contentTextArea82="Test 572 and 573";
+	//test 652
+	private String contentStructureName9="Test-652";
+	private String contentStructureName9Field1="Title";
+	private String contentStructureName9Field2="Body";
+	private String workflowSchemeName1="Test-652";
+	private String workflowSchemeStep1="Test652Assign";
+	private String workflowActionName1="Assign";
+	private String worflowSubaction1="Unlock content"; 
 
+	//test 653
+	private String contentStructureName10="Test-653";
+	private String contentStructureName10Field1="Title";
+	private String contentTitle10="Test-653";
+	private String contentStructureName10Field2="Body";
+	private String contentTextArea10="Test 653";
+	private String workflowSchemeName2="Test-653";
+	private String workflowSchemeStep2="Test653Assign";
+	private String workflowActionName2="Assign";
+	private String worflowSubaction2="Lock content"; 
+	private String workflowSchemeStep3="Test653Review";
+	private String workflowActionName3="Review";
+	private String worflowSubaction3="Unlock content"; 
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -563,6 +589,14 @@ public class PushPublishTest {
 				structurePage.deleteStructureAndContent(contentStructureName8, true);
 			}
 
+			if(structurePage.doesStructureExist(contentStructureName9)){
+				structurePage.deleteStructureAndContent(contentStructureName9, true);
+			}
+			
+			if(structurePage.doesStructureExist(contentStructureName10)){
+				structurePage.deleteStructureAndContent(contentStructureName10, true);
+			}
+
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 			if(contentSearchPage.doesContentExist(contentTitle1, contentStructureName1)){
@@ -577,13 +611,31 @@ public class PushPublishTest {
 				contentSearchPage.delete(contentTitle7, contentStructureName7);
 			}
 
+			/* Delete workflows*/
+			IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
+			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName1)){
+				schemesPage = portletMenu.getWorkflowSchemesPage();
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName1);
+				stepsPage.deleteStep(workflowSchemeStep1);
+				WorkflowPageUtil.deleteWorkflow(workflowSchemeName1,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+			}
+
+			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2)){
+				schemesPage = portletMenu.getWorkflowSchemesPage();
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
+				stepsPage.deleteStep(workflowSchemeStep3);
+				stepsPage.deleteStep(workflowSchemeStep2);
+				WorkflowPageUtil.deleteWorkflow(workflowSchemeName2,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+			}
+			
 			/*Delete limited user*/
 			IUsersPage usersPage = portletMenu.getUsersPage();
 			Map<String, String> fakeUser = usersPage.getUserProperties(limitedUserEmail);
 			String fakeUserId = fakeUser.get("userId");
 			if(fakeUserId != null && !fakeUserId.equals("")){
-				UsersPageUtil.deleteUser(fakeUserId);
+				UsersPageUtil.deleteUser(fakeUserId,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 			}
+
 			/* Delete limited role*/
 			IRolesPage rolePage = portletMenu.getRolesPage();
 			if(rolePage.doesRoleExist(limitedRole)){
@@ -746,6 +798,14 @@ public class PushPublishTest {
 				structurePage.deleteStructureAndContent(contentStructureName8, true);
 			}
 
+			if(structurePage.doesStructureExist(contentStructureName9)){
+				structurePage.deleteStructureAndContent(contentStructureName9, true);
+			}
+			
+			if(structurePage.doesStructureExist(contentStructureName10)){
+				structurePage.deleteStructureAndContent(contentStructureName10, true);
+			}
+
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 			if(contentSearchPage.doesContentExist(contentTitle1, contentStructureName1)){
@@ -758,6 +818,23 @@ public class PushPublishTest {
 				contentSearchPage.unpublish(contentTitle7, contentStructureName7);
 				contentSearchPage.archive(contentTitle7, contentStructureName7);
 				contentSearchPage.delete(contentTitle7, contentStructureName7);
+			}
+
+			/* Delete workflows*/
+			IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
+			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName1)){
+				schemesPage = portletMenu.getWorkflowSchemesPage();
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName1);
+				stepsPage.deleteStep(workflowSchemeStep1);
+				WorkflowPageUtil.deleteWorkflow(workflowSchemeName1,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+			}
+			
+			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2)){
+				schemesPage = portletMenu.getWorkflowSchemesPage();
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
+				stepsPage.deleteStep(workflowSchemeStep3);
+				stepsPage.deleteStep(workflowSchemeStep2);
+				WorkflowPageUtil.deleteWorkflow(workflowSchemeName2,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
 			}
 
 			logoutReceiverServer();
@@ -2863,7 +2940,7 @@ public class PushPublishTest {
 		String text	= contentPage.getFieldValue(contentStructureName8Field2.toLowerCase());
 		contentPage.cancel();
 		Assert.assertTrue(text.equals(contentTextArea82),"ERROR - Content ('"+contentTitle8+"') are not the same in authoring and receiver servers");
-		
+
 		//delete structure and content
 		structurePage = portletMenu.getStructuresPage();
 		structurePage.deleteStructureAndContent(contentStructureName8, true);
@@ -2881,5 +2958,255 @@ public class PushPublishTest {
 		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should not exist in authoring server");
 
 		logoutAuthoringServer();
+	}
+
+	/*
+	 * Workflow Test
+	 */
+
+	/**
+	 * Add New Workflow, assign to structure, and push structure 
+	 * http://qa.dotcms.com/index.php?/cases/view/652
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc652_AddWorkflowAssignToStructureAndPush() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+		//create a workflow
+		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
+		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
+		addSchemePage.setName(workflowSchemeName1);
+		addSchemePage.sleep(2);
+		addSchemePage.setDescription(workflowSchemeName1);
+		addSchemePage.save();
+
+		//add actions
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName1);
+		schemeStepsPage.addWorkflowStep(workflowSchemeStep1);
+		IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.addActionToStep(workflowSchemeStep1);
+		actionPage.setActionName(workflowActionName1);
+		actionPage.setSaveContent(true);
+		actionPage.setWhoCanUse("Admin User");
+		actionPage.setWhoCanUse(limitedRole);
+		actionPage.setAllowComment(true);
+		actionPage.setUserCanAssign(true);
+		actionPage.setAssignTo("Admin User");
+		actionPage.sleep(2);
+		actionPage.save();
+		//adding subaction
+		actionPage.addSubAction(worflowSubaction1);
+		actionPage.save();
+
+		//create structure 
+		IStructuresPage structurePage = portletMenu.getStructuresPage();
+		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(contentStructureName9, "Content",contentStructureName9, demoServer,workflowSchemeName1);
+
+
+		//Test that the field doesn't exist
+		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName9Field1),"ERROR - The field ("+contentStructureName9Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(contentStructureName9Field1, true, true, true, true, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName9Field1),"ERROR - The field ("+contentStructureName9Field1+") shoudl exist at this time");
+
+		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName9Field2),"ERROR - The field ("+contentStructureName9Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(contentStructureName9Field2, "", "", "","", false, false, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName9Field2),"ERROR - The field ("+contentStructureName9Field2+") shoudl exist at this time");
+		fieldsPage.sleep(3);
+
+		//push Structure
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.pushStructure(contentStructureName9);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentStructureName9,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Structure ("+contentStructureName9+") push should not be in pending list.");
+
+		//delete structure and workflow
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(contentStructureName9, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName9), "ERROR - Structure ('"+contentStructureName9+"') should not exist in authoring server");
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName1);
+		stepsPage.deleteStep(workflowSchemeStep1);
+		WorkflowPageUtil.deleteWorkflow(workflowSchemeName1,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(workflowSchemeName1), "ERROR - Workflow ('"+workflowSchemeName1+"') should not exist in authoring server");
+
+		logoutAuthoringServer();
+
+		//call Receiver
+		portletMenu=callReceiverServer();
+		structurePage = portletMenu.getStructuresPage();
+		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName9),  "ERROR - Structure ('"+contentStructureName9+"') should  exist in receiver server");
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(workflowSchemeName1), "ERROR - Workflow ('"+workflowSchemeName1+"') should not exist in receiver server");
+
+		//delete structure and workflow
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(contentStructureName9, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName9), "ERROR - Structure ('"+contentStructureName9+"') should not exist in receiver server");
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName1);
+		stepsPage.deleteStep(workflowSchemeStep1);
+		WorkflowPageUtil.deleteWorkflow(workflowSchemeName1,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+		stepsPage.sleep(2);
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(workflowSchemeName1), "ERROR - Workflow ('"+workflowSchemeName1+"') should not exist in receiver server");
+
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Add a new Workflow, assign to structure, and push a contentlet from that structure 
+	 * http://qa.dotcms.com/index.php?/cases/view/653
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc653_AddWorkflowAssignToStructureAddContentAndPush() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+		//create a workflow
+		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
+		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
+		addSchemePage.setName(workflowSchemeName2);
+		addSchemePage.sleep(2);
+		addSchemePage.setDescription(workflowSchemeName2);
+		addSchemePage.save();
+
+		//add actions
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
+		schemeStepsPage.addWorkflowStep(workflowSchemeStep2);
+		IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.addActionToStep(workflowSchemeStep2);
+		actionPage.setActionName(workflowActionName2);
+		actionPage.setSaveContent(true);
+		actionPage.setWhoCanUse("Admin User");
+		actionPage.setWhoCanUse(limitedRole);
+		actionPage.setAllowComment(true);
+		actionPage.setUserCanAssign(true);
+		actionPage.setAssignTo("Admin User");
+		actionPage.sleep(2);
+		actionPage.save();
+		//adding subaction
+		actionPage.addSubAction(worflowSubaction2);
+		actionPage.save();
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
+		schemeStepsPage.addWorkflowStep(workflowSchemeStep3);
+		actionPage = schemeStepsPage.addActionToStep(workflowSchemeStep3);
+		actionPage.setActionName(workflowActionName3);
+		actionPage.setSaveContent(false);
+		actionPage.setWhoCanUse("Admin User");
+		actionPage.setWhoCanUse(limitedRole);
+		actionPage.setAllowComment(true);
+		actionPage.setUserCanAssign(true);
+		actionPage.setAssignTo("Admin User");
+		actionPage.sleep(2);
+		actionPage.save();
+		//adding subaction
+		actionPage.addSubAction(worflowSubaction3);
+		actionPage.save();
+
+		//create structure 
+		IStructuresPage structurePage = portletMenu.getStructuresPage();
+		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(contentStructureName10, "Content",contentStructureName10, demoServer,workflowSchemeName2);
+
+
+		//Test that the field doesn't exist
+		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName10Field1),"ERROR - The field ("+contentStructureName10Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(contentStructureName10Field1, true, true, true, true, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName10Field1),"ERROR - The field ("+contentStructureName10Field1+") shoudl exist at this time");
+
+		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName10Field2),"ERROR - The field ("+contentStructureName10Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(contentStructureName10Field2, "", "", "","", false, false, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName10Field2),"ERROR - The field ("+contentStructureName10Field2+") shoudl exist at this time");
+		fieldsPage.sleep(3);
+
+		//addContent
+		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
+		IContentAddOrEdit_ContentPage contentPage = searchPage.addContent(contentStructureName10);
+
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put("title", contentTitle10);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXTAREA_FIELD);
+		map.put("body", contentTextArea10);
+		fields.add(map) ;
+		contentPage.setFields(fields);
+		contentPage.sleep(2);
+		contentPage.saveAndPublish();
+		contentPage.sleep(2);
+		searchPage = portletMenu.getContentSearchPage();
+		//push content
+		searchPage.pushContent(contentTitle10,contentStructureName10);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle10,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle10+") push should not be in pending list.");
+
+		//delete structure and workflow
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(contentStructureName10, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName10), "ERROR - Structure ('"+contentStructureName10+"') should not exist in authoring server");
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
+		stepsPage.deleteStep(workflowSchemeStep3);
+		stepsPage.deleteStep(workflowSchemeStep2);
+		WorkflowPageUtil.deleteWorkflow(workflowSchemeName2,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2), "ERROR - Workflow ('"+workflowSchemeName2+"') should not exist in authoring server");
+
+		logoutAuthoringServer();
+
+		//call Receiver
+		portletMenu=callReceiverServer();
+		
+		searchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(searchPage.doesContentExist(contentTitle10, contentStructureName10),  "ERROR - Content ('"+contentStructureName10+"') should  exist in receiver server");
+
+		structurePage = portletMenu.getStructuresPage();
+		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName10),  "ERROR - Structure ('"+contentStructureName10+"') should  exist in receiver server");
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2), "ERROR - Workflow ('"+workflowSchemeName2+"') should not exist in receiver server");
+
+		//delete structure and workflow
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(contentStructureName10, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName10), "ERROR - Structure ('"+contentStructureName10+"') should not exist in receiver server");
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
+		stepsPage.deleteStep(workflowSchemeStep3);
+		stepsPage.deleteStep(workflowSchemeStep2);
+		WorkflowPageUtil.deleteWorkflow(workflowSchemeName2,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+		stepsPage.sleep(2);
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2), "ERROR - Workflow ('"+workflowSchemeName2+"') should not exist in receiver server");
+
+		logoutReceiverServer();
 	}
 }

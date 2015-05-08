@@ -102,5 +102,32 @@ public class QAAutomationResource extends WebResource {
 		ResponseBuilder builder = Response.ok("{\"result\":\"" + deleted + " POST!\"}", "application/json");
 		return builder.build();
 	}
+	
+	/**
+	 * Delete the specified workflow scheme from db
+	 * @param request
+	 * @param params
+	 * @return Response
+	 * @throws URISyntaxException
+	 */
+	@GET
+	@Path("/workflows/delete/{params:.*}")
+	@Produces("application/json")
+	public Response deleteWorkflows(@Context HttpServletRequest request, @PathParam("params") String params) throws URISyntaxException {
+		InitDataObject initData = init(params, true, request, true);
+		Map<String, String> paramsMap = initData.getParamsMap();
+		String workflowName = paramsMap.get("name");
+		DotConnect db = new DotConnect();
+		Logger.info( this.getClass(), "Received request to delete workflow:"+workflowName );
+		boolean deleted= false;
+		try{
+			db.executeStatement("delete from workflow_scheme where name='"+workflowName+"'");
+			deleted=true;
+		} catch(Exception e){
+			Logger.error(QAAutomationResource.class,"ERROR - Workflow Scheme could not be deleted. Workflow name:"+workflowName,e);
+		}
+		ResponseBuilder builder = Response.ok("{\"result\":\"" + deleted + " POST!\"}", "application/json");
+		return builder.build();
+	}
 
 }

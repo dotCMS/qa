@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.WebKeys;
 
 public class ContentSearchPage extends BasePage implements IContentSearchPage {
 
@@ -95,8 +96,8 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 		List<WebElement> columns = content.findElements(By.tagName("td"));
 		selectRightClickPopupMenuOption(columns.get(2),getLocalizedString("Remote-Publish"));
 		sleep(2);
-		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
-		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
+		IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
+		pushingDialog.push(WebKeys.PUSH_TO_ADD, null, null, null, null, false);
 	}
 
 	/**
@@ -116,40 +117,8 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 		List<WebElement> columns = content.findElements(By.tagName("td"));
 		selectRightClickPopupMenuOption(columns.get(2),getLocalizedString("Remote-Publish"));
 		sleep(2);
-		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));	
-
-		List<WebElement> pushOptions = remotePublishBundleDialog.findElements(By.cssSelector("input[type='radio']"));
-		for(WebElement option:pushOptions){
-			if(option.getAttribute("value").trim().equals(pushType)){
-				option.click();
-				break;
-			}
-		}
-		sleep(2);
-
-		if(pushDate != null && !pushDate.equals("")){
-			remotePublishBundleDialog.findElement(By.id("wfPublishDateAux")).clear();
-			remotePublishBundleDialog.findElement(By.id("wfPublishDateAux")).sendKeys(pushDate);
-		}
-		if(pushTime != null && !pushTime.equals("")){
-			remotePublishBundleDialog.findElement(By.id("wfPublishTimeAux")).clear();
-			remotePublishBundleDialog.findElement(By.id("wfPublishTimeAux")).sendKeys(pushTime);
-		}
-		if(force){
-			remotePublishBundleDialog.findElement(By.id("forcePush")).click();
-		}
-		if(expireDate != null && !expireDate.equals("")){
-			remotePublishBundleDialog.findElement(By.id("wfExpireDateAux")).clear();
-			remotePublishBundleDialog.findElement(By.id("wfExpireDateAux")).sendKeys(expireDate);
-		}
-		if(expireTime != null && !expireTime.equals("")){
-			remotePublishBundleDialog.findElement(By.id("wfExpireTimeAux")).clear();
-			remotePublishBundleDialog.findElement(By.id("wfExpireTimeAux")).sendKeys(expireDate);
-		}
-		//environmentSelect
-		//whereToSendTable
-
-		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
+		IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
+		pushingDialog.push(pushType, pushDate, pushTime, expireDate, expireTime, force);
 	}
 
 	/**
@@ -432,8 +401,8 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 		}
 		getWebElement(By.id("pushPublishButton_label")).click();
 		sleep(2);
-		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
-		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
+		IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
+		pushingDialog.push(WebKeys.PUSH_TO_ADD, null, null, null, null, false);
 
 	}
 }

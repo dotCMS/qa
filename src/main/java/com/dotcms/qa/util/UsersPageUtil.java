@@ -23,8 +23,20 @@ public class UsersPageUtil {
 	 */
 	public static IBasePage deleteUser(String userId) throws Exception{
 		SeleniumConfig config = SeleniumConfig.getConfig();
+		return deleteUser(userId, config.getProperty("demoServerURL"));
+	}
+	
+	/**
+	 * Call the qa_automation plugin to delete the user from db
+	 * @param userId User Identitity
+	 * @param serverURL  serverURL
+	 * @return IBasePage
+	 * @throws Exception
+	 */
+	public static IBasePage deleteUser(String userId, String serverURL) throws Exception{
+		SeleniumConfig config = SeleniumConfig.getConfig();
 		SeleniumPageManager frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
-		IBasePage page = frontendMgr.loadPage(config.getProperty("demoServerURL") + "api/qa_automation/user/delete/userId/"+userId+"/user/"+config.getProperty("backend.user.Email")+"/password/"+config.getProperty("backend.user.Password"));
+		IBasePage page = frontendMgr.loadPage(serverURL + "api/qa_automation/user/delete/userId/"+userId+"/user/"+config.getProperty("backend.user.Email")+"/password/"+config.getProperty("backend.user.Password"));
 		return page;
 	}
 
@@ -36,8 +48,20 @@ public class UsersPageUtil {
 	 */
 	public static IBasePage deleteTag(String tag) throws Exception{
 		SeleniumConfig config = SeleniumConfig.getConfig();
+		return deleteTag(tag, config.getProperty("demoServerURL"));
+	}
+	
+	/**
+	 * Call the qa_automation plugin to delete tags from db
+	 * @param tag Tag name
+	 * @param serverURL
+	 * @return IBasePage
+	 * @throws Exception
+	 */
+	public static IBasePage deleteTag(String tag, String serverURL) throws Exception{
+		SeleniumConfig config = SeleniumConfig.getConfig();
 		SeleniumPageManager frontendMgr = RegressionSuiteEnv.getFrontendPageManager();
-		IBasePage page = frontendMgr.loadPage(config.getProperty("demoServerURL") + "api/qa_automation/tag/delete/tagname/"+tag+"/user/"+config.getProperty("backend.user.Email")+"/password/"+config.getProperty("backend.user.Password"));
+		IBasePage page = frontendMgr.loadPage(serverURL+ "api/qa_automation/tag/delete/tagname/"+tag+"/user/"+config.getProperty("backend.user.Email")+"/password/"+config.getProperty("backend.user.Password"));
 		return page;
 	}
 	

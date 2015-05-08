@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 
+
 public interface IPortletMenu extends IBasePage {
 
 	public IContentSearchPage getContentSearchPage() throws Exception;
@@ -70,5 +71,12 @@ public interface IPortletMenu extends IBasePage {
 	 * @throws Exception
 	 */
 	public IMenuLinkPage getMenuLinkPage() throws Exception;
+	
+	/**
+	 * Get the Workflow schemes page
+	 * @return IWorkflowSchemesPage
+	 * @throws Exception
+	 */
+	public IWorkflowSchemesPage getWorkflowSchemesPage() throws Exception;
 	
 }

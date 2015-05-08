@@ -13,9 +13,11 @@ import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddDialog;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.IMenuLinkAddOrEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IPreviewHTMLPage_Page;
+import com.dotcms.qa.selenium.pages.backend.IPushPublishDialogPage;
 import com.dotcms.qa.selenium.pages.backend.ISiteBrowserPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.WebKeys;
 
 public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	private static final Logger logger = Logger.getLogger(SiteBrowserPage.class);
@@ -192,8 +194,8 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 			if(elem.getText().equals(elementName)){
 				selectRightClickPopupMenuAction(elem,getLocalizedString("Remote-Publish"));
 				sleep(2);
-				WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
-				remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();
+				IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
+				pushingDialog.push(WebKeys.PUSH_TO_ADD, null, null, null, null, false);
 				break;
 			}
 		}		
@@ -356,8 +358,8 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		WebElement  folder = getFolder(folderName);
 		selectRightClickPopupMenuAction(folder,getLocalizedString("Remote-Publish"));
 		sleep(2);
-		WebElement remotePublishBundleDialog = getWebElement(By.id("remotePublisherDia"));
-		remotePublishBundleDialog.findElement(By.id("remotePublishSaveButton")).click();		
+		IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
+		pushingDialog.push(WebKeys.PUSH_TO_ADD, null, null, null, null, false);		
 	}
 
 	/**

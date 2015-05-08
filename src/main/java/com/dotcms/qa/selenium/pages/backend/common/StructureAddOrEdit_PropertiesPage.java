@@ -19,6 +19,8 @@ public class StructureAddOrEdit_PropertiesPage extends BasePage implements	IStru
 	private WebElement hostSelector;
 
 	private WebElement saveButton_label;				// Save Button
+	private WebElement workflowScheme;                  //workflow;
+	private WebElement workflowScheme_popup0;
 
 	public StructureAddOrEdit_PropertiesPage(WebDriver driver) {
 		super(driver);
@@ -34,6 +36,20 @@ public class StructureAddOrEdit_PropertiesPage extends BasePage implements	IStru
 	 * @throws Exception
 	 */
 	public IStructureAddOrEdit_FieldsPage createNewStructure(String structureName, String type, String structureDescription, String hostName) throws Exception {
+		return createNewStructure(structureName, type, structureDescription, hostName, null);
+	}
+	
+	/**
+	 * Create a new structure
+	 * @param structureName Name of the structure
+	 * @param type Structure type: content, widget,file, page
+	 * @param structureDescription Description of the structure
+	 * @param hostName Host associated to the structure
+	 * @param workflowName Name of the worflow to use (Optional)
+	 * @return IStructureAddOrEdit_FieldsPage
+	 * @throws Exception
+	 */
+	public IStructureAddOrEdit_FieldsPage createNewStructure(String structureName, String type, String structureDescription, String hostName, String workflowName) throws Exception {
 		structureType.clear();
 		structureType.sendKeys(type);
 		structureType_popup0.click();
@@ -47,6 +63,13 @@ public class StructureAddOrEdit_PropertiesPage extends BasePage implements	IStru
 	    Thread.sleep(250);
 	    hostSelector.sendKeys(Keys.TAB);
 	    Thread.sleep(250);
+	    if(workflowName != null && !workflowName.equals("")){
+	    	workflowScheme.clear();
+	    	workflowScheme.sendKeys(workflowName);
+	    	workflowScheme_popup0.click();
+	    	Thread.sleep(250);
+	    }
+	    
 	    saveButton_label.click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
