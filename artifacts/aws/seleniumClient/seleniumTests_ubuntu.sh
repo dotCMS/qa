@@ -129,6 +129,10 @@ echo 'Cleaning up - preparing for another possible run'
 sudo cp -a /etc/hosts.backup /etc/hosts
 rm ${QA_TestArtifactFilename}
 
+cd ${WORKSPACE}
+echo "DOTCMS_VERSION=${DOTCMS_VERSION}" > ./params
+echo "DOTCMS_SERVER_IP=${DOTCMS_SERVER_IP}" >> ./params
+
 echo '********** END OF PART 3 **********'
 echo "EXIT_CODE=${EXIT_CODE}"
 exit ${EXIT_CODE}
