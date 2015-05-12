@@ -38,6 +38,7 @@ import com.dotcms.qa.selenium.pages.backend.IWorkFlowStepsAddOrEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IWorkflowActionAddOrEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IWorkflowSchemeAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IWorkflowSchemesPage;
+import com.dotcms.qa.selenium.pages.backend.IWorkflowTasksPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
 import com.dotcms.qa.util.UsersPageUtil;
@@ -619,7 +620,7 @@ public class PushPublishTest {
 				stepsPage.deleteStep(workflowSchemeStep1);
 				WorkflowPageUtil.deleteWorkflow(workflowSchemeName1,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 			}
-
+			schemesPage = portletMenu.getWorkflowSchemesPage();
 			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2)){
 				schemesPage = portletMenu.getWorkflowSchemesPage();
 				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
@@ -629,18 +630,18 @@ public class PushPublishTest {
 			}
 			
 			/*Delete limited user*/
-			IUsersPage usersPage = portletMenu.getUsersPage();
+			/*IUsersPage usersPage = portletMenu.getUsersPage();
 			Map<String, String> fakeUser = usersPage.getUserProperties(limitedUserEmail);
 			String fakeUserId = fakeUser.get("userId");
 			if(fakeUserId != null && !fakeUserId.equals("")){
 				UsersPageUtil.deleteUser(fakeUserId,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
-			}
+			}*/
 
 			/* Delete limited role*/
-			IRolesPage rolePage = portletMenu.getRolesPage();
+			/*IRolesPage rolePage = portletMenu.getRolesPage();
 			if(rolePage.doesRoleExist(limitedRole)){
 				rolePage.deleteRole(limitedRole);
-			}
+			}*/
 			logoutAuthoringServer();
 		}catch(Exception e){
 			logger.error(e.getMessage(), e);
@@ -828,7 +829,7 @@ public class PushPublishTest {
 				stepsPage.deleteStep(workflowSchemeStep1);
 				WorkflowPageUtil.deleteWorkflow(workflowSchemeName1,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
 			}
-			
+			schemesPage = portletMenu.getWorkflowSchemesPage();
 			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2)){
 				schemesPage = portletMenu.getWorkflowSchemesPage();
 				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
@@ -1652,7 +1653,7 @@ public class PushPublishTest {
 		templatesPage.sleep(3);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
 		browserPage.createHTMLPage(pageTitle4, templateTitle7, pageUrl4);
-
+		browserPage.sleep(2);
 		// escape preview page
 		IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
 		portletMenu = sideMenu.gotoAdminScreen();
@@ -1660,7 +1661,7 @@ public class PushPublishTest {
 
 		//login as limited user
 		portletMenu =callAuthoringServer(limitedUserEmail, limitedUserPaswword);
-		portletMenu.sleep(2);
+		portletMenu.sleep(4);
 		browserPage= portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(pageUrl4), "ERROR - Authoring Server: Page ('"+pageUrl4+"') should exist at this moment in authoring server.");
 
@@ -3084,7 +3085,7 @@ public class PushPublishTest {
 		addSchemePage.sleep(2);
 		addSchemePage.setDescription(workflowSchemeName2);
 		addSchemePage.save();
-
+		addSchemePage.sleep(2);
 		//add actions
 		schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
@@ -3094,7 +3095,7 @@ public class PushPublishTest {
 		actionPage.setSaveContent(true);
 		actionPage.setWhoCanUse("Admin User");
 		actionPage.setWhoCanUse(limitedRole);
-		actionPage.setAllowComment(true);
+		actionPage.setAllowComment(false);
 		actionPage.setUserCanAssign(true);
 		actionPage.setAssignTo("Admin User");
 		actionPage.sleep(2);
@@ -3111,7 +3112,7 @@ public class PushPublishTest {
 		actionPage.setSaveContent(false);
 		actionPage.setWhoCanUse("Admin User");
 		actionPage.setWhoCanUse(limitedRole);
-		actionPage.setAllowComment(true);
+		actionPage.setAllowComment(false);
 		actionPage.setUserCanAssign(true);
 		actionPage.setAssignTo("Admin User");
 		actionPage.sleep(2);
@@ -3156,7 +3157,23 @@ public class PushPublishTest {
 		contentPage.saveAndPublish();
 		contentPage.sleep(2);
 		searchPage = portletMenu.getContentSearchPage();
+		
+		//move content to workflow step
+		contentPage = searchPage.editContent(contentTitle10, contentStructureName10);
+		if(contentPage.isPresentContentLockButton()){
+			contentPage.clickLockForEditingButton();
+		}
+		List<Map<String,String>> parameters = new ArrayList<Map<String,String>>();
+		Map<String,String> paramsMap = new HashMap<String,String>();
+		paramsMap.put("taskAssignmentAux", "Admin User");
+		parameters.add(paramsMap);
+		paramsMap = new HashMap<String,String>();
+		paramsMap.put("clickButton", "Save");
+		parameters.add(paramsMap);
+		contentPage.selectWorkflowAction(workflowActionName2, parameters);
+		
 		//push content
+		searchPage = portletMenu.getContentSearchPage();
 		searchPage.pushContent(contentTitle10,contentStructureName10);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
@@ -3192,6 +3209,9 @@ public class PushPublishTest {
 		schemesPage = portletMenu.getWorkflowSchemesPage();
 		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2), "ERROR - Workflow ('"+workflowSchemeName2+"') should not exist in receiver server");
 
+		IWorkflowTasksPage workflowTasksPage = portletMenu.getWorkflowTasksPage();
+		Assert.assertTrue(workflowTasksPage.getWorflowTaskCurrentStep(contentTitle10, workflowSchemeName2).equals(workflowSchemeStep2),"ERROR - The workflow task ("+contentTitle10+") is not in the right step");
+		
 		//delete structure and workflow
 		structurePage = portletMenu.getStructuresPage();
 		structurePage.deleteStructureAndContent(contentStructureName10, true);

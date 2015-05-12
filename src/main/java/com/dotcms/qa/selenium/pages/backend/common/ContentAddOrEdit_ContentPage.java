@@ -304,7 +304,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	public void cancel() throws Exception{
 		getWebElement(By.linkText(getLocalizedString("cancel"))).click();
 	}
-	
+
 	/**
 	 * Get Content field value
 	 * @param fieldName Field name
@@ -324,5 +324,43 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 			value = (String) executeScript("var editor = ace.edit('"+fieldName+"Editor');return editor.getSession().getValue();");
 		}
 		return value;
+	}
+
+	/**
+	 * Select workflow action if it is available
+	 * @param actionName       Name of the action
+	 * @param parameters Parameters required in step (optional)
+	 * @throws Exception
+	 */
+	public void selectWorkflowAction(String actionName, List<Map<String,String>> parameters) throws Exception{
+		List<WebElement> actions = getWebElement(By.id("contentletActionsHanger")).findElements(By.tagName("a"));
+		for(WebElement action: actions){
+			if(action.getText().trim().equals(actionName)){
+				action.click();
+				if(parameters.size() > 0){
+					for(Map<String,String> param : parameters){
+						for(String key : param.keySet()){
+							if(!key.equals("clickButton")){
+								sleep(1);
+								WebElement field = getWebElement(By.id("contentletWfDialog")).findElement(By.id(key));
+								field.clear();
+								field.sendKeys(param.get(key));
+								sleep(2);
+								field.sendKeys(Keys.TAB);
+							}else{
+								List<WebElement> buttons = getWebElement(By.id("contentletWfDialog")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+								for(WebElement button : buttons){
+									if(button.getText().trim().equals(getLocalizedString(param.get(key)))){
+										button.click();
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+				break;
+			}
+		}
 	}
 }

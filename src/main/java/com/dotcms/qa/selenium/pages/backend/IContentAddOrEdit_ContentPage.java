@@ -87,4 +87,12 @@ public interface IContentAddOrEdit_ContentPage extends IBasePage {
 	 */
 	public String getFieldValue(String fieldName) throws Exception;
 	
+	/**
+	 * Select workflow step if it is available
+	 * @param actionName       Name of the action
+	 * @param parameters Parameters required in step (optional)
+	 * @throws Exception
+	 */
+	public void selectWorkflowAction(String actionName, List<Map<String,String>> parameters) throws Exception;
+	
 }

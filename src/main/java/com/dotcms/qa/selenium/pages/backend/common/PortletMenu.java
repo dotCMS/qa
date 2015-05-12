@@ -181,4 +181,15 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.WORKFLOW_SCHEMES"))).click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IWorkflowSchemesPage.class);
 	}
+	
+	/**
+	 * Get the Workflow tasks page
+	 * @return IWorkflowTasksPage
+	 * @throws Exception
+	 */
+	public IWorkflowTasksPage getWorkflowTasksPage() throws Exception{
+		hoverOverElement(getPortletElement(getLocalizedString("Home")));
+	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_21"))).click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IWorkflowTasksPage.class);
+	}
 }
