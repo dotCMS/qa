@@ -1,5 +1,6 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.selenium.pages.backend.ISelectAFileDialog.ViewSelector;
 import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.Evaluator;
 import com.dotcms.qa.util.WebKeys;
 
 public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAddOrEdit_ContentPage {
@@ -207,6 +209,36 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 							}
 						}
 					}
+				}else if(type.equals(WebKeys.BINARY_FIELD)){
+					for(String key : content.keySet()){
+						String path = System.getProperty("user.dir");
+						File file = new File(path+(String)content.get(key));
+						if(getBrowserName().equals(WebKeys.SAFARI_BROWSER_NAME)){
+							WebElement elem = getWebElement(By.xpath("//input[@type='file']"));
+							elem.sendKeys(file.getAbsolutePath());
+						}else{
+							getWebElement(By.cssSelector("input[type='file'][name='"+key+"']")).sendKeys(file.getAbsolutePath());
+						}	
+						//waiting image to be loaded
+						Evaluator eval = new Evaluator() {
+							public boolean evaluate() throws Exception {  
+								//validate if the thumbnail image is loaded
+								boolean found=false;
+								try{
+									WebElement thumbnail = getWebElement(By.id("thumbnailParentfileAsset"));
+									if(thumbnail != null){
+										found=true;
+									}
+								}catch(Exception e){
+									//element is not loaded
+								}
+								return  found;
+							}
+						};
+						pollForValue(eval, true, 5000,60);
+						
+					}
+
 				}else {
 					for(String key : content.keySet()){
 						WebElement elem = tab.findElement(By.id(key));

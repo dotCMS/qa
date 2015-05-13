@@ -147,4 +147,21 @@ public interface ISiteBrowserPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public IMenuLinkAddOrEdit_Page editMenuLink(String linkName) throws Exception;
+	
+	/**
+	 * Open the add new file in the selected folder using the right click New option
+	 * @param folderName       Folder name
+	 * @param fileType         type of file
+	 * @throws Exception
+	 */
+	public IContentAddOrEdit_ContentPage addFileInFolder(String folderName, String fileType) throws Exception;
+	
+	 
+	/**
+	 * Open the edit mode for the specified file
+	 * @param fileName   File Name
+	 * @return IContentAddOrEdit_ContentPage
+	 * @throws Exception
+	 */
+	public IContentAddOrEdit_ContentPage editFile(String fileName) throws Exception;
 }

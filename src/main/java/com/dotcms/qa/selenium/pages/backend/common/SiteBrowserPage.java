@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.dotcms.qa.selenium.pages.backend.IContentAddOrEdit_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.IFolderAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddDialog;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
@@ -505,7 +506,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 
 		return desiredFolderSpan;
 	}
-	
+
 	/**
 	 * Open the edit mode for the specified Menu link
 	 * @param linkName   Link Name
@@ -522,5 +523,45 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMenuLinkAddOrEdit_Page.class);
+	}
+
+	/**
+	 * Open the add new file in the selected folder using the right click New option
+	 * @param folderName       Folder name
+	 * @param fileType         type of file
+	 * @throws Exception
+	 */
+	public IContentAddOrEdit_ContentPage addFileInFolder(String folderName, String fileType) throws Exception{
+
+		WebElement folder = findFolder(folderName);
+		selectRightClickPopupMenuAction(folder, getLocalizedString("new"));
+		WebElement popupDiv = getWebElement(By.id("popups"));
+		selectPopupMenuOption(popupDiv, getLocalizedString("Image-or-File"));
+
+		WebElement addFileDialog = getWebElement(By.id("addFileAssetDialog"));
+		addFileDialog.findElement(By.id("defaultFileType")).clear();
+		addFileDialog.findElement(By.id("defaultFileType")).sendKeys(fileType);
+		sleep(1);
+		getWebElement(By.id("defaultFileType_popup0")).click();
+		addFileDialog.findElement(By.id("selectedFileAssetButton_label")).click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentAddOrEdit_ContentPage.class);
+	}
+
+	/**
+	 * Open the edit mode for the specified file
+	 * @param fileName   File Name
+	 * @return IContentAddOrEdit_ContentPage
+	 * @throws Exception
+	 */
+	public IContentAddOrEdit_ContentPage editFile(String fileName) throws Exception{
+		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		for(WebElement elem : elements){
+			if(elem.getText().equals(fileName)){
+				this.selectPopupMenuOption(elem, getLocalizedString("Edit"));
+				break;
+			}
+		}
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentAddOrEdit_ContentPage.class);
+
 	}
 }
