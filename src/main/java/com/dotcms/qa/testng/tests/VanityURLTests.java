@@ -65,7 +65,7 @@ public class VanityURLTests {
     }
 
     public void sleep() {
-        try{Thread.sleep(500);}catch(Exception e){};
+        try{Thread.sleep(2000);}catch(Exception e){};
     }
     
     @Test (groups = {"VanityURLs"})
