@@ -189,7 +189,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 						this.switchToFrame(key+"_ifr");
 						WebElement elem = getWebElement(By.id("tinymce"));
 						elem.click();
-						//String currentText = elem.getText();
+						elem.clear();
 						elem.sendKeys((String)content.get(key));
 						this.switchToDefaultContent();
 					}
@@ -236,7 +236,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 							}
 						};
 						pollForValue(eval, true, 5000,60);
-						
+
 					}
 
 				}else {
@@ -353,7 +353,13 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 				value = (String) executeScript("var editor = ace.edit('"+fieldName+"Editor');return editor.getSession().getValue();");
 			}
 		}catch(Exception e){
-			value = (String) executeScript("var editor = ace.edit('"+fieldName+"Editor');return editor.getSession().getValue();");
+			try{
+				this.switchToFrame(fieldName+"_ifr");
+				WebElement elem = getWebElement(By.id("tinymce"));	
+				value = elem.getText();
+			}catch(Exception e1){
+				value = (String) executeScript("var editor = ace.edit('"+fieldName+"Editor');return editor.getSession().getValue();");
+			}
 		}
 		return value;
 	}

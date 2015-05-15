@@ -146,11 +146,17 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 
 		if(structure != null && !structure.equals("")){
 			WebElement structureFields = getWebElement(By.id("structure_inode"));
-			structureFields.clear();
-			sleep(2);
-			structureFields.sendKeys(structure);
-			sleep(1);
-			getWebElement(By.id("structure_inode_popup0")).click();
+			try{
+				structureFields.clear();
+				sleep(2);
+				structureFields.sendKeys(structure);
+				sleep(1);
+				getWebElement(By.id("structure_inode_popup0")).click();
+			}catch(Exception e){
+				structureFields.clear();
+				getWebElement(By.id("widget_structure_inode")).findElement(By.cssSelector("div[class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton dijitArrowButtonContainer']")).click();
+				getWebElement(By.id("structure_inode_popup0")).click();
+			}
 		}else{
 			getWebElement(By.id("widget_structure_inode")).findElement(By.cssSelector("div[class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton dijitArrowButtonContainer']")).click();
 			getWebElement(By.id("structure_inode_popup0")).click();
@@ -404,5 +410,39 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 		IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
 		pushingDialog.push(WebKeys.PUSH_TO_ADD, null, null, null, null, false);
 
+	}
+
+	/**
+	 * unlock a content 
+	 * @param contentName Contentlet name
+	 * @param structure Contentlet structure
+	 * @throws Exception
+	 */
+	public void unLock(String contentName, String structure) throws Exception{
+		boolean isLock = false;
+		WebElement content = findContentRow(contentName, structure);
+		WebElement status = content.findElements(By.tagName("td")).get(0).findElement(By.cssSelector("span[class='lockIcon']"));
+		status.click();	
+	}
+
+	/**
+	 * Validate is the content is locked 
+	 * @param contentName Contentlet name
+	 * @param structure Contentlet structure
+	 * @return true if exist, false if not
+	 * @throws Exception
+	 */
+	public boolean islock(String contentName, String structure) throws Exception{
+		boolean isLock = false;
+		WebElement content = findContentRow(contentName, structure);
+		if(content != null){
+			try{
+				WebElement status = content.findElements(By.tagName("td")).get(0).findElement(By.cssSelector("span[class='lockIcon']"));
+				if(status != null){
+					isLock=true;
+				}
+			}catch(Exception e){}
+		}
+		return isLock;
 	}
 }

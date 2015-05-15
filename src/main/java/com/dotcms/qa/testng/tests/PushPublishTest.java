@@ -97,176 +97,189 @@ public class PushPublishTest {
 	private String containerCode3a ="<h2>Test 569 and 571</h2><br/><p>This is a test edited for limited user push publishing</p>";
 
 	private String limitedRole="limitedRole";
-	private String limitedUserName="MyLimited";
-	private String limitedUserLastName="User";
-	private String limitedUserEmail="limited.user@dotcms.com";
-	private String limitedUserPaswword="limited123";
+	private String limitedUserNameA="MyLimitedA";
+	private String limitedUserLastNameA="UserA";
+	private String limitedUserEmailA="limited.usera@dotcms.com";
+	private String limitedUserPaswwordA="limited123A";
+
+	private String limitedUserNameB="MyLimitedB";
+	private String limitedUserLastNameB="UserB";
+	private String limitedUserEmailB="limited.userb@dotcms.com";
+	private String limitedUserPaswwordB="limited123B";
+
 	//test 555
-	private String templateTitle1="Test-555";
-	private String templateContainer1="Default 1";
-	private String pageTitle1="Test-555";
-	private String pageUrl1="test-555.html";
-	//test 556
-	private String templateTitle2="Test-556";
-	private String templateTheme2="quest";
-	private String templateContainer2="Default 1";
-	private String templateContainer22="Default 2";
+	private String test555templateTitle1="Test-555";
+	private String test555templateContainer1="Default 1";
+	private String test555pageTitle1="Test-555";
+	private String test555pageUrl1="test-555.html";
+	//test 556 and 557
+	private String test556templateTitle2="Test-556";
+	private String test556templateTheme2="quest";
+	private String test556templateContainer2="Default 1";
+	private String test556templateContainer22="Default 2";
 
-	private String templateTitle3="Test-556-2";
-	private String templateTheme3="quest";
-	private String templateContainer3="Default 1";
-	private String pageTitle2="Test 556";
-	private String pageUrl2="test-556.html";
+	private String test556templateTitle3="Test-556-2";
+	private String test556templateTheme3="quest";
+	private String test556templateContainer3="Default 1";
+	private String test556pageTitle2="Test 556";
+	private String test556pageUrl2="test-556.html";
 	//test 558
-	private String folderName1="test558";
-	private String templateTitle4="Test-558";
-	private String templateTheme4="quest";
-	private String templateContainer4="Default 1";
-	private String pageTitle3="Test-558";
-	private String pageUrl3="test-558.html";
+	private String test558folderName1="test558";
+	private String test558templateTitle4="Test-558";
+	private String test558templateTheme4="quest";
+	private String test558templateContainer4="Default 1";
+	private String test558pageTitle3="Test-558";
+	private String test558pageUrl3="test-558.html";
 	//test 523
-	private String templateTitle5="Test-523A";
-	private String templateContainer5="Default 1";
-	private String templateTitle6="Test-523B";
-	private String templateTheme6="quest";
-	private String templateContainer6="Default 1";
-	//test 568
-	private String templateTitle7="Test-568";
-	private String templateContainer7="Default 1";
-	private String templateContainer72="Default 2";
-	private String pageTitle4="Test-568";
-	private String pageUrl4="test-568.html";
-	//test 507
-	private String containerTitle4="Test 507 Container";
-	private String containerCode4 ="<h2>Test 507</h2><br/><p>This is a test for push publishing</p>";
-	private String templateTitle8="Test-507";
-	private String pageTitle5="Test-507";
-	private String pageUrl5="test-507.html";
+	private String test523templateTitle5="Test-523A";
+	private String test523templateContainer5="Default 1";
+	private String test523templateTitle6="Test-523B";
+	private String test523templateTheme6="quest";
+	private String test523templateContainer6="Default 1";
+	//test 568 and 570
+	private String test568templateTitle7="Test-568";
+	private String test568templateContainer7="Default 1";
+	private String test568templateContainer72="Default 2";
+	private String test568pageTitle4="Test-568";
+	private String test568pageUrl4="test-568.html";
+	//test 507, 577, 578 and 582
+	private String test507containerTitle4="Test 507 Container";
+	private String test507containerCode4 ="<h2>Test 507</h2><br/><p>This is a test for push publishing</p>";
+	private String test507templateTitle8="Test-507";
+	private String test507pageTitle5="Test-507";
+	private String test507pageUrl5="test-507.html";
 	//test 577
-	private String pageTitle52="Test 507 and 577";
+	private String test577pageTitle52="Test 507 and 577";
 	//test 578
-	private String pageTitle53 = "Test 507, 577 and 578";
+	private String test578pageTitle53 = "Test 507, 577 and 578";
 	//test 582
-	private String pageTitle6="Test-582";
-	private String pageUrl6="test-582.html";
+	private String test582pageTitle6="Test-582";
+	private String test582pageUrl6="test-582.html";
 	//test 625
-	private String pageTitle7="Test-625";
-	private String pageUrl7="test-625.tml";
-	private String template625="Quest - 1 Column (With Content Padding)";
-	//test 524
-	private String linkTitle1="Test-524";
-	private String linkFolder1="home";
-	private String linkInternalHost1="qademo.dotcms.com";
-	private String linkInternalFolder1="about-us"; 
-	private String linkInternalUrl1="what-we-do.html";
-	private int linkOrder1=1;
-	private boolean linkShowOnMenu1=true;
+	private String test625pageTitle7="Test-625";
+	private String test625pageUrl7="test-625.tml";
+	private String test625template625="Quest - 1 Column (With Content Padding)";
+	//test 524 and 574
+	private String test524linkTitle1="Test-524";
+	private String test524linkFolder1="home";
+	private String test524linkInternalHost1="qademo.dotcms.com";
+	private String test524linkInternalFolder1="about-us"; 
+	private String test524linkInternalUrl1="what-we-do.html";
+	private int test524linkOrder1=1;
+	private boolean test524linkShowOnMenu1=true;
 	//test 574
-	private String linkExternalUrl1="www.dotcms.com";
-	//test 575
-	private String linkTitle2="Test-575";
-	private String linkFolder2="services";
-	private String linkCode2="<a href='http://www.google.com'>Google</a>";
-	private int linkOrder2=1;
-	private boolean linkShowOnMenu2=true;
-	//test 575
-	private String linkCode22="<a href='http://www.google.com'>Google</a><a href='http://www.dotcms.com'>DotCMS</a>";
-	private boolean linkShowOnMenu22=false;
-	//test 
-	private String linkTitle3="Test-589A";
-	private String linkFolder3="services";
-	private String linkInternalHost3="qademo.dotcms.com";
-	private String linkInternalFolder3="about-us"; 
-	private String linkInternalUrl3="what-we-do.html";
-	private int linkOrder3=1;
-	private boolean linkShowOnMenu3=true;
+	private String test574linkExternalUrl1="www.dotcms.com";
+	//test 575 and 576
+	private String test575linkTitle2="Test-575";
+	private String test575linkFolder2="services";
+	private String test575linkCode2="<a href='http://www.google.com'>Google</a>";
+	private int test575linkOrder2=1;
+	private boolean test575linkShowOnMenu2=true;
+	//test 576
+	private String test576linkCode22="<a href='http://www.google.com'>Google</a><a href='http://www.dotcms.com'>DotCMS</a>";
+	private boolean test576linkShowOnMenu22=false;
+	//test 589
+	private String test589linkTitle3="Test-589A";
+	private String test589linkFolder3="services";
+	private String test589linkInternalHost3="qademo.dotcms.com";
+	private String test589linkInternalFolder3="about-us"; 
+	private String test589linkInternalUrl3="what-we-do.html";
+	private int test589linkOrder3=1;
+	private boolean test589linkShowOnMenu3=true;
 
-	private String linkTitle4="Test-589B";
-	private String linkFolder4="services";
-	private String linkCode4="<a href='http://www.google.com'>Google</a>";
-	private int linkOrder4=1;
-	private boolean linkShowOnMenu4=true;
+	private String test589linkTitle4="Test-589B";
+	private String test589linkFolder4="services";
+	private String test589linkCode4="<a href='http://www.google.com'>Google</a>";
+	private int test589linkOrder4=1;
+	private boolean test589linkShowOnMenu4=true;
 	//test 520
-	private String contentStructureName1="Content ";
-	private String contentTitle1="Test-520";
-	private String contentWYSIWYG1="Test 520";
+	private String test520contentStructureName1="Content ";
+	private String test520contentTitle1="Test-520";
+	private String test520contentWYSIWYG1="Test 520";
 	//test 496
-	private String contentStructureName2="Test-496";
-	private String contentStructureName2Field1="Headline";
-	private String contentStructureName2Field2="Description";
-	private String contentTitle2="Test-496";
-	private String contentTextArea2="Test 496";
+	private String test496contentStructureName2="Test-496";
+	private String test496contentStructureName2Field1="Headline";
+	private String test496contentStructureName2Field2="Description";
+	private String test496contentTitle2="Test-496";
+	private String test496contentTextArea2="Test 496";
 	//test 519
-	private String contentStructureName3="Test-519-A";
-	private String contentStructureName3Field1="Headline";
-	private String contentStructureName3Field2="Description";
-	private String contentTitle3="Test-519-A";
-	private String contentTextArea3="Test 519A";
-	private String contentStructureName4="Test-519-B";
-	private String contentStructureName4Field1="Headline";
-	private String contentStructureName4Field2="Description";
-	private String contentTitle4="Test-519-B";
-	private String contentTextArea4="Test 519B";
-	private String contentStructureName5="Test-519-C";
-	private String contentStructureName5Field1="Headline";
-	private String contentStructureName5Field2="Description";
-	private String contentTitle5="Test-519-C";
-	private String contentTextArea5="Test 519C";
-	private String contentSearchFilterKey="Test-519";
+	private String test519contentStructureName3="Test-519-A";
+	private String test519contentStructureName3Field1="Headline";
+	private String test519contentStructureName3Field2="Description";
+	private String test519contentTitle3="Test-519-A";
+	private String test519contentTextArea3="Test 519A";
+	private String test519contentStructureName4="Test-519-B";
+	private String test519contentStructureName4Field1="Headline";
+	private String test519contentStructureName4Field2="Description";
+	private String test519contentTitle4="Test-519-B";
+	private String test519contentTextArea4="Test 519B";
+	private String test519contentStructureName5="Test-519-C";
+	private String test519contentStructureName5Field1="Headline";
+	private String test519contentStructureName5Field2="Description";
+	private String test519contentTitle5="Test-519-C";
+	private String test519contentTextArea5="Test 519C";
+	private String test519contentSearchFilterKey="Test-519";
 	//test 532
-	private String contentStructureName6="Test-532-#!%&*";
-	private String contentStructureName6Field1="Title";
-	private String contentStructureName6Field2="Description";
-	private String contentTitle6="Test-532";
-	private String contentTextArea6="Test 532";
+	private String test532contentStructureName6="Test-532-#!%&*";
+	private String test532contentStructureName6Field1="Title";
+	private String test532contentStructureName6Field2="Description";
+	private String test532contentTitle6="Test-532";
+	private String test532contentTextArea6="Test 532";
 	//test 528
-	private String contentStructureName7="Content";
-	private String contentStructureName7Field1="Title";
-	private String contentTitle7="Test-528";
-	private String contentStructureName7Field2="Body";
-	private String contentTextArea7="Test 528";
-	//test 572
-	private String contentStructureName8="Test-572";
-	private String contentStructureName8Field1="Title";
-	private String contentTitle8="Test-572";
-	private String contentStructureName8Field2="Body";
-	private String contentTextArea8="Test 572";
+	private String test528contentStructureName7="Content";
+	private String test528contentStructureName7Field1="Title";
+	private String test528contentTitle7="Test-528";
+	private String test528contentStructureName7Field2="Body";
+	private String test528contentTextArea7="Test 528";
+	//test 572 and 573
+	private String test572contentStructureName8="Test-572";
+	private String test572contentStructureName8Field1="Title";
+	private String test572contentTitle8="Test-572";
+	private String test572contentStructureName8Field2="Body";
+	private String test572contentTextArea8="Test 572";
 	//test 573
-	private String contentTextArea82="Test 572 and 573";
+	private String test573contentTextArea82="Test 572 and 573";
 	//test 652
-	private String contentStructureName9="Test-652";
-	private String contentStructureName9Field1="Title";
-	private String contentStructureName9Field2="Body";
-	private String workflowSchemeName1="Test-652";
-	private String workflowSchemeStep1="Test652Assign";
-	private String workflowActionName1="Assign";
-	private String worflowSubaction1="Unlock content"; 
+	private String test652contentStructureName9="Test-652";
+	private String test652contentStructureName9Field1="Title";
+	private String test652contentStructureName9Field2="Body";
+	private String test652workflowSchemeName1="Test-652";
+	private String test652workflowSchemeStep1="Test652Assign";
+	private String test652workflowActionName1="Assign";
+	private String test652worflowSubaction1="Unlock content"; 
 
 	//test 653
-	private String contentStructureName10="Test-653";
-	private String contentStructureName10Field1="Title";
-	private String contentTitle10="Test-653";
-	private String contentStructureName10Field2="Body";
-	private String contentTextArea10="Test 653";
-	private String workflowSchemeName2="Test-653";
-	private String workflowSchemeStep2="Test653Assign";
-	private String workflowActionName2="Assign";
-	private String worflowSubaction2="Lock content"; 
-	private String workflowSchemeStep3="Test653Review";
-	private String workflowActionName3="Review";
-	private String worflowSubaction3="Unlock content"; 
+	private String test653contentStructureName10="Test-653";
+	private String test653contentStructureName10Field1="Title";
+	private String test653contentTitle10="Test-653";
+	private String test653contentStructureName10Field2="Body";
+	private String test653contentTextArea10="Test 653";
+	private String test653workflowSchemeName2="Test-653";
+	private String test653workflowSchemeStep2="Test653Assign";
+	private String test653workflowActionName2="Assign";
+	private String test653worflowSubaction2="Lock content"; 
+	private String test653workflowSchemeStep3="Test653Review";
+	private String test653workflowActionName3="Review";
+	private String test653worflowSubaction3="Unlock content"; 
 	//test-623
-	private String folderName2="test623";
-	private String contentStructureName11="Test-623";
-	private String contentStructureName11Field1="title";
-	private String contentTitle11="Test-623";
-	private String fileName11="test623.jpg";
-	private String contentStructureName11Field2="binary1FileUpload";
-	private String contentTextArea11="/src/main/resources/test623.jpg";
-	private String workflowSchemeName3="Test-623";
-	private String workflowSchemeStep4="Test623Assign";
-	private String workflowActionName4="Assign";
-	private String worflowSubaction4="Lock content"; 
+	private String test623folderName2="test623";
+	private String test623contentStructureName11="Test-623";
+	private String test623contentStructureName11Field1="title";
+	private String test623contentTitle11="Test-623";
+	private String test623fileName11="test623.jpg";
+	private String test623contentStructureName11Field2="binary1FileUpload";
+	private String test623contentTextArea11="/src/main/resources/test623.jpg";
+	private String test623workflowSchemeName3="Test-623";
+	private String test623workflowSchemeStep4="Test623Assign";
+	private String test623workflowActionName4="Assign";
+	private String test623worflowSubaction4="Lock content"; 
+	//test 628
+	private String test628contentStructureName12="Content";
+	private String test628contentStructureName12Field1="title";
+	private String test628contentTitle12="Test-628";
+	private String test628contentStructureName12Field2="body";
+	private String test628contentTextArea12="Test 628";
+	private String test628contentTextArea122="Test 628 modified";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -295,7 +308,7 @@ public class PushPublishTest {
 			receiverPortletMenu = callReceiverServer();    
 
 			//create limited user for testing
-			//createLimitedUser(receiverPortletMenu);
+			createLimitedUser(limitedUserNameB, limitedUserLastNameB, limitedUserEmailB, limitedUserPaswwordB, receiverPortletMenu);
 
 			//Validate if push publishing servers are configured
 			receiverConfigurationPage = receiverPortletMenu.getConfigurationPage();
@@ -309,8 +322,8 @@ public class PushPublishTest {
 			//login Authoring server
 			authoringPortletMenu = callAuthoringServer();
 
-			//create limited user for testing
-			createLimitedUser(authoringPortletMenu);
+			//create limited user for testing in authoring server
+			createLimitedUser(limitedUserNameA, limitedUserLastNameA, limitedUserEmailA, limitedUserPaswwordA, authoringPortletMenu);
 
 			//Validate if push publishing servers are configured
 			authoringConfigurationPage = authoringPortletMenu.getConfigurationPage();
@@ -458,84 +471,84 @@ public class PushPublishTest {
 
 			/* Delete pages*/
 			ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-			if(browserPage.doesElementExist(pageUrl1)){
-				browserPage.unPublishElement(pageUrl1);
-				browserPage.archiveElement(pageUrl1);
-				browserPage.deletePage(pageUrl1);
+			if(browserPage.doesElementExist(test555pageUrl1)){
+				browserPage.unPublishElement(test555pageUrl1);
+				browserPage.archiveElement(test555pageUrl1);
+				browserPage.deletePage(test555pageUrl1);
 			}
 
-			if(browserPage.doesElementExist(pageUrl2)){
-				browserPage.unPublishElement(pageUrl2);
-				browserPage.archiveElement(pageUrl2);
-				browserPage.deletePage(pageUrl2);
+			if(browserPage.doesElementExist(test556pageUrl2)){
+				browserPage.unPublishElement(test556pageUrl2);
+				browserPage.archiveElement(test556pageUrl2);
+				browserPage.deletePage(test556pageUrl2);
 			}
 
-			if(browserPage.doesElementExist(pageUrl3)){
-				browserPage.unPublishElement(pageUrl3);
-				browserPage.archiveElement(pageUrl3);
-				browserPage.deletePage(pageUrl3);
+			if(browserPage.doesElementExist(test558pageUrl3)){
+				browserPage.unPublishElement(test558pageUrl3);
+				browserPage.archiveElement(test558pageUrl3);
+				browserPage.deletePage(test558pageUrl3);
 			}
 
-			if(browserPage.doesElementExist(pageUrl4)){
-				browserPage.unPublishElement(pageUrl4);
-				browserPage.archiveElement(pageUrl4);
-				browserPage.deletePage(pageUrl4);
+			if(browserPage.doesElementExist(test568pageUrl4)){
+				browserPage.unPublishElement(test568pageUrl4);
+				browserPage.archiveElement(test568pageUrl4);
+				browserPage.deletePage(test568pageUrl4);
 			}
 
-			if(browserPage.doesElementExist(pageUrl5)){
-				browserPage.unPublishElement(pageUrl5);
-				browserPage.archiveElement(pageUrl5);
-				browserPage.deletePage(pageUrl5);
+			if(browserPage.doesElementExist(test507pageUrl5)){
+				browserPage.unPublishElement(test507pageUrl5);
+				browserPage.archiveElement(test507pageUrl5);
+				browserPage.deletePage(test507pageUrl5);
 			}
 
-			if(browserPage.doesElementExist(pageUrl6)){
-				browserPage.unPublishElement(pageUrl6);
-				browserPage.archiveElement(pageUrl6);
-				browserPage.deletePage(pageUrl6);
+			if(browserPage.doesElementExist(test582pageUrl6)){
+				browserPage.unPublishElement(test582pageUrl6);
+				browserPage.archiveElement(test582pageUrl6);
+				browserPage.deletePage(test582pageUrl6);
 			}
 
-			if(browserPage.doesElementExist(pageUrl7)){
-				browserPage.unPublishElement(pageUrl7);
-				browserPage.archiveElement(pageUrl7);
-				browserPage.deletePage(pageUrl7);
+			if(browserPage.doesElementExist(test625pageUrl7)){
+				browserPage.unPublishElement(test625pageUrl7);
+				browserPage.archiveElement(test625pageUrl7);
+				browserPage.deletePage(test625pageUrl7);
 			}
 
-			if(browserPage.doesFolderExist(folderName1)){
-				browserPage.deleteFolder(folderName1);
+			if(browserPage.doesFolderExist(test558folderName1)){
+				browserPage.deleteFolder(test558folderName1);
 			}
 
 			/* Delete template*/
 			ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
-			if(templatesPage.doesTemplateExist(templateTitle1)){
-				templatesPage.deleteTemplate(templateTitle1);
+			if(templatesPage.doesTemplateExist(test555templateTitle1)){
+				templatesPage.deleteTemplate(test555templateTitle1);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle2)){
-				templatesPage.deleteTemplate(templateTitle2);
+			if(templatesPage.doesTemplateExist(test556templateTitle2)){
+				templatesPage.deleteTemplate(test556templateTitle2);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle3)){
-				templatesPage.deleteTemplate(templateTitle3);
+			if(templatesPage.doesTemplateExist(test556templateTitle3)){
+				templatesPage.deleteTemplate(test556templateTitle3);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle4)){
-				templatesPage.deleteTemplate(templateTitle4);
+			if(templatesPage.doesTemplateExist(test558templateTitle4)){
+				templatesPage.deleteTemplate(test558templateTitle4);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle5)){
-				templatesPage.deleteTemplate(templateTitle5);
+			if(templatesPage.doesTemplateExist(test523templateTitle5)){
+				templatesPage.deleteTemplate(test523templateTitle5);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle6)){
-				templatesPage.deleteTemplate(templateTitle6);
+			if(templatesPage.doesTemplateExist(test523templateTitle6)){
+				templatesPage.deleteTemplate(test523templateTitle6);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle7)){
-				templatesPage.deleteTemplate(templateTitle7);
+			if(templatesPage.doesTemplateExist(test568templateTitle7)){
+				templatesPage.deleteTemplate(test568templateTitle7);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle8)){
-				templatesPage.deleteTemplate(templateTitle8);
+			if(templatesPage.doesTemplateExist(test507templateTitle8)){
+				templatesPage.deleteTemplate(test507templateTitle8);
 			}
 
 			/*Delete containers*/
@@ -550,26 +563,26 @@ public class PushPublishTest {
 				containersPage.deleteContainer(containerTitle3);
 			}
 
-			if(containersPage.existContainer(containerTitle4)){
-				containersPage.deleteContainer(containerTitle4);
+			if(containersPage.existContainer(test507containerTitle4)){
+				containersPage.deleteContainer(test507containerTitle4);
 			}
 
 			/* Delete Menu link*/
 			IMenuLinkPage menuLinkPage= portletMenu.getMenuLinkPage();
-			if(menuLinkPage.doesLinkExist(linkTitle1)){
-				menuLinkPage.deleteLink(linkTitle1);
+			if(menuLinkPage.doesLinkExist(test524linkTitle1)){
+				menuLinkPage.deleteLink(test524linkTitle1);
 			}
 
-			if(menuLinkPage.doesLinkExist(linkTitle2)){
-				menuLinkPage.deleteLink(linkTitle2);
+			if(menuLinkPage.doesLinkExist(test575linkTitle2)){
+				menuLinkPage.deleteLink(test575linkTitle2);
 			}
 
-			if(menuLinkPage.doesLinkExist(linkTitle3)){
-				menuLinkPage.deleteLink(linkTitle3);
+			if(menuLinkPage.doesLinkExist(test589linkTitle3)){
+				menuLinkPage.deleteLink(test589linkTitle3);
 			}
 
-			if(menuLinkPage.doesLinkExist(linkTitle4)){
-				menuLinkPage.deleteLink(linkTitle4);
+			if(menuLinkPage.doesLinkExist(test589linkTitle4)){
+				menuLinkPage.deleteLink(test589linkTitle4);
 			}
 
 			/* Delete structure*/
@@ -578,84 +591,90 @@ public class PushPublishTest {
 				structurePage.deleteStructureAndContent(structureName, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName2)){
-				structurePage.deleteStructureAndContent(contentStructureName2, true);
+			if(structurePage.doesStructureExist(test496contentStructureName2)){
+				structurePage.deleteStructureAndContent(test496contentStructureName2, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName3)){
-				structurePage.deleteStructureAndContent(contentStructureName3, true);
+			if(structurePage.doesStructureExist(test519contentStructureName3)){
+				structurePage.deleteStructureAndContent(test519contentStructureName3, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName4)){
-				structurePage.deleteStructureAndContent(contentStructureName4, true);
+			if(structurePage.doesStructureExist(test519contentStructureName4)){
+				structurePage.deleteStructureAndContent(test519contentStructureName4, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName5)){
-				structurePage.deleteStructureAndContent(contentStructureName5, true);
+			if(structurePage.doesStructureExist(test519contentStructureName5)){
+				structurePage.deleteStructureAndContent(test519contentStructureName5, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName6)){
-				structurePage.deleteStructureAndContent(contentStructureName6, true);
+			if(structurePage.doesStructureExist(test532contentStructureName6)){
+				structurePage.deleteStructureAndContent(test532contentStructureName6, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName8)){
-				structurePage.deleteStructureAndContent(contentStructureName8, true);
+			if(structurePage.doesStructureExist(test572contentStructureName8)){
+				structurePage.deleteStructureAndContent(test572contentStructureName8, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName9)){
-				structurePage.deleteStructureAndContent(contentStructureName9, true);
+			if(structurePage.doesStructureExist(test652contentStructureName9)){
+				structurePage.deleteStructureAndContent(test652contentStructureName9, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName10)){
-				structurePage.deleteStructureAndContent(contentStructureName10, true);
+			if(structurePage.doesStructureExist(test653contentStructureName10)){
+				structurePage.deleteStructureAndContent(test653contentStructureName10, true);
 			}
-			
-			if(structurePage.doesStructureExist(contentStructureName11)){
-				structurePage.deleteStructureAndContent(contentStructureName11, true);
+
+			if(structurePage.doesStructureExist(test623contentStructureName11)){
+				structurePage.deleteStructureAndContent(test623contentStructureName11, true);
 			}
 
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
-			if(contentSearchPage.doesContentExist(contentTitle1, contentStructureName1)){
-				contentSearchPage.unpublish(contentTitle1, contentStructureName1);
-				contentSearchPage.archive(contentTitle1, contentStructureName1);
-				contentSearchPage.delete(contentTitle1, contentStructureName1);
+			if(contentSearchPage.doesContentExist(test520contentTitle1, test520contentStructureName1)){
+				contentSearchPage.unpublish(test520contentTitle1, test520contentStructureName1);
+				contentSearchPage.archive(test520contentTitle1, test520contentStructureName1);
+				contentSearchPage.delete(test520contentTitle1, test520contentStructureName1);
 			}
 
-			if(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7)){
-				contentSearchPage.unpublish(contentTitle7, contentStructureName7);
-				contentSearchPage.archive(contentTitle7, contentStructureName7);
-				contentSearchPage.delete(contentTitle7, contentStructureName7);
+			if(contentSearchPage.doesContentExist(test528contentTitle7, test528contentStructureName7)){
+				contentSearchPage.unpublish(test528contentTitle7, test528contentStructureName7);
+				contentSearchPage.archive(test528contentTitle7, test528contentStructureName7);
+				contentSearchPage.delete(test528contentTitle7, test528contentStructureName7);
+			}
+			
+			if(contentSearchPage.doesContentExist(test628contentTitle12, test628contentStructureName12)){
+				contentSearchPage.unpublish(test628contentTitle12, test628contentStructureName12);
+				contentSearchPage.archive(test628contentTitle12, test628contentStructureName12);
+				contentSearchPage.delete(test628contentTitle12, test628contentStructureName12);
 			}
 
 			/* Delete workflows*/
 			IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
-			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName1)){
+			if(schemesPage.doesWorkflowSchemeExist(test652workflowSchemeName1)){
 				schemesPage = portletMenu.getWorkflowSchemesPage();
-				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName1);
-				stepsPage.deleteStep(workflowSchemeStep1);
-				WorkflowPageUtil.deleteWorkflow(workflowSchemeName1,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test652workflowSchemeName1);
+				stepsPage.deleteStep(test652workflowSchemeStep1);
+				WorkflowPageUtil.deleteWorkflow(test652workflowSchemeName1,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 			}
 			schemesPage = portletMenu.getWorkflowSchemesPage();
-			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2)){
+			if(schemesPage.doesWorkflowSchemeExist(test653workflowSchemeName2)){
 				schemesPage = portletMenu.getWorkflowSchemesPage();
-				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
-				stepsPage.deleteStep(workflowSchemeStep3);
-				stepsPage.deleteStep(workflowSchemeStep2);
-				WorkflowPageUtil.deleteWorkflow(workflowSchemeName2,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test653workflowSchemeName2);
+				stepsPage.deleteStep(test653workflowSchemeStep3);
+				stepsPage.deleteStep(test653workflowSchemeStep2);
+				WorkflowPageUtil.deleteWorkflow(test653workflowSchemeName2,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 			}
-			
+
 			schemesPage = portletMenu.getWorkflowSchemesPage();
-			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName3)){
+			if(schemesPage.doesWorkflowSchemeExist(test623workflowSchemeName3)){
 				schemesPage = portletMenu.getWorkflowSchemesPage();
-				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
-				stepsPage.deleteStep(workflowSchemeStep4);
-				WorkflowPageUtil.deleteWorkflow(workflowSchemeName3,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test623workflowSchemeName3);
+				stepsPage.deleteStep(test623workflowSchemeStep4);
+				WorkflowPageUtil.deleteWorkflow(test623workflowSchemeName3,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 			}
 
 			/*Delete limited user*/
 			/*IUsersPage usersPage = portletMenu.getUsersPage();
-			Map<String, String> fakeUser = usersPage.getUserProperties(limitedUserEmail);
+			Map<String, String> fakeUser = usersPage.getUserProperties(limitedUserEmailA);
 			String fakeUserId = fakeUser.get("userId");
 			if(fakeUserId != null && !fakeUserId.equals("")){
 				UsersPageUtil.deleteUser(fakeUserId,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
@@ -678,89 +697,89 @@ public class PushPublishTest {
 
 			/* Delete pages*/
 			ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-			if(browserPage.doesElementExist(pageUrl1)){
-				browserPage.unPublishElement(pageUrl1);
-				browserPage.archiveElement(pageUrl1);
-				browserPage.deletePage(pageUrl1);
+			if(browserPage.doesElementExist(test555pageUrl1)){
+				browserPage.unPublishElement(test555pageUrl1);
+				browserPage.archiveElement(test555pageUrl1);
+				browserPage.deletePage(test555pageUrl1);
 			}
 
-			if(browserPage.doesElementExist(pageUrl2)){
-				browserPage.unPublishElement(pageUrl2);
-				browserPage.archiveElement(pageUrl2);
-				browserPage.deletePage(pageUrl2);
+			if(browserPage.doesElementExist(test556pageUrl2)){
+				browserPage.unPublishElement(test556pageUrl2);
+				browserPage.archiveElement(test556pageUrl2);
+				browserPage.deletePage(test556pageUrl2);
 			}
 
-			if(browserPage.doesElementExist(pageUrl3)){
-				browserPage.unPublishElement(pageUrl3);
-				browserPage.archiveElement(pageUrl3);
-				browserPage.deletePage(pageUrl3);
+			if(browserPage.doesElementExist(test558pageUrl3)){
+				browserPage.unPublishElement(test558pageUrl3);
+				browserPage.archiveElement(test558pageUrl3);
+				browserPage.deletePage(test558pageUrl3);
 			}
 
-			if(browserPage.doesElementExist(pageUrl4)){
-				browserPage.unPublishElement(pageUrl4);
-				browserPage.archiveElement(pageUrl4);
-				browserPage.deletePage(pageUrl4);
+			if(browserPage.doesElementExist(test568pageUrl4)){
+				browserPage.unPublishElement(test568pageUrl4);
+				browserPage.archiveElement(test568pageUrl4);
+				browserPage.deletePage(test568pageUrl4);
 			}
 
-			if(browserPage.doesElementExist(pageUrl5)){
-				browserPage.unPublishElement(pageUrl5);
-				browserPage.archiveElement(pageUrl5);
-				browserPage.deletePage(pageUrl5);
+			if(browserPage.doesElementExist(test507pageUrl5)){
+				browserPage.unPublishElement(test507pageUrl5);
+				browserPage.archiveElement(test507pageUrl5);
+				browserPage.deletePage(test507pageUrl5);
 			}
 
-			if(browserPage.doesElementExist(pageUrl6)){
-				browserPage.unPublishElement(pageUrl6);
-				browserPage.archiveElement(pageUrl6);
-				browserPage.deletePage(pageUrl6);
+			if(browserPage.doesElementExist(test582pageUrl6)){
+				browserPage.unPublishElement(test582pageUrl6);
+				browserPage.archiveElement(test582pageUrl6);
+				browserPage.deletePage(test582pageUrl6);
 			}
 
-			if(browserPage.doesElementExist(pageUrl7)){
-				browserPage.unPublishElement(pageUrl7);
-				browserPage.archiveElement(pageUrl7);
-				browserPage.deletePage(pageUrl7);
+			if(browserPage.doesElementExist(test625pageUrl7)){
+				browserPage.unPublishElement(test625pageUrl7);
+				browserPage.archiveElement(test625pageUrl7);
+				browserPage.deletePage(test625pageUrl7);
 			}
 
-			if(browserPage.doesFolderExist(folderName1)){
-				browserPage.deleteFolder(folderName1);
+			if(browserPage.doesFolderExist(test558folderName1)){
+				browserPage.deleteFolder(test558folderName1);
 			}
-			
-			if(browserPage.doesFolderExist(folderName2)){
-				browserPage.deleteFolder(folderName2);
+
+			if(browserPage.doesFolderExist(test623folderName2)){
+				browserPage.deleteFolder(test623folderName2);
 			}
 
 			/* Delete template*/
 			ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
-			if(templatesPage.doesTemplateExist(templateTitle1)){
-				templatesPage.deleteTemplate(templateTitle1);
+			if(templatesPage.doesTemplateExist(test555templateTitle1)){
+				templatesPage.deleteTemplate(test555templateTitle1);
 			}
 
 			templatesPage = portletMenu.getTemplatesPage();
-			if(templatesPage.doesTemplateExist(templateTitle2)){
-				templatesPage.deleteTemplate(templateTitle2);
+			if(templatesPage.doesTemplateExist(test556templateTitle2)){
+				templatesPage.deleteTemplate(test556templateTitle2);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle3)){
-				templatesPage.deleteTemplate(templateTitle3);
+			if(templatesPage.doesTemplateExist(test556templateTitle3)){
+				templatesPage.deleteTemplate(test556templateTitle3);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle4)){
-				templatesPage.deleteTemplate(templateTitle4);
+			if(templatesPage.doesTemplateExist(test558templateTitle4)){
+				templatesPage.deleteTemplate(test558templateTitle4);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle5)){
-				templatesPage.deleteTemplate(templateTitle5);
+			if(templatesPage.doesTemplateExist(test523templateTitle5)){
+				templatesPage.deleteTemplate(test523templateTitle5);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle6)){
-				templatesPage.deleteTemplate(templateTitle6);
+			if(templatesPage.doesTemplateExist(test523templateTitle6)){
+				templatesPage.deleteTemplate(test523templateTitle6);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle7)){
-				templatesPage.deleteTemplate(templateTitle7);
+			if(templatesPage.doesTemplateExist(test568templateTitle7)){
+				templatesPage.deleteTemplate(test568templateTitle7);
 			}
 
-			if(templatesPage.doesTemplateExist(templateTitle8)){
-				templatesPage.deleteTemplate(templateTitle8);
+			if(templatesPage.doesTemplateExist(test507templateTitle8)){
+				templatesPage.deleteTemplate(test507templateTitle8);
 			}
 
 			/*Delete containers*/
@@ -775,26 +794,26 @@ public class PushPublishTest {
 				containersPage.deleteContainer(containerTitle3);
 			}
 
-			if(containersPage.existContainer(containerTitle4)){
-				containersPage.deleteContainer(containerTitle4);
+			if(containersPage.existContainer(test507containerTitle4)){
+				containersPage.deleteContainer(test507containerTitle4);
 			}
 
 			/* Delete Menu link*/
 			IMenuLinkPage menuLinkPage= portletMenu.getMenuLinkPage();
-			if(menuLinkPage.doesLinkExist(linkTitle1)){
-				menuLinkPage.deleteLink(linkTitle1);
+			if(menuLinkPage.doesLinkExist(test524linkTitle1)){
+				menuLinkPage.deleteLink(test524linkTitle1);
 			}
 
-			if(menuLinkPage.doesLinkExist(linkTitle2)){
-				menuLinkPage.deleteLink(linkTitle2);
+			if(menuLinkPage.doesLinkExist(test575linkTitle2)){
+				menuLinkPage.deleteLink(test575linkTitle2);
 			}
 
-			if(menuLinkPage.doesLinkExist(linkTitle3)){
-				menuLinkPage.deleteLink(linkTitle3);
+			if(menuLinkPage.doesLinkExist(test589linkTitle3)){
+				menuLinkPage.deleteLink(test589linkTitle3);
 			}
 
-			if(menuLinkPage.doesLinkExist(linkTitle4)){
-				menuLinkPage.deleteLink(linkTitle4);
+			if(menuLinkPage.doesLinkExist(test589linkTitle4)){
+				menuLinkPage.deleteLink(test589linkTitle4);
 			}
 
 			/* Delete structure*/
@@ -803,80 +822,100 @@ public class PushPublishTest {
 				structurePage.deleteStructureAndContent(structureName, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName2)){
-				structurePage.deleteStructureAndContent(contentStructureName2, true);
+			if(structurePage.doesStructureExist(test496contentStructureName2)){
+				structurePage.deleteStructureAndContent(test496contentStructureName2, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName3)){
-				structurePage.deleteStructureAndContent(contentStructureName3, true);
+			if(structurePage.doesStructureExist(test519contentStructureName3)){
+				structurePage.deleteStructureAndContent(test519contentStructureName3, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName4)){
-				structurePage.deleteStructureAndContent(contentStructureName4, true);
+			if(structurePage.doesStructureExist(test519contentStructureName4)){
+				structurePage.deleteStructureAndContent(test519contentStructureName4, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName5)){
-				structurePage.deleteStructureAndContent(contentStructureName5, true);
+			if(structurePage.doesStructureExist(test519contentStructureName5)){
+				structurePage.deleteStructureAndContent(test519contentStructureName5, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName6)){
-				structurePage.deleteStructureAndContent(contentStructureName6, true);
+			if(structurePage.doesStructureExist(test532contentStructureName6)){
+				structurePage.deleteStructureAndContent(test532contentStructureName6, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName8)){
-				structurePage.deleteStructureAndContent(contentStructureName8, true);
+			if(structurePage.doesStructureExist(test572contentStructureName8)){
+				structurePage.deleteStructureAndContent(test572contentStructureName8, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName9)){
-				structurePage.deleteStructureAndContent(contentStructureName9, true);
+			if(structurePage.doesStructureExist(test652contentStructureName9)){
+				structurePage.deleteStructureAndContent(test652contentStructureName9, true);
 			}
 
-			if(structurePage.doesStructureExist(contentStructureName10)){
-				structurePage.deleteStructureAndContent(contentStructureName10, true);
+			if(structurePage.doesStructureExist(test653contentStructureName10)){
+				structurePage.deleteStructureAndContent(test653contentStructureName10, true);
 			}
-			
-			if(structurePage.doesStructureExist(contentStructureName11)){
-				structurePage.deleteStructureAndContent(contentStructureName11, true);
+
+			if(structurePage.doesStructureExist(test623contentStructureName11)){
+				structurePage.deleteStructureAndContent(test623contentStructureName11, true);
 			}
 
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
-			if(contentSearchPage.doesContentExist(contentTitle1, contentStructureName1)){
-				contentSearchPage.unpublish(contentTitle1, contentStructureName1);
-				contentSearchPage.archive(contentTitle1, contentStructureName1);
-				contentSearchPage.delete(contentTitle1, contentStructureName1);
+			if(contentSearchPage.doesContentExist(test520contentTitle1, test520contentStructureName1)){
+				contentSearchPage.unpublish(test520contentTitle1, test520contentStructureName1);
+				contentSearchPage.archive(test520contentTitle1, test520contentStructureName1);
+				contentSearchPage.delete(test520contentTitle1, test520contentStructureName1);
 			}
 
-			if(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7)){
-				contentSearchPage.unpublish(contentTitle7, contentStructureName7);
-				contentSearchPage.archive(contentTitle7, contentStructureName7);
-				contentSearchPage.delete(contentTitle7, contentStructureName7);
+			if(contentSearchPage.doesContentExist(test528contentTitle7, test528contentStructureName7)){
+				contentSearchPage.unpublish(test528contentTitle7, test528contentStructureName7);
+				contentSearchPage.archive(test528contentTitle7, test528contentStructureName7);
+				contentSearchPage.delete(test528contentTitle7, test528contentStructureName7);
+			}
+			
+			if(contentSearchPage.doesContentExist(test628contentTitle12, test628contentStructureName12)){
+				contentSearchPage.unpublish(test628contentTitle12, test628contentStructureName12);
+				contentSearchPage.archive(test628contentTitle12, test628contentStructureName12);
+				contentSearchPage.delete(test628contentTitle12, test628contentStructureName12);
 			}
 
 			/* Delete workflows*/
 			IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
-			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName1)){
+			if(schemesPage.doesWorkflowSchemeExist(test652workflowSchemeName1)){
 				schemesPage = portletMenu.getWorkflowSchemesPage();
-				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName1);
-				stepsPage.deleteStep(workflowSchemeStep1);
-				WorkflowPageUtil.deleteWorkflow(workflowSchemeName1,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test652workflowSchemeName1);
+				stepsPage.deleteStep(test652workflowSchemeStep1);
+				WorkflowPageUtil.deleteWorkflow(test652workflowSchemeName1,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
 			}
 			schemesPage = portletMenu.getWorkflowSchemesPage();
-			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2)){
+			if(schemesPage.doesWorkflowSchemeExist(test653workflowSchemeName2)){
 				schemesPage = portletMenu.getWorkflowSchemesPage();
-				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
-				stepsPage.deleteStep(workflowSchemeStep3);
-				stepsPage.deleteStep(workflowSchemeStep2);
-				WorkflowPageUtil.deleteWorkflow(workflowSchemeName2,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test653workflowSchemeName2);
+				stepsPage.deleteStep(test653workflowSchemeStep3);
+				stepsPage.deleteStep(test653workflowSchemeStep2);
+				WorkflowPageUtil.deleteWorkflow(test653workflowSchemeName2,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
 			}
-			
+
 			schemesPage = portletMenu.getWorkflowSchemesPage();
-			if(schemesPage.doesWorkflowSchemeExist(workflowSchemeName3)){
+			if(schemesPage.doesWorkflowSchemeExist(test623workflowSchemeName3)){
 				schemesPage = portletMenu.getWorkflowSchemesPage();
-				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
-				stepsPage.deleteStep(workflowSchemeStep4);
-				WorkflowPageUtil.deleteWorkflow(workflowSchemeName3,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test623workflowSchemeName3);
+				stepsPage.deleteStep(test623workflowSchemeStep4);
+				WorkflowPageUtil.deleteWorkflow(test623workflowSchemeName3,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
 			}
+
+			/*Delete limited user*/
+			/*IUsersPage usersPage = portletMenu.getUsersPage();
+			Map<String, String> fakeUser = usersPage.getUserProperties(limitedUserEmailB);
+			String fakeUserId = fakeUser.get("userId");
+			if(fakeUserId != null && !fakeUserId.equals("")){
+				UsersPageUtil.deleteUser(fakeUserId,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+			}*/
+
+			/* Delete limited role*/
+			/*IRolesPage rolePage = portletMenu.getRolesPage();
+			if(rolePage.doesRoleExist(limitedRole)){
+				rolePage.deleteRole(limitedRole);
+			}*/
 
 			logoutReceiverServer();
 		}catch(Exception e){
@@ -886,9 +925,14 @@ public class PushPublishTest {
 
 	/**
 	 * Create a limited user for push publishing test
+	 * @param limitedUserName	   User Name
+	 * @param limitedUserLastName  User Last name
+	 * @param limitedUserEmail     User email
+	 * @param limitedUserPaswword  User Password
+	 * @param portletMenu          Portlet Connection
 	 * @throws Exception
 	 */
-	private void createLimitedUser(IPortletMenu portletMenu) throws Exception{
+	private void createLimitedUser(String limitedUserName, String limitedUserLastName, String limitedUserEmail, String limitedUserPaswword, IPortletMenu portletMenu) throws Exception{
 		IRolesPage rolePage = portletMenu.getRolesPage();
 		if(!rolePage.doesRoleExist(limitedRole)){
 			rolePage.createRole(limitedRole, limitedRole, "", true, true, true);
@@ -1216,7 +1260,7 @@ public class PushPublishTest {
 		logoutAuthoringServer();
 
 		//Connecting as a limited user
-		portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
 		containersPage = portletMenu.getContainersPage();
 
 		Assert.assertTrue(containersPage.existContainer(containerTitle3), "ERROR - Container ('"+containerTitle3+"') is not visible for limited user.");
@@ -1244,7 +1288,7 @@ public class PushPublishTest {
 	@Test (groups = {"PushPublishing"})
 	public void tc571_PushEditedContainerWithLimitedUser() throws Exception {
 		//Calling authoring Server
-		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
 
 		//Getting and editing container
 		IContainersPage containersPage = portletMenu.getContainersPage();
@@ -1306,63 +1350,63 @@ public class PushPublishTest {
 
 		ITemplateAddOrEditAdvanceTemplatePage advanceTemplate = templatesPage.addAdvanceTemplate();
 		Map<String,String> template = new HashMap<String, String>();
-		template.put("titleField",templateTitle1);
-		template.put("friendlyNameField", templateTitle1);
-		template.put("AddContainers", templateContainer1);
+		template.put("titleField",test555templateTitle1);
+		template.put("friendlyNameField", test555templateTitle1);
+		template.put("AddContainers", test555templateContainer1);
 
 		advanceTemplate.setTemplateFields(template);
 		templatesPage= advanceTemplate.saveAndPublish();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle1), "ERROR - Authoring Server: Template ('"+templateTitle1+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test555templateTitle1), "ERROR - Authoring Server: Template ('"+test555templateTitle1+"') should exist at this moment in authoring server.");
 
 		//create test page
 		templatesPage.sleep(3);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.createHTMLPage(pageTitle1, templateTitle1, pageUrl1);
+		browserPage.createHTMLPage(test555pageTitle1, test555templateTitle1, test555pageUrl1);
 
 		// escape preview page
 		IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
 		portletMenu = sideMenu.gotoAdminScreen();
 
 		browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl1), "ERROR - Authoring Server: Page ('"+pageUrl1+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(browserPage.doesElementExist(test555pageUrl1), "ERROR - Authoring Server: Page ('"+test555pageUrl1+"') should exist at this moment in authoring server.");
 
-		browserPage.pushElement(pageUrl1);
+		browserPage.pushElement(test555pageUrl1);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the page was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle1,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl1+"') push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test555pageTitle1,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+test555pageUrl1+"') push should not be in pending list.");
 
 		//delete template and page
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl1);
-		browserPage.archiveElement(pageUrl1);
-		browserPage.deletePage(pageUrl1);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl1), "ERROR - Authoring Server: Page ('"+pageUrl1+"') should not exist at this moment in authoring server.");
+		browserPage.unPublishElement(test555pageUrl1);
+		browserPage.archiveElement(test555pageUrl1);
+		browserPage.deletePage(test555pageUrl1);
+		Assert.assertFalse(browserPage.doesElementExist(test555pageUrl1), "ERROR - Authoring Server: Page ('"+test555pageUrl1+"') should not exist at this moment in authoring server.");
 		browserPage.sleep(2);
 		templatesPage = portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle1);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle1), "ERROR - Authoring Server: Template ('"+templateTitle1+"') should not exist at this moment in authoring server.");	
+		templatesPage.deleteTemplate(test555templateTitle1);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test555templateTitle1), "ERROR - Authoring Server: Template ('"+test555templateTitle1+"') should not exist at this moment in authoring server.");	
 		logoutAuthoringServer();
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl1), "ERROR - Receiver Server: Page ('"+pageUrl1+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesElementExist(test555pageUrl1), "ERROR - Receiver Server: Page ('"+test555pageUrl1+"') should exist at this moment in receiver server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle1), "ERROR - Receiver Server: Template ('"+templateTitle1+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test555templateTitle1), "ERROR - Receiver Server: Template ('"+test555templateTitle1+"') should exist at this moment in receiver server.");
 
 		//Delete template and page in receiver
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl1);
-		browserPage.archiveElement(pageUrl1);
-		browserPage.deletePage(pageUrl1);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl1), "ERROR - Receiver Server: Page ('"+pageUrl1+"') should not exist at this moment in receiver server.");
+		browserPage.unPublishElement(test555pageUrl1);
+		browserPage.archiveElement(test555pageUrl1);
+		browserPage.deletePage(test555pageUrl1);
+		Assert.assertFalse(browserPage.doesElementExist(test555pageUrl1), "ERROR - Receiver Server: Page ('"+test555pageUrl1+"') should not exist at this moment in receiver server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle1);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle1), "ERROR - Receiver Server: Template ('"+templateTitle1+"') should not exist at this moment in receiver server.");
+		templatesPage.deleteTemplate(test555templateTitle1);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test555templateTitle1), "ERROR - Receiver Server: Template ('"+test555templateTitle1+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -1378,25 +1422,25 @@ public class PushPublishTest {
 		ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 
 		ITemplateAddOrEditDesignTemplatePage designTemplate = templatesPage.addDesignTemplate();
-		designTemplate.setTemplateTitle(templateTitle2);
-		designTemplate.setTheme(templateTheme2);
-		designTemplate.addContainer(templateContainer2);
+		designTemplate.setTemplateTitle(test556templateTitle2);
+		designTemplate.setTheme(test556templateTheme2);
+		designTemplate.addContainer(test556templateContainer2);
 
 		templatesPage = designTemplate.saveAndPublish();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Authoring Server: Template ('"+templateTitle2+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test556templateTitle2), "ERROR - Authoring Server: Template ('"+test556templateTitle2+"') should exist at this moment in authoring server.");
 
-		templatesPage.pushTemplate(templateTitle2);
+		templatesPage.pushTemplate(test556templateTitle2);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the template was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(templateTitle2,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+templateTitle2+"') push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test556templateTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+test556templateTitle2+"') push should not be in pending list.");
 
 		logoutAuthoringServer();
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
 		templatesPage= portletMenu.getTemplatesPage();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test556templateTitle2), "ERROR - Receiver Server: Template ('"+test556templateTitle2+"') should exist at this moment in receiver server.");
 
 		logoutReceiverServer();
 
@@ -1406,61 +1450,61 @@ public class PushPublishTest {
 		templatesPage = portletMenu.getTemplatesPage();
 
 		designTemplate = templatesPage.addDesignTemplate();
-		designTemplate.setTemplateTitle(templateTitle3);
-		designTemplate.setTheme(templateTheme3);
-		designTemplate.addContainer(templateContainer3);
+		designTemplate.setTemplateTitle(test556templateTitle3);
+		designTemplate.setTheme(test556templateTheme3);
+		designTemplate.addContainer(test556templateContainer3);
 
 		templatesPage = designTemplate.saveAndPublish();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle3), "ERROR - Authoring Server: Template ('"+templateTitle3+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test556templateTitle3), "ERROR - Authoring Server: Template ('"+test556templateTitle3+"') should exist at this moment in authoring server.");
 
 		//create test page
 		templatesPage.sleep(3);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.createHTMLPage(pageTitle2, templateTitle3, pageUrl2);
+		browserPage.createHTMLPage(test556pageTitle2, test556templateTitle3, test556pageUrl2);
 
 		// escape preview page
 		IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
 		portletMenu = sideMenu.gotoAdminScreen();
 
 		browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl2), "ERROR - Authoring Server: Page ('"+pageUrl2+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(browserPage.doesElementExist(test556pageUrl2), "ERROR - Authoring Server: Page ('"+test556pageUrl2+"') should exist at this moment in authoring server.");
 
-		browserPage.pushElement(pageUrl2);
+		browserPage.pushElement(test556pageUrl2);
 		publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the page was pushed
-		isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle2,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl2+"') push should not be in pending list.");
+		isPushed = publishingQueuePage.isObjectBundlePushed(test556pageTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+test556pageUrl2+"') push should not be in pending list.");
 
 		//delete template and page
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl2);
-		browserPage.archiveElement(pageUrl2);
-		browserPage.deletePage(pageUrl2);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl2), "ERROR - Authoring Server: Page ('"+pageUrl2+"') should not exist at this moment in authoring server.");
+		browserPage.unPublishElement(test556pageUrl2);
+		browserPage.archiveElement(test556pageUrl2);
+		browserPage.deletePage(test556pageUrl2);
+		Assert.assertFalse(browserPage.doesElementExist(test556pageUrl2), "ERROR - Authoring Server: Page ('"+test556pageUrl2+"') should not exist at this moment in authoring server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle3);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle3), "ERROR - Authoring Server: Template ('"+templateTitle3+"') should not exist at this moment in authoring server.");	
+		templatesPage.deleteTemplate(test556templateTitle3);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test556templateTitle3), "ERROR - Authoring Server: Template ('"+test556templateTitle3+"') should not exist at this moment in authoring server.");	
 		logoutAuthoringServer();
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
 		browserPage = portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl2), "ERROR - Receiver Server: Page ('"+pageUrl2+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesElementExist(test556pageUrl2), "ERROR - Receiver Server: Page ('"+test556pageUrl2+"') should exist at this moment in receiver server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle3), "ERROR - Receiver Server: Template ('"+templateTitle3+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test556templateTitle3), "ERROR - Receiver Server: Template ('"+test556templateTitle3+"') should exist at this moment in receiver server.");
 
 		//Delete template and page in receiver
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl2);
-		browserPage.archiveElement(pageUrl2);
-		browserPage.deletePage(pageUrl2);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl2), "ERROR - Receiver Server: Page ('"+pageUrl2+"') should not exist at this moment in receiver server.");
+		browserPage.unPublishElement(test556pageUrl2);
+		browserPage.archiveElement(test556pageUrl2);
+		browserPage.deletePage(test556pageUrl2);
+		Assert.assertFalse(browserPage.doesElementExist(test556pageUrl2), "ERROR - Receiver Server: Page ('"+test556pageUrl2+"') should not exist at this moment in receiver server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle3);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle3), "ERROR - Receiver Server: Template ('"+templateTitle3+"') should not exist at this moment in receiver server.");
+		templatesPage.deleteTemplate(test556templateTitle3);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test556templateTitle3), "ERROR - Receiver Server: Template ('"+test556templateTitle3+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -1476,31 +1520,31 @@ public class PushPublishTest {
 		ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 
 		//Add a new template
-		templatesPage.editTemplate(templateTitle2);
+		templatesPage.editTemplate(test556templateTitle2);
 		ITemplateAddOrEditDesignTemplatePage designTemplate = SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditDesignTemplatePage.class);
-		designTemplate.addContainer(templateContainer22);
+		designTemplate.addContainer(test556templateContainer22);
 		List<Map<String,String>> authoringContainers = designTemplate.getTemplateContainers();
 		templatesPage = designTemplate.saveAndPublish();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Authoring Server: Template ('"+templateTitle2+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test556templateTitle2), "ERROR - Authoring Server: Template ('"+test556templateTitle2+"') should exist at this moment in authoring server.");
 
-		templatesPage.pushTemplate(templateTitle2);
+		templatesPage.pushTemplate(test556templateTitle2);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the template was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(templateTitle2,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+templateTitle2+"') push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test556templateTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+test556templateTitle2+"') push should not be in pending list.");
 		logoutAuthoringServer();
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(3);
 		templatesPage= portletMenu.getTemplatesPage();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle2), "ERROR - Receiver Server: Template ('"+templateTitle2+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test556templateTitle2), "ERROR - Receiver Server: Template ('"+test556templateTitle2+"') should exist at this moment in receiver server.");
 
-		templatesPage.editTemplate(templateTitle2);
+		templatesPage.editTemplate(test556templateTitle2);
 		designTemplate = SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditDesignTemplatePage.class);
 		List<Map<String,String>> containers = designTemplate.getTemplateContainers();
 		designTemplate.cancel();
-		Assert.assertTrue(containers.size()==authoringContainers.size(), "ERROR - Receiver Server: Template ('"+templateTitle2+"') doesn't have the same number of containers as the authoring server in receiver server.");
+		Assert.assertTrue(containers.size()==authoringContainers.size(), "ERROR - Receiver Server: Template ('"+test556templateTitle2+"') doesn't have the same number of containers as the authoring server in receiver server.");
 		for(Map<String,String> map : authoringContainers){
 			boolean containerFound = false;
 			for(Map<String,String> map2 : containers){
@@ -1509,7 +1553,7 @@ public class PushPublishTest {
 					break;
 				}
 			}
-			Assert.assertTrue(containerFound, "ERROR - Receiver Server: Template ('"+templateTitle2+"') doesn't have this container ("+map.get("name")+") in receiver server.");
+			Assert.assertTrue(containerFound, "ERROR - Receiver Server: Template ('"+test556templateTitle2+"') doesn't have this container ("+map.get("name")+") in receiver server.");
 		}
 		logoutReceiverServer();
 	}
@@ -1527,70 +1571,70 @@ public class PushPublishTest {
 		ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 
 		ITemplateAddOrEditDesignTemplatePage designTemplate = templatesPage.addDesignTemplate();
-		designTemplate.setTemplateTitle(templateTitle4);
-		designTemplate.setTheme(templateTheme4);
-		designTemplate.addContainer(templateContainer4);
+		designTemplate.setTemplateTitle(test558templateTitle4);
+		designTemplate.setTheme(test558templateTheme4);
+		designTemplate.addContainer(test558templateContainer4);
 
 		templatesPage = designTemplate.saveAndPublish();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle4), "ERROR - Authoring Server: Template ('"+templateTitle4+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test558templateTitle4), "ERROR - Authoring Server: Template ('"+test558templateTitle4+"') should exist at this moment in authoring server.");
 
 		//create test page
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.createFolder(null, folderName1);
-		browserPage.selectFolder(folderName1);
-		browserPage.createHTMLPage(pageTitle3, templateTitle4, pageUrl3);
+		browserPage.createFolder(null, test558folderName1);
+		browserPage.selectFolder(test558folderName1);
+		browserPage.createHTMLPage(test558pageTitle3, test558templateTitle4, test558pageUrl3);
 
 		// escape preview page
 		IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
 		portletMenu = sideMenu.gotoAdminScreen();
 
 		browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl3), "ERROR - Authoring Server: Page ('"+pageUrl3+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(browserPage.doesElementExist(test558pageUrl3), "ERROR - Authoring Server: Page ('"+test558pageUrl3+"') should exist at this moment in authoring server.");
 
-		browserPage.pushFolder(folderName1);
+		browserPage.pushFolder(test558folderName1);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the folder was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(folderName1,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ('"+folderName1+"') push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test558folderName1,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ('"+test558folderName1+"') push should not be in pending list.");
 
 		//delete template and page
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl3);
-		browserPage.archiveElement(pageUrl3);
-		browserPage.deletePage(pageUrl3);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl3), "ERROR - Authoring Server: Page ('"+pageUrl3+"') should not exist at this moment in authoring server.");
-		browserPage.deleteFolder(folderName1);
-		Assert.assertFalse(browserPage.doesFolderExist(folderName1), "ERROR - Authoring Server: Folder ('"+folderName1+"') should not exist at this moment in authoring server.");
+		browserPage.unPublishElement(test558pageUrl3);
+		browserPage.archiveElement(test558pageUrl3);
+		browserPage.deletePage(test558pageUrl3);
+		Assert.assertFalse(browserPage.doesElementExist(test558pageUrl3), "ERROR - Authoring Server: Page ('"+test558pageUrl3+"') should not exist at this moment in authoring server.");
+		browserPage.deleteFolder(test558folderName1);
+		Assert.assertFalse(browserPage.doesFolderExist(test558folderName1), "ERROR - Authoring Server: Folder ('"+test558folderName1+"') should not exist at this moment in authoring server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle4);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle4), "ERROR - Authoring Server: Template ('"+templateTitle4+"') should not exist at this moment in authoring server.");	
+		templatesPage.deleteTemplate(test558templateTitle4);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test558templateTitle4), "ERROR - Authoring Server: Template ('"+test558templateTitle4+"') should not exist at this moment in authoring server.");	
 		logoutAuthoringServer();
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
 		browserPage = portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesFolderExist(folderName1), "ERROR - Receiver Server: Folder ('"+folderName1+"') should exist at this moment in receiver server.");
-		browserPage.selectFolder(folderName1);
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl3), "ERROR - Receiver Server: Page ('"+pageUrl3+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesFolderExist(test558folderName1), "ERROR - Receiver Server: Folder ('"+test558folderName1+"') should exist at this moment in receiver server.");
+		browserPage.selectFolder(test558folderName1);
+		Assert.assertTrue(browserPage.doesElementExist(test558pageUrl3), "ERROR - Receiver Server: Page ('"+test558pageUrl3+"') should exist at this moment in receiver server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle4), "ERROR - Receiver Server: Template ('"+templateTitle4+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test558templateTitle4), "ERROR - Receiver Server: Template ('"+test558templateTitle4+"') should exist at this moment in receiver server.");
 
 		//Delete template and page in receiver
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.selectFolder(folderName1);
-		browserPage.unPublishElement(pageUrl3);
-		browserPage.archiveElement(pageUrl3);
-		browserPage.deletePage(pageUrl3);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl3), "ERROR - Receiver Server: Page ('"+pageUrl3+"') should not exist at this moment in receiver server.");
+		browserPage.selectFolder(test558folderName1);
+		browserPage.unPublishElement(test558pageUrl3);
+		browserPage.archiveElement(test558pageUrl3);
+		browserPage.deletePage(test558pageUrl3);
+		Assert.assertFalse(browserPage.doesElementExist(test558pageUrl3), "ERROR - Receiver Server: Page ('"+test558pageUrl3+"') should not exist at this moment in receiver server.");
 
-		browserPage.deleteFolder(folderName1);
-		Assert.assertFalse(browserPage.doesFolderExist(folderName1), "ERROR - Receiver Server: Folder ('"+folderName1+"') should not exist at this moment in receiver server.");
+		browserPage.deleteFolder(test558folderName1);
+		Assert.assertFalse(browserPage.doesFolderExist(test558folderName1), "ERROR - Receiver Server: Folder ('"+test558folderName1+"') should not exist at this moment in receiver server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle4);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle4), "ERROR - Receiver Server: Template ('"+templateTitle4+"') should not exist at this moment in receiver server.");
+		templatesPage.deleteTemplate(test558templateTitle4);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test558templateTitle4), "ERROR - Receiver Server: Template ('"+test558templateTitle4+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -1608,45 +1652,45 @@ public class PushPublishTest {
 		//create advance template
 		ITemplateAddOrEditAdvanceTemplatePage advanceTemplate = templatesPage.addAdvanceTemplate();
 		Map<String,String> template = new HashMap<String, String>();
-		template.put("titleField",templateTitle5);
-		template.put("friendlyNameField", templateTitle5);
-		template.put("AddContainers", templateContainer5);
+		template.put("titleField",test523templateTitle5);
+		template.put("friendlyNameField", test523templateTitle5);
+		template.put("AddContainers", test523templateContainer5);
 
 		advanceTemplate.setTemplateFields(template);
 		templatesPage= advanceTemplate.save();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle5), "ERROR - Authoring Server: Template ('"+templateTitle5+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test523templateTitle5), "ERROR - Authoring Server: Template ('"+test523templateTitle5+"') should exist at this moment in authoring server.");
 		templatesPage.sleep(3);
 
-		templatesPage.pushTemplate(templateTitle5);
+		templatesPage.pushTemplate(test523templateTitle5);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the template was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(templateTitle5,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+templateTitle5+"') push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test523templateTitle5,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+test523templateTitle5+"') push should not be in pending list.");
 		publishingQueuePage.sleep(3);
 
 		//create design template
 		templatesPage = portletMenu.getTemplatesPage();
 		ITemplateAddOrEditDesignTemplatePage designTemplate = templatesPage.addDesignTemplate();
-		designTemplate.setTemplateTitle(templateTitle6);
-		designTemplate.setTheme(templateTheme6);
-		designTemplate.addContainer(templateContainer6);
+		designTemplate.setTemplateTitle(test523templateTitle6);
+		designTemplate.setTheme(test523templateTheme6);
+		designTemplate.addContainer(test523templateContainer6);
 		templatesPage = designTemplate.save();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle6), "ERROR - Authoring Server: Template ('"+templateTitle6+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test523templateTitle6), "ERROR - Authoring Server: Template ('"+test523templateTitle6+"') should exist at this moment in authoring server.");
 
-		templatesPage.pushTemplate(templateTitle6);
+		templatesPage.pushTemplate(test523templateTitle6);
 		publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the template was pushed
-		isPushed = publishingQueuePage.isObjectBundlePushed(templateTitle6,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+templateTitle6+"') push should not be in pending list.");
+		isPushed = publishingQueuePage.isObjectBundlePushed(test523templateTitle6,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Template ('"+test523templateTitle6+"') push should not be in pending list.");
 
 		//delete template and page
 		templatesPage = portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle5);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle5), "ERROR - Authoring Server: Template ('"+templateTitle5+"') should not exist at this moment in authoring server.");	
+		templatesPage.deleteTemplate(test523templateTitle5);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test523templateTitle5), "ERROR - Authoring Server: Template ('"+test523templateTitle5+"') should not exist at this moment in authoring server.");	
 
 		templatesPage = portletMenu.getTemplatesPage();
-		templatesPage.deleteTemplate(templateTitle6);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle6), "ERROR - Authoring Server: Template ('"+templateTitle6+"') should not exist at this moment in authoring server.");	
+		templatesPage.deleteTemplate(test523templateTitle6);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test523templateTitle6), "ERROR - Authoring Server: Template ('"+test523templateTitle6+"') should not exist at this moment in authoring server.");	
 		logoutAuthoringServer();
 
 		//Connect to receiver server
@@ -1654,17 +1698,17 @@ public class PushPublishTest {
 		portletMenu.sleep(2);
 
 		templatesPage = portletMenu.getTemplatesPage();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle5), "ERROR - Receiver Server: Template ('"+templateTitle5+"') should exist at this moment in receiver server.");
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle6), "ERROR - Receiver Server: Template ('"+templateTitle6+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test523templateTitle5), "ERROR - Receiver Server: Template ('"+test523templateTitle5+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test523templateTitle6), "ERROR - Receiver Server: Template ('"+test523templateTitle6+"') should exist at this moment in receiver server.");
 
 		//Delete template and page in receiver
 		templatesPage = portletMenu.getTemplatesPage();
 		templatesPage.sleep(3);
-		templatesPage.deleteTemplate(templateTitle5);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle5), "ERROR - Receiver Server: Template ('"+templateTitle5+"') should not exist at this moment in receiver server.");
+		templatesPage.deleteTemplate(test523templateTitle5);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test523templateTitle5), "ERROR - Receiver Server: Template ('"+test523templateTitle5+"') should not exist at this moment in receiver server.");
 
-		templatesPage.deleteTemplate(templateTitle6);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle6), "ERROR - Receiver Server: Template ('"+templateTitle6+"') should not exist at this moment in receiver server.");
+		templatesPage.deleteTemplate(test523templateTitle6);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test523templateTitle6), "ERROR - Receiver Server: Template ('"+test523templateTitle6+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -1681,18 +1725,18 @@ public class PushPublishTest {
 
 		ITemplateAddOrEditAdvanceTemplatePage advanceTemplate = templatesPage.addAdvanceTemplate();
 		Map<String,String> template = new HashMap<String, String>();
-		template.put("titleField",templateTitle7);
-		template.put("friendlyNameField", templateTitle7);
-		template.put("AddContainers", templateContainer7);
+		template.put("titleField",test568templateTitle7);
+		template.put("friendlyNameField", test568templateTitle7);
+		template.put("AddContainers", test568templateContainer7);
 
 		advanceTemplate.setTemplateFields(template);
 		templatesPage= advanceTemplate.saveAndPublish();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle7), "ERROR - Authoring Server: Template ('"+templateTitle7+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test568templateTitle7), "ERROR - Authoring Server: Template ('"+test568templateTitle7+"') should exist at this moment in authoring server.");
 
 		//create test page
 		templatesPage.sleep(3);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.createHTMLPage(pageTitle4, templateTitle7, pageUrl4);
+		browserPage.createHTMLPage(test568pageTitle4, test568templateTitle7, test568pageUrl4);
 		browserPage.sleep(2);
 		// escape preview page
 		IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
@@ -1700,26 +1744,26 @@ public class PushPublishTest {
 		logoutAuthoringServer();
 
 		//login as limited user
-		portletMenu =callAuthoringServer(limitedUserEmail, limitedUserPaswword);
+		portletMenu =callAuthoringServer(limitedUserEmailA, limitedUserPaswwordA);
 		portletMenu.sleep(4);
 		browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl4), "ERROR - Authoring Server: Page ('"+pageUrl4+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(browserPage.doesElementExist(test568pageUrl4), "ERROR - Authoring Server: Page ('"+test568pageUrl4+"') should exist at this moment in authoring server.");
 
-		browserPage.pushElement(pageUrl4);
+		browserPage.pushElement(test568pageUrl4);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the page was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle4,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl4+"') push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test568pageTitle4,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+test568pageUrl4+"') push should not be in pending list.");
 		logoutAuthoringServer();
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl4), "ERROR - Receiver Server: Page ('"+pageUrl4+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesElementExist(test568pageUrl4), "ERROR - Receiver Server: Page ('"+test568pageUrl4+"') should exist at this moment in receiver server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle7), "ERROR - Receiver Server: Template ('"+templateTitle7+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test568templateTitle7), "ERROR - Receiver Server: Template ('"+test568templateTitle7+"') should exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -1731,71 +1775,71 @@ public class PushPublishTest {
 	@Test (groups = {"PushPublishing"})
 	public void tc570_EditAdvanceTemplateAndPushAsLimitedUser() throws Exception {
 		//Calling authoring Server
-		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmail, limitedUserPaswword);
+		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmailA, limitedUserPaswwordA);
 		ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 
-		templatesPage.editTemplate(templateTitle7);
+		templatesPage.editTemplate(test568templateTitle7);
 		ITemplateAddOrEditAdvanceTemplatePage advanceTemplate=  SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditAdvanceTemplatePage.class);
 		Map<String,String> template = new HashMap<String, String>();
-		template.put("titleField",templateTitle7);
-		template.put("friendlyNameField", templateTitle7);
-		template.put("AddContainers", templateContainer72);
+		template.put("titleField",test568templateTitle7);
+		template.put("friendlyNameField", test568templateTitle7);
+		template.put("AddContainers", test568templateContainer72);
 		advanceTemplate.setTemplateFields(template);
 
 		String originalTemplateBody = advanceTemplate.getFieldValue("ace");
 		templatesPage=advanceTemplate.saveAndPublish();
 		templatesPage.sleep(2);
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle7), "ERROR - Authoring Server: Template ('"+templateTitle7+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test568templateTitle7), "ERROR - Authoring Server: Template ('"+test568templateTitle7+"') should exist at this moment in authoring server.");
 
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl4), "ERROR - Authoring Server: Page ('"+pageUrl4+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(browserPage.doesElementExist(test568pageUrl4), "ERROR - Authoring Server: Page ('"+test568pageUrl4+"') should exist at this moment in authoring server.");
 
-		browserPage.pushElement(pageUrl4);
+		browserPage.pushElement(test568pageUrl4);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the page was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle1,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl4+"') push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test568pageTitle4,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+test568pageUrl4+"') push should not be in pending list.");
 
 		//delete test 
 		browserPage = portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl4);
-		browserPage.archiveElement(pageUrl4);
-		browserPage.deletePage(pageUrl4);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl4), "ERROR - Authoring Server: Page ('"+pageUrl4+"') should not exist at this moment in authoring server.");
+		browserPage.unPublishElement(test568pageUrl4);
+		browserPage.archiveElement(test568pageUrl4);
+		browserPage.deletePage(test568pageUrl4);
+		Assert.assertFalse(browserPage.doesElementExist(test568pageUrl4), "ERROR - Authoring Server: Page ('"+test568pageUrl4+"') should not exist at this moment in authoring server.");
 
 
 		templatesPage = portletMenu.getTemplatesPage();
 		templatesPage.sleep(3);
-		templatesPage.deleteTemplate(templateTitle7);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle7), "ERROR - Authoring Server: Template ('"+templateTitle7+"') should not exist at this moment in authoring server.");
+		templatesPage.deleteTemplate(test568templateTitle7);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test568templateTitle7), "ERROR - Authoring Server: Template ('"+test568templateTitle7+"') should not exist at this moment in authoring server.");
 		logoutAuthoringServer();
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl4), "ERROR - Receiver Server: Page ('"+pageUrl4+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesElementExist(test568pageUrl4), "ERROR - Receiver Server: Page ('"+test568pageUrl4+"') should exist at this moment in receiver server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle7), "ERROR - Receiver Server: Template ('"+templateTitle7+"') should exist at this moment in receiver server.");
-		templatesPage.editTemplate(templateTitle7);
+		Assert.assertTrue(templatesPage.doesTemplateExist(test568templateTitle7), "ERROR - Receiver Server: Template ('"+test568templateTitle7+"') should exist at this moment in receiver server.");
+		templatesPage.editTemplate(test568templateTitle7);
 		advanceTemplate=  SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplateAddOrEditAdvanceTemplatePage.class);
 		String receiverTemplateBody = advanceTemplate.getFieldValue("ace");
 		advanceTemplate.cancel();
-		Assert.assertTrue(originalTemplateBody.equals(receiverTemplateBody), "ERROR - Receiver Server: Template ('"+templateTitle7+"') body is not the same in both authoring and receiver server.");
+		Assert.assertTrue(originalTemplateBody.equals(receiverTemplateBody), "ERROR - Receiver Server: Template ('"+test568templateTitle7+"') body is not the same in both authoring and receiver server.");
 
 		//delete test 
 		browserPage = portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl4);
-		browserPage.archiveElement(pageUrl4);
-		browserPage.deletePage(pageUrl4);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl4), "ERROR - Receiver Server: Page ('"+pageUrl4+"') should not exist at this moment in receiver server.");
+		browserPage.unPublishElement(test568pageUrl4);
+		browserPage.archiveElement(test568pageUrl4);
+		browserPage.deletePage(test568pageUrl4);
+		Assert.assertFalse(browserPage.doesElementExist(test568pageUrl4), "ERROR - Receiver Server: Page ('"+test568pageUrl4+"') should not exist at this moment in receiver server.");
 
 
 		templatesPage = portletMenu.getTemplatesPage();
 		templatesPage.sleep(3);
-		templatesPage.deleteTemplate(templateTitle7);
-		Assert.assertFalse(templatesPage.doesTemplateExist(templateTitle7), "ERROR - Receiver Server: Template ('"+templateTitle7+"') should not exist at this moment in receiver server.");
+		templatesPage.deleteTemplate(test568templateTitle7);
+		Assert.assertFalse(templatesPage.doesTemplateExist(test568templateTitle7), "ERROR - Receiver Server: Template ('"+test568templateTitle7+"') should not exist at this moment in receiver server.");
 
 
 		logoutReceiverServer();
@@ -1818,42 +1862,42 @@ public class PushPublishTest {
 
 		//simple container
 		Map<String, String> container = new HashMap<String,String>();
-		container.put("titleField", containerTitle4);
-		container.put("friendlyNameField", containerTitle4);
-		container.put("ace", containerCode4);
+		container.put("titleField", test507containerTitle4);
+		container.put("friendlyNameField", test507containerTitle4);
+		container.put("ace", test507containerCode4);
 		//create test container to push
 		addContainerPage.setFields(container);
 		containersPage = addContainerPage.saveAndPublish();
-		Assert.assertTrue(containersPage.existContainer(containerTitle4), "ERROR - Container ('"+containerTitle4+"')  should exist at this moment in authoring server.");
+		Assert.assertTrue(containersPage.existContainer(test507containerTitle4), "ERROR - Container ('"+test507containerTitle4+"')  should exist at this moment in authoring server.");
 
 		ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 		ITemplateAddOrEditAdvanceTemplatePage advanceTemplate = templatesPage.addAdvanceTemplate();
 		Map<String,String> template = new HashMap<String, String>();
-		template.put("titleField",templateTitle8);
-		template.put("friendlyNameField", templateTitle8);
-		template.put("AddContainers", containerTitle4);
+		template.put("titleField",test507templateTitle8);
+		template.put("friendlyNameField", test507templateTitle8);
+		template.put("AddContainers", test507containerTitle4);
 
 		advanceTemplate.setTemplateFields(template);
 		templatesPage= advanceTemplate.saveAndPublish();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle8), "ERROR - Authoring Server: Template ('"+templateTitle8+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test507templateTitle8), "ERROR - Authoring Server: Template ('"+test507templateTitle8+"') should exist at this moment in authoring server.");
 
 		//create test page
 		templatesPage.sleep(3);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.createHTMLPage(pageTitle5, templateTitle8, pageUrl5);
+		browserPage.createHTMLPage(test507pageTitle5, test507templateTitle8, test507pageUrl5);
 
 		// escape preview page
 		IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
 		portletMenu = sideMenu.gotoAdminScreen();
 
 		browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl5), "ERROR - Authoring Server: Page ('"+pageUrl5+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(browserPage.doesElementExist(test507pageUrl5), "ERROR - Authoring Server: Page ('"+test507pageUrl5+"') should exist at this moment in authoring server.");
 
-		browserPage.pushElement(pageUrl5);
+		browserPage.pushElement(test507pageUrl5);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the page was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle5,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl5+"') push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test507pageTitle5,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+test507pageUrl5+"') push should not be in pending list.");
 
 		logoutAuthoringServer();
 
@@ -1861,13 +1905,13 @@ public class PushPublishTest {
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl5), "ERROR - Receiver Server: Page ('"+pageUrl5+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesElementExist(test507pageUrl5), "ERROR - Receiver Server: Page ('"+test507pageUrl5+"') should exist at this moment in receiver server.");
 
 		templatesPage = portletMenu.getTemplatesPage();
-		Assert.assertTrue(templatesPage.doesTemplateExist(templateTitle8), "ERROR - Receiver Server: Template ('"+templateTitle8+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(templatesPage.doesTemplateExist(test507templateTitle8), "ERROR - Receiver Server: Template ('"+test507templateTitle8+"') should exist at this moment in receiver server.");
 
 		containersPage = portletMenu.getContainersPage();
-		Assert.assertTrue(containersPage.existContainer(containerTitle4), "ERROR - Authoring Server: Container ('"+containerTitle4+"') should not exist at this moment in authoring server.");
+		Assert.assertTrue(containersPage.existContainer(test507containerTitle4), "ERROR - Authoring Server: Container ('"+test507containerTitle4+"') should not exist at this moment in authoring server.");
 
 		logoutReceiverServer();
 	}
@@ -1882,12 +1926,12 @@ public class PushPublishTest {
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.editHTMLPageProperties(pageUrl5);
+		browserPage.editHTMLPageProperties(test507pageUrl5);
 		IHTMLPageAddOrEdit_ContentPage htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_ContentPage.class);
 		if(htmlAddPage.isLocked()){
 			htmlAddPage.unlock();
 		}
-		htmlAddPage.setTitle(pageTitle52);
+		htmlAddPage.setTitle(test577pageTitle52);
 		htmlAddPage.saveAndPublish();
 
 		// escape preview page
@@ -1895,11 +1939,11 @@ public class PushPublishTest {
 		portletMenu = sideMenu.gotoAdminScreen();
 
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.pushElement(pageUrl5);
+		browserPage.pushElement(test507pageUrl5);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the page was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle52,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl5+"') push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test577pageTitle52,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+test507pageUrl5+"') push should not be in pending list.");
 
 		logoutAuthoringServer();
 
@@ -1907,14 +1951,14 @@ public class PushPublishTest {
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl5), "ERROR - Receiver Server: Page ('"+pageUrl5+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesElementExist(test507pageUrl5), "ERROR - Receiver Server: Page ('"+test507pageUrl5+"') should exist at this moment in receiver server.");
 
-		browserPage.editHTMLPageProperties(pageUrl5);
+		browserPage.editHTMLPageProperties(test507pageUrl5);
 		htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_ContentPage.class);
 		String title = htmlAddPage.getPageTitle();
 		htmlAddPage.cancel();
 
-		Assert.assertTrue(title.equals(pageTitle52), "ERROR - Receiver Server: Page ('"+pageUrl5+"') title doesn't match between authoring and receiver servers.");		
+		Assert.assertTrue(title.equals(test577pageTitle52), "ERROR - Receiver Server: Page ('"+test507pageUrl5+"') title doesn't match between authoring and receiver servers.");		
 		logoutReceiverServer();
 	}
 
@@ -1926,15 +1970,15 @@ public class PushPublishTest {
 	@Test (groups = {"PushPublishing"})
 	public void tc578_UpdatePageAndPushAsLimitedUser() throws Exception {
 		//Calling authoring Server
-		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
 		portletMenu.sleep(2);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.editHTMLPageProperties(pageUrl5);
+		browserPage.editHTMLPageProperties(test507pageUrl5);
 		IHTMLPageAddOrEdit_ContentPage htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_ContentPage.class);
 		if(htmlAddPage.isLocked()){
 			htmlAddPage.unlock();
 		}
-		htmlAddPage.setTitle(pageTitle53);
+		htmlAddPage.setTitle(test578pageTitle53);
 		htmlAddPage.saveAndPublish();
 
 		// escape preview page
@@ -1942,20 +1986,20 @@ public class PushPublishTest {
 		portletMenu = sideMenu.gotoAdminScreen();
 
 		browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl5), "ERROR - Authoring Server: Page ('"+pageUrl5+"') should exist at this moment in authoring server.");
+		Assert.assertTrue(browserPage.doesElementExist(test507pageUrl5), "ERROR - Authoring Server: Page ('"+test507pageUrl5+"') should exist at this moment in authoring server.");
 
-		browserPage.pushElement(pageUrl5);
+		browserPage.pushElement(test507pageUrl5);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the page was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle53,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+pageUrl5+"') push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test578pageTitle53,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ('"+test507pageUrl5+"') push should not be in pending list.");
 		publishingQueuePage.sleep(2);
 		//Delete template and page in receiver
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl5);
-		browserPage.archiveElement(pageUrl5);
-		browserPage.deletePage(pageUrl5);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl5), "ERROR - Authoring Server: Page ('"+pageUrl5+"') should not exist at this moment in authoring server.");
+		browserPage.unPublishElement(test507pageUrl5);
+		browserPage.archiveElement(test507pageUrl5);
+		browserPage.deletePage(test507pageUrl5);
+		Assert.assertFalse(browserPage.doesElementExist(test507pageUrl5), "ERROR - Authoring Server: Page ('"+test507pageUrl5+"') should not exist at this moment in authoring server.");
 
 		logoutAuthoringServer();
 
@@ -1963,21 +2007,21 @@ public class PushPublishTest {
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(2);
 		browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl5), "ERROR - Receiver Server: Page ('"+pageUrl5+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesElementExist(test507pageUrl5), "ERROR - Receiver Server: Page ('"+test507pageUrl5+"') should exist at this moment in receiver server.");
 
-		browserPage.editHTMLPageProperties(pageUrl5);
+		browserPage.editHTMLPageProperties(test507pageUrl5);
 		htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_ContentPage.class);
 		String title = htmlAddPage.getPageTitle();
 		htmlAddPage.cancel();
 
-		Assert.assertTrue(title.equals(pageTitle53), "ERROR - Receiver Server: Page ('"+pageUrl5+"') title doesn't match between authoring and receiver servers.");		
+		Assert.assertTrue(title.equals(test578pageTitle53), "ERROR - Receiver Server: Page ('"+test507pageUrl5+"') title doesn't match between authoring and receiver servers.");		
 
 		//Delete template and page in receiver
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl5);
-		browserPage.archiveElement(pageUrl5);
-		browserPage.deletePage(pageUrl5);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl5), "ERROR - Receiver Server: Page ('"+pageUrl5+"') should not exist at this moment in receiver server.");
+		browserPage.unPublishElement(test507pageUrl5);
+		browserPage.archiveElement(test507pageUrl5);
+		browserPage.deletePage(test507pageUrl5);
+		Assert.assertFalse(browserPage.doesElementExist(test507pageUrl5), "ERROR - Receiver Server: Page ('"+test507pageUrl5+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -1992,7 +2036,7 @@ public class PushPublishTest {
 		IPortletMenu portletMenu = callAuthoringServer();
 		portletMenu.sleep(2);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.createHTMLPage(pageTitle6, templateTitle8, pageUrl6);
+		browserPage.createHTMLPage(test582pageTitle6, test507templateTitle8, test582pageUrl6);
 
 		IPreviewHTMLPage_Page pagePreview = SeleniumPageManager.getBackEndPageManager().getPageObject(IPreviewHTMLPage_Page.class);
 		String bundleName = "test582";
@@ -2009,7 +2053,7 @@ public class PushPublishTest {
 
 		//wait until 5 minutes to check if the page was pushed
 		boolean isPushed = publishingQueuePage.isBundlePushed(authoringServerBundleId,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+pageUrl6+") push should not be in pending list.");
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+test582pageUrl6+") push should not be in pending list.");
 		logoutAuthoringServer();
 
 
@@ -2017,14 +2061,14 @@ public class PushPublishTest {
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(2);
 		browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl6), "ERROR - Receiver Server: Page ('"+pageUrl6+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesElementExist(test582pageUrl6), "ERROR - Receiver Server: Page ('"+test582pageUrl6+"') should exist at this moment in receiver server.");
 
 		//Delete template and page in receiver
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl6);
-		browserPage.archiveElement(pageUrl6);
-		browserPage.deletePage(pageUrl6);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl6), "ERROR - Receiver Server: Page ('"+pageUrl6+"') should not exist at this moment in receiver server.");
+		browserPage.unPublishElement(test582pageUrl6);
+		browserPage.archiveElement(test582pageUrl6);
+		browserPage.deletePage(test582pageUrl6);
+		Assert.assertFalse(browserPage.doesElementExist(test582pageUrl6), "ERROR - Receiver Server: Page ('"+test582pageUrl6+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -2039,7 +2083,7 @@ public class PushPublishTest {
 		IPortletMenu portletMenu = callAuthoringServer();
 		portletMenu.sleep(2);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.createUnpublishHTMLPage(pageTitle7, template625, pageUrl7);
+		browserPage.createUnpublishHTMLPage(test625pageTitle7, test625template625, test625pageUrl7);
 
 		IPreviewHTMLPage_Page pagePreview = SeleniumPageManager.getBackEndPageManager().getPageObject(IPreviewHTMLPage_Page.class);
 		try{
@@ -2061,12 +2105,12 @@ public class PushPublishTest {
 		portletMenu = sideMenu.gotoAdminScreen();
 
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.pushElement(pageUrl7);
+		browserPage.pushElement(test625pageUrl7);
 		//push page
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the page was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle7,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+pageUrl7+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test625pageTitle7,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+test625pageUrl7+") push should not be in pending list.");
 		logoutAuthoringServer();
 
 
@@ -2074,49 +2118,49 @@ public class PushPublishTest {
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(2);
 		browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesElementExist(test625pageUrl7), "ERROR - Receiver Server: Page ('"+test625pageUrl7+"') should exist at this moment in receiver server.");
 
-		Assert.assertFalse(browserPage.isElementPublish(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+		Assert.assertFalse(browserPage.isElementPublish(test625pageUrl7), "ERROR - Receiver Server: Page ('"+test625pageUrl7+"') should exist at this moment in receiver server.");
 
-		Assert.assertTrue(browserPage.isElementUnpublish(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.isElementUnpublish(test625pageUrl7), "ERROR - Receiver Server: Page ('"+test625pageUrl7+"') should exist at this moment in receiver server.");
 		logoutReceiverServer();
 
 		//connecting to authoring server
 		portletMenu = callAuthoringServer();
 		browserPage =portletMenu.getSiteBrowserPage();
-		browserPage.publishElement(pageUrl7);
+		browserPage.publishElement(test625pageUrl7);
 
-		browserPage.pushElement(pageUrl7);
+		browserPage.pushElement(test625pageUrl7);
 		//push page
 		publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the container was pushed
-		isPushed = publishingQueuePage.isObjectBundlePushed(pageTitle7,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+pageUrl7+") push should not be in pending list.");
+		isPushed = publishingQueuePage.isObjectBundlePushed(test625pageTitle7,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Page ("+test625pageUrl7+") push should not be in pending list.");
 
 		//Delete template and page in authoring
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl7);
-		browserPage.archiveElement(pageUrl7);
-		browserPage.deletePage(pageUrl7);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl7), "ERROR - Authoring Server: Page ('"+pageUrl7+"') should not exist at this moment in authoring server.");
+		browserPage.unPublishElement(test625pageUrl7);
+		browserPage.archiveElement(test625pageUrl7);
+		browserPage.deletePage(test625pageUrl7);
+		Assert.assertFalse(browserPage.doesElementExist(test625pageUrl7), "ERROR - Authoring Server: Page ('"+test625pageUrl7+"') should not exist at this moment in authoring server.");
 		logoutAuthoringServer();
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(2);
 		browserPage= portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(browserPage.doesElementExist(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.doesElementExist(test625pageUrl7), "ERROR - Receiver Server: Page ('"+test625pageUrl7+"') should exist at this moment in receiver server.");
 
-		Assert.assertFalse(browserPage.isElementUnpublish(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+		Assert.assertFalse(browserPage.isElementUnpublish(test625pageUrl7), "ERROR - Receiver Server: Page ('"+test625pageUrl7+"') should exist at this moment in receiver server.");
 
-		Assert.assertTrue(browserPage.isElementPublish(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(browserPage.isElementPublish(test625pageUrl7), "ERROR - Receiver Server: Page ('"+test625pageUrl7+"') should exist at this moment in receiver server.");
 
 		//Delete template and page in receiver
 		browserPage= portletMenu.getSiteBrowserPage();
-		browserPage.unPublishElement(pageUrl7);
-		browserPage.archiveElement(pageUrl7);
-		browserPage.deletePage(pageUrl7);
-		Assert.assertFalse(browserPage.doesElementExist(pageUrl7), "ERROR - Receiver Server: Page ('"+pageUrl7+"') should not exist at this moment in receiver server.");
+		browserPage.unPublishElement(test625pageUrl7);
+		browserPage.archiveElement(test625pageUrl7);
+		browserPage.deletePage(test625pageUrl7);
+		Assert.assertFalse(browserPage.doesElementExist(test625pageUrl7), "ERROR - Receiver Server: Page ('"+test625pageUrl7+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -2136,24 +2180,24 @@ public class PushPublishTest {
 		portletMenu.sleep(2);
 		IMenuLinkPage menuLinkPage= portletMenu.getMenuLinkPage();
 		IMenuLinkAddOrEdit_Page editPage = menuLinkPage.addLink();
-		editPage.setLinkTitle(linkTitle1); 
-		editPage.setLinkFolder(linkFolder1);
+		editPage.setLinkTitle(test524linkTitle1); 
+		editPage.setLinkFolder(test524linkFolder1);
 		editPage.setLinkType(IMenuLinkAddOrEdit_Page.INTERNAL_LINK);
 		editPage.setLinkTarget(IMenuLinkAddOrEdit_Page.SAME_TARGET);
-		editPage.setLinkOrder(linkOrder1);
-		editPage.setLinkShowOnMenu(linkShowOnMenu1);
-		editPage.setLinkInternalCode(linkInternalHost1, linkInternalFolder1, linkInternalUrl1);
+		editPage.setLinkOrder(test524linkOrder1);
+		editPage.setLinkShowOnMenu(test524linkShowOnMenu1);
+		editPage.setLinkInternalCode(test524linkInternalHost1, test524linkInternalFolder1, test524linkInternalUrl1);
 		editPage.saveAndPublish();
 		menuLinkPage= portletMenu.getMenuLinkPage();
-		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
+		Assert.assertTrue(menuLinkPage.doesLinkExist(test524linkTitle1), "ERROR - Authoring Server: Menu Link ('"+test524linkTitle1+"') should not exist at this moment in authoring server.");
 
-		menuLinkPage.pushLink(linkTitle1);
+		menuLinkPage.pushLink(test524linkTitle1);
 		menuLinkPage.sleep(1);
 		//push link
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the link was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(linkTitle1,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+linkTitle1+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test524linkTitle1,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+test524linkTitle1+") push should not be in pending list.");
 		logoutAuthoringServer();
 
 		//Calling receiver server
@@ -2161,7 +2205,7 @@ public class PushPublishTest {
 		portletMenu.sleep(2);
 		menuLinkPage= portletMenu.getMenuLinkPage();
 
-		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in receiver server.");
+		Assert.assertTrue(menuLinkPage.doesLinkExist(test524linkTitle1), "ERROR - Receiver Server: Menu Link ('"+test524linkTitle1+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -2176,46 +2220,46 @@ public class PushPublishTest {
 		IPortletMenu portletMenu = callAuthoringServer();
 		portletMenu.sleep(2);
 		IMenuLinkPage menuLinkPage= portletMenu.getMenuLinkPage();
-		IMenuLinkAddOrEdit_Page editPage = menuLinkPage.editLink(linkTitle1);
-		editPage.setLinkTitle(linkTitle1); 
+		IMenuLinkAddOrEdit_Page editPage = menuLinkPage.editLink(test524linkTitle1);
+		editPage.setLinkTitle(test524linkTitle1); 
 		editPage.setLinkType(IMenuLinkAddOrEdit_Page.EXTERNAL_LINK);
 		editPage.setLinkTarget(IMenuLinkAddOrEdit_Page.NEW_TARGET);
-		editPage.setLinkShowOnMenu(linkShowOnMenu1);
-		editPage.setLinkExternalCode(IMenuLinkAddOrEdit_Page.HTTP_PROTOCOL, linkExternalUrl1);
+		editPage.setLinkShowOnMenu(test524linkShowOnMenu1);
+		editPage.setLinkExternalCode(IMenuLinkAddOrEdit_Page.HTTP_PROTOCOL, test574linkExternalUrl1);
 		editPage.saveAndPublish();
 		menuLinkPage= portletMenu.getMenuLinkPage();
-		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
+		Assert.assertTrue(menuLinkPage.doesLinkExist(test524linkTitle1), "ERROR - Authoring Server: Menu Link ('"+test524linkTitle1+"') should not exist at this moment in authoring server.");
 
-		menuLinkPage.pushLink(linkTitle1);
+		menuLinkPage.pushLink(test524linkTitle1);
 		//push link
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the link was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(linkTitle1,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+linkTitle1+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test524linkTitle1,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+test524linkTitle1+") push should not be in pending list.");
 
 		//delete Link
 		portletMenu.sleep(2);
 		menuLinkPage= portletMenu.getMenuLinkPage();
-		menuLinkPage.deleteLink(linkTitle1);
-		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
+		menuLinkPage.deleteLink(test524linkTitle1);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(test524linkTitle1), "ERROR - Authoring Server: Menu Link ('"+test524linkTitle1+"') should not exist at this moment in authoring server.");
 
 		logoutAuthoringServer();
 
 		//Calling receiver server
 		portletMenu = callReceiverServer();
 		menuLinkPage= portletMenu.getMenuLinkPage();
-		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in receiver server.");
+		Assert.assertTrue(menuLinkPage.doesLinkExist(test524linkTitle1), "ERROR - Receiver Server: Menu Link ('"+test524linkTitle1+"') should not exist at this moment in receiver server.");
 
-		editPage = menuLinkPage.editLink(linkTitle1);
-		Assert.assertTrue(editPage.getLinkType().equals(IMenuLinkAddOrEdit_Page.EXTERNAL_LINK), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') type doesn't match in authoring and receiver servers.");
-		Assert.assertTrue(editPage.getLinkTarget().equals(IMenuLinkAddOrEdit_Page.NEW_TARGET), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') target doesn't match in authoring and receiver servers.");
-		Assert.assertTrue(editPage.getLinkExternalCode().equals(IMenuLinkAddOrEdit_Page.HTTP_PROTOCOL+linkExternalUrl1), "ERROR - Receiver Server: Menu Link ('"+linkTitle1+"') external link doesn't match in authoring and receiver servers.");
+		editPage = menuLinkPage.editLink(test524linkTitle1);
+		Assert.assertTrue(editPage.getLinkType().equals(IMenuLinkAddOrEdit_Page.EXTERNAL_LINK), "ERROR - Receiver Server: Menu Link ('"+test524linkTitle1+"') type doesn't match in authoring and receiver servers.");
+		Assert.assertTrue(editPage.getLinkTarget().equals(IMenuLinkAddOrEdit_Page.NEW_TARGET), "ERROR - Receiver Server: Menu Link ('"+test524linkTitle1+"') target doesn't match in authoring and receiver servers.");
+		Assert.assertTrue(editPage.getLinkExternalCode().equals(IMenuLinkAddOrEdit_Page.HTTP_PROTOCOL+test574linkExternalUrl1), "ERROR - Receiver Server: Menu Link ('"+test524linkTitle1+"') external link doesn't match in authoring and receiver servers.");
 		editPage.cancel();
 
 		//delete Link
 		menuLinkPage= portletMenu.getMenuLinkPage();
-		menuLinkPage.deleteLink(linkTitle1);
-		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle1), "ERROR - Receiver Server: Menu Link ('"+linkTitle3+"') should not exist at this moment in receiver server.");
+		menuLinkPage.deleteLink(test524linkTitle1);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(test524linkTitle1), "ERROR - Receiver Server: Menu Link ('"+test524linkTitle1+"') should not exist at this moment in receiver server.");
 
 		logoutReceiverServer();
 	}
@@ -2228,34 +2272,34 @@ public class PushPublishTest {
 	@Test (groups = {"PushPublishing"})
 	public void tc575_PushAMenuLinkAsLimitedUser() throws Exception {
 		//Calling authoring Server
-		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
 		portletMenu.sleep(2);
 		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
-		IMenuLinkAddOrEdit_Page editPage = browserPage.addMenuLinkInFolder(linkFolder2);
-		editPage.setLinkTitle(linkTitle2); 
+		IMenuLinkAddOrEdit_Page editPage = browserPage.addMenuLinkInFolder(test575linkFolder2);
+		editPage.setLinkTitle(test575linkTitle2); 
 		editPage.setLinkType(IMenuLinkAddOrEdit_Page.CODE_LINK);
-		editPage.setLinkOrder(linkOrder2);
-		editPage.setLinkShowOnMenu(linkShowOnMenu2);
-		editPage.setLinkCode(linkCode2);
+		editPage.setLinkOrder(test575linkOrder2);
+		editPage.setLinkShowOnMenu(test575linkShowOnMenu2);
+		editPage.setLinkCode(test575linkCode2);
 		editPage.save();
 
 		browserPage = portletMenu.getSiteBrowserPage();
-		browserPage.selectFolder(linkFolder2);
-		Assert.assertTrue(browserPage.doesElementExist(linkTitle2), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
+		browserPage.selectFolder(test575linkFolder2);
+		Assert.assertTrue(browserPage.doesElementExist(test575linkTitle2), "ERROR - Authoring Server: Menu Link ('"+test575linkTitle2+"') should not exist at this moment in authoring server.");
 
-		browserPage.pushElement(linkTitle2);
+		browserPage.pushElement(test575linkTitle2);
 		//push link
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the link was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(linkTitle2,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+linkTitle2+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test575linkTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+test575linkTitle2+") push should not be in pending list.");
 		logoutAuthoringServer();
 
 		//Calling receiver server
 		portletMenu = callReceiverServer();
 		IMenuLinkPage menuLinkPage= portletMenu.getMenuLinkPage();
 
-		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle2), "ERROR - Receiver Server: Menu Link ('"+linkTitle2+"') should not exist at this moment in receiver server.");
+		Assert.assertTrue(menuLinkPage.doesLinkExist(test575linkTitle2), "ERROR - Receiver Server: Menu Link ('"+test575linkTitle2+"') should not exist at this moment in receiver server.");
 		logoutReceiverServer();
 	}
 
@@ -2267,25 +2311,25 @@ public class PushPublishTest {
 	@Test (groups = {"PushPublishing"})
 	public void tc576_EditMenuLinkAndPushAsLimitedUser() throws Exception {
 		//Calling authoring Server
-		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
 		portletMenu.sleep(2);
 		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
-		browserPage.selectFolder(linkFolder2);
-		IMenuLinkAddOrEdit_Page editPage = browserPage.editMenuLink(linkTitle2);
-		editPage.setLinkShowOnMenu(linkShowOnMenu22);
-		editPage.setLinkCode(linkCode22);
+		browserPage.selectFolder(test575linkFolder2);
+		IMenuLinkAddOrEdit_Page editPage = browserPage.editMenuLink(test575linkTitle2);
+		editPage.setLinkShowOnMenu(test576linkShowOnMenu22);
+		editPage.setLinkCode(test576linkCode22);
 		editPage.save();
 		portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
-		browserPage.selectFolder(linkFolder2);
-		Assert.assertTrue(browserPage.doesElementExist(linkTitle2), "ERROR - Authoring Server: Menu Link ('"+linkTitle1+"') should not exist at this moment in authoring server.");
+		browserPage.selectFolder(test575linkFolder2);
+		Assert.assertTrue(browserPage.doesElementExist(test575linkTitle2), "ERROR - Authoring Server: Menu Link ('"+test575linkTitle2+"') should not exist at this moment in authoring server.");
 
-		browserPage.pushElement(linkTitle2);
+		browserPage.pushElement(test575linkTitle2);
 		//push link
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the link was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(linkTitle2,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+linkTitle2+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test575linkTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+test575linkTitle2+") push should not be in pending list.");
 		logoutAuthoringServer();
 
 		//call Authoring server
@@ -2293,25 +2337,25 @@ public class PushPublishTest {
 		IMenuLinkPage menuLinkPage = portletMenu.getMenuLinkPage();
 
 		//delete link
-		menuLinkPage.deleteLink(linkTitle2);
-		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle2), "ERROR - Authoring Server: Menu Link ('"+linkTitle2+"') should not exist at this moment in authorin server.");
+		menuLinkPage.deleteLink(test575linkTitle2);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(test575linkTitle2), "ERROR - Authoring Server: Menu Link ('"+test575linkTitle2+"') should not exist at this moment in authorin server.");
 		logoutAuthoringServer();		
 
 		//Calling receiver server
 		portletMenu = callReceiverServer();
 		menuLinkPage= portletMenu.getMenuLinkPage();
 
-		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle2), "ERROR - Receiver Server: Menu Link ('"+linkTitle2+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(menuLinkPage.doesLinkExist(test575linkTitle2), "ERROR - Receiver Server: Menu Link ('"+test575linkTitle2+"') should exist at this moment in receiver server.");
 
-		editPage = menuLinkPage.editLink(linkTitle2);
-		Assert.assertTrue(editPage.getLinkType().equals(IMenuLinkAddOrEdit_Page.CODE_LINK), "ERROR - Receiver Server: Menu Link ('"+linkTitle2+"') type doesn't match in authoring and receiver servers.");
-		Assert.assertTrue(editPage.getLinkCode().equals(linkCode22), "ERROR - Receiver Server: Menu Link ('"+linkTitle2+"') external link doesn't match in authoring and receiver servers.");
+		editPage = menuLinkPage.editLink(test575linkTitle2);
+		Assert.assertTrue(editPage.getLinkType().equals(IMenuLinkAddOrEdit_Page.CODE_LINK), "ERROR - Receiver Server: Menu Link ('"+test575linkTitle2+"') type doesn't match in authoring and receiver servers.");
+		Assert.assertTrue(editPage.getLinkCode().equals(test576linkCode22), "ERROR - Receiver Server: Menu Link ('"+test575linkTitle2+"') external link doesn't match in authoring and receiver servers.");
 		editPage.cancel();
 
 		//delete link
 		menuLinkPage= portletMenu.getMenuLinkPage();
-		menuLinkPage.deleteLink(linkTitle2);
-		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle2), "ERROR - Receiver Server: Menu Link ('"+linkTitle2+"') should not exist at this moment in receiver server.");
+		menuLinkPage.deleteLink(test575linkTitle2);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(test575linkTitle2), "ERROR - Receiver Server: Menu Link ('"+test575linkTitle2+"') should not exist at this moment in receiver server.");
 
 		logoutReceiverServer();
 	}
@@ -2328,30 +2372,30 @@ public class PushPublishTest {
 		portletMenu.sleep(2);
 		IMenuLinkPage menuLinkPage = portletMenu.getMenuLinkPage();
 		IMenuLinkAddOrEdit_Page editPage = menuLinkPage.addLink();
-		editPage.setLinkTitle(linkTitle3); 
-		editPage.setLinkFolder(linkFolder3);
+		editPage.setLinkTitle(test589linkTitle3); 
+		editPage.setLinkFolder(test589linkFolder3);
 		editPage.setLinkType(IMenuLinkAddOrEdit_Page.INTERNAL_LINK);
 		editPage.setLinkTarget(IMenuLinkAddOrEdit_Page.SAME_TARGET);
-		editPage.setLinkOrder(linkOrder3);
-		editPage.setLinkShowOnMenu(linkShowOnMenu3);
-		editPage.setLinkInternalCode(linkInternalHost3, linkInternalFolder3, linkInternalUrl3);
+		editPage.setLinkOrder(test589linkOrder3);
+		editPage.setLinkShowOnMenu(test589linkShowOnMenu3);
+		editPage.setLinkInternalCode(test589linkInternalHost3, test589linkInternalFolder3, test589linkInternalUrl3);
 		editPage.saveAndPublish();
 		portletMenu.sleep(2);
 		menuLinkPage = portletMenu.getMenuLinkPage();
 		String bundleName = "test589";
-		menuLinkPage.addToBundle(linkTitle3,bundleName);
+		menuLinkPage.addToBundle(test589linkTitle3,bundleName);
 
 		editPage = menuLinkPage.addLink();
-		editPage.setLinkTitle(linkTitle4); 
-		editPage.setLinkFolder(linkFolder4);
+		editPage.setLinkTitle(test589linkTitle4); 
+		editPage.setLinkFolder(test589linkFolder4);
 		editPage.setLinkType(IMenuLinkAddOrEdit_Page.CODE_LINK);
-		editPage.setLinkOrder(linkOrder4);
-		editPage.setLinkShowOnMenu(linkShowOnMenu4);
-		editPage.setLinkCode(linkCode4);
+		editPage.setLinkOrder(test589linkOrder4);
+		editPage.setLinkShowOnMenu(test589linkShowOnMenu4);
+		editPage.setLinkCode(test589linkCode4);
 		editPage.saveAndPublish();
 
 		menuLinkPage = portletMenu.getMenuLinkPage();
-		menuLinkPage.addToBundle(linkTitle4, bundleName);
+		menuLinkPage.addToBundle(test589linkTitle4, bundleName);
 
 		//push bundle
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
@@ -2364,10 +2408,10 @@ public class PushPublishTest {
 
 		//delete link
 		menuLinkPage= portletMenu.getMenuLinkPage();
-		menuLinkPage.deleteLink(linkTitle3);
-		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle3), "ERROR - Receiver Server: Menu Link ('"+linkTitle3+"') should not exist at this moment in receiver server.");
-		menuLinkPage.deleteLink(linkTitle4);
-		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle4), "ERROR - Receiver Server: Menu Link ('"+linkTitle4+"') should not exist at this moment in receiver server.");
+		menuLinkPage.deleteLink(test589linkTitle3);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(test589linkTitle3), "ERROR - Receiver Server: Menu Link ('"+test589linkTitle3+"') should not exist at this moment in receiver server.");
+		menuLinkPage.deleteLink(test589linkTitle4);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(test589linkTitle4), "ERROR - Receiver Server: Menu Link ('"+test589linkTitle4+"') should not exist at this moment in receiver server.");
 
 		logoutAuthoringServer();
 
@@ -2375,14 +2419,14 @@ public class PushPublishTest {
 		portletMenu = callReceiverServer();
 		menuLinkPage= portletMenu.getMenuLinkPage();
 
-		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle3), "ERROR - Receiver Server: Menu Link ('"+linkTitle3+"') should exist at this moment in receiver server.");
-		Assert.assertTrue(menuLinkPage.doesLinkExist(linkTitle4), "ERROR - Receiver Server: Menu Link ('"+linkTitle4+"') should  exist at this moment in receiver server.");
+		Assert.assertTrue(menuLinkPage.doesLinkExist(test589linkTitle3), "ERROR - Receiver Server: Menu Link ('"+test589linkTitle3+"') should exist at this moment in receiver server.");
+		Assert.assertTrue(menuLinkPage.doesLinkExist(test589linkTitle4), "ERROR - Receiver Server: Menu Link ('"+test589linkTitle4+"') should  exist at this moment in receiver server.");
 
 		//delete Link
-		menuLinkPage.deleteLink(linkTitle3);
-		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle3), "ERROR - Receiver Server: Menu Link ('"+linkTitle3+"') should not exist at this moment in receiver server.");
-		menuLinkPage.deleteLink(linkTitle4);
-		Assert.assertFalse(menuLinkPage.doesLinkExist(linkTitle4), "ERROR - Receiver Server: Menu Link ('"+linkTitle4+"') should not exist at this moment in receiver server.");
+		menuLinkPage.deleteLink(test589linkTitle3);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(test589linkTitle3), "ERROR - Receiver Server: Menu Link ('"+test589linkTitle3+"') should not exist at this moment in receiver server.");
+		menuLinkPage.deleteLink(test589linkTitle4);
+		Assert.assertFalse(menuLinkPage.doesLinkExist(test589linkTitle4), "ERROR - Receiver Server: Menu Link ('"+test589linkTitle4+"') should not exist at this moment in receiver server.");
 
 		logoutReceiverServer();
 	}
@@ -2404,17 +2448,17 @@ public class PushPublishTest {
 		//create a workflow
 		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
-		addSchemePage.setName(workflowSchemeName1);
+		addSchemePage.setName(test652workflowSchemeName1);
 		addSchemePage.sleep(2);
-		addSchemePage.setDescription(workflowSchemeName1);
+		addSchemePage.setDescription(test652workflowSchemeName1);
 		addSchemePage.save();
 
 		//add actions
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName1);
-		schemeStepsPage.addWorkflowStep(workflowSchemeStep1);
-		IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.addActionToStep(workflowSchemeStep1);
-		actionPage.setActionName(workflowActionName1);
+		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(test652workflowSchemeName1);
+		schemeStepsPage.addWorkflowStep(test652workflowSchemeStep1);
+		IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.addActionToStep(test652workflowSchemeStep1);
+		actionPage.setActionName(test652workflowActionName1);
 		actionPage.setSaveContent(true);
 		actionPage.setWhoCanUse("Admin User");
 		actionPage.setWhoCanUse(limitedRole);
@@ -2424,72 +2468,72 @@ public class PushPublishTest {
 		actionPage.sleep(2);
 		actionPage.save();
 		//adding subaction
-		actionPage.addSubAction(worflowSubaction1);
+		actionPage.addSubAction(test652worflowSubaction1);
 		actionPage.save();
 
 		//create structure 
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
 		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
-		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(contentStructureName9, "Content",contentStructureName9, demoServer,workflowSchemeName1);
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test652contentStructureName9, "Content",test652contentStructureName9, demoServer,test652workflowSchemeName1);
 
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName9Field1),"ERROR - The field ("+contentStructureName9Field1+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextField(contentStructureName9Field1, true, true, true, true, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test652contentStructureName9Field1),"ERROR - The field ("+test652contentStructureName9Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test652contentStructureName9Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName9Field1),"ERROR - The field ("+contentStructureName9Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test652contentStructureName9Field1),"ERROR - The field ("+test652contentStructureName9Field1+") shoudl exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName9Field2),"ERROR - The field ("+contentStructureName9Field2+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextareaField(contentStructureName9Field2, "", "", "","", false, false, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test652contentStructureName9Field2),"ERROR - The field ("+test652contentStructureName9Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test652contentStructureName9Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName9Field2),"ERROR - The field ("+contentStructureName9Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test652contentStructureName9Field2),"ERROR - The field ("+test652contentStructureName9Field2+") shoudl exist at this time");
 		fieldsPage.sleep(3);
 
 		//push Structure
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.pushStructure(contentStructureName9);
+		structurePage.pushStructure(test652contentStructureName9);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentStructureName9,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Structure ("+contentStructureName9+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test652contentStructureName9,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Structure ("+test652contentStructureName9+") push should not be in pending list.");
 
 		//delete structure and workflow
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName9, true);
+		structurePage.deleteStructureAndContent(test652contentStructureName9, true);
 		structurePage.sleep(2);
-		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName9), "ERROR - Structure ('"+contentStructureName9+"') should not exist in authoring server");
+		Assert.assertFalse(structurePage.doesStructureExist(test652contentStructureName9), "ERROR - Structure ('"+test652contentStructureName9+"') should not exist in authoring server");
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName1);
-		stepsPage.deleteStep(workflowSchemeStep1);
-		WorkflowPageUtil.deleteWorkflow(workflowSchemeName1,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+		IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test652workflowSchemeName1);
+		stepsPage.deleteStep(test652workflowSchemeStep1);
+		WorkflowPageUtil.deleteWorkflow(test652workflowSchemeName1,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(workflowSchemeName1), "ERROR - Workflow ('"+workflowSchemeName1+"') should not exist in authoring server");
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(test652workflowSchemeName1), "ERROR - Workflow ('"+test652workflowSchemeName1+"') should not exist in authoring server");
 
 		logoutAuthoringServer();
 
 		//call Receiver
 		portletMenu=callReceiverServer();
 		structurePage = portletMenu.getStructuresPage();
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName9),  "ERROR - Structure ('"+contentStructureName9+"') should  exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test652contentStructureName9),  "ERROR - Structure ('"+test652contentStructureName9+"') should  exist in receiver server");
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(workflowSchemeName1), "ERROR - Workflow ('"+workflowSchemeName1+"') should not exist in receiver server");
+		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(test652workflowSchemeName1), "ERROR - Workflow ('"+test652workflowSchemeName1+"') should not exist in receiver server");
 
 		//delete structure and workflow
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName9, true);
+		structurePage.deleteStructureAndContent(test652contentStructureName9, true);
 		structurePage.sleep(2);
-		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName9), "ERROR - Structure ('"+contentStructureName9+"') should not exist in receiver server");
+		Assert.assertFalse(structurePage.doesStructureExist(test652contentStructureName9), "ERROR - Structure ('"+test652contentStructureName9+"') should not exist in receiver server");
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName1);
-		stepsPage.deleteStep(workflowSchemeStep1);
-		WorkflowPageUtil.deleteWorkflow(workflowSchemeName1,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+		stepsPage = schemesPage.getEditSchemeStepsPage(test652workflowSchemeName1);
+		stepsPage.deleteStep(test652workflowSchemeStep1);
+		WorkflowPageUtil.deleteWorkflow(test652workflowSchemeName1,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
 		stepsPage.sleep(2);
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(workflowSchemeName1), "ERROR - Workflow ('"+workflowSchemeName1+"') should not exist in receiver server");
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(test652workflowSchemeName1), "ERROR - Workflow ('"+test652workflowSchemeName1+"') should not exist in receiver server");
 
 		logoutReceiverServer();
 	}
@@ -2507,17 +2551,17 @@ public class PushPublishTest {
 		//create a workflow
 		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
-		addSchemePage.setName(workflowSchemeName2);
+		addSchemePage.setName(test653workflowSchemeName2);
 		addSchemePage.sleep(2);
-		addSchemePage.setDescription(workflowSchemeName2);
+		addSchemePage.setDescription(test653workflowSchemeName2);
 		addSchemePage.save();
 		addSchemePage.sleep(2);
 		//add actions
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
-		schemeStepsPage.addWorkflowStep(workflowSchemeStep2);
-		IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.addActionToStep(workflowSchemeStep2);
-		actionPage.setActionName(workflowActionName2);
+		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(test653workflowSchemeName2);
+		schemeStepsPage.addWorkflowStep(test653workflowSchemeStep2);
+		IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.addActionToStep(test653workflowSchemeStep2);
+		actionPage.setActionName(test653workflowActionName2);
 		actionPage.setSaveContent(true);
 		actionPage.setWhoCanUse("Admin User");
 		actionPage.setWhoCanUse(limitedRole);
@@ -2527,14 +2571,14 @@ public class PushPublishTest {
 		actionPage.sleep(2);
 		actionPage.save();
 		//adding subaction
-		actionPage.addSubAction(worflowSubaction2);
+		actionPage.addSubAction(test653worflowSubaction2);
 		actionPage.save();
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		schemeStepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
-		schemeStepsPage.addWorkflowStep(workflowSchemeStep3);
-		actionPage = schemeStepsPage.addActionToStep(workflowSchemeStep3);
-		actionPage.setActionName(workflowActionName3);
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test653workflowSchemeName2);
+		schemeStepsPage.addWorkflowStep(test653workflowSchemeStep3);
+		actionPage = schemeStepsPage.addActionToStep(test653workflowSchemeStep3);
+		actionPage.setActionName(test653workflowActionName3);
 		actionPage.setSaveContent(false);
 		actionPage.setWhoCanUse("Admin User");
 		actionPage.setWhoCanUse(limitedRole);
@@ -2544,39 +2588,39 @@ public class PushPublishTest {
 		actionPage.sleep(2);
 		actionPage.save();
 		//adding subaction
-		actionPage.addSubAction(worflowSubaction3);
+		actionPage.addSubAction(test653worflowSubaction3);
 		actionPage.save();
 
 		//create structure 
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
 		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
-		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(contentStructureName10, "Content",contentStructureName10, demoServer,workflowSchemeName2);
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test653contentStructureName10, "Content",test653contentStructureName10, demoServer,test653workflowSchemeName2);
 
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName10Field1),"ERROR - The field ("+contentStructureName10Field1+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextField(contentStructureName10Field1, true, true, true, true, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test653contentStructureName10Field1),"ERROR - The field ("+test653contentStructureName10Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test653contentStructureName10Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName10Field1),"ERROR - The field ("+contentStructureName10Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test653contentStructureName10Field1),"ERROR - The field ("+test653contentStructureName10Field1+") shoudl exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName10Field2),"ERROR - The field ("+contentStructureName10Field2+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextareaField(contentStructureName10Field2, "", "", "","", false, false, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test653contentStructureName10Field2),"ERROR - The field ("+test653contentStructureName10Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test653contentStructureName10Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName10Field2),"ERROR - The field ("+contentStructureName10Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test653contentStructureName10Field2),"ERROR - The field ("+test653contentStructureName10Field2+") shoudl exist at this time");
 		fieldsPage.sleep(3);
 
 		//addContent
 		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
-		IContentAddOrEdit_ContentPage contentPage = searchPage.addContent(contentStructureName10);
+		IContentAddOrEdit_ContentPage contentPage = searchPage.addContent(test653contentStructureName10);
 
 		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put("title", contentTitle10);
+		map.put("title", test653contentTitle10);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXTAREA_FIELD);
-		map.put("body", contentTextArea10);
+		map.put("body", test653contentTextArea10);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
@@ -2585,7 +2629,7 @@ public class PushPublishTest {
 		searchPage = portletMenu.getContentSearchPage();
 
 		//move content to workflow step
-		contentPage = searchPage.editContent(contentTitle10, contentStructureName10);
+		contentPage = searchPage.editContent(test653contentTitle10, test653contentStructureName10);
 		if(contentPage.isPresentContentLockButton()){
 			contentPage.clickLockForEditingButton();
 		}
@@ -2596,30 +2640,30 @@ public class PushPublishTest {
 		paramsMap = new HashMap<String,String>();
 		paramsMap.put("clickButton", "Save");
 		parameters.add(paramsMap);
-		contentPage.selectWorkflowAction(workflowActionName2, parameters);
+		contentPage.selectWorkflowAction(test653workflowActionName2, parameters);
 
 		//push content
 		searchPage = portletMenu.getContentSearchPage();
-		searchPage.pushContent(contentTitle10,contentStructureName10);
+		searchPage.pushContent(test653contentTitle10,test653contentStructureName10);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle10,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle10+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test653contentTitle10,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test653contentTitle10+") push should not be in pending list.");
 
 		//delete structure and workflow
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName10, true);
+		structurePage.deleteStructureAndContent(test653contentStructureName10, true);
 		structurePage.sleep(2);
-		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName10), "ERROR - Structure ('"+contentStructureName10+"') should not exist in authoring server");
+		Assert.assertFalse(structurePage.doesStructureExist(test653contentStructureName10), "ERROR - Structure ('"+test653contentStructureName10+"') should not exist in authoring server");
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
-		stepsPage.deleteStep(workflowSchemeStep3);
-		stepsPage.deleteStep(workflowSchemeStep2);
-		WorkflowPageUtil.deleteWorkflow(workflowSchemeName2,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+		IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test653workflowSchemeName2);
+		stepsPage.deleteStep(test653workflowSchemeStep3);
+		stepsPage.deleteStep(test653workflowSchemeStep2);
+		WorkflowPageUtil.deleteWorkflow(test653workflowSchemeName2,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2), "ERROR - Workflow ('"+workflowSchemeName2+"') should not exist in authoring server");
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(test653workflowSchemeName2), "ERROR - Workflow ('"+test653workflowSchemeName2+"') should not exist in authoring server");
 
 		logoutAuthoringServer();
 
@@ -2627,31 +2671,31 @@ public class PushPublishTest {
 		portletMenu=callReceiverServer();
 
 		searchPage = portletMenu.getContentSearchPage();
-		Assert.assertTrue(searchPage.doesContentExist(contentTitle10, contentStructureName10),  "ERROR - Content ('"+contentStructureName10+"') should  exist in receiver server");
+		Assert.assertTrue(searchPage.doesContentExist(test653contentTitle10, test653contentStructureName10),  "ERROR - Content ('"+test653contentStructureName10+"') should  exist in receiver server");
 
 		structurePage = portletMenu.getStructuresPage();
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName10),  "ERROR - Structure ('"+contentStructureName10+"') should  exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test653contentStructureName10),  "ERROR - Structure ('"+test653contentStructureName10+"') should  exist in receiver server");
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2), "ERROR - Workflow ('"+workflowSchemeName2+"') should not exist in receiver server");
+		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(test653workflowSchemeName2), "ERROR - Workflow ('"+test653workflowSchemeName2+"') should not exist in receiver server");
 
 		IWorkflowTasksPage workflowTasksPage = portletMenu.getWorkflowTasksPage();
-		Assert.assertTrue(workflowTasksPage.getWorflowTaskCurrentStep(contentTitle10, workflowSchemeName2).equals(workflowSchemeStep2),"ERROR - The workflow task ("+contentTitle10+") is not in the right step");
+		Assert.assertTrue(workflowTasksPage.getWorflowTaskCurrentStep(test653contentTitle10, test653workflowSchemeName2).equals(test653workflowSchemeStep2),"ERROR - The workflow task ("+test653contentTitle10+") is not in the right step");
 
 		//delete structure and workflow
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName10, true);
+		structurePage.deleteStructureAndContent(test653contentStructureName10, true);
 		structurePage.sleep(2);
-		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName10), "ERROR - Structure ('"+contentStructureName10+"') should not exist in receiver server");
+		Assert.assertFalse(structurePage.doesStructureExist(test653contentStructureName10), "ERROR - Structure ('"+test653contentStructureName10+"') should not exist in receiver server");
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName2);
-		stepsPage.deleteStep(workflowSchemeStep3);
-		stepsPage.deleteStep(workflowSchemeStep2);
-		WorkflowPageUtil.deleteWorkflow(workflowSchemeName2,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+		stepsPage = schemesPage.getEditSchemeStepsPage(test653workflowSchemeName2);
+		stepsPage.deleteStep(test653workflowSchemeStep3);
+		stepsPage.deleteStep(test653workflowSchemeStep2);
+		WorkflowPageUtil.deleteWorkflow(test653workflowSchemeName2,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
 		stepsPage.sleep(2);
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2), "ERROR - Workflow ('"+workflowSchemeName2+"') should not exist in receiver server");
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(test653workflowSchemeName2), "ERROR - Workflow ('"+test653workflowSchemeName2+"') should not exist in receiver server");
 
 		logoutReceiverServer();
 	}
@@ -2671,16 +2715,16 @@ public class PushPublishTest {
 		IPortletMenu portletMenu = callAuthoringServer();
 		portletMenu.sleep(2);
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
-		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(contentStructureName1);
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(test520contentStructureName1);
 
 		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put("title", contentTitle1);
+		map.put("title", test520contentTitle1);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.WYSIWYG_FIELD);
-		map.put("body", contentWYSIWYG1);
+		map.put("body", test520contentWYSIWYG1);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
@@ -2688,21 +2732,21 @@ public class PushPublishTest {
 		contentPage.sleep(2);
 		contentSearchPage = portletMenu.getContentSearchPage();
 		//push content
-		contentSearchPage.pushContent(contentTitle1,contentStructureName1);
+		contentSearchPage.pushContent(test520contentTitle1,test520contentStructureName1);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle1,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle1+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test520contentTitle1,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test520contentTitle1+") push should not be in pending list.");
 
 		logoutAuthoringServer();
 
 		//calling receiver
 		portletMenu = callReceiverServer();
 		contentSearchPage = portletMenu.getContentSearchPage();
-		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle1, contentStructureName1), "ERROR - Receiver Server: Content ("+contentTitle1+") should exist at this moment in receiver server.");
-		Assert.assertTrue(contentSearchPage.isUnpublish(contentTitle1, contentStructureName1), "ERROR - Receiver Server: Content ("+contentTitle1+") should be unpublished at this moment in receiver server.");
-		Assert.assertFalse(contentSearchPage.isPublish(contentTitle1, contentStructureName1), "ERROR - Receiver Server: Content ("+contentTitle1+") should not be live at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.doesContentExist(test520contentTitle1, test520contentStructureName1), "ERROR - Receiver Server: Content ("+test520contentTitle1+") should exist at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.isUnpublish(test520contentTitle1, test520contentStructureName1), "ERROR - Receiver Server: Content ("+test520contentTitle1+") should be unpublished at this moment in receiver server.");
+		Assert.assertFalse(contentSearchPage.isPublish(test520contentTitle1, test520contentStructureName1), "ERROR - Receiver Server: Content ("+test520contentTitle1+") should not be live at this moment in receiver server.");
 
 		logoutReceiverServer();
 	}
@@ -2721,31 +2765,31 @@ public class PushPublishTest {
 		//create structure
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
 		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
-		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(contentStructureName2, "Content",contentStructureName2, demoServer);
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test496contentStructureName2, "Content",test496contentStructureName2, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName2Field1),"ERROR - The field ("+contentStructureName2Field1+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextField(contentStructureName2Field1, true, true, true, true, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test496contentStructureName2Field1),"ERROR - The field ("+test496contentStructureName2Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test496contentStructureName2Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName2Field1),"ERROR - The field ("+contentStructureName2Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test496contentStructureName2Field1),"ERROR - The field ("+test496contentStructureName2Field1+") shoudl exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName2Field2),"ERROR - The field ("+contentStructureName2Field2+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextareaField(contentStructureName2Field2, "", "", "","", false, false, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test496contentStructureName2Field2),"ERROR - The field ("+test496contentStructureName2Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test496contentStructureName2Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName2Field2),"ERROR - The field ("+contentStructureName2Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test496contentStructureName2Field2),"ERROR - The field ("+test496contentStructureName2Field2+") shoudl exist at this time");
 		fieldsPage.sleep(3);
 		//create content
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
-		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(contentStructureName2);
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(test496contentStructureName2);
 
 		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put(contentStructureName2Field1.toLowerCase(), contentTitle2);
+		map.put(test496contentStructureName2Field1.toLowerCase(), test496contentTitle2);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXTAREA_FIELD);
-		map.put(contentStructureName2Field2.toLowerCase(), contentTextArea2);
+		map.put(test496contentStructureName2Field2.toLowerCase(), test496contentTextArea2);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
@@ -2754,54 +2798,54 @@ public class PushPublishTest {
 		contentPage.sleep(3);
 		contentSearchPage = portletMenu.getContentSearchPage();
 		//push content
-		contentSearchPage.pushContent(contentTitle2,contentStructureName2);
+		contentSearchPage.pushContent(test496contentTitle2,test496contentStructureName2);
 		contentSearchPage.sleep(2);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle2,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle2+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test496contentTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test496contentTitle2+") push should not be in pending list.");
 
 		logoutAuthoringServer();
 
 		//calling receiver
 		portletMenu = callReceiverServer();
 		structurePage = portletMenu.getStructuresPage();
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName2),"ERROR - Structure ('"+contentStructureName2+"') doesn't exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test496contentStructureName2),"ERROR - Structure ('"+test496contentStructureName2+"') doesn't exist in receiver server");
 
 		contentSearchPage = portletMenu.getContentSearchPage();
-		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle2, contentStructureName2), "ERROR - Receiver Server: Content ("+contentTitle2+") should exist at this moment in receiver server.");
-		Assert.assertFalse(contentSearchPage.isUnpublish(contentTitle2, contentStructureName2), "ERROR - Receiver Server: Content ("+contentTitle2+") should not be unpublished at this moment in receiver server.");
-		Assert.assertTrue(contentSearchPage.isPublish(contentTitle2, contentStructureName2), "ERROR - Receiver Server: Content ("+contentTitle2+") should be live at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.doesContentExist(test496contentTitle2, test496contentStructureName2), "ERROR - Receiver Server: Content ("+test496contentTitle2+") should exist at this moment in receiver server.");
+		Assert.assertFalse(contentSearchPage.isUnpublish(test496contentTitle2, test496contentStructureName2), "ERROR - Receiver Server: Content ("+test496contentTitle2+") should not be unpublished at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.isPublish(test496contentTitle2, test496contentStructureName2), "ERROR - Receiver Server: Content ("+test496contentTitle2+") should be live at this moment in receiver server.");
 		logoutReceiverServer();
 
 		//calling authoring server
 		portletMenu = callAuthoringServer();
 		//push to remove content
 		contentSearchPage = portletMenu.getContentSearchPage();
-		contentSearchPage.pushContent(contentTitle2, contentStructureName2,WebKeys.PUSH_TO_REMOVE, null, null, null, null, false);
+		contentSearchPage.pushContent(test496contentTitle2, test496contentStructureName2,WebKeys.PUSH_TO_REMOVE, null, null, null, null, false);
 
 		publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle2,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle2+") push should not be in pending list.");
+		isPushed = publishingQueuePage.isObjectBundlePushed(test496contentTitle2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test496contentTitle2+") push should not be in pending list.");
 
 		//delete structure and content
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName2, true);
+		structurePage.deleteStructureAndContent(test496contentStructureName2, true);
 		logoutAuthoringServer();
 
 		//calling receiver
 		portletMenu = callReceiverServer();
 		portletMenu.sleep(2);
 		contentSearchPage = portletMenu.getContentSearchPage();
-		Assert.assertFalse(contentSearchPage.doesContentExist(contentTitle2, contentStructureName2), "ERROR - Receiver Server: Content ("+contentTitle2+") should exist at this moment in receiver server.");		
+		Assert.assertFalse(contentSearchPage.doesContentExist(test496contentTitle2, test496contentStructureName2), "ERROR - Receiver Server: Content ("+test496contentTitle2+") should exist at this moment in receiver server.");		
 
 		structurePage = portletMenu.getStructuresPage();
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName2),"ERROR - Structure ('"+contentStructureName2+"') doesn't exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test496contentStructureName2),"ERROR - Structure ('"+test496contentStructureName2+"') doesn't exist in receiver server");
 
 		//delete structure and content
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName2, true);
+		structurePage.deleteStructureAndContent(test496contentStructureName2, true);
 
 		logoutReceiverServer();
 	}
@@ -2820,149 +2864,149 @@ public class PushPublishTest {
 		//create structure 1
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
 		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
-		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(contentStructureName3, "Content",contentStructureName3, demoServer);
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test519contentStructureName3, "Content",test519contentStructureName3, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName3Field1),"ERROR - The field ("+contentStructureName3Field1+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextField(contentStructureName3Field1, true, true, true, true, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName3Field1),"ERROR - The field ("+test519contentStructureName3Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test519contentStructureName3Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName3Field1),"ERROR - The field ("+contentStructureName3Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName3Field1),"ERROR - The field ("+test519contentStructureName3Field1+") shoudl exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName3Field2),"ERROR - The field ("+contentStructureName3Field2+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextareaField(contentStructureName3Field2, "", "", "","", false, false, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName3Field2),"ERROR - The field ("+test519contentStructureName3Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test519contentStructureName3Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName3Field2),"ERROR - The field ("+contentStructureName3Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName3Field2),"ERROR - The field ("+test519contentStructureName3Field2+") shoudl exist at this time");
 
 		//create content 1
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
-		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(contentStructureName3);
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(test519contentStructureName3);
 
 		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put(contentStructureName3Field1.toLowerCase(), contentTitle3);
+		map.put(test519contentStructureName3Field1.toLowerCase(), test519contentTitle3);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXTAREA_FIELD);
-		map.put(contentStructureName3Field2.toLowerCase(), contentTextArea3);
+		map.put(test519contentStructureName3Field2.toLowerCase(), test519contentTextArea3);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
 		contentPage.saveAndPublish();
 		contentPage.sleep(2);
-		listOfContent.add(contentTitle3);
+		listOfContent.add(test519contentTitle3);
 
 
 		//create structure 2
 		structurePage = portletMenu.getStructuresPage();
 		addStructurePage = structurePage.getAddNewStructurePage();
-		fieldsPage = addStructurePage.createNewStructure(contentStructureName4, "Content",contentStructureName4, demoServer);
+		fieldsPage = addStructurePage.createNewStructure(test519contentStructureName4, "Content",test519contentStructureName4, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName4Field1),"ERROR - The field ("+contentStructureName4Field1+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextField(contentStructureName4Field1, true, true, true, true, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName4Field1),"ERROR - The field ("+test519contentStructureName4Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test519contentStructureName4Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName4Field1),"ERROR - The field ("+contentStructureName4Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName4Field1),"ERROR - The field ("+test519contentStructureName4Field1+") shoudl exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName4Field2),"ERROR - The field ("+contentStructureName4Field2+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextareaField(contentStructureName4Field2, "", "", "","", false, false, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName4Field2),"ERROR - The field ("+test519contentStructureName4Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test519contentStructureName4Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName4Field2),"ERROR - The field ("+contentStructureName4Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName4Field2),"ERROR - The field ("+test519contentStructureName4Field2+") shoudl exist at this time");
 
 		//create content 2
 		contentSearchPage = portletMenu.getContentSearchPage();
-		contentPage = contentSearchPage.addContent(contentStructureName4);
+		contentPage = contentSearchPage.addContent(test519contentStructureName4);
 
 		fields = new ArrayList<Map<String, Object>>();
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put(contentStructureName4Field1.toLowerCase(), contentTitle4);
+		map.put(test519contentStructureName4Field1.toLowerCase(), test519contentTitle4);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXTAREA_FIELD);
-		map.put(contentStructureName4Field2.toLowerCase(), contentTextArea4);
+		map.put(test519contentStructureName4Field2.toLowerCase(), test519contentTextArea4);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
 		contentPage.saveAndPublish();
 		contentPage.sleep(2);
-		listOfContent.add(contentTitle4);
+		listOfContent.add(test519contentTitle4);
 		//create structure 3
 		structurePage = portletMenu.getStructuresPage();
 		addStructurePage = structurePage.getAddNewStructurePage();
-		fieldsPage = addStructurePage.createNewStructure(contentStructureName5, "Content",contentStructureName5, demoServer);
+		fieldsPage = addStructurePage.createNewStructure(test519contentStructureName5, "Content",test519contentStructureName5, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName5Field1),"ERROR - The field ("+contentStructureName5Field1+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextField(contentStructureName5Field1, true, true, true, true, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName5Field1),"ERROR - The field ("+test519contentStructureName5Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test519contentStructureName5Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName5Field1),"ERROR - The field ("+contentStructureName5Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName5Field1),"ERROR - The field ("+test519contentStructureName5Field1+") shoudl exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName5Field2),"ERROR - The field ("+contentStructureName5Field2+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextareaField(contentStructureName5Field2, "", "", "","", false, false, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName5Field2),"ERROR - The field ("+test519contentStructureName5Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test519contentStructureName5Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName5Field2),"ERROR - The field ("+contentStructureName5Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName5Field2),"ERROR - The field ("+test519contentStructureName5Field2+") shoudl exist at this time");
 
 		//create content 3
 		contentSearchPage = portletMenu.getContentSearchPage();
-		contentPage = contentSearchPage.addContent(contentStructureName5);
+		contentPage = contentSearchPage.addContent(test519contentStructureName5);
 
 		fields = new ArrayList<Map<String, Object>>();
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put(contentStructureName5Field1.toLowerCase(), contentTitle5);
+		map.put(test519contentStructureName5Field1.toLowerCase(), test519contentTitle5);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXTAREA_FIELD);
-		map.put(contentStructureName5Field2.toLowerCase(), contentTextArea5);
+		map.put(test519contentStructureName5Field2.toLowerCase(), test519contentTextArea5);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
 		contentPage.saveAndPublish();
 		contentPage.sleep(2);
-		listOfContent.add(contentTitle5);
+		listOfContent.add(test519contentTitle5);
 
 		//push contents
 		contentSearchPage = portletMenu.getContentSearchPage();
-		contentSearchPage.pushContentList(listOfContent,null,contentSearchFilterKey);
+		contentSearchPage.pushContentList(listOfContent,null,test519contentSearchFilterKey);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle3,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle3+","+contentTitle4+","+contentTitle5+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test519contentTitle3,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test519contentTitle3+","+test519contentTitle4+","+test519contentTitle5+") push should not be in pending list.");
 
 		//delete content and structures
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName3, true);
-		structurePage.deleteStructureAndContent(contentStructureName4, true);
-		structurePage.deleteStructureAndContent(contentStructureName5, true);
+		structurePage.deleteStructureAndContent(test519contentStructureName3, true);
+		structurePage.deleteStructureAndContent(test519contentStructureName4, true);
+		structurePage.deleteStructureAndContent(test519contentStructureName5, true);
 		logoutAuthoringServer();
 
 		//calling receiver
 		portletMenu = callReceiverServer();
 		structurePage = portletMenu.getStructuresPage();
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName3),"ERROR - Structure ('"+contentStructureName3+"') doesn't exist in receiver server");
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName4),"ERROR - Structure ('"+contentStructureName4+"') doesn't exist in receiver server");
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName5),"ERROR - Structure ('"+contentStructureName5+"') doesn't exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test519contentStructureName3),"ERROR - Structure ('"+test519contentStructureName3+"') doesn't exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test519contentStructureName4),"ERROR - Structure ('"+test519contentStructureName4+"') doesn't exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test519contentStructureName5),"ERROR - Structure ('"+test519contentStructureName5+"') doesn't exist in receiver server");
 
 		contentSearchPage = portletMenu.getContentSearchPage();
-		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle3, contentStructureName3), "ERROR - Receiver Server: Content ("+contentTitle3+") should exist at this moment in receiver server.");
-		Assert.assertFalse(contentSearchPage.isUnpublish(contentTitle3, contentStructureName3), "ERROR - Receiver Server: Content ("+contentTitle3+") should not be unpublished at this moment in receiver server.");
-		Assert.assertTrue(contentSearchPage.isPublish(contentTitle3, contentStructureName3), "ERROR - Receiver Server: Content ("+contentTitle3+") should be live at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.doesContentExist(test519contentTitle3, test519contentStructureName3), "ERROR - Receiver Server: Content ("+test519contentTitle3+") should exist at this moment in receiver server.");
+		Assert.assertFalse(contentSearchPage.isUnpublish(test519contentTitle3, test519contentStructureName3), "ERROR - Receiver Server: Content ("+test519contentTitle3+") should not be unpublished at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.isPublish(test519contentTitle3, test519contentStructureName3), "ERROR - Receiver Server: Content ("+test519contentTitle3+") should be live at this moment in receiver server.");
 
-		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle4, contentStructureName4), "ERROR - Receiver Server: Content ("+contentTitle4+") should exist at this moment in receiver server.");
-		Assert.assertFalse(contentSearchPage.isUnpublish(contentTitle4, contentStructureName4), "ERROR - Receiver Server: Content ("+contentTitle4+") should not be unpublished at this moment in receiver server.");
-		Assert.assertTrue(contentSearchPage.isPublish(contentTitle4, contentStructureName4), "ERROR - Receiver Server: Content ("+contentTitle4+") should be live at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.doesContentExist(test519contentTitle4, test519contentStructureName4), "ERROR - Receiver Server: Content ("+test519contentTitle4+") should exist at this moment in receiver server.");
+		Assert.assertFalse(contentSearchPage.isUnpublish(test519contentTitle4, test519contentStructureName4), "ERROR - Receiver Server: Content ("+test519contentTitle4+") should not be unpublished at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.isPublish(test519contentTitle4, test519contentStructureName4), "ERROR - Receiver Server: Content ("+test519contentTitle4+") should be live at this moment in receiver server.");
 
-		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle5, contentStructureName5), "ERROR - Receiver Server: Content ("+contentTitle5+") should exist at this moment in receiver server.");
-		Assert.assertFalse(contentSearchPage.isUnpublish(contentTitle5, contentStructureName5), "ERROR - Receiver Server: Content ("+contentTitle5+") should not be unpublished at this moment in receiver server.");
-		Assert.assertTrue(contentSearchPage.isPublish(contentTitle5, contentStructureName5), "ERROR - Receiver Server: Content ("+contentTitle5+") should be live at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.doesContentExist(test519contentTitle5, test519contentStructureName5), "ERROR - Receiver Server: Content ("+test519contentTitle5+") should exist at this moment in receiver server.");
+		Assert.assertFalse(contentSearchPage.isUnpublish(test519contentTitle5, test519contentStructureName5), "ERROR - Receiver Server: Content ("+test519contentTitle5+") should not be unpublished at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.isPublish(test519contentTitle5, test519contentStructureName5), "ERROR - Receiver Server: Content ("+test519contentTitle5+") should be live at this moment in receiver server.");
 
 		//delete content and structures
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName3, true);
-		structurePage.deleteStructureAndContent(contentStructureName4, true);
-		structurePage.deleteStructureAndContent(contentStructureName5, true);
+		structurePage.deleteStructureAndContent(test519contentStructureName3, true);
+		structurePage.deleteStructureAndContent(test519contentStructureName4, true);
+		structurePage.deleteStructureAndContent(test519contentStructureName5, true);
 		logoutReceiverServer();
 	}
 
@@ -2980,31 +3024,31 @@ public class PushPublishTest {
 		//create structure 1
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
 		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
-		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(contentStructureName6, "Content",contentStructureName6, demoServer);
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test532contentStructureName6, "Content",test532contentStructureName6, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName6Field1),"ERROR - The field ("+contentStructureName6Field1+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextField(contentStructureName6Field1, true, true, true, true, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test532contentStructureName6Field1),"ERROR - The field ("+test532contentStructureName6Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test532contentStructureName6Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName6Field1),"ERROR - The field ("+contentStructureName6Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test532contentStructureName6Field1),"ERROR - The field ("+test532contentStructureName6Field1+") shoudl exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName6Field2),"ERROR - The field ("+contentStructureName6Field2+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextareaField(contentStructureName6Field2, "", "", "","", false, false, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test532contentStructureName6Field2),"ERROR - The field ("+test532contentStructureName6Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test532contentStructureName6Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName6Field2),"ERROR - The field ("+contentStructureName6Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test532contentStructureName6Field2),"ERROR - The field ("+test532contentStructureName6Field2+") shoudl exist at this time");
 		fieldsPage.sleep(3);
 		//create content 1
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
-		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(contentStructureName6);
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(test532contentStructureName6);
 
 		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put(contentStructureName6Field1.toLowerCase(), contentTitle6);
+		map.put(test532contentStructureName6Field1.toLowerCase(), test532contentTitle6);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXTAREA_FIELD);
-		map.put(contentStructureName6Field2.toLowerCase(), contentTextArea6);
+		map.put(test532contentStructureName6Field2.toLowerCase(), test532contentTextArea6);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
@@ -3014,29 +3058,29 @@ public class PushPublishTest {
 		String structureKey="Test-532";
 		//push contents
 		contentSearchPage = portletMenu.getContentSearchPage();
-		contentSearchPage.pushContent(contentTitle6,structureKey);
+		contentSearchPage.pushContent(test532contentTitle6,structureKey);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle6,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle6+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test532contentTitle6,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test532contentTitle6+") push should not be in pending list.");
 
 		//delete content and structures
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName6, true);
+		structurePage.deleteStructureAndContent(test532contentStructureName6, true);
 		logoutAuthoringServer();
 
 		//calling receiver
 		portletMenu = callReceiverServer();
 		structurePage = portletMenu.getStructuresPage();
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName6),"ERROR - Structure ('"+contentStructureName6+"') doesn't exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test532contentStructureName6),"ERROR - Structure ('"+test532contentStructureName6+"') doesn't exist in receiver server");
 
 		contentSearchPage = portletMenu.getContentSearchPage();
-		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle6, structureKey), "ERROR - Receiver Server: Content ("+contentTitle6+") should exist at this moment in receiver server.");
+		Assert.assertTrue(contentSearchPage.doesContentExist(test532contentTitle6, structureKey), "ERROR - Receiver Server: Content ("+test532contentTitle6+") should exist at this moment in receiver server.");
 
 		//delete structure and contents
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName6, true);
+		structurePage.deleteStructureAndContent(test532contentStructureName6, true);
 	}
 
 	/**
@@ -3051,16 +3095,16 @@ public class PushPublishTest {
 		portletMenu.sleep(3);
 
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
-		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(contentStructureName7);
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(test528contentStructureName7);
 
 		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put(contentStructureName7Field1.toLowerCase(), contentTitle7);
+		map.put(test528contentStructureName7Field1.toLowerCase(), test528contentTitle7);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.WYSIWYG_FIELD);
-		map.put(contentStructureName7Field2.toLowerCase(), contentTextArea7);
+		map.put(test528contentStructureName7Field2.toLowerCase(), test528contentTextArea7);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
@@ -3068,47 +3112,47 @@ public class PushPublishTest {
 		contentPage.sleep(3);
 		//Push Content
 		contentSearchPage = portletMenu.getContentSearchPage();
-		contentSearchPage.pushContent(contentTitle7,contentStructureName7);
+		contentSearchPage.pushContent(test528contentTitle7,test528contentStructureName7);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle7,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle7+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test528contentTitle7,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test528contentTitle7+") push should not be in pending list.");
 		logoutAuthoringServer();
 
 		//Calling receiver
 		portletMenu=callReceiverServer();
 		contentSearchPage = portletMenu.getContentSearchPage();
-		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') doesn't exist in receiver server");
-		Assert.assertTrue(contentSearchPage.isPublish(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should be publish in receiver server");
+		Assert.assertTrue(contentSearchPage.doesContentExist(test528contentTitle7, test528contentStructureName7),"ERROR - content ('"+test528contentTitle7+"') doesn't exist in receiver server");
+		Assert.assertTrue(contentSearchPage.isPublish(test528contentTitle7, test528contentStructureName7),"ERROR - content ('"+test528contentTitle7+"') should be publish in receiver server");
 		//unpublish content
-		contentSearchPage.unpublish(contentTitle7, contentStructureName7);
-		Assert.assertTrue(contentSearchPage.isUnpublish(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should be unpublish in receiver server");
+		contentSearchPage.unpublish(test528contentTitle7, test528contentStructureName7);
+		Assert.assertTrue(contentSearchPage.isUnpublish(test528contentTitle7, test528contentStructureName7),"ERROR - content ('"+test528contentTitle7+"') should be unpublish in receiver server");
 		logoutReceiverServer();
 
 		//calling authoring server
 		portletMenu=callAuthoringServer();
 		contentSearchPage = portletMenu.getContentSearchPage();
 		//push to remove
-		contentSearchPage.pushContent(contentTitle7, contentStructureName7, WebKeys.PUSH_TO_REMOVE, null, null, null, null, false);
+		contentSearchPage.pushContent(test528contentTitle7, test528contentStructureName7, WebKeys.PUSH_TO_REMOVE, null, null, null, null, false);
 
 		publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle7,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle7+") push should not be in pending list.");
+		isPushed = publishingQueuePage.isObjectBundlePushed(test528contentTitle7,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test528contentTitle7+") push should not be in pending list.");
 
 		//delete content
 		contentSearchPage = portletMenu.getContentSearchPage();
-		contentSearchPage.unpublish(contentTitle7, contentStructureName7);
-		contentSearchPage.archive(contentTitle7, contentStructureName7);
-		contentSearchPage.delete(contentTitle7, contentStructureName7);
-		Assert.assertFalse(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should not exist in authoring server");
+		contentSearchPage.unpublish(test528contentTitle7, test528contentStructureName7);
+		contentSearchPage.archive(test528contentTitle7, test528contentStructureName7);
+		contentSearchPage.delete(test528contentTitle7, test528contentStructureName7);
+		Assert.assertFalse(contentSearchPage.doesContentExist(test528contentTitle7, test528contentStructureName7),"ERROR - content ('"+test528contentTitle7+"') should not exist in authoring server");
 		logoutAuthoringServer();
 
 		//Calling receiver
 		portletMenu=callReceiverServer();
 		contentSearchPage = portletMenu.getContentSearchPage();
-		Assert.assertFalse(contentSearchPage.doesContentExist(contentTitle7, contentStructureName7),"ERROR - content ('"+contentTitle7+"') should not  exist in receiver server");
+		Assert.assertFalse(contentSearchPage.doesContentExist(test528contentTitle7, test528contentStructureName7),"ERROR - content ('"+test528contentTitle7+"') should not  exist in receiver server");
 		logoutReceiverServer();
 
 	}
@@ -3127,35 +3171,35 @@ public class PushPublishTest {
 		//create structure
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
 		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
-		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(contentStructureName8, "Content",contentStructureName8, demoServer);
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test572contentStructureName8, "Content",test572contentStructureName8, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName8Field1),"ERROR - The field ("+contentStructureName8Field1+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextField(contentStructureName8Field1, true, true, true, true, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test572contentStructureName8Field1),"ERROR - The field ("+test572contentStructureName8Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test572contentStructureName8Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName8Field1),"ERROR - The field ("+contentStructureName8Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test572contentStructureName8Field1),"ERROR - The field ("+test572contentStructureName8Field1+") shoudl exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(contentStructureName8Field2),"ERROR - The field ("+contentStructureName8Field2+") shoudl not exist at this time");
-		fieldsPage = fieldsPage.addTextareaField(contentStructureName8Field2, "", "", "","", false, false, false);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test572contentStructureName8Field2),"ERROR - The field ("+test572contentStructureName8Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test572contentStructureName8Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(contentStructureName8Field2),"ERROR - The field ("+contentStructureName8Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test572contentStructureName8Field2),"ERROR - The field ("+test572contentStructureName8Field2+") shoudl exist at this time");
 		fieldsPage.sleep(3);
 		logoutAuthoringServer();
 
 		//login as limited user
-		portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
 		portletMenu.sleep(3);
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
-		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(contentStructureName8);
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(test572contentStructureName8);
 
 		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put(contentStructureName8Field1.toLowerCase(), contentTitle8);
+		map.put(test572contentStructureName8Field1.toLowerCase(), test572contentTitle8);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXTAREA_FIELD);
-		map.put(contentStructureName8Field2.toLowerCase(), contentTextArea8);
+		map.put(test572contentStructureName8Field2.toLowerCase(), test572contentTextArea8);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
@@ -3163,39 +3207,25 @@ public class PushPublishTest {
 		contentPage.sleep(3);
 		//Push Content
 		contentSearchPage = portletMenu.getContentSearchPage();
-		contentSearchPage.pushContent(contentTitle8,contentStructureName8);
+		contentSearchPage.pushContent(test572contentTitle8,test572contentStructureName8);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle8,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle8+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test572contentTitle8,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test572contentTitle8+") push should not be in pending list.");
 		logoutAuthoringServer();
 
 		//Calling receiver
 		portletMenu=callReceiverServer();
 		contentSearchPage = portletMenu.getContentSearchPage();
-		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle8, contentStructureName8),"ERROR - content ('"+contentTitle8+"') doesn't exist in receiver server");
-		Assert.assertTrue(contentSearchPage.isPublish(contentTitle8, contentStructureName8),"ERROR - content ('"+contentTitle8+"') should be publish in receiver server");
+		Assert.assertTrue(contentSearchPage.doesContentExist(test572contentTitle8, test572contentStructureName8),"ERROR - content ('"+test572contentTitle8+"') doesn't exist in receiver server");
+		Assert.assertTrue(contentSearchPage.isPublish(test572contentTitle8, test572contentStructureName8),"ERROR - content ('"+test572contentTitle8+"') should be publish in receiver server");
 
 		structurePage = portletMenu.getStructuresPage();
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should exist in receiver server");
-
-		//delete structure and content
-		//structurePage.deleteStructureAndContent(contentStructureName8, true);
-		//Assert.assertFalse(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should not exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test572contentStructureName8),"ERROR - Structure ('"+test572contentStructureName8+"') should exist in receiver server");
 
 		logoutReceiverServer();
 
-		//calling authoring server
-		//portletMenu = callAuthoringServer();
-		//portletMenu.sleep(3);
-
-		//delete structure
-		//structurePage = portletMenu.getStructuresPage();
-		//structurePage.deleteStructureAndContent(contentStructureName8, true);
-		//Assert.assertFalse(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should not exist in authoring server");
-
-		//logoutAuthoringServer();
 	}
 
 
@@ -3208,19 +3238,19 @@ public class PushPublishTest {
 	@Test (groups = {"PushPublishing"})
 	public void tc573_EditContentAndPushAsLimitedUser() throws Exception{
 		//Calling authoring Server
-		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmail,limitedUserPaswword);
+		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
 		portletMenu.sleep(3);
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
-		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.editContent(contentTitle8,contentStructureName8);
+		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.editContent(test572contentTitle8,test572contentStructureName8);
 
 		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put(contentStructureName8Field1.toLowerCase(), contentTitle8);
+		map.put(test572contentStructureName8Field1.toLowerCase(), test572contentTitle8);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXTAREA_FIELD);
-		map.put(contentStructureName8Field2.toLowerCase(), contentTextArea82);
+		map.put(test572contentStructureName8Field2.toLowerCase(), test573contentTextArea82);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
@@ -3231,32 +3261,32 @@ public class PushPublishTest {
 		contentPage.sleep(3);
 		//Push Content
 		contentSearchPage = portletMenu.getContentSearchPage();
-		contentSearchPage.pushContent(contentTitle8,contentStructureName8);
+		contentSearchPage.pushContent(test572contentTitle8,test572contentStructureName8);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(contentTitle8,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+contentTitle8+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test572contentTitle8,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test572contentTitle8+") push should not be in pending list.");
 		logoutAuthoringServer();
 
 		//Calling receiver
 		portletMenu=callReceiverServer();
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test572contentStructureName8),"ERROR - Structure ('"+test572contentStructureName8+"') should exist in receiver server");
 
 		contentSearchPage = portletMenu.getContentSearchPage();
-		Assert.assertTrue(contentSearchPage.doesContentExist(contentTitle8, contentStructureName8),"ERROR - Content ('"+contentTitle8+"') should exist on receiver server");
-		Assert.assertTrue(contentSearchPage.isPublish(contentTitle8, contentStructureName8),"ERROR - content ('"+contentTitle8+"') should be publish in receiver server");
+		Assert.assertTrue(contentSearchPage.doesContentExist(test572contentTitle8, test572contentStructureName8),"ERROR - Content ('"+test572contentTitle8+"') should exist on receiver server");
+		Assert.assertTrue(contentSearchPage.isPublish(test572contentTitle8, test572contentStructureName8),"ERROR - content ('"+test572contentTitle8+"') should be publish in receiver server");
 
-		contentPage = contentSearchPage.editContent(contentTitle8,contentStructureName8);
-		String text	= contentPage.getFieldValue(contentStructureName8Field2.toLowerCase());
+		contentPage = contentSearchPage.editContent(test572contentTitle8,test572contentStructureName8);
+		String text	= contentPage.getFieldValue(test572contentStructureName8Field2.toLowerCase());
 		contentPage.cancel();
-		Assert.assertTrue(text.equals(contentTextArea82),"ERROR - Content ('"+contentTitle8+"') are not the same in authoring and receiver servers");
+		Assert.assertTrue(text.equals(test573contentTextArea82),"ERROR - Content ('"+test572contentTitle8+"') are not the same in authoring and receiver servers");
 
 		//delete structure and content
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName8, true);
-		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should not exist in receiver server");
+		structurePage.deleteStructureAndContent(test572contentStructureName8, true);
+		Assert.assertFalse(structurePage.doesStructureExist(test572contentStructureName8),"ERROR - Structure ('"+test572contentStructureName8+"') should not exist in receiver server");
 
 		logoutReceiverServer();
 
@@ -3266,8 +3296,8 @@ public class PushPublishTest {
 
 		//delete structure
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName8, true);
-		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName8),"ERROR - Structure ('"+contentStructureName8+"') should not exist in authoring server");
+		structurePage.deleteStructureAndContent(test572contentStructureName8, true);
+		Assert.assertFalse(structurePage.doesStructureExist(test572contentStructureName8),"ERROR - Structure ('"+test572contentStructureName8+"') should not exist in authoring server");
 
 		logoutAuthoringServer();
 	}
@@ -3285,17 +3315,17 @@ public class PushPublishTest {
 		//create a workflow
 		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
-		addSchemePage.setName(workflowSchemeName3);
+		addSchemePage.setName(test623workflowSchemeName3);
 		addSchemePage.sleep(2);
-		addSchemePage.setDescription(workflowSchemeName3);
+		addSchemePage.setDescription(test623workflowSchemeName3);
 		addSchemePage.save();
 		addSchemePage.sleep(3);
 		//add actions
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName3);
-		schemeStepsPage.addWorkflowStep(workflowSchemeStep4);
-		IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.addActionToStep(workflowSchemeStep4);
-		actionPage.setActionName(workflowActionName4);
+		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(test623workflowSchemeName3);
+		schemeStepsPage.addWorkflowStep(test623workflowSchemeStep4);
+		IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.addActionToStep(test623workflowSchemeStep4);
+		actionPage.setActionName(test623workflowActionName4);
 		actionPage.setSaveContent(true);
 		actionPage.setWhoCanUse("Admin User");
 		actionPage.setWhoCanUse(limitedRole);
@@ -3305,100 +3335,239 @@ public class PushPublishTest {
 		actionPage.sleep(2);
 		actionPage.save();
 		//adding subaction
-		actionPage.addSubAction(worflowSubaction4);
+		actionPage.addSubAction(test623worflowSubaction4);
 		actionPage.save();
 
 		//create structure 
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
 		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
-		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(contentStructureName11, "File",contentStructureName11, demoServer,workflowSchemeName3);
+		addStructurePage.createNewStructure(test623contentStructureName11, "File",test623contentStructureName11, demoServer,test623workflowSchemeName3);
 
 		//create folder
 		ISiteBrowserPage siteBrowserPage = portletMenu.getSiteBrowserPage();
-		siteBrowserPage.createFolder(null, folderName2);
-		siteBrowserPage.selectFolder(folderName2);
-		IContentAddOrEdit_ContentPage contentPage = siteBrowserPage.addFileInFolder(folderName2, contentStructureName11);
-		
+		siteBrowserPage.createFolder(null, test623folderName2);
+		siteBrowserPage.selectFolder(test623folderName2);
+		IContentAddOrEdit_ContentPage contentPage = siteBrowserPage.addFileInFolder(test623folderName2, test623contentStructureName11);
+
 		//Create content
 		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put(contentStructureName11Field1, contentTitle11);
+		map.put(test623contentStructureName11Field1, test623contentTitle11);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.BINARY_FIELD);
-		map.put(contentStructureName11Field2, contentTextArea11);
+		map.put(test623contentStructureName11Field2, test623contentTextArea11);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.saveAndPublish();
 		contentPage.sleep(3);
 		//push folder
 		siteBrowserPage = portletMenu.getSiteBrowserPage();
-		siteBrowserPage.pushFolder(folderName2);
+		siteBrowserPage.pushFolder(test623folderName2);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
-		boolean isPushed = publishingQueuePage.isObjectBundlePushed(folderName2,5000,60);
-		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ("+folderName2+") push should not be in pending list.");
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test623folderName2,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ("+test623folderName2+") push should not be in pending list.");
 
 		//delete structure and workflow
 		siteBrowserPage = portletMenu.getSiteBrowserPage();
-		siteBrowserPage.deleteFolder(folderName2);
-		Assert.assertFalse(siteBrowserPage.doesFolderExist(folderName2), "ERROR - Folder ('"+folderName2+"') should not exist in authoring server");
+		siteBrowserPage.deleteFolder(test623folderName2);
+		Assert.assertFalse(siteBrowserPage.doesFolderExist(test623folderName2), "ERROR - Folder ('"+test623folderName2+"') should not exist in authoring server");
 
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName11, true);
+		structurePage.deleteStructureAndContent(test623contentStructureName11, true);
 		structurePage.sleep(2);
-		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName11), "ERROR - Structure ('"+contentStructureName11+"') should not exist in authoring server");
+		Assert.assertFalse(structurePage.doesStructureExist(test623contentStructureName11), "ERROR - Structure ('"+test623contentStructureName11+"') should not exist in authoring server");
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName3);
-		stepsPage.deleteStep(workflowSchemeStep4);
-		WorkflowPageUtil.deleteWorkflow(workflowSchemeName3,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+		IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test623workflowSchemeName3);
+		stepsPage.deleteStep(test623workflowSchemeStep4);
+		WorkflowPageUtil.deleteWorkflow(test623workflowSchemeName3,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(workflowSchemeName3), "ERROR - Workflow ('"+workflowSchemeName3+"') should not exist in authoring server");
-		
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(test623workflowSchemeName3), "ERROR - Workflow ('"+test623workflowSchemeName3+"') should not exist in authoring server");
+
 		logoutAuthoringServer();
 
 		//Calling authoring Server
 		portletMenu = callReceiverServer();
-		
+
 		siteBrowserPage = portletMenu.getSiteBrowserPage();
-		Assert.assertTrue(siteBrowserPage.doesFolderExist(folderName2),  "ERROR - Folder ('"+folderName2+"') should  exist in receiver server");
+		Assert.assertTrue(siteBrowserPage.doesFolderExist(test623folderName2),  "ERROR - Folder ('"+test623folderName2+"') should  exist in receiver server");
 
-		siteBrowserPage.selectFolder(folderName2);
-		Assert.assertTrue(siteBrowserPage.doesElementExist(fileName11),  "ERROR - Content ('"+contentTitle11+"') should  exist in receiver server");
+		siteBrowserPage.selectFolder(test623folderName2);
+		Assert.assertTrue(siteBrowserPage.doesElementExist(test623fileName11),  "ERROR - Content ('"+test623contentTitle11+"') should  exist in receiver server");
 
-		contentPage = siteBrowserPage.editFile(fileName11);
+		contentPage = siteBrowserPage.editFile(test623fileName11);
 		if(contentPage.isPresentContentLockButton()){
 			contentPage.clickLockForEditingButton();
 		}
 		contentPage.save();
-		
+
 		structurePage = portletMenu.getStructuresPage();
-		Assert.assertTrue(structurePage.doesStructureExist(contentStructureName11),  "ERROR - Structure ('"+contentStructureName11+"') should  exist in receiver server");
+		Assert.assertTrue(structurePage.doesStructureExist(test623contentStructureName11),  "ERROR - Structure ('"+test623contentStructureName11+"') should  exist in receiver server");
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(workflowSchemeName3), "ERROR - Workflow ('"+workflowSchemeName3+"') should not exist in receiver server");
+		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(test623workflowSchemeName3), "ERROR - Workflow ('"+test623workflowSchemeName3+"') should not exist in receiver server");
 
 		//delete structure and workflow
 		siteBrowserPage = portletMenu.getSiteBrowserPage();
-		siteBrowserPage.deleteFolder(folderName2);
-		Assert.assertFalse(siteBrowserPage.doesFolderExist(folderName2), "ERROR - Folder ('"+folderName2+"') should not exist in receiver server");
+		siteBrowserPage.deleteFolder(test623folderName2);
+		Assert.assertFalse(siteBrowserPage.doesFolderExist(test623folderName2), "ERROR - Folder ('"+test623folderName2+"') should not exist in receiver server");
 
 		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(contentStructureName11, true);
+		structurePage.deleteStructureAndContent(test623contentStructureName11, true);
 		structurePage.sleep(2);
-		Assert.assertFalse(structurePage.doesStructureExist(contentStructureName11), "ERROR - Structure ('"+contentStructureName11+"') should not exist in receiver server");
+		Assert.assertFalse(structurePage.doesStructureExist(test623contentStructureName11), "ERROR - Structure ('"+test623contentStructureName11+"') should not exist in receiver server");
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		stepsPage = schemesPage.getEditSchemeStepsPage(workflowSchemeName3);
-		stepsPage.deleteStep(workflowSchemeStep4);
-		WorkflowPageUtil.deleteWorkflow(workflowSchemeName3,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+		stepsPage = schemesPage.getEditSchemeStepsPage(test623workflowSchemeName3);
+		stepsPage.deleteStep(test623workflowSchemeStep4);
+		WorkflowPageUtil.deleteWorkflow(test623workflowSchemeName3,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
 		stepsPage.sleep(2);
 		schemesPage = portletMenu.getWorkflowSchemesPage();
-		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(workflowSchemeName2), "ERROR - Workflow ('"+workflowSchemeName2+"') should not exist in receiver server");
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(test623workflowSchemeName3), "ERROR - Workflow ('"+test623workflowSchemeName3+"') should not exist in receiver server");
+
+		logoutReceiverServer();
+
+	}
+
+	/**
+	 * From Content Manager Tab, select all on more than 50 contentlets and add to Bundle 
+	 * http://qa.dotcms.com/index.php?/cases/view/624
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc624_PushMoreThan50ContentletInBundle() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
+		//searchPage.selectAllContent(test624ContentStructure12);
+		//searchPage.pushContentList(listOfContent, structure, contentSearchFilterKey);
+
+		logoutAuthoringServer();
+
+		//Calling receiver Server
+		portletMenu = callReceiverServer();
+
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Push Content with Content locked by different users on both sides
+	 * http://qa.dotcms.com/index.php?/cases/view/628
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc628_PushContentLockedByDifferentUsers() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
+		IContentAddOrEdit_ContentPage contentPage = searchPage.addContent(test628contentStructureName12);
+
+		//Create content
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put(test628contentStructureName12Field1, test628contentTitle12);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.WYSIWYG_FIELD);
+		map.put(test628contentStructureName12Field2, test628contentTextArea12);
+		fields.add(map) ;
+		contentPage.setFields(fields);
+		contentPage.saveAndPublish();
+		contentPage.sleep(3);
+		//push content
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.pushContent(test628contentTitle12, test628contentStructureName12);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test628contentTitle12,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test628contentTitle12+") push should not be in pending list.");
+
+		logoutAuthoringServer();
+
+		//Calling receiver Server
+		portletMenu = callReceiverServer(limitedUserEmailB,limitedUserPaswwordB);
+		searchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(searchPage.doesContentExist(test628contentTitle12,null),  "ERROR - Content ('"+test628contentTitle12+"') should  exist in receiver server");
+
+		//lock content
+		contentPage = searchPage.editContent(test628contentTitle12, test628contentStructureName12);
+		contentPage.clickLockForEditingButton();
+		contentPage.cancel();
+		//validate that the content is locked
+		searchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(searchPage.islock(test628contentTitle12, null), "ERROR - Receiver Server: Content ("+test628contentTitle12+") is not locked.");
+
+		logoutReceiverServer();
+
+		//Calling authoring Server
+		portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
+		searchPage = portletMenu.getContentSearchPage();
+		IContentAddOrEdit_ContentPage editPage = searchPage.editContent(test628contentTitle12,test628contentStructureName12);
+		fields = new ArrayList<Map<String, Object>>();
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put(test628contentStructureName12Field1, test628contentTitle12);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.WYSIWYG_FIELD);
+		map.put(test628contentStructureName12Field2, test628contentTextArea122);
+		fields.add(map) ;
+		editPage.setFields(fields);
+		if(editPage.isPresentContentLockButton()){
+			editPage.clickLockForEditingButton();
+		}
+		editPage.saveAndPublish();
+		editPage.sleep(3);
 		
+		//lock content
+		editPage = searchPage.editContent(test628contentTitle12, test628contentStructureName12);
+		editPage.clickLockForEditingButton();
+		editPage.cancel();
+		
+		//validate that the content is locked
+		searchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(searchPage.islock(test628contentTitle12, null),"ERROR - Authoring Server: Content ("+test628contentTitle12+") is not locked.");
+		//push object
+		searchPage.pushContent(test628contentTitle12, test628contentStructureName12);
+
+		publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		isPushed = publishingQueuePage.isObjectBundlePushed(test628contentTitle12,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test628contentTitle12+") push should not be in pending list.");
+
+		//delete content
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.unpublish(test628contentTitle12, null);
+		searchPage.archive(test628contentTitle12, null);
+		searchPage.delete(test628contentTitle12, null);
+		Assert.assertFalse(searchPage.doesContentExist(test628contentTitle12,null),  "ERROR - Content ('"+test628contentTitle12+"') should  exist in authoring server");
+
+		logoutReceiverServer();
+
+		//Calling receiver Server
+		portletMenu = callReceiverServer(limitedUserEmailB,limitedUserPaswwordB);
+		
+		searchPage = portletMenu.getContentSearchPage();
+		//edit content
+		Assert.assertTrue(searchPage.islock(test628contentTitle12, null),"ERROR - Authoring Server: Content ("+test628contentTitle12+") is not locked.");
+		
+		contentPage = searchPage.editContent(test628contentTitle12, test628contentStructureName12);
+		String body = contentPage.getFieldValue(test628contentStructureName12Field2);
+		Assert.assertTrue(body.equals(test628contentTextArea122),"ERROR - Receiver Server: Content ("+test628contentTitle12+") fields does not have the same value.");
+		
+		//delete content
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.unpublish(test628contentTitle12, null);
+		searchPage.archive(test628contentTitle12, null);
+		searchPage.delete(test628contentTitle12, null);
+		Assert.assertFalse(searchPage.doesContentExist(test628contentTitle12,null),  "ERROR - Content ('"+test628contentTitle12+"') should  exist in authoring server");
+
 		logoutReceiverServer();
 
 	}
