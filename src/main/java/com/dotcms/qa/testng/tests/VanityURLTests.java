@@ -321,7 +321,7 @@ public class VanityURLTests {
 
         // verify global vanity url still works for other hosts
         page = frontendMgr.loadPage(mobileServerURL + vurl387URL);
-        sleep();
+        try{Thread.sleep(10000);}catch(Exception e){};
         title = page.getTitle();
         Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + mobileServerURL + ":  " + vurl387URL + " title=|" + title + "|");
 
