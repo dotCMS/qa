@@ -319,9 +319,13 @@ public class VanityURLTests {
         title = page.getTitle();
         Assert.assertTrue(title.equals("Private Banking - Quest Financial"), "ERROR - Global mapping still seems to be in effect for URL:  " + vurl387URL + " title=|" + page.getTitle() + "|");
 
+        // temp test to verify whether or not the following code fails to load a new page.
+        page = frontendMgr.loadPage(mobileServerURL + "/");
+        sleep();
+
         // verify global vanity url still works for other hosts
         page = frontendMgr.loadPage(mobileServerURL + vurl387URL);
-        try{Thread.sleep(10000);}catch(Exception e){};
+        sleep();
         title = page.getTitle();
         Assert.assertTrue(title.equals("alt home - Quest Financial"), "ERROR - Mapping for vanity URL does not seem to be functioning properly for " + mobileServerURL + ":  " + vurl387URL + " title=|" + title + "|");
 
