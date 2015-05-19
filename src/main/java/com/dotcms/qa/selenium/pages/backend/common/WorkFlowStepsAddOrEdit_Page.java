@@ -162,4 +162,23 @@ public class WorkFlowStepsAddOrEdit_Page extends BasePage implements IWorkFlowSt
 		switchToAlert().accept();
 	}
 	
+	/**
+	 * Edit the specified action under the requested step
+	 * @param stepName Step Name
+	 * @param actionName Action Name
+	 * @return IWorkflowActionAddOrEdit_Page
+	 * @throws Exception
+	 */
+	public IWorkflowActionAddOrEdit_Page editWorkflowAction(String stepName, String actionName) throws Exception{
+		WebElement step = findStep(stepName);
+		List<WebElement> actions = step.findElements(By.cssSelector("td[class='showPointer']"));
+		for(WebElement action : actions){
+			if(action.getText().contains(actionName)){
+				action.click();
+				break;
+			}
+		}		
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IWorkflowActionAddOrEdit_Page.class);
+	}
+	
 }

@@ -280,6 +280,23 @@ public class PushPublishTest {
 	private String test628contentStructureName12Field2="body";
 	private String test628contentTextArea12="Test 628";
 	private String test628contentTextArea122="Test 628 modified";
+	//test 662
+	private String test662contentStructureName13="Test-662";
+	private String test662contentStructureName13Field1="title";
+	private String test662contentTitle13="Test-662";
+	private String test662contentStructureName13Field2="description";
+	private String test662contentTextArea13="test 662";
+	private String test662workflowSchemeName4="Test-662";
+	private String test662workflowSchemeStep1="Test662Assign";
+	private String test662workflowActionName1="Assign";
+	private String test662worflowSubaction1="Lock content"; 
+	private String test662workflowSchemeStep2="Test662Review";
+	private String test662workflowActionName2="Review";
+	private String test662worflowSubaction2="Unlock content"; 
+	private String test662workflowSchemeStep3="Test662Publish";
+	private String test662workflowActionName3="Publish";
+	private String test662worflowSubaction3="Publish content";
+	//test 628
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -627,6 +644,10 @@ public class PushPublishTest {
 				structurePage.deleteStructureAndContent(test623contentStructureName11, true);
 			}
 
+			if(structurePage.doesStructureExist(test662contentStructureName13)){
+				structurePage.deleteStructureAndContent(test662contentStructureName13, true);
+			}
+
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 			if(contentSearchPage.doesContentExist(test520contentTitle1, test520contentStructureName1)){
@@ -640,7 +661,7 @@ public class PushPublishTest {
 				contentSearchPage.archive(test528contentTitle7, test528contentStructureName7);
 				contentSearchPage.delete(test528contentTitle7, test528contentStructureName7);
 			}
-			
+
 			if(contentSearchPage.doesContentExist(test628contentTitle12, test628contentStructureName12)){
 				contentSearchPage.unpublish(test628contentTitle12, test628contentStructureName12);
 				contentSearchPage.archive(test628contentTitle12, test628contentStructureName12);
@@ -670,6 +691,30 @@ public class PushPublishTest {
 				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test623workflowSchemeName3);
 				stepsPage.deleteStep(test623workflowSchemeStep4);
 				WorkflowPageUtil.deleteWorkflow(test623workflowSchemeName3,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+			}
+
+			schemesPage = portletMenu.getWorkflowSchemesPage();
+			if(schemesPage.doesWorkflowSchemeExist(test662workflowSchemeName4)){
+				schemesPage = portletMenu.getWorkflowSchemesPage();
+				
+				//reverse next step
+				schemesPage = portletMenu.getWorkflowSchemesPage();
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+				stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+				IWorkflowActionAddOrEdit_Page actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep1, test662workflowActionName1);
+				actionPage.setNextStep(test662workflowSchemeStep1);
+				actionPage.save();
+
+				schemesPage = portletMenu.getWorkflowSchemesPage();
+				stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+				actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName1);
+				actionPage.setNextStep(test662workflowSchemeStep2);
+				actionPage.save();
+				
+				stepsPage.deleteStep(test662workflowSchemeStep3);
+				stepsPage.deleteStep(test662workflowSchemeStep2);
+				stepsPage.deleteStep(test662workflowSchemeStep1);
+				WorkflowPageUtil.deleteWorkflow(test662workflowSchemeName4,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 			}
 
 			/*Delete limited user*/
@@ -858,6 +903,10 @@ public class PushPublishTest {
 				structurePage.deleteStructureAndContent(test623contentStructureName11, true);
 			}
 
+			if(structurePage.doesStructureExist(test662contentStructureName13)){
+				structurePage.deleteStructureAndContent(test662contentStructureName13, true);
+			}
+
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 			if(contentSearchPage.doesContentExist(test520contentTitle1, test520contentStructureName1)){
@@ -871,7 +920,7 @@ public class PushPublishTest {
 				contentSearchPage.archive(test528contentTitle7, test528contentStructureName7);
 				contentSearchPage.delete(test528contentTitle7, test528contentStructureName7);
 			}
-			
+
 			if(contentSearchPage.doesContentExist(test628contentTitle12, test628contentStructureName12)){
 				contentSearchPage.unpublish(test628contentTitle12, test628contentStructureName12);
 				contentSearchPage.archive(test628contentTitle12, test628contentStructureName12);
@@ -901,6 +950,27 @@ public class PushPublishTest {
 				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test623workflowSchemeName3);
 				stepsPage.deleteStep(test623workflowSchemeStep4);
 				WorkflowPageUtil.deleteWorkflow(test623workflowSchemeName3,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+			}
+
+			schemesPage = portletMenu.getWorkflowSchemesPage();
+			if(schemesPage.doesWorkflowSchemeExist(test662workflowSchemeName4)){
+				schemesPage = portletMenu.getWorkflowSchemesPage();
+				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+				stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+				IWorkflowActionAddOrEdit_Page actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep1, test662workflowActionName1);
+				actionPage.setNextStep(test662workflowSchemeStep1);
+				actionPage.save();
+
+				schemesPage = portletMenu.getWorkflowSchemesPage();
+				stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+				actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName1);
+				actionPage.setNextStep(test662workflowSchemeStep2);
+				actionPage.save();
+				
+				stepsPage.deleteStep(test662workflowSchemeStep3);
+				stepsPage.deleteStep(test662workflowSchemeStep2);
+				stepsPage.deleteStep(test662workflowSchemeStep1);
+				WorkflowPageUtil.deleteWorkflow(test662workflowSchemeName4,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 			}
 
 			/*Delete limited user*/
@@ -3524,12 +3594,12 @@ public class PushPublishTest {
 		}
 		editPage.saveAndPublish();
 		editPage.sleep(3);
-		
+
 		//lock content
 		editPage = searchPage.editContent(test628contentTitle12, test628contentStructureName12);
 		editPage.clickLockForEditingButton();
 		editPage.cancel();
-		
+
 		//validate that the content is locked
 		searchPage = portletMenu.getContentSearchPage();
 		Assert.assertTrue(searchPage.islock(test628contentTitle12, null),"ERROR - Authoring Server: Content ("+test628contentTitle12+") is not locked.");
@@ -3543,6 +3613,7 @@ public class PushPublishTest {
 
 		//delete content
 		searchPage = portletMenu.getContentSearchPage();
+		searchPage.unLock(test628contentTitle12, null);
 		searchPage.unpublish(test628contentTitle12, null);
 		searchPage.archive(test628contentTitle12, null);
 		searchPage.delete(test628contentTitle12, null);
@@ -3552,23 +3623,250 @@ public class PushPublishTest {
 
 		//Calling receiver Server
 		portletMenu = callReceiverServer(limitedUserEmailB,limitedUserPaswwordB);
-		
+
 		searchPage = portletMenu.getContentSearchPage();
 		//edit content
 		Assert.assertTrue(searchPage.islock(test628contentTitle12, null),"ERROR - Authoring Server: Content ("+test628contentTitle12+") is not locked.");
-		
+
 		contentPage = searchPage.editContent(test628contentTitle12, test628contentStructureName12);
 		String body = contentPage.getFieldValue(test628contentStructureName12Field2);
 		Assert.assertTrue(body.equals(test628contentTextArea122),"ERROR - Receiver Server: Content ("+test628contentTitle12+") fields does not have the same value.");
-		
+		contentPage.cancel();
+
 		//delete content
 		searchPage = portletMenu.getContentSearchPage();
+		searchPage.unLock(test628contentTitle12, null);
 		searchPage.unpublish(test628contentTitle12, null);
 		searchPage.archive(test628contentTitle12, null);
 		searchPage.delete(test628contentTitle12, null);
 		Assert.assertFalse(searchPage.doesContentExist(test628contentTitle12,null),  "ERROR - Content ('"+test628contentTitle12+"') should  exist in authoring server");
 
 		logoutReceiverServer();
+	}
 
+	/**
+	 * Push Content in the middle steps of a Custom Workflow
+	 * http://qa.dotcms.com/index.php?/cases/view/662
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc662_PushContentInMiddleStepOfCustomWorkflow() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+		//create a workflow
+		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
+		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
+		addSchemePage.setName(test662workflowSchemeName4);
+		addSchemePage.sleep(2);
+		addSchemePage.setDescription(test662workflowSchemeName4);
+		addSchemePage.save();
+		addSchemePage.sleep(2);
+
+		//add actions
+		//first step
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		schemeStepsPage.addWorkflowStep(test662workflowSchemeStep1);
+		IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.addActionToStep(test662workflowSchemeStep1);
+		actionPage.setActionName(test662workflowActionName1);
+		actionPage.setSaveContent(true);
+		actionPage.setWhoCanUse("Admin User");
+		actionPage.setAllowComment(false);
+		actionPage.setUserCanAssign(true);
+		actionPage.setAssignTo("Admin User");
+		actionPage.sleep(2);
+		actionPage.save();
+		//adding subaction
+		actionPage.addSubAction(test662worflowSubaction1);
+		actionPage.save();
+
+		//second step
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		schemeStepsPage.addWorkflowStep(test662workflowSchemeStep2);
+		actionPage = schemeStepsPage.addActionToStep(test662workflowSchemeStep2);
+		actionPage.setActionName(test662workflowActionName2);
+		actionPage.setSaveContent(false);
+		actionPage.setWhoCanUse("Admin User");
+		actionPage.setAllowComment(false);
+		actionPage.setUserCanAssign(true);
+		actionPage.setAssignTo("Admin User");
+		actionPage.sleep(2);
+		actionPage.save();
+		//adding subaction
+		actionPage.addSubAction(test662worflowSubaction2);
+		actionPage.save();
+
+		//third step
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		schemeStepsPage.addWorkflowStep(test662workflowSchemeStep3);
+		actionPage = schemeStepsPage.addActionToStep(test662workflowSchemeStep3);
+		actionPage.setActionName(test662workflowActionName3);
+		actionPage.setSaveContent(false);
+		actionPage.setWhoCanUse("Admin User");
+		actionPage.setAllowComment(false);
+		actionPage.setUserCanAssign(true);
+		actionPage.setAssignTo("Admin User");
+		actionPage.sleep(2);
+		actionPage.save();
+		//adding subaction
+		actionPage.addSubAction(test662worflowSubaction3);
+		actionPage.save();
+
+		//modify next step 1
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		actionPage = schemeStepsPage.editWorkflowAction(test662workflowSchemeStep1, test662workflowActionName1);
+		actionPage.setNextStep(test662workflowSchemeStep2);
+		actionPage.save();
+
+		//modify next step 2
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		actionPage = schemeStepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName2);
+		actionPage.setNextStep(test662workflowSchemeStep3);
+		actionPage.save();
+
+		//create structure 
+		IStructuresPage structurePage = portletMenu.getStructuresPage();
+		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test662contentStructureName13, "Content",test662contentStructureName13, demoServer,test662workflowSchemeName4);
+
+
+		//Test that the field doesn't exist
+		Assert.assertFalse(fieldsPage.doesFieldExist(test662contentStructureName13Field1),"ERROR - The field ("+test662contentStructureName13Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test662contentStructureName13Field1, true, true, true, true, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(test662contentStructureName13Field1),"ERROR - The field ("+test662contentStructureName13Field1+") shoudl exist at this time");
+
+		Assert.assertFalse(fieldsPage.doesFieldExist(test662contentStructureName13Field2),"ERROR - The field ("+test662contentStructureName13Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test662contentStructureName13Field2, "", "", "","", false, false, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(test662contentStructureName13Field2),"ERROR - The field ("+test662contentStructureName13Field2+") shoudl exist at this time");
+		fieldsPage.sleep(3);
+
+		//addContent
+		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
+		IContentAddOrEdit_ContentPage contentPage = searchPage.addContent(test662contentStructureName13);
+
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put("title", test662contentTitle13);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXTAREA_FIELD);
+		map.put("body", test662contentTextArea13);
+		fields.add(map) ;
+		contentPage.setFields(fields);
+		contentPage.sleep(2);
+		contentPage.save();
+		contentPage.sleep(2);
+		searchPage = portletMenu.getContentSearchPage();
+
+		//move content to workflow step
+		contentPage = searchPage.editContent(test662contentTitle13, test662contentStructureName13);
+		if(contentPage.isPresentContentLockButton()){
+			contentPage.clickLockForEditingButton();
+		}
+		List<Map<String,String>> parameters = new ArrayList<Map<String,String>>();
+		Map<String,String> paramsMap = new HashMap<String,String>();
+		paramsMap.put("taskAssignmentAux", "Admin User");
+		parameters.add(paramsMap);
+		paramsMap = new HashMap<String,String>();
+		paramsMap.put("clickButton", "Save");
+		parameters.add(paramsMap);
+		contentPage.selectWorkflowAction(test662workflowActionName1, parameters);
+		contentPage.cancel();
+
+		//push content
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.pushContent(test662contentTitle13,test662contentStructureName13);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test662contentTitle13,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test662contentTitle13+") push should not be in pending list.");
+
+		//delete structure and workflow
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(test662contentStructureName13, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(test662contentStructureName13), "ERROR - Structure ('"+test662contentStructureName13+"') should not exist in authoring server");
+
+		//reverse next step
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		actionPage = schemeStepsPage.editWorkflowAction(test662workflowSchemeStep1, test662workflowActionName1);
+		actionPage.sleep(2);
+		actionPage.setNextStep(test662workflowSchemeStep1);
+		actionPage.save();
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		actionPage = schemeStepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName1);
+		actionPage.sleep(2);
+		actionPage.setNextStep(test662workflowSchemeStep2);
+		actionPage.save();
+
+		//delete workflow
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		stepsPage.deleteStep(test662workflowSchemeStep3);
+		stepsPage.deleteStep(test662workflowSchemeStep2);
+		stepsPage.deleteStep(test662workflowSchemeStep1);
+		WorkflowPageUtil.deleteWorkflow(test662workflowSchemeName4,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(test662workflowSchemeName4), "ERROR - Workflow ('"+test662workflowSchemeName4+"') should not exist in authoring server");
+
+		logoutAuthoringServer();
+
+		//call Receiver
+		portletMenu=callReceiverServer();
+
+		searchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(searchPage.doesContentExist(test662contentTitle13, test662contentStructureName13),  "ERROR - Content ('"+test662contentStructureName13+"') should  exist in receiver server");
+
+		structurePage = portletMenu.getStructuresPage();
+		Assert.assertTrue(structurePage.doesStructureExist(test662contentStructureName13),  "ERROR - Structure ('"+test662contentStructureName13+"') should  exist in receiver server");
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(test662workflowSchemeName4), "ERROR - Workflow ('"+test662workflowSchemeName4+"') should not exist in receiver server");
+
+		IWorkflowTasksPage workflowTasksPage = portletMenu.getWorkflowTasksPage();
+		Assert.assertTrue(workflowTasksPage.getWorflowTaskCurrentStep(test662contentTitle13, test662workflowSchemeName4).equals(test662workflowSchemeStep2),"ERROR - The workflow task ("+test662contentTitle13+") is not in the right step");
+
+		//delete structure and workflow
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(test662contentStructureName13, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(test662contentStructureName13), "ERROR - Structure ('"+test662contentStructureName13+"') should not exist in receiver server");
+
+		//reverse next step
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		actionPage = schemeStepsPage.editWorkflowAction(test662workflowSchemeStep1, test662workflowActionName1);
+		actionPage.setNextStep(test662workflowSchemeStep1);
+		actionPage.save();
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		actionPage = schemeStepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName1);
+		actionPage.setNextStep(test662workflowSchemeStep2);
+		actionPage.save();
+
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
+		stepsPage.deleteStep(test662workflowSchemeStep3);
+		stepsPage.deleteStep(test662workflowSchemeStep2);
+		stepsPage.deleteStep(test662workflowSchemeStep1);
+		WorkflowPageUtil.deleteWorkflow(test662workflowSchemeName4,serversProtocol+"://"+receiverServer+":"+receiverServerPort+"/");
+		stepsPage.sleep(2);
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(test662workflowSchemeName4), "ERROR - Workflow ('"+test662workflowSchemeName4+"') should not exist in receiver server");
+
+		logoutReceiverServer();
 	}
 }

@@ -53,4 +53,13 @@ public interface IWorkFlowStepsAddOrEdit_Page extends IBasePage{
 	 * @throws Exception
 	 */
 	public void deleteStep(String stepName) throws Exception;
+	
+	/**
+	 * Edit the specified action under the requested step
+	 * @param stepName Step Name
+	 * @param actionName Action Name
+	 * @return IWorkflowActionAddOrEdit_Page
+	 * @throws Exception
+	 */
+	public IWorkflowActionAddOrEdit_Page editWorkflowAction(String stepName, String actionName) throws Exception;
 }

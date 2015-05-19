@@ -357,6 +357,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 				this.switchToFrame(fieldName+"_ifr");
 				WebElement elem = getWebElement(By.id("tinymce"));	
 				value = elem.getText();
+				switchToDefaultContent();
 			}catch(Exception e1){
 				value = (String) executeScript("var editor = ace.edit('"+fieldName+"Editor');return editor.getSession().getValue();");
 			}

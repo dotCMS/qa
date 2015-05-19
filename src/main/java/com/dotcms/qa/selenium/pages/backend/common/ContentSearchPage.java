@@ -164,8 +164,10 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 
 		if(showArchive){
 			WebElement advancedOptions = getWebElement(By.cssSelector("div[id='toggleDivText']"));
-			getParent(advancedOptions).click();
-			sleep(1);
+			if(advancedOptions.getText().equals(getLocalizedString("Advanced"))){
+				getParent(advancedOptions).click();
+				sleep(1);
+			}
 			WebElement showOptions = getWebElement(By.id("showingSelect"));
 			showOptions.clear();
 			showOptions.sendKeys(getLocalizedString("Archived"));
@@ -419,10 +421,10 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 	 * @throws Exception
 	 */
 	public void unLock(String contentName, String structure) throws Exception{
-		boolean isLock = false;
 		WebElement content = findContentRow(contentName, structure);
-		WebElement status = content.findElements(By.tagName("td")).get(0).findElement(By.cssSelector("span[class='lockIcon']"));
-		status.click();	
+		List<WebElement> columns = content.findElements(By.tagName("td"));
+		columns.get(2).findElement(By.cssSelector("input[type='checkbox']")).click();
+		getWebElementPresent(By.id("unlockButton_label")).click();
 	}
 
 	/**
