@@ -296,7 +296,13 @@ public class PushPublishTest {
 	private String test662workflowSchemeStep3="Test662Publish";
 	private String test662workflowActionName3="Publish";
 	private String test662worflowSubaction3="Publish content";
-	//test 628
+	//test 48320
+	private String test48320contentStructureName14="Content";
+	private String test48320contentStructureName14Field1="title";
+	private String test48320contentTitle14="Test-48320";
+	private String test48320contentStructureName14Field2="body";
+	private String test48320contentTextArea14="test 48320";
+
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -667,6 +673,12 @@ public class PushPublishTest {
 				contentSearchPage.archive(test628contentTitle12, test628contentStructureName12);
 				contentSearchPage.delete(test628contentTitle12, test628contentStructureName12);
 			}
+			
+			if(contentSearchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14)){
+				contentSearchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
+				contentSearchPage.archive(test48320contentTitle14, test48320contentStructureName14);
+				contentSearchPage.delete(test48320contentTitle14, test48320contentStructureName14);
+			}
 
 			/* Delete workflows*/
 			IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
@@ -696,7 +708,7 @@ public class PushPublishTest {
 			schemesPage = portletMenu.getWorkflowSchemesPage();
 			if(schemesPage.doesWorkflowSchemeExist(test662workflowSchemeName4)){
 				schemesPage = portletMenu.getWorkflowSchemesPage();
-				
+
 				//reverse next step
 				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
 				stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
@@ -709,7 +721,7 @@ public class PushPublishTest {
 				actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName2);
 				actionPage.setNextStep(test662workflowSchemeStep2);
 				actionPage.save();
-				
+
 				stepsPage.deleteStep(test662workflowSchemeStep3);
 				stepsPage.deleteStep(test662workflowSchemeStep2);
 				stepsPage.deleteStep(test662workflowSchemeStep1);
@@ -926,6 +938,12 @@ public class PushPublishTest {
 				contentSearchPage.delete(test628contentTitle12, test628contentStructureName12);
 			}
 
+			if(contentSearchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14)){
+				contentSearchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
+				contentSearchPage.archive(test48320contentTitle14, test48320contentStructureName14);
+				contentSearchPage.delete(test48320contentTitle14, test48320contentStructureName14);
+			}
+			
 			/* Delete workflows*/
 			IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 			if(schemesPage.doesWorkflowSchemeExist(test652workflowSchemeName1)){
@@ -965,7 +983,7 @@ public class PushPublishTest {
 				actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName2);
 				actionPage.setNextStep(test662workflowSchemeStep2);
 				actionPage.save();
-				
+
 				stepsPage.deleteStep(test662workflowSchemeStep3);
 				stepsPage.deleteStep(test662workflowSchemeStep2);
 				stepsPage.deleteStep(test662workflowSchemeStep1);
@@ -3826,7 +3844,7 @@ public class PushPublishTest {
 		portletMenu=callReceiverServer();
 
 		searchPage = portletMenu.getContentSearchPage();
-		Assert.assertTrue(searchPage.doesContentExist(test662contentTitle13, test662contentStructureName13),  "ERROR - Content ('"+test662contentStructureName13+"') should  exist in receiver server");
+		Assert.assertTrue(searchPage.doesContentExist(test662contentTitle13, test662contentStructureName13),  "ERROR - Content ('"+test662contentTitle13+"') should  exist in receiver server");
 
 		structurePage = portletMenu.getStructuresPage();
 		Assert.assertTrue(structurePage.doesStructureExist(test662contentStructureName13),  "ERROR - Structure ('"+test662contentStructureName13+"') should  exist in receiver server");
@@ -3865,6 +3883,91 @@ public class PushPublishTest {
 		stepsPage.sleep(2);
 		schemesPage = portletMenu.getWorkflowSchemesPage();
 		Assert.assertFalse(schemesPage.doesWorkflowSchemeExist(test662workflowSchemeName4), "ERROR - Workflow ('"+test662workflowSchemeName4+"') should not exist in receiver server");
+
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Push update an archived contentlet
+	 * http://qa.dotcms.com/index.php?/cases/view/48320
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc48320_PushUpdateAnArchivedContent() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
+		IContentAddOrEdit_ContentPage contentPage = searchPage.addContent(test48320contentStructureName14);
+
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put(test48320contentStructureName14Field1, test48320contentTitle14);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.WYSIWYG_FIELD);
+		map.put(test48320contentStructureName14Field2, test48320contentTextArea14);
+		fields.add(map) ;
+		contentPage.setFields(fields);
+		contentPage.sleep(2);
+		contentPage.saveAndPublish();
+		contentPage.sleep(2);
+
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.pushContent(test48320contentTitle14,test48320contentStructureName14);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test48320contentTitle14,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test48320contentTitle14+") push should not be in pending list.");
+
+		logoutAuthoringServer();
+
+		//call receiver servers
+		portletMenu = callReceiverServer();
+		portletMenu.sleep(3);
+		searchPage = portletMenu.getContentSearchPage();
+
+		Assert.assertTrue(searchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should  exist in receiver server");
+		searchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
+		searchPage.archive(test48320contentTitle14, test48320contentStructureName14);
+		Assert.assertTrue(searchPage.isArchive(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should  be archive in receiver server");
+
+		logoutReceiverServer();
+
+		//call authoring server
+		portletMenu = callAuthoringServer();
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.pushContent(test48320contentTitle14, test48320contentStructureName14, WebKeys.PUSH_TO_ADD, null, null, null, null, true);
+
+		publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		isPushed = publishingQueuePage.isObjectBundlePushed(test48320contentTitle14,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test48320contentTitle14+") push should not be in pending list.");
+
+		//delete test
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
+		searchPage.archive(test48320contentTitle14, test48320contentStructureName14);
+		searchPage.delete(test48320contentTitle14, test48320contentStructureName14);
+		Assert.assertFalse(searchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should not exist in authoring server");
+		logoutAuthoringServer();
+
+		//call receiver servers
+		portletMenu = callReceiverServer();
+		portletMenu.sleep(3);
+		searchPage = portletMenu.getContentSearchPage();
+
+		Assert.assertFalse(searchPage.isArchive(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should not be archive in receiver server");
+		Assert.assertTrue(searchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should  exist in receiver server");
+		
+		//delete test
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
+		searchPage.archive(test48320contentTitle14, test48320contentStructureName14);
+		searchPage.delete(test48320contentTitle14, test48320contentStructureName14);
+		Assert.assertFalse(searchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should not exist in authoring server");
 
 		logoutReceiverServer();
 	}

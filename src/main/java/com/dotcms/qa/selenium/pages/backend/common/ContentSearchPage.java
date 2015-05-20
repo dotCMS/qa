@@ -173,6 +173,18 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 			showOptions.sendKeys(getLocalizedString("Archived"));
 			sleep(1);
 			getWebElement(By.id("showingSelect_popup0")).click();
+		}else{
+			WebElement advancedOptions = getWebElement(By.cssSelector("div[id='toggleDivText']"));
+			if(!advancedOptions.getText().equals(getLocalizedString("Advanced"))){
+				WebElement showOptions = getWebElement(By.id("showingSelect"));
+				showOptions.clear();
+				showOptions.sendKeys(getLocalizedString("All"));
+				sleep(1);
+				getWebElement(By.id("showingSelect_popup0")).click();
+				
+				getParent(advancedOptions).click();
+				sleep(1);
+			}
 		}
 
 		getWebElement(By.id("searchButton_label")).click();
