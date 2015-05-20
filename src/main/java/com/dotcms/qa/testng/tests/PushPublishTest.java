@@ -698,7 +698,6 @@ public class PushPublishTest {
 				schemesPage = portletMenu.getWorkflowSchemesPage();
 				
 				//reverse next step
-				schemesPage = portletMenu.getWorkflowSchemesPage();
 				IWorkFlowStepsAddOrEdit_Page stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
 				stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
 				IWorkflowActionAddOrEdit_Page actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep1, test662workflowActionName1);
@@ -707,7 +706,7 @@ public class PushPublishTest {
 
 				schemesPage = portletMenu.getWorkflowSchemesPage();
 				stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
-				actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName1);
+				actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName2);
 				actionPage.setNextStep(test662workflowSchemeStep2);
 				actionPage.save();
 				
@@ -963,7 +962,7 @@ public class PushPublishTest {
 
 				schemesPage = portletMenu.getWorkflowSchemesPage();
 				stepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
-				actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName1);
+				actionPage = stepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName2);
 				actionPage.setNextStep(test662workflowSchemeStep2);
 				actionPage.save();
 				
@@ -3754,11 +3753,11 @@ public class PushPublishTest {
 		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXT_FIELD);
-		map.put("title", test662contentTitle13);
+		map.put(test662contentStructureName13Field1, test662contentTitle13);
 		fields.add(map);
 		map = new HashMap<String,Object>();
 		map.put("type", WebKeys.TEXTAREA_FIELD);
-		map.put("body", test662contentTextArea13);
+		map.put(test662contentStructureName13Field2, test662contentTextArea13);
 		fields.add(map) ;
 		contentPage.setFields(fields);
 		contentPage.sleep(2);
@@ -3806,7 +3805,7 @@ public class PushPublishTest {
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
 		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
-		actionPage = schemeStepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName1);
+		actionPage = schemeStepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName2);
 		actionPage.sleep(2);
 		actionPage.setNextStep(test662workflowSchemeStep2);
 		actionPage.save();
@@ -3853,7 +3852,7 @@ public class PushPublishTest {
 
 		schemesPage = portletMenu.getWorkflowSchemesPage();
 		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test662workflowSchemeName4);
-		actionPage = schemeStepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName1);
+		actionPage = schemeStepsPage.editWorkflowAction(test662workflowSchemeStep2, test662workflowActionName2);
 		actionPage.setNextStep(test662workflowSchemeStep2);
 		actionPage.save();
 

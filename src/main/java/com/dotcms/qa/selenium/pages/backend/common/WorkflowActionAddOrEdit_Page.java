@@ -99,6 +99,7 @@ public class WorkflowActionAddOrEdit_Page extends BasePage implements IWorkflowA
 			whoCanUseSelect_popup0.click();
 		}else{
 			getWebElement(By.id("widget_whoCanUseSelect")).findElement(By.cssSelector("div[class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton dijitArrowButtonContainer']")).click();
+			sleep(2);
 			List<WebElement> options = getWebElement(By.id("whoCanUseSelect_popup")).findElements(By.cssSelector("div[class='dijitReset dijitMenuItem']"));
 			for(WebElement option :  options){
 				if(option.getText().trim().contains(userRole)){
@@ -107,6 +108,7 @@ public class WorkflowActionAddOrEdit_Page extends BasePage implements IWorkflowA
 				}
 			}
 		}
+		sleep(2);
 		List<WebElement> buttons = getWebElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement button : buttons){
 			if(button.getText().trim().equals(getLocalizedString("Add"))){
