@@ -16,6 +16,7 @@ import com.dotcms.qa.selenium.pages.backend.IConfigurationPage;
 import com.dotcms.qa.selenium.pages.backend.IContainerAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IContainersPage;
 import com.dotcms.qa.selenium.pages.backend.IContentAddOrEdit_ContentPage;
+import com.dotcms.qa.selenium.pages.backend.IContentImport_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.IContentSearchPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
@@ -302,7 +303,12 @@ public class PushPublishTest {
 	private String test48320contentTitle14="Test-48320";
 	private String test48320contentStructureName14Field2="body";
 	private String test48320contentTextArea14="test 48320";
-
+	//test 624
+	private String test624contentStructureName15="Test-624";
+	private String test624contentStructureName15Field1="header";
+	private String test624contentTitle15="Test-624-";
+	private String test624contentStructureName15Field2="description";
+	private String test624ImportFile="/src/main/resources/test624.csv";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -653,6 +659,10 @@ public class PushPublishTest {
 			if(structurePage.doesStructureExist(test662contentStructureName13)){
 				structurePage.deleteStructureAndContent(test662contentStructureName13, true);
 			}
+			
+			if(structurePage.doesStructureExist(test624contentStructureName15)){
+				structurePage.deleteStructureAndContent(test624contentStructureName15, true);
+			}
 
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
@@ -673,7 +683,7 @@ public class PushPublishTest {
 				contentSearchPage.archive(test628contentTitle12, test628contentStructureName12);
 				contentSearchPage.delete(test628contentTitle12, test628contentStructureName12);
 			}
-			
+
 			if(contentSearchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14)){
 				contentSearchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
 				contentSearchPage.archive(test48320contentTitle14, test48320contentStructureName14);
@@ -917,6 +927,10 @@ public class PushPublishTest {
 			if(structurePage.doesStructureExist(test662contentStructureName13)){
 				structurePage.deleteStructureAndContent(test662contentStructureName13, true);
 			}
+			
+			if(structurePage.doesStructureExist(test624contentStructureName15)){
+				structurePage.deleteStructureAndContent(test624contentStructureName15, true);
+			}
 
 			/* Delete content*/
 			IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
@@ -943,7 +957,7 @@ public class PushPublishTest {
 				contentSearchPage.archive(test48320contentTitle14, test48320contentStructureName14);
 				contentSearchPage.delete(test48320contentTitle14, test48320contentStructureName14);
 			}
-			
+
 			/* Delete workflows*/
 			IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 			if(schemesPage.doesWorkflowSchemeExist(test652workflowSchemeName1)){
@@ -3529,14 +3543,67 @@ public class PushPublishTest {
 	public void tc624_PushMoreThan50ContentletInBundle() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(2);
+
+		//create structure 
+		IStructuresPage structurePage = portletMenu.getStructuresPage();
+		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test624contentStructureName15, "Content",test624contentStructureName15, demoServer,null);
+
+		//Test that the field doesn't exist
+		Assert.assertFalse(fieldsPage.doesFieldExist(test624contentStructureName15Field1),"ERROR - The field ("+test624contentStructureName15Field1+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test624contentStructureName15Field1, true, true, true, true, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(test624contentStructureName15Field1),"ERROR - The field ("+test624contentStructureName15Field1+") shoudl exist at this time");
+
+		Assert.assertFalse(fieldsPage.doesFieldExist(test624contentStructureName15Field2),"ERROR - The field ("+test624contentStructureName15Field2+") shoudl not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test624contentStructureName15Field2, "", "", "","", false, false, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(test624contentStructureName15Field2),"ERROR - The field ("+test624contentStructureName15Field2+") shoudl exist at this time");
+		fieldsPage.sleep(3);
+
+		//addContent
 		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
-		//searchPage.selectAllContent(test624ContentStructure12);
-		//searchPage.pushContentList(listOfContent, structure, contentSearchFilterKey);
+		IContentImport_ContentPage importPage = searchPage.importContent();
+		importPage.setStructure(test624contentStructureName15);
+		importPage.setFile(test624ImportFile);
+		importPage.gotToPreview();
+		importPage.importContent();
+
+		//generate bundle
+		String bundleName = "test624";
+		searchPage.addToBundleAllStructureContent(test624contentStructureName15, bundleName);
+		
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		publishingQueuePage.getBundlesTab();
+		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
+
+		//wait until 5 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isBundlePushed(authoringServerBundleId,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content Bundle push should not be in pending list.");
+
+		//delete structure 
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(test624contentStructureName15, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(test624contentStructureName15), "ERROR - Structure ('"+test624contentStructureName15+"') should not exist in authoring server");
 
 		logoutAuthoringServer();
 
 		//Calling receiver Server
 		portletMenu = callReceiverServer();
+		searchPage = portletMenu.getContentSearchPage();
+		
+		//validates that all the content was pushed
+		for(int i=1; i < 53; i++){
+			Assert.assertTrue(searchPage.doesContentExist(test624contentTitle15+i,test624contentStructureName15), "ERROR - Content ('"+test624contentTitle15+i+"') should exist in receiver server");
+		}
+		
+		//delete structure 
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(test624contentStructureName15, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(test624contentStructureName15), "ERROR - Structure ('"+test624contentStructureName15+"') should not exist in authoring server");
 
 		logoutReceiverServer();
 	}
@@ -3961,7 +4028,7 @@ public class PushPublishTest {
 
 		Assert.assertFalse(searchPage.isArchive(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should not be archive in receiver server");
 		Assert.assertTrue(searchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should  exist in receiver server");
-		
+
 		//delete test
 		searchPage = portletMenu.getContentSearchPage();
 		searchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
@@ -3971,4 +4038,6 @@ public class PushPublishTest {
 
 		logoutReceiverServer();
 	}
+
+
 }

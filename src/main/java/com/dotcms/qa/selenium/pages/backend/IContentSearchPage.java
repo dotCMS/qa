@@ -147,4 +147,19 @@ public interface IContentSearchPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public boolean islock(String contentName, String structure) throws Exception;
+	
+	/**
+	 * Add to the bundle all the structure contentlets 
+	 * @param contentStructureName Structure Name
+	 * @param bundleName Bundle Name
+	 * @throws Exception
+	 */
+	public void addToBundleAllStructureContent(String contentStructureName, String bundleName) throws Exception;
+	
+	/**
+	 * Click the import content button
+	 * @return IContentImport_ContentPage
+	 * @throws Exception
+	 */
+	public IContentImport_ContentPage importContent() throws Exception;
 }

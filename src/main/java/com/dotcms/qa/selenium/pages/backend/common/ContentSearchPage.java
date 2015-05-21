@@ -17,6 +17,8 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 
 	private WebElement structure_inode;
 	private WebElement dijit_form_ComboButton_0_label;
+	private WebElement dijit_form_ComboButton_0_arrow;
+	private WebElement dijit_MenuItem_3_text;
 
 	public ContentSearchPage(WebDriver driver) {
 		super(driver);
@@ -181,7 +183,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 				showOptions.sendKeys(getLocalizedString("All"));
 				sleep(1);
 				getWebElement(By.id("showingSelect_popup0")).click();
-				
+
 				getParent(advancedOptions).click();
 				sleep(1);
 			}
@@ -192,7 +194,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 		List<WebElement> results = getWebElement(By.id("results_table")).findElements(By.tagName("tr"));
 		for(WebElement row : results){
 			List<WebElement> columns = row.findElements(By.tagName("td"));
-			if(columns.size() > 1){
+			if(columns.size() > 2){
 				if(columns.get(2).getText().trim().equals(contentName)){
 					content = row;
 					break;
@@ -458,5 +460,59 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 			}catch(Exception e){}
 		}
 		return isLock;
+	}
+
+	/**
+	 * Add to the bundle all the structure contentlets 
+	 * @param contentStructureName Structure Name
+	 * @param bundleName Bundle Name
+	 * @throws Exception
+	 */
+	public void addToBundleAllStructureContent(String contentStructureName, String bundleName) throws Exception{
+		//search contentlets
+		if(contentStructureName != null && !contentStructureName.equals("")){
+			WebElement structureFields = getWebElement(By.id("structure_inode"));
+			try{
+				structureFields.clear();
+				sleep(2);
+				structureFields.sendKeys(contentStructureName);
+				sleep(1);
+				getWebElement(By.id("structure_inode_popup0")).click();
+			}catch(Exception e){
+				structureFields.clear();
+				getWebElement(By.id("widget_structure_inode")).findElement(By.cssSelector("div[class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton dijitArrowButtonContainer']")).click();
+				getWebElement(By.id("structure_inode_popup0")).click();
+			}
+		}else{
+			getWebElement(By.id("widget_structure_inode")).findElement(By.cssSelector("div[class='dijitReset dijitRight dijitButtonNode dijitArrowButton dijitDownArrowButton dijitArrowButtonContainer']")).click();
+			getWebElement(By.id("structure_inode_popup0")).click();
+		}
+
+		getWebElement(By.id("searchButton_label")).click();
+		sleep(2);
+		List<WebElement> results = getWebElement(By.id("results_table")).findElements(By.tagName("th"));
+		results.get(2).findElement(By.id("checkAll")).click();
+		sleep(2);
+		try{
+			getWebElement(By.id("tablemessage")).findElement(By.tagName("a")).click();
+		}catch(Exception e){
+			//less than 40 results
+		}
+		getWebElement(By.id("addToBundleButton_label")).click();
+
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).clear();
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).sendKeys(bundleName);
+		getWebElement(By.id("addToBundleDia")).findElement(By.id("addToBundleSaveButton_label")).click();
+	}
+
+	/**
+	 * Click the import content button
+	 * @return IContentImport_ContentPage
+	 * @throws Exception
+	 */
+	public IContentImport_ContentPage importContent() throws Exception{
+		dijit_form_ComboButton_0_arrow.click();
+		dijit_MenuItem_3_text.click();
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentImport_ContentPage.class);
 	}
 }
