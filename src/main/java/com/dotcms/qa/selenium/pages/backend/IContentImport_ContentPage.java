@@ -2,6 +2,13 @@ package com.dotcms.qa.selenium.pages.backend;
 
 import com.dotcms.qa.selenium.pages.IBasePage;
 
+/**
+ * Content import Page Interface
+ * @author Oswaldo Gallango
+ * @since 05/20/2015
+ * @version 1.0
+ *
+ */ 
 public interface IContentImport_ContentPage extends IBasePage{
 	
 	/**

@@ -162,4 +162,10 @@ public interface IContentSearchPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public IContentImport_ContentPage importContent() throws Exception;
+	
+	/**
+	 * Change the language in the search
+	 * @param language Language
+	 */
+	public void changeLanguage(String language) throws Exception;
 }

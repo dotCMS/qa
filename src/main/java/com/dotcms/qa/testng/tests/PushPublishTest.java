@@ -19,6 +19,7 @@ import com.dotcms.qa.selenium.pages.backend.IContentAddOrEdit_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.IContentImport_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.IContentSearchPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
+import com.dotcms.qa.selenium.pages.backend.ILanguagesPage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
 import com.dotcms.qa.selenium.pages.backend.IMenuLinkAddOrEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IMenuLinkPage;
@@ -309,6 +310,16 @@ public class PushPublishTest {
 	private String test624contentTitle15="Test-624-";
 	private String test624contentStructureName15Field2="description";
 	private String test624ImportFile="/src/main/resources/test624.csv";
+	//test14130
+	private String test14130LangCode="fr";
+	private String test14130CountryCode="FR";
+	private String test14130Language="Français";
+	private String test14130Country="France";
+	private String test14130contentStructureName16="Test-14130";
+	private String test14130contentStructureName16Field1="header";
+	private String test14130contentTitle16="Test-14130";
+	private String test14130contentStructureName16Field2="description";
+	private String test14130contentTextArea16="Test en français. C'est un petit épreuve en français";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -659,9 +670,13 @@ public class PushPublishTest {
 			if(structurePage.doesStructureExist(test662contentStructureName13)){
 				structurePage.deleteStructureAndContent(test662contentStructureName13, true);
 			}
-			
+
 			if(structurePage.doesStructureExist(test624contentStructureName15)){
 				structurePage.deleteStructureAndContent(test624contentStructureName15, true);
+			}
+			
+			if(structurePage.doesStructureExist(test14130contentStructureName16)){
+				structurePage.deleteStructureAndContent(test14130contentStructureName16, true);
 			}
 
 			/* Delete content*/
@@ -736,6 +751,12 @@ public class PushPublishTest {
 				stepsPage.deleteStep(test662workflowSchemeStep2);
 				stepsPage.deleteStep(test662workflowSchemeStep1);
 				WorkflowPageUtil.deleteWorkflow(test662workflowSchemeName4,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+			}
+			
+			/* Delete languages*/
+			ILanguagesPage languagesPage = portletMenu.getLanguagesPage();
+			if(languagesPage.doesLanguageExist(test14130Language, test14130CountryCode)){
+				languagesPage.deleteLanguage(test14130Language, test14130CountryCode);
 			}
 
 			/*Delete limited user*/
@@ -927,9 +948,13 @@ public class PushPublishTest {
 			if(structurePage.doesStructureExist(test662contentStructureName13)){
 				structurePage.deleteStructureAndContent(test662contentStructureName13, true);
 			}
-			
+
 			if(structurePage.doesStructureExist(test624contentStructureName15)){
 				structurePage.deleteStructureAndContent(test624contentStructureName15, true);
+			}
+			
+			if(structurePage.doesStructureExist(test14130contentStructureName16)){
+				structurePage.deleteStructureAndContent(test14130contentStructureName16, true);
 			}
 
 			/* Delete content*/
@@ -1002,6 +1027,12 @@ public class PushPublishTest {
 				stepsPage.deleteStep(test662workflowSchemeStep2);
 				stepsPage.deleteStep(test662workflowSchemeStep1);
 				WorkflowPageUtil.deleteWorkflow(test662workflowSchemeName4,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
+			}
+			
+			/* Delete languages*/
+			ILanguagesPage languagesPage = portletMenu.getLanguagesPage();
+			if(languagesPage.doesLanguageExist(test14130Language, test14130CountryCode)){
+				languagesPage.deleteLanguage(test14130Language, test14130CountryCode);
 			}
 
 			/*Delete limited user*/
@@ -1263,7 +1294,7 @@ public class PushPublishTest {
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
 
 		//create new structure
-		Assert.assertFalse(structurePage.doesStructureExist(structureName),"ERROR - The Structure ("+structureName+") shoudl not exist at this time.");
+		Assert.assertFalse(structurePage.doesStructureExist(structureName),"ERROR - The Structure ("+structureName+") should not exist at this time.");
 
 		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
 		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(structureName, "Content",structureName, demoServer);
@@ -1271,15 +1302,15 @@ public class PushPublishTest {
 		//Test that the field doesn't exist
 		String titleField = "Title";
 		String descriptionField = "Description";
-		Assert.assertFalse(fieldsPage.doesFieldExist(titleField),"ERROR - The field ("+titleField+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(titleField),"ERROR - The field ("+titleField+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(titleField, false, false, false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(titleField),"ERROR - The field ("+titleField+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(titleField),"ERROR - The field ("+titleField+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(descriptionField),"ERROR - The field ("+descriptionField+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(descriptionField),"ERROR - The field ("+descriptionField+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(descriptionField, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(descriptionField),"ERROR - The field ("+descriptionField+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(descriptionField),"ERROR - The field ("+descriptionField+") should exist at this time");
 
 		//add container
 		IContainersPage containersPage = portletMenu.getContainersPage();
@@ -2579,15 +2610,15 @@ public class PushPublishTest {
 
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(test652contentStructureName9Field1),"ERROR - The field ("+test652contentStructureName9Field1+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test652contentStructureName9Field1),"ERROR - The field ("+test652contentStructureName9Field1+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(test652contentStructureName9Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test652contentStructureName9Field1),"ERROR - The field ("+test652contentStructureName9Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test652contentStructureName9Field1),"ERROR - The field ("+test652contentStructureName9Field1+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(test652contentStructureName9Field2),"ERROR - The field ("+test652contentStructureName9Field2+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test652contentStructureName9Field2),"ERROR - The field ("+test652contentStructureName9Field2+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(test652contentStructureName9Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test652contentStructureName9Field2),"ERROR - The field ("+test652contentStructureName9Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test652contentStructureName9Field2),"ERROR - The field ("+test652contentStructureName9Field2+") should exist at this time");
 		fieldsPage.sleep(3);
 
 		//push Structure
@@ -2699,15 +2730,15 @@ public class PushPublishTest {
 
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(test653contentStructureName10Field1),"ERROR - The field ("+test653contentStructureName10Field1+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test653contentStructureName10Field1),"ERROR - The field ("+test653contentStructureName10Field1+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(test653contentStructureName10Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test653contentStructureName10Field1),"ERROR - The field ("+test653contentStructureName10Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test653contentStructureName10Field1),"ERROR - The field ("+test653contentStructureName10Field1+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(test653contentStructureName10Field2),"ERROR - The field ("+test653contentStructureName10Field2+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test653contentStructureName10Field2),"ERROR - The field ("+test653contentStructureName10Field2+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(test653contentStructureName10Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test653contentStructureName10Field2),"ERROR - The field ("+test653contentStructureName10Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test653contentStructureName10Field2),"ERROR - The field ("+test653contentStructureName10Field2+") should exist at this time");
 		fieldsPage.sleep(3);
 
 		//addContent
@@ -2869,15 +2900,15 @@ public class PushPublishTest {
 		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test496contentStructureName2, "Content",test496contentStructureName2, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(test496contentStructureName2Field1),"ERROR - The field ("+test496contentStructureName2Field1+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test496contentStructureName2Field1),"ERROR - The field ("+test496contentStructureName2Field1+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(test496contentStructureName2Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test496contentStructureName2Field1),"ERROR - The field ("+test496contentStructureName2Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test496contentStructureName2Field1),"ERROR - The field ("+test496contentStructureName2Field1+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(test496contentStructureName2Field2),"ERROR - The field ("+test496contentStructureName2Field2+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test496contentStructureName2Field2),"ERROR - The field ("+test496contentStructureName2Field2+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(test496contentStructureName2Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test496contentStructureName2Field2),"ERROR - The field ("+test496contentStructureName2Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test496contentStructureName2Field2),"ERROR - The field ("+test496contentStructureName2Field2+") should exist at this time");
 		fieldsPage.sleep(3);
 		//create content
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
@@ -2968,15 +2999,15 @@ public class PushPublishTest {
 		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test519contentStructureName3, "Content",test519contentStructureName3, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName3Field1),"ERROR - The field ("+test519contentStructureName3Field1+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName3Field1),"ERROR - The field ("+test519contentStructureName3Field1+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(test519contentStructureName3Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName3Field1),"ERROR - The field ("+test519contentStructureName3Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName3Field1),"ERROR - The field ("+test519contentStructureName3Field1+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName3Field2),"ERROR - The field ("+test519contentStructureName3Field2+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName3Field2),"ERROR - The field ("+test519contentStructureName3Field2+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(test519contentStructureName3Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName3Field2),"ERROR - The field ("+test519contentStructureName3Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName3Field2),"ERROR - The field ("+test519contentStructureName3Field2+") should exist at this time");
 
 		//create content 1
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
@@ -3004,15 +3035,15 @@ public class PushPublishTest {
 		fieldsPage = addStructurePage.createNewStructure(test519contentStructureName4, "Content",test519contentStructureName4, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName4Field1),"ERROR - The field ("+test519contentStructureName4Field1+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName4Field1),"ERROR - The field ("+test519contentStructureName4Field1+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(test519contentStructureName4Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName4Field1),"ERROR - The field ("+test519contentStructureName4Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName4Field1),"ERROR - The field ("+test519contentStructureName4Field1+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName4Field2),"ERROR - The field ("+test519contentStructureName4Field2+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName4Field2),"ERROR - The field ("+test519contentStructureName4Field2+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(test519contentStructureName4Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName4Field2),"ERROR - The field ("+test519contentStructureName4Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName4Field2),"ERROR - The field ("+test519contentStructureName4Field2+") should exist at this time");
 
 		//create content 2
 		contentSearchPage = portletMenu.getContentSearchPage();
@@ -3038,15 +3069,15 @@ public class PushPublishTest {
 		fieldsPage = addStructurePage.createNewStructure(test519contentStructureName5, "Content",test519contentStructureName5, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName5Field1),"ERROR - The field ("+test519contentStructureName5Field1+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName5Field1),"ERROR - The field ("+test519contentStructureName5Field1+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(test519contentStructureName5Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName5Field1),"ERROR - The field ("+test519contentStructureName5Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName5Field1),"ERROR - The field ("+test519contentStructureName5Field1+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName5Field2),"ERROR - The field ("+test519contentStructureName5Field2+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test519contentStructureName5Field2),"ERROR - The field ("+test519contentStructureName5Field2+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(test519contentStructureName5Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName5Field2),"ERROR - The field ("+test519contentStructureName5Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test519contentStructureName5Field2),"ERROR - The field ("+test519contentStructureName5Field2+") should exist at this time");
 
 		//create content 3
 		contentSearchPage = portletMenu.getContentSearchPage();
@@ -3128,15 +3159,15 @@ public class PushPublishTest {
 		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test532contentStructureName6, "Content",test532contentStructureName6, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(test532contentStructureName6Field1),"ERROR - The field ("+test532contentStructureName6Field1+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test532contentStructureName6Field1),"ERROR - The field ("+test532contentStructureName6Field1+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(test532contentStructureName6Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test532contentStructureName6Field1),"ERROR - The field ("+test532contentStructureName6Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test532contentStructureName6Field1),"ERROR - The field ("+test532contentStructureName6Field1+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(test532contentStructureName6Field2),"ERROR - The field ("+test532contentStructureName6Field2+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test532contentStructureName6Field2),"ERROR - The field ("+test532contentStructureName6Field2+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(test532contentStructureName6Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test532contentStructureName6Field2),"ERROR - The field ("+test532contentStructureName6Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test532contentStructureName6Field2),"ERROR - The field ("+test532contentStructureName6Field2+") should exist at this time");
 		fieldsPage.sleep(3);
 		//create content 1
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
@@ -3275,15 +3306,15 @@ public class PushPublishTest {
 		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test572contentStructureName8, "Content",test572contentStructureName8, demoServer);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(test572contentStructureName8Field1),"ERROR - The field ("+test572contentStructureName8Field1+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test572contentStructureName8Field1),"ERROR - The field ("+test572contentStructureName8Field1+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(test572contentStructureName8Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test572contentStructureName8Field1),"ERROR - The field ("+test572contentStructureName8Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test572contentStructureName8Field1),"ERROR - The field ("+test572contentStructureName8Field1+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(test572contentStructureName8Field2),"ERROR - The field ("+test572contentStructureName8Field2+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test572contentStructureName8Field2),"ERROR - The field ("+test572contentStructureName8Field2+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(test572contentStructureName8Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test572contentStructureName8Field2),"ERROR - The field ("+test572contentStructureName8Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test572contentStructureName8Field2),"ERROR - The field ("+test572contentStructureName8Field2+") should exist at this time");
 		fieldsPage.sleep(3);
 		logoutAuthoringServer();
 
@@ -3551,15 +3582,15 @@ public class PushPublishTest {
 		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test624contentStructureName15, "Content",test624contentStructureName15, demoServer,null);
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(test624contentStructureName15Field1),"ERROR - The field ("+test624contentStructureName15Field1+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test624contentStructureName15Field1),"ERROR - The field ("+test624contentStructureName15Field1+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(test624contentStructureName15Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test624contentStructureName15Field1),"ERROR - The field ("+test624contentStructureName15Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test624contentStructureName15Field1),"ERROR - The field ("+test624contentStructureName15Field1+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(test624contentStructureName15Field2),"ERROR - The field ("+test624contentStructureName15Field2+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test624contentStructureName15Field2),"ERROR - The field ("+test624contentStructureName15Field2+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(test624contentStructureName15Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test624contentStructureName15Field2),"ERROR - The field ("+test624contentStructureName15Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test624contentStructureName15Field2),"ERROR - The field ("+test624contentStructureName15Field2+") should exist at this time");
 		fieldsPage.sleep(3);
 
 		//addContent
@@ -3573,7 +3604,7 @@ public class PushPublishTest {
 		//generate bundle
 		String bundleName = "test624";
 		searchPage.addToBundleAllStructureContent(test624contentStructureName15, bundleName);
-		
+
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		publishingQueuePage.getBundlesTab();
 		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
@@ -3593,12 +3624,12 @@ public class PushPublishTest {
 		//Calling receiver Server
 		portletMenu = callReceiverServer();
 		searchPage = portletMenu.getContentSearchPage();
-		
+
 		//validates that all the content was pushed
 		for(int i=1; i < 53; i++){
 			Assert.assertTrue(searchPage.doesContentExist(test624contentTitle15+i,test624contentStructureName15), "ERROR - Content ('"+test624contentTitle15+i+"') should exist in receiver server");
 		}
-		
+
 		//delete structure 
 		structurePage = portletMenu.getStructuresPage();
 		structurePage.deleteStructureAndContent(test624contentStructureName15, true);
@@ -3820,15 +3851,15 @@ public class PushPublishTest {
 
 
 		//Test that the field doesn't exist
-		Assert.assertFalse(fieldsPage.doesFieldExist(test662contentStructureName13Field1),"ERROR - The field ("+test662contentStructureName13Field1+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test662contentStructureName13Field1),"ERROR - The field ("+test662contentStructureName13Field1+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextField(test662contentStructureName13Field1, true, true, true, true, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test662contentStructureName13Field1),"ERROR - The field ("+test662contentStructureName13Field1+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test662contentStructureName13Field1),"ERROR - The field ("+test662contentStructureName13Field1+") should exist at this time");
 
-		Assert.assertFalse(fieldsPage.doesFieldExist(test662contentStructureName13Field2),"ERROR - The field ("+test662contentStructureName13Field2+") shoudl not exist at this time");
+		Assert.assertFalse(fieldsPage.doesFieldExist(test662contentStructureName13Field2),"ERROR - The field ("+test662contentStructureName13Field2+") should not exist at this time");
 		fieldsPage = fieldsPage.addTextareaField(test662contentStructureName13Field2, "", "", "","", false, false, false);
 		fieldsPage.sleep(2);
-		Assert.assertTrue(fieldsPage.doesFieldExist(test662contentStructureName13Field2),"ERROR - The field ("+test662contentStructureName13Field2+") shoudl exist at this time");
+		Assert.assertTrue(fieldsPage.doesFieldExist(test662contentStructureName13Field2),"ERROR - The field ("+test662contentStructureName13Field2+") should exist at this time");
 		fieldsPage.sleep(3);
 
 		//addContent
@@ -4036,6 +4067,100 @@ public class PushPublishTest {
 		searchPage.delete(test48320contentTitle14, test48320contentStructureName14);
 		Assert.assertFalse(searchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should not exist in authoring server");
 
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Make sure when you pushing content the system push the language
+	 * http://qa.dotcms.com/index.php?/cases/view/14130
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc14130_PushContentWithNewSystemLanguage() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+		ILanguagesPage languagesPage = portletMenu.getLanguagesPage();
+		languagesPage.addLanguage(test14130LangCode, test14130CountryCode, test14130Language, test14130Country);
+		Assert.assertTrue(languagesPage.doesLanguageExist(test14130Language,test14130CountryCode),"ERROR - Authoring server: Language ("+test14130Language+") does not exist in authoring server");
+
+		//add structure
+		//create structure 
+		IStructuresPage structurePage = portletMenu.getStructuresPage();
+		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
+		IStructureAddOrEdit_FieldsPage fieldsPage = addStructurePage.createNewStructure(test14130contentStructureName16, "Content",test14130contentStructureName16, demoServer,null);
+
+		//Test that the field doesn't exist
+		Assert.assertFalse(fieldsPage.doesFieldExist(test14130contentStructureName16Field1),"ERROR - The field ("+test14130contentStructureName16Field1+") should not exist at this time");
+		fieldsPage = fieldsPage.addTextField(test14130contentStructureName16Field1, true, true, true, true, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(test14130contentStructureName16Field1),"ERROR - The field ("+test14130contentStructureName16Field1+") should exist at this time");
+
+		Assert.assertFalse(fieldsPage.doesFieldExist(test14130contentStructureName16Field2),"ERROR - The field ("+test14130contentStructureName16Field2+") should not exist at this time");
+		fieldsPage = fieldsPage.addTextareaField(test14130contentStructureName16Field2, "", "", "","", false, false, false);
+		fieldsPage.sleep(2);
+		Assert.assertTrue(fieldsPage.doesFieldExist(test14130contentStructureName16Field2),"ERROR - The field ("+test14130contentStructureName16Field2+") should exist at this time");
+		fieldsPage.sleep(3);
+
+		//add Content
+		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
+		IContentAddOrEdit_ContentPage contentPage = searchPage.addContent(test14130contentStructureName16);
+
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put(test14130contentStructureName16Field1, test14130contentTitle16);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXTAREA_FIELD);
+		map.put(test14130contentStructureName16Field2, test14130contentTextArea16);
+		fields.add(map) ;
+		contentPage.changeContentLanguage(test14130Language, true);
+		contentPage.setFields(fields);
+		contentPage.sleep(2);
+		contentPage.saveAndPublish();
+		contentPage.sleep(2);
+
+		//push content
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.changeLanguage(test14130Language);
+		searchPage.pushContent(test14130contentTitle16,test14130contentStructureName16);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test14130contentTitle16,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test14130contentTitle16+") push should not be in pending list.");
+
+		//delete structure and language
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(test14130contentStructureName16, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(test14130contentStructureName16), "ERROR - Structure ('"+test14130contentStructureName16+"') should not exist in authoring server");
+
+		languagesPage = portletMenu.getLanguagesPage();
+		languagesPage.deleteLanguage(test14130Language,test14130CountryCode);
+		Assert.assertFalse(languagesPage.doesLanguageExist(test14130Language,test14130CountryCode),"ERROR - Authoring server: Language ("+test14130Language+") should not exist in authoring server");
+		
+		logoutAuthoringServer();
+
+		//Calling receiver Server
+		portletMenu = callReceiverServer();
+		languagesPage = portletMenu.getLanguagesPage();
+		Assert.assertTrue(languagesPage.doesLanguageExist(test14130Language,test14130CountryCode),"ERROR - Receiver server: Language ("+test14130Language+") should exist in receiver server");
+
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.changeLanguage(test14130Language);
+		Assert.assertTrue(searchPage.doesContentExist(test14130contentTitle16,test14130contentStructureName16),"ERROR - Receiver server: Language ("+test14130Language+") should exist in receiver server");
+		
+		//delete structure and language
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(test14130contentStructureName16, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(test14130contentStructureName16), "ERROR - Structure ('"+test14130contentStructureName16+"') should not exist in receiver server");
+
+		languagesPage = portletMenu.getLanguagesPage();
+		languagesPage.deleteLanguage(test14130Language,test14130CountryCode);
+		Assert.assertFalse(languagesPage.doesLanguageExist(test14130Language,test14130CountryCode),"ERROR - Receiver server: Language ("+test14130Language+") should not exist in receiver server");
 		logoutReceiverServer();
 	}
 

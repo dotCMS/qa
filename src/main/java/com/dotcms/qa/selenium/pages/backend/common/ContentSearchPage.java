@@ -381,8 +381,10 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 
 		if(showArchive){
 			WebElement advancedOptions = getWebElement(By.cssSelector("div[id='toggleDivText']"));
-			getParent(advancedOptions).click();
-			sleep(1);
+			if(!advancedOptions.getText().equals(getLocalizedString("Advanced"))){
+				getParent(advancedOptions).click();
+				sleep(1);
+			}
 			WebElement showOptions = getWebElement(By.id("showingSelect"));
 			showOptions.clear();
 			showOptions.sendKeys(getLocalizedString("Archived"));
@@ -514,5 +516,21 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 		dijit_form_ComboButton_0_arrow.click();
 		dijit_MenuItem_3_text.click();
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentImport_ContentPage.class);
+	}
+
+	/**
+	 * Change the language in the search
+	 * @param language Language
+	 */
+	public void changeLanguage(String language) throws Exception{
+		WebElement advancedOptions = getWebElement(By.cssSelector("div[id='toggleDivText']"));
+		if(advancedOptions.getText().equals(getLocalizedString("Advanced"))){
+			getParent(advancedOptions).click();
+			sleep(1);
+		}
+		WebElement languageField = getWebElement(By.id("language_id"));
+		languageField.clear();
+		languageField.sendKeys(language);
+		getWebElement(By.id("language_id_popup0")).click();
 	}
 }

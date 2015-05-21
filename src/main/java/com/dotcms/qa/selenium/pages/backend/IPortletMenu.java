@@ -86,4 +86,11 @@ public interface IPortletMenu extends IBasePage {
 	 */
 	public IWorkflowTasksPage getWorkflowTasksPage() throws Exception;
 	
+	/**
+	 * Get the system languages page
+	 * @return ILanguagesPage
+	 * @throws Exception
+	 */
+	public ILanguagesPage getLanguagesPage() throws Exception;
+	
 }

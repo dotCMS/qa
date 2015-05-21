@@ -11,6 +11,13 @@ import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.util.Evaluator;
 import com.dotcms.qa.util.WebKeys;
 
+/**
+ * This class implements the methods defined in the IContentImport_ContentPage interface
+ * @author Oswaldo Gallango
+ * @since 05/20/2015
+ * @version 1.0
+ * 
+ */
 public class ContentImport_ContentPage extends BasePage implements IContentImport_ContentPage{
 
 	private WebElement structuresSelect;
