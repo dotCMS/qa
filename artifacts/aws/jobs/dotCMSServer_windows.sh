@@ -1,6 +1,8 @@
 #!/bin/bash
 # Must be run as ubuntu user
 
+cd /cygdrive/c/jenkins/workspace/${JOB_NAME}
+
 echo 'Working dir:'
 pwd
 export WORKSPACE=`pwd`
