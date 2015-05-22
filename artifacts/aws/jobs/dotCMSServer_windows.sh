@@ -3,6 +3,7 @@
 
 echo 'Working dir:'
 pwd
+export WORKSPACE=`pwd`
 env
 
 # ensure clean workspace
