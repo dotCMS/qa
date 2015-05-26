@@ -73,7 +73,7 @@ echo 'Creating and configuring DB'
 pushd ${WORKSPACE}/qa
 if [ ${QA_DB} = "Oracle" ] || [ ${QA_DB} = "MSSQL" ]
 then
-	ant -DDBInstanceID=${QA_DBInstance} start-aws-db-server
+	cmd /c ant -DDBInstanceID=${QA_DBInstance} start-aws-db-server
 	sleep 60
 	dbstatus=`aws rds describe-db-instances --db-instance-identifier ${QA_DBInstance} | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'`
 	echo "dbstatus=${dbstatus}"
@@ -88,8 +88,8 @@ then
 	export dbserver
 	echo "dbserver=${dbserver}"
 fi
-ant create-db
-ant create-context-xml
+cmd /c ant create-db
+cmd /c ant create-context-xml
 popd
 
 echo 'Starting dotCMS'
@@ -143,11 +143,11 @@ popd
 
 
 pushd ${WORKSPACE}/qa
-ant drop-db
+cmd /c ant drop-db
 if [ ${QA_DB} = "Oracle" ] || [ ${QA_DB} = "MSSQL" ]
 then
 	echo 'Shutting down RDS instance'
-	ant -DDBInstanceID=${QA_DBInstance} shutdown-aws-db-server
+	cmd /c ant -DDBInstanceID=${QA_DBInstance} shutdown-aws-db-server
 fi
 popd 
 
