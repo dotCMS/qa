@@ -42,10 +42,10 @@ cd %WORKSPACE%
 
 echo 'Pulling down and extracting dotCMS build'
 mkdir %WORKSPACE%\downloads
-wget -q -O %WORKSPACE%\downloads\dotcms.targz %DOTCMS_TAR_GZ_URL%
+wget -q -O %WORKSPACE%\downloads\dotcms.zip %DOTCMS_ZIP_URL%
 mkdir %WORKSPACE%\dotcms
 pushd %WORKSPACE%\dotcms
-tar -xvf %WORKSPACE%\downloads\dotcms.targz > NUL
+unzip %WORKSPACE%\downloads\dotcms.zip > NUL
 
 echo 'Pulling down and replacing starter'
 aws s3 cp %QA_StarterURL% %QA_StarterFullFilePath%
