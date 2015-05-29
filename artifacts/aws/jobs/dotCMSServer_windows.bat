@@ -7,7 +7,7 @@ cd
 set
 
 REM - ensure clean workspace
-rm -rf *
+REM rm -rf *
 
 For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y%%m%%d_%%H%%M%%S') Do Set QA_TestStartTime=%%I
 
