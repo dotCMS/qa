@@ -34,7 +34,7 @@ aws s3 cp .\status.txt %QA_SERVER_STATUS_URL%
 
 echo 'Cloning qa repo'
 cd %WORKSPACE%
-git clone git@github.com:dotCMS\qa.git
+git clone git@github.com:dotCMS/qa.git
 echo "Checking out master-%DOTCMS_VERSION% branch"
 cd qa
 git checkout master-%DOTCMS_VERSION%
