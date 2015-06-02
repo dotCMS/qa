@@ -6,9 +6,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.dotcms.qa.selenium.pages.backend.IWorkflowTaskEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IWorkflowTasksPage;
 import com.dotcms.qa.selenium.pages.common.BasePage;
+import com.dotcms.qa.selenium.util.SeleniumPageManager;
 
+/**
+ * This class implements the methods defined in the IWorkflowTasksPage interface
+ * @author Oswaldo Gallango
+ * @since 05/12/2015
+ * @version 1.0
+ * 
+ */
 public class WorkflowTasksPage extends BasePage implements IWorkflowTasksPage{
 
 	public WorkflowTasksPage(WebDriver driver) {
@@ -29,7 +38,7 @@ public class WorkflowTasksPage extends BasePage implements IWorkflowTasksPage{
 			List<WebElement> columns = task.findElements(By.tagName("td"));
 			value=columns.get(3).getText();
 		}catch(Exception e){}
-		
+
 		return value;
 	}
 
@@ -71,5 +80,20 @@ public class WorkflowTasksPage extends BasePage implements IWorkflowTasksPage{
 			}
 		}
 		return workflowTask;
+	}
+
+	/**
+	 * Get the the specified workflow task
+	 * @param title   Title of the content
+	 * @param workflowScheme Scheme
+	 * @return IWorkflowTaskEdit_Page
+	 * @throws Exception
+	 */
+	public IWorkflowTaskEdit_Page getWorflowTask(String title, String workflowScheme) throws Exception{
+		WebElement task = findWorkflowTask(title, workflowScheme);
+		List<WebElement> columns = task.findElements(By.tagName("td"));
+		columns.get(1).click();
+
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IWorkflowTaskEdit_Page.class);
 	}
 }

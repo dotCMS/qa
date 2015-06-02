@@ -380,12 +380,26 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 					for(Map<String,String> param : parameters){
 						for(String key : param.keySet()){
 							if(!key.equals("clickButton")){
-								sleep(1);
-								WebElement field = getWebElement(By.id("contentletWfDialog")).findElement(By.id(key));
-								field.clear();
-								field.sendKeys(param.get(key));
-								sleep(2);
-								field.sendKeys(Keys.TAB);
+								if(key.equals("environmentSelect")){
+									WebElement field = getWebElement(By.id("contentletWfDialog")).findElement(By.id(key));
+									field.clear();
+									field.sendKeys(param.get(key));
+									getWebElement(By.id("environmentSelect_popup1")).click();
+									List<WebElement> buttons = getWebElement(By.id("contentletWfDialog")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+									for(WebElement button : buttons){
+										if(button.getText().trim().equals(getLocalizedString("Add"))){
+											button.click();
+											break;
+										}
+									}
+								}else{
+									sleep(1);
+									WebElement field = getWebElement(By.id("contentletWfDialog")).findElement(By.id(key));
+									field.clear();
+									field.sendKeys(param.get(key));
+									sleep(2);
+									field.sendKeys(Keys.TAB);
+								}
 							}else{
 								List<WebElement> buttons = getWebElement(By.id("contentletWfDialog")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 								for(WebElement button : buttons){

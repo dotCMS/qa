@@ -533,4 +533,17 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 		languageField.sendKeys(language);
 		getWebElement(By.id("language_id_popup0")).click();
 	}
+	
+	/**
+	 * Select a right click contentlet workflow action
+	 * @param contentName  Contentlet name
+	 * @param structure Structure name
+	 * @param action Workflow action name
+	 */
+	public void selectWorkflowAction(String contentName,String structure, String action) throws Exception{
+		WebElement content = findContentRow(contentName, structure);
+		List<WebElement> columns = content.findElements(By.tagName("td"));
+		selectRightClickPopupMenuOption(columns.get(2),getLocalizedString(action));
+		
+	}
 }

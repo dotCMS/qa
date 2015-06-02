@@ -40,10 +40,10 @@ import com.dotcms.qa.selenium.pages.backend.IWorkFlowStepsAddOrEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IWorkflowActionAddOrEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IWorkflowSchemeAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IWorkflowSchemesPage;
+import com.dotcms.qa.selenium.pages.backend.IWorkflowTaskEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IWorkflowTasksPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
-import com.dotcms.qa.util.UsersPageUtil;
 import com.dotcms.qa.util.WebKeys;
 import com.dotcms.qa.util.WorkflowPageUtil;
 
@@ -98,6 +98,7 @@ public class PushPublishTest {
 	private String containerCode3 ="<h2>Test 569</h2><br/><p>This is a test for limited user push publishing</p>";
 	private String containerCode3a ="<h2>Test 569 and 571</h2><br/><p>This is a test edited for limited user push publishing</p>";
 
+	private String publisherLegal="Publisher / Legal";
 	private String limitedRole="limitedRole";
 	private String limitedUserNameA="MyLimitedA";
 	private String limitedUserLastNameA="UserA";
@@ -320,6 +321,24 @@ public class PushPublishTest {
 	private String test14130contentTitle16="Test-14130";
 	private String test14130contentStructureName16Field2="description";
 	private String test14130contentTextArea16="Test en français. C'est un petit épreuve en français";
+	//test 663
+	private String test663folderName3="test663";
+	private String test663workflowSchemeName5="Document Management";
+	private String test663workflowSchemeStep1="Published";
+	private String test663workflowActionName1="Push Publish";
+	private String test663worflowSubaction1="Push Publish"; 
+	private String test663workflowSubaction4="Archive";
+	private String test663workflowSubaction5="Delete contentlet";
+	private String test663workflowSubaction6="Reset Workflow";
+	private String test663workflowSchemeStep2="Archived";
+	private String test663workflowActionName2="Send to Legal";
+	private String test663workflowActionName3="Publish";
+	private String test663contentStructureName17="Document";
+	private String test663contentStructureName17Field1="title";
+	private String test663contentTitle17="test-663";
+	private String test663contentStructureName17Field2="binary1FileUpload";
+	private String test663contentTextArea17="/src/main/resources/test663.jpg";
+	private String test663fileName17="test663.jpg";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -557,6 +576,14 @@ public class PushPublishTest {
 				browserPage.deleteFolder(test558folderName1);
 			}
 
+			if(browserPage.doesFolderExist(test623folderName2)){
+				browserPage.deleteFolder(test623folderName2);
+			}
+
+			if(browserPage.doesFolderExist(test663folderName3)){
+				browserPage.deleteFolder(test663folderName3);
+			}
+
 			/* Delete template*/
 			ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 			if(templatesPage.doesTemplateExist(test555templateTitle1)){
@@ -674,7 +701,7 @@ public class PushPublishTest {
 			if(structurePage.doesStructureExist(test624contentStructureName15)){
 				structurePage.deleteStructureAndContent(test624contentStructureName15, true);
 			}
-			
+
 			if(structurePage.doesStructureExist(test14130contentStructureName16)){
 				structurePage.deleteStructureAndContent(test14130contentStructureName16, true);
 			}
@@ -703,6 +730,12 @@ public class PushPublishTest {
 				contentSearchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
 				contentSearchPage.archive(test48320contentTitle14, test48320contentStructureName14);
 				contentSearchPage.delete(test48320contentTitle14, test48320contentStructureName14);
+			}
+
+			if(contentSearchPage.doesContentExist(test663fileName17, test663contentStructureName17)){
+				contentSearchPage.selectWorkflowAction(test663fileName17, test663contentStructureName17,test663workflowSubaction6);
+				contentSearchPage.selectWorkflowAction(test663fileName17, test663contentStructureName17,test663workflowSubaction4);
+				contentSearchPage.selectWorkflowAction(test663fileName17, test663contentStructureName17,test663workflowSubaction5);				
 			}
 
 			/* Delete workflows*/
@@ -752,7 +785,15 @@ public class PushPublishTest {
 				stepsPage.deleteStep(test662workflowSchemeStep1);
 				WorkflowPageUtil.deleteWorkflow(test662workflowSchemeName4,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 			}
-			
+
+			schemesPage = portletMenu.getWorkflowSchemesPage();
+			IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
+			if(schemeStepsPage.doesWorkflowStepActionExist(test663workflowSchemeStep1, test663workflowActionName1)){
+				IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.editWorkflowAction(test663workflowSchemeStep1, test663workflowActionName1);
+				actionPage.sleep(2);
+				actionPage.delete();
+			}
+
 			/* Delete languages*/
 			ILanguagesPage languagesPage = portletMenu.getLanguagesPage();
 			if(languagesPage.doesLanguageExist(test14130Language, test14130CountryCode)){
@@ -832,6 +873,10 @@ public class PushPublishTest {
 
 			if(browserPage.doesFolderExist(test623folderName2)){
 				browserPage.deleteFolder(test623folderName2);
+			}
+
+			if(browserPage.doesFolderExist(test663folderName3)){
+				browserPage.deleteFolder(test663folderName3);
 			}
 
 			/* Delete template*/
@@ -952,7 +997,7 @@ public class PushPublishTest {
 			if(structurePage.doesStructureExist(test624contentStructureName15)){
 				structurePage.deleteStructureAndContent(test624contentStructureName15, true);
 			}
-			
+
 			if(structurePage.doesStructureExist(test14130contentStructureName16)){
 				structurePage.deleteStructureAndContent(test14130contentStructureName16, true);
 			}
@@ -981,6 +1026,12 @@ public class PushPublishTest {
 				contentSearchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
 				contentSearchPage.archive(test48320contentTitle14, test48320contentStructureName14);
 				contentSearchPage.delete(test48320contentTitle14, test48320contentStructureName14);
+			}
+
+			if(contentSearchPage.doesContentExist(test663fileName17, test663contentStructureName17)){
+				contentSearchPage.selectWorkflowAction(test663fileName17, test663contentStructureName17,test663workflowSubaction6);
+				contentSearchPage.selectWorkflowAction(test663fileName17, test663contentStructureName17,test663workflowSubaction4);
+				contentSearchPage.selectWorkflowAction(test663fileName17, test663contentStructureName17,test663workflowSubaction5);	
 			}
 
 			/* Delete workflows*/
@@ -1028,7 +1079,15 @@ public class PushPublishTest {
 				stepsPage.deleteStep(test662workflowSchemeStep1);
 				WorkflowPageUtil.deleteWorkflow(test662workflowSchemeName4,serversProtocol+"://"+authoringServer+":"+authoringServerPort+"/");
 			}
-			
+
+			schemesPage = portletMenu.getWorkflowSchemesPage();
+			IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
+			if(schemeStepsPage.doesWorkflowStepActionExist(test663workflowSchemeStep1, test663workflowActionName1)){
+				IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.editWorkflowAction(test663workflowSchemeStep1, test663workflowActionName1);
+				actionPage.sleep(2);
+				actionPage.delete();
+			}
+
 			/* Delete languages*/
 			ILanguagesPage languagesPage = portletMenu.getLanguagesPage();
 			if(languagesPage.doesLanguageExist(test14130Language, test14130CountryCode)){
@@ -1169,6 +1228,7 @@ public class PushPublishTest {
 		if(!userPage.doesUserEmailExist(limitedUserEmail)){
 			userPage.addUser(limitedUserName, limitedUserLastName, limitedUserEmail, limitedUserPaswword);
 			userPage.addRoleToUser(limitedRole, limitedUserEmail);
+			userPage.addRoleToUser(publisherLegal, limitedUserEmail);
 		}
 	}
 
@@ -4140,7 +4200,7 @@ public class PushPublishTest {
 		languagesPage = portletMenu.getLanguagesPage();
 		languagesPage.deleteLanguage(test14130Language,test14130CountryCode);
 		Assert.assertFalse(languagesPage.doesLanguageExist(test14130Language,test14130CountryCode),"ERROR - Authoring server: Language ("+test14130Language+") should not exist in authoring server");
-		
+
 		logoutAuthoringServer();
 
 		//Calling receiver Server
@@ -4151,7 +4211,7 @@ public class PushPublishTest {
 		searchPage = portletMenu.getContentSearchPage();
 		searchPage.changeLanguage(test14130Language);
 		Assert.assertTrue(searchPage.doesContentExist(test14130contentTitle16,test14130contentStructureName16),"ERROR - Receiver server: Language ("+test14130Language+") should exist in receiver server");
-		
+
 		//delete structure and language
 		structurePage = portletMenu.getStructuresPage();
 		structurePage.deleteStructureAndContent(test14130contentStructureName16, true);
@@ -4162,6 +4222,143 @@ public class PushPublishTest {
 		languagesPage.deleteLanguage(test14130Language,test14130CountryCode);
 		Assert.assertFalse(languagesPage.doesLanguageExist(test14130Language,test14130CountryCode),"ERROR - Receiver server: Language ("+test14130Language+") should not exist in receiver server");
 		logoutReceiverServer();
+	}
+
+	/**
+	 * Push File Asset Content with Push Publish Workflow Action
+	 * http://qa.dotcms.com/index.php?/cases/view/663
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc663_PushFileAssetContentWithPushPublishWorkflowAction() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+		//create a workflow
+		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
+		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
+		IWorkflowActionAddOrEdit_Page actionPage = schemeStepsPage.addActionToStep(test663workflowSchemeStep1);
+		actionPage.setActionName(test663workflowActionName1);
+		actionPage.setSaveContent(false);
+		actionPage.setWhoCanUse(limitedRole);
+		actionPage.setWhoCanUse("Admin User");
+		actionPage.setAllowComment(false);
+		actionPage.setUserCanAssign(false);
+		actionPage.setAssignTo("Admin User");
+		actionPage.setNextStep(test663workflowSchemeStep2);
+		actionPage.sleep(2);
+		actionPage.save();
+		//adding subaction
+		actionPage.addSubAction(test663worflowSubaction1);
+		actionPage.save();
+		actionPage.sleep(2);
+
+		//create folder
+		ISiteBrowserPage siteBrowserPage = portletMenu.getSiteBrowserPage();
+		siteBrowserPage.createFolder(null, test663folderName3);
+		siteBrowserPage.selectFolder(test663folderName3);
+		IContentAddOrEdit_ContentPage contentPage = siteBrowserPage.addFileInFolder(test663folderName3, test663contentStructureName17);
+
+		//Create content
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put(test663contentStructureName17Field1, test663contentTitle17);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.BINARY_FIELD);
+		map.put(test663contentStructureName17Field2, test663contentTextArea17);
+		fields.add(map) ;
+		contentPage.setFields(fields);
+		List<Map<String,String>> parameters = new ArrayList<Map<String,String>>();
+		Map<String,String> paramsMap = new HashMap<String,String>();
+		paramsMap.put("taskCommentsAux", "test663");
+		parameters.add(paramsMap);
+		paramsMap = new HashMap<String,String>();
+		paramsMap.put("clickButton", "Save");
+		parameters.add(paramsMap);
+		contentPage.selectWorkflowAction(test663workflowActionName2, parameters);
+		contentPage.sleep(4);
+		logoutAuthoringServer();
+
+		//connect to authoring server as limited user
+		portletMenu = callAuthoringServer(limitedUserEmailA, limitedUserPaswwordA);
+		IWorkflowTasksPage taskPage = portletMenu.getWorkflowTasksPage();
+		IWorkflowTaskEdit_Page editTask = taskPage.getWorflowTask(test663contentTitle17, test663workflowSchemeName5);
+		editTask.selectAction(test663workflowActionName3);
+		editTask.sleep(2);
+
+		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
+		contentPage = searchPage.editContent(test663fileName17,test663contentStructureName17);
+		parameters = new ArrayList<Map<String,String>>();
+		paramsMap.put("environmentSelect","Sender1");
+		parameters.add(paramsMap);
+		paramsMap = new HashMap<String,String>();
+		paramsMap.put("clickButton", "Save");
+		parameters.add(paramsMap);
+		contentPage.selectWorkflowAction(test663workflowActionName1, parameters);
+
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test663contentTitle17,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: File Asset ("+test663fileName17+") push should not be in pending list.");
+
+		logoutAuthoringServer();
+
+		//connect as admin
+		portletMenu = callAuthoringServer();
+
+		//delete workflow action, content and folder
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
+		actionPage = schemeStepsPage.editWorkflowAction(test663workflowSchemeStep1, test663workflowActionName1);
+		actionPage.sleep(2);
+		actionPage.delete();
+		actionPage.sleep(2);
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
+		Assert.assertFalse(schemeStepsPage.doesWorkflowStepActionExist(test663workflowSchemeStep1, test663workflowActionName1), "ERROR - in authoring server: Workflow ("+test663workflowSchemeName5+") on the step ("+test663workflowSchemeStep1+") this action ("+test663workflowActionName1+") should not exist in authoring server");
+
+		siteBrowserPage = portletMenu.getSiteBrowserPage();
+		siteBrowserPage.deleteFolder(test663folderName3);
+		Assert.assertFalse(siteBrowserPage.doesFolderExist(test663folderName3),"ERROR - Folder ("+test663folderName3+") should not exist in authoring server");
+		
+		searchPage = portletMenu.getContentSearchPage();
+		Assert.assertFalse(searchPage.doesContentExist(test663fileName17, test663contentStructureName17),"ERROR - Content ("+test663contentTitle17+") should not exist in authoring server");
+
+		logoutAuthoringServer();
+
+		//call receiver Server
+		portletMenu = callReceiverServer();
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
+		Assert.assertTrue(schemeStepsPage.doesWorkflowStepActionExist(test663workflowSchemeStep1, test663workflowActionName1), "ERROR - in receiver server: Workflow ("+test663workflowSchemeName5+") on the step ("+test663workflowSchemeStep1+") this action ("+test663workflowActionName1+") should exist in receiver server");
+
+		siteBrowserPage = portletMenu.getSiteBrowserPage();
+		Assert.assertTrue(siteBrowserPage.doesFolderExist(test663folderName3),"ERROR - Folder ("+test663folderName3+") should  exist in receiver server");
+		
+		searchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(searchPage.doesContentExist(test663fileName17, test663contentStructureName17),"ERROR - Content ("+test663fileName17+") should  exist in receiver server");
+
+		//delete workflow action, content and folder
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
+		actionPage = schemeStepsPage.editWorkflowAction(test663workflowSchemeStep1, test663workflowActionName1);
+		actionPage.sleep(2);
+		actionPage.delete();
+		schemesPage = portletMenu.getWorkflowSchemesPage();
+		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
+		Assert.assertFalse(schemeStepsPage.doesWorkflowStepActionExist(test663workflowSchemeStep1, test663workflowActionName1), "ERROR - in receiver server: Workflow ("+test663workflowSchemeName5+") on the step ("+test663workflowSchemeStep1+") this action ("+test663workflowActionName1+") should not exist in receiver server");
+
+		siteBrowserPage = portletMenu.getSiteBrowserPage();
+		siteBrowserPage.deleteFolder(test663folderName3);
+		Assert.assertFalse(siteBrowserPage.doesFolderExist(test663folderName3),"ERROR - Folder ("+test663folderName3+") should not exist in receiver server");
+		
+		searchPage = portletMenu.getContentSearchPage();
+		Assert.assertFalse(searchPage.doesContentExist(test663fileName17, test663contentStructureName17),"ERROR - Content ("+test663contentTitle17+") should not exist in authoring server");
+
+		logoutReceiverServer();
+
 	}
 
 

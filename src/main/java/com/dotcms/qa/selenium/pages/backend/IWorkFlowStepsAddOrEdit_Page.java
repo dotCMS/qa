@@ -62,4 +62,13 @@ public interface IWorkFlowStepsAddOrEdit_Page extends IBasePage{
 	 * @throws Exception
 	 */
 	public IWorkflowActionAddOrEdit_Page editWorkflowAction(String stepName, String actionName) throws Exception;
+	
+	/**
+	 * Validated if the step action exist
+	 * @param stepName   Name of the step
+	 * @param actionName Name of the action
+	 * @return true if exist, false if not
+	 * @throws Exception
+	 */
+	public boolean doesWorkflowStepActionExist(String stepName, String actionName) throws Exception;
 }

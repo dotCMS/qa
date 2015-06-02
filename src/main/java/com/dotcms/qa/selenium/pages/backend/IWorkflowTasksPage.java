@@ -21,5 +21,14 @@ public interface IWorkflowTasksPage extends IBasePage{
 	 * @throws Exception
 	 */
 	public String getWorflowTaskCurrentStep(String title, String workflowScheme) throws Exception;
+	
+	/**
+	 * Get the the specified workflow task
+	 * @param title   Title of the content
+	 * @param workflowScheme Scheme
+	 * @return IWorkflowTaskEdit_Page
+	 * @throws Exception
+	 */
+	public IWorkflowTaskEdit_Page getWorflowTask(String title, String workflowScheme) throws Exception;
 
 }

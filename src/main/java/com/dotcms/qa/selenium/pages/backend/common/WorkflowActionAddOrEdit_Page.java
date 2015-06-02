@@ -304,6 +304,7 @@ public class WorkflowActionAddOrEdit_Page extends BasePage implements IWorkflowA
 		for(WebElement button : buttons){
 			if(button.getText().trim().equals(getLocalizedString("delete"))){
 				button.click();
+				switchToAlert().accept();
 				break;
 			}
 		}

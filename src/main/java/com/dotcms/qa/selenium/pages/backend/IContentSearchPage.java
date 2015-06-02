@@ -168,4 +168,12 @@ public interface IContentSearchPage extends IBasePage {
 	 * @param language Language
 	 */
 	public void changeLanguage(String language) throws Exception;
+	
+	/**
+	 * Select a right click contentlet workflow action
+	 * @param contentName  Contentlet name
+	 * @param structure Structure name
+	 * @param action Workflow action name
+	 */
+	public void selectWorkflowAction(String contentName,String structure, String action) throws Exception;
 }

@@ -181,4 +181,24 @@ public class WorkFlowStepsAddOrEdit_Page extends BasePage implements IWorkFlowSt
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IWorkflowActionAddOrEdit_Page.class);
 	}
 	
+	/**
+	 * Validated if the step action exist
+	 * @param stepName   Name of the step
+	 * @param actionName Name of the action
+	 * @return true if exist, false if not
+	 * @throws Exception
+	 */
+	public boolean doesWorkflowStepActionExist(String stepName, String actionName) throws Exception{
+		boolean exist=false;
+		WebElement step = findStep(stepName);
+		List<WebElement> actions = step.findElements(By.cssSelector("td[class='showPointer']"));
+		for(WebElement action : actions){
+			if(action.getText().contains(actionName)){
+				exist=true;
+				break;
+			}
+		}
+		return exist;
+	}
+	
 }
