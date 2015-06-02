@@ -4283,6 +4283,7 @@ public class PushPublishTest {
 
 		//connect to authoring server as limited user
 		portletMenu = callAuthoringServer(limitedUserEmailA, limitedUserPaswwordA);
+		portletMenu.sleep(2);
 		IWorkflowTasksPage taskPage = portletMenu.getWorkflowTasksPage();
 		IWorkflowTaskEdit_Page editTask = taskPage.getWorflowTask(test663contentTitle17, test663workflowSchemeName5);
 		editTask.selectAction(test663workflowActionName3);
@@ -4307,7 +4308,7 @@ public class PushPublishTest {
 
 		//connect as admin
 		portletMenu = callAuthoringServer();
-
+		portletMenu.sleep(2);
 		//delete workflow action, content and folder
 		schemesPage = portletMenu.getWorkflowSchemesPage();
 		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
@@ -4330,10 +4331,11 @@ public class PushPublishTest {
 
 		//call receiver Server
 		portletMenu = callReceiverServer();
+		portletMenu.sleep(2);
 		schemesPage = portletMenu.getWorkflowSchemesPage();
 		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
 		Assert.assertTrue(schemeStepsPage.doesWorkflowStepActionExist(test663workflowSchemeStep1, test663workflowActionName1), "ERROR - in receiver server: Workflow ("+test663workflowSchemeName5+") on the step ("+test663workflowSchemeStep1+") this action ("+test663workflowActionName1+") should exist in receiver server");
-
+		schemeStepsPage.sleep(2);
 		siteBrowserPage = portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(siteBrowserPage.doesFolderExist(test663folderName3),"ERROR - Folder ("+test663folderName3+") should  exist in receiver server");
 		
