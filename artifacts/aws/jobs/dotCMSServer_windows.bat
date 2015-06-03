@@ -21,9 +21,11 @@ set QA_StarterFullFilePath=%QA_TomcatFolder%\webapps\ROOT\starter.zip
 set QA_Milestone=%DOTCMS_VERSION%
 set QA_RunLabel=%QA_Milestone%_dotCMSServer_%BUILD_NUMBER%_%QA_DB%_%QA_TestStartTime%
 set QA_TestArtifactFilename=%QA_RunLabel%_Artifacts.tar.gz
-set QA_DBInstance=%DOTCMS_VERSION%-%USER%-%BUILD_NUMBER%
+set QA_DBInstance=%DOTCMS_VERSION%-%USERNAME%-%BUILD_NUMBER%
 
-echo "QA_DBInstance=%QA_DBInstance%"
+echo "***************************"
+set
+echo "***************************"
 
 echo "Sending IP Address to %QA_SERVER_IP_URL%"
 ipconfig | \cygwin64\bin\grep.exe -E -i "IPv4" | \cygwin64\bin\grep.exe -E -o "[0-9][0-9.]+" > ip.txt
@@ -48,6 +50,8 @@ pushd %WORKSPACE%\dotcms
 unzip %WORKSPACE%\downloads\dotcms.zip > NUL
 
 echo 'Pulling down and replacing starter'
+echo 'QA_StarterURL=%QA_StarterURL%'
+echo 'QA_StarterFullFilePath=%QA_StarterFullFilePath%'
 aws s3 cp %QA_StarterURL% %QA_StarterFullFilePath%
 
 echo 'Setting index pages to legacy setting'
@@ -55,35 +59,40 @@ sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' %QA_TomcatFolder
 
 echo 'Creating and configuring DB'
 pushd %WORKSPACE%\qa
-set startRDS="false"
-if "%QA_DB%" == "Oracle" set startRDS="true"
-if "%QA_DB%" == "MSSQL" set startRDS="true"
-if "%startRDS%" == "true" 
-(
+set startRDS=false
+if "%QA_DB%" == "Oracle" set startRDS=true
+if "%QA_DB%" == "MSSQL" set startRDS=true
+if "%startRDS%" == "true" (
 	ant -DDBInstanceID=%QA_DBInstance% start-aws-db-server
 	sleep 60
-	dbstatus=`aws rds describe-db-instances --db-instance-identifier %QA_DBInstance% | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'`
+	dbstatus=``
+
+	For /F "Tokens=*" %%I in ("aws rds describe-db-instances --db-instance-identifier %QA_DBInstance% | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'") Do Set dbstatus=%%I
+	
 	echo "dbstatus=%dbstatus%"
 	while [ %dbstatus% != "available" ]
 	do
 		echo "waiting for DB Server to become available..."
 		sleep 30
-		dbstatus=`aws rds describe-db-instances --db-instance-identifier %QA_DBInstance% | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'`
+		For /F "Tokens=*" %%I in ("aws rds describe-db-instances --db-instance-identifier %QA_DBInstance% | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'") Do Set dbstatus=%%I
 	done
 	echo "dbstatus=%dbstatus%"
-	dbserver=`aws rds describe-db-instances --db-instance-identifier %QA_DBInstance% | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["Endpoint"]["Address"]'`
-	export dbserver
+	dbserver=""
+	For /F "Tokens=*" %%I in ("aws rds describe-db-instances --db-instance-identifier %QA_DBInstance% | python -c 'import sys, json; print json.load(sys.stdin)[\"DBInstances\"][0][\"Endpoint\"][\"Address\"]'") Do Set dbserver=%%I
 	echo "dbserver=%dbserver%"
 )
-ant create-db
-ant create-context-xml
+call ant create-db
+call ant create-context-xml
 popd
+
+sed -i 's/-Xmx1536M/-Xmx1536M/g' bin\startup.bat
+rem sed -i 's/start/run/g' bin\startup.bat
 
 echo 'Starting dotCMS'
 echo "Starting dotCMS" > status.txt
 aws s3 cp .\status.txt %QA_SERVER_STATUS_URL%
 
-bin\startup.bat
+call bin\startup.bat
 sleep 30
 logcount=`grep -c "org.apache.catalina.startup.Catalina.start Server startup in" %QA_TomcatLogFile%`
 echo "logcount=%logcount%"
