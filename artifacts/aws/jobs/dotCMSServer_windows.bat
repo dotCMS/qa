@@ -138,15 +138,15 @@ echo "Shutting down dotCMS" > status.txt
 aws s3 cp .\status.txt %QA_SERVER_STATUS_URL%
 
 echo 'Shutting down dotCMS'
-%WORKSPACE%\dotcms\bin\shutdown.bat
+call %WORKSPACE%\dotcms\bin\shutdown.bat
 popd
 
 
 pushd %WORKSPACE%\qa
-ant drop-db
+call ant drop-db
 if "%startRDS%" == "true" (
 	echo 'Shutting down RDS instance'
-	ant -DDBInstanceID=%QA_DBInstance% shutdown-aws-db-server
+	call ant -DDBInstanceID=%QA_DBInstance% shutdown-aws-db-server
 )
 popd 
 

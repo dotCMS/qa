@@ -84,10 +84,17 @@
                 </replace>
             </then>
             <else>
-                <echo message="ERROR: QA_DB environment variable not set to known value - not creating context.xml file." />
+                <if>
+                    <equals arg1="${env.QA_DB}" arg2="H2"/>
+                    <then>
+                        <echo message="INFO: QA_DB environment variable is set to H2 - not creating context.xml file." />
+                    </then>
+                    <else>
+                        <echo message="ERROR: QA_DB environment variable not set to known value - not creating context.xml file." />
+                    </else>
+                </if>
             </else>
         </if>
-
     </target>
 
 
@@ -211,6 +218,15 @@
                     </sql>
                 </then>
             </elseif>
+            <elseif>
+                <equals arg1="${env.QA_DB}" arg2="H2"/>
+                <then>
+                    <echo message="INFO: QA_DB environment variable set to H2 - not creating DB." />
+                </then>
+            </elseif>
+            <else>
+                <echo message="ERROR: QA_DB environment variable not set to known value - not creating DB." />
+            </else>
         </if>
     </target>
 
@@ -258,6 +274,15 @@
                     </sql>
                 </then>
             </elseif>
+            <elseif>
+                <equals arg1="${env.QA_DB}" arg2="H2"/>
+                <then>
+                    <echo message="INFO: QA_DB environment variable set to H2 - not dropping DB." />
+                </then>
+            </elseif>
+            <else>
+                <echo message="ERROR: QA_DB environment variable not set to known value - not dropping DB." />
+            </else>
         </if>
     </target>
 </project>
