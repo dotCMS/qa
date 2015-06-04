@@ -132,7 +132,7 @@ if %logcount2% LSS 1 (
 	if %logcount2% LSS 1 goto loop2
 )
 echo "logcount2=%logcount2%"
-date
+\cygwin64\bin\date.exe
 
 echo "Shutting down dotCMS" > status.txt
 aws s3 cp .\status.txt %QA_SERVER_STATUS_URL%
