@@ -1,6 +1,6 @@
 @echo off
 
-REM - assumes cygwin is installed and executables are on the path
+REM - assumes cygwin is installed and executables are on the path first
 echo 'Working dir:'
 cd
 
@@ -13,9 +13,8 @@ For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y%%m%%d_%%H%%M%%S') Do Set 
 
 set QA_StarterURL=s3://qa.dotcms.com/starters/3.2_qastarter_v.0.4b.zip
 set QA_TomcatFolder=%WORKSPACE%\dotcms\dotserver\tomcat-8.0.18
-set QA_TomcatLogFile=%QA_TomcatFolder%\logs\catalina.out
-set QA_AccessLogFile=%QA_TomcatFolder%\logs\dotcms_access..$(date +%Y-%m-%d).log
-For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y-%%m-%%d') Do Set QA_AccessLogFile=%QA_TomcatFolder%\logs\dotcms_access..%%I
+For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y-%%m-%%d') Do Set QA_TomcatLogFile=%QA_TomcatFolder%\logs\catalina.%%I.log
+For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y-%%m-%%d') Do Set QA_AccessLogFile=%QA_TomcatFolder%\logs\dotcms_access..%%I.log
 set QA_StarterFullFilePath=%QA_TomcatFolder%\webapps\ROOT\starter.zip
 
 set QA_Milestone=%DOTCMS_VERSION%
@@ -85,7 +84,7 @@ call ant create-db
 call ant create-context-xml
 popd
 
-sed -i 's/-Xmx1536M/-Xmx1536M/g' bin\startup.bat
+sed -i 's/-Xmx1G/-Xmx1536M/g' bin\startup.bat
 rem sed -i 's/start/run/g' bin\startup.bat
 
 echo 'Starting dotCMS'
@@ -94,13 +93,14 @@ aws s3 cp .\status.txt %QA_SERVER_STATUS_URL%
 
 call bin\startup.bat
 sleep 30
-logcount=`grep -c "org.apache.catalina.startup.Catalina.start Server startup in" %QA_TomcatLogFile%`
+For /F "Tokens=*" %%I in ('grep -c "org.apache.catalina.startup.Catalina.start Server startup in" %QA_TomcatLogFile%') Do Set logcount=%%I
+
 echo "logcount=%logcount%"
 :loop1
 if %logcount% LSS 1 (
 	echo "sleeping..."
 	sleep 10
-	logcount=`grep -c "org.apache.catalina.startup.Catalina.start Server startup in" %QA_TomcatLogFile%`
+	For /F "Tokens=*" %%I in ('grep -c "org.apache.catalina.startup.Catalina.start Server startup in" %QA_TomcatLogFile%') Do Set logcount=%%I
 	if %logcount% LSS 1 goto loop1
 )
 echo "logcount=%logcount%"
@@ -108,7 +108,8 @@ echo "logcount=%logcount%"
 
 echo 'Building and deploying qa_automation plugin'
 cd %WORKSPACE%\qa\plugins\com.dotcms.rest.qa_automation
-.\gradlew jar
+rem SET JAVA_OPTS=-Xmx1024M
+call .\gradlew.bat jar
 cp .\build\libs\com.dotcms.rest.qa_automation-0.1.jar %QA_TomcatFolder%\webapps\ROOT\WEB-INF\felix\load\.
 
 echo 'Getting trial license'
@@ -118,15 +119,16 @@ curl http://localhost:8080/trial.jsp
 echo "Running" > status.txt
 aws s3 cp .\status.txt %QA_SERVER_STATUS_URL%
 
-date /T
+\cygwin64\bin\date.exe
 REM polling looking for request to shutdown dotCMS server - until then keep the server running
-logcount2=`grep -c "shutdown.jsp" %QA_AccessLogFile%`
+For /F "Tokens=*" %%I in ('grep -c "shutdown.jsp" %QA_AccessLogFile%') Do Set logcount2=%%I
+
 echo "logcount2=%logcount2%"
 :loop2
 if %logcount2% LSS 1 (
 	echo "running..."
 	sleep 60
-	logcount2=`grep -c "shutdown.jsp" %QA_AccessLogFile%`
+	For /F "Tokens=*" %%I in ('grep -c "shutdown.jsp" %QA_AccessLogFile%') Do Set logcount2=%%I
 	if %logcount2% LSS 1 goto loop2
 )
 echo "logcount2=%logcount2%"
