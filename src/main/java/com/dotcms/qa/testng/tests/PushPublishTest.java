@@ -1,5 +1,13 @@
 package com.dotcms.qa.testng.tests;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -339,6 +347,14 @@ public class PushPublishTest {
 	private String test663contentStructureName17Field2="binary1FileUpload";
 	private String test663contentTextArea17="/src/main/resources/test663.jpg";
 	private String test663fileName17="test663.jpg";
+	//test 514
+	private String test514contentStructureName18="File Asset";
+	private String test514contentStructureName18Field1="title";
+	private String test514contentTitle18="test-514";
+	private String test514contentStructureName18Field2="binary1FileUpload";
+	private String test514contentTextArea17="/src/main/resources/test514.mov";
+	private String test514fileName18="test514.mov";
+	private String test514folderName4="test514";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -523,6 +539,12 @@ public class PushPublishTest {
 	 * @throws Exception
 	 */
 	private void deletePreviousTest() throws Exception{
+		try{
+			logoutAuthoringServer();
+		}catch(Exception e){}
+		try{
+			logoutReceiverServer();
+		}catch(Exception e){}
 		//Authoring Server
 		try{
 			/*Containers Test*/
@@ -582,6 +604,10 @@ public class PushPublishTest {
 
 			if(browserPage.doesFolderExist(test663folderName3)){
 				browserPage.deleteFolder(test663folderName3);
+			}
+
+			if(browserPage.doesFolderExist(test514folderName4)){
+				browserPage.deleteFolder(test514folderName4);
 			}
 
 			/* Delete template*/
@@ -730,6 +756,12 @@ public class PushPublishTest {
 				contentSearchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
 				contentSearchPage.archive(test48320contentTitle14, test48320contentStructureName14);
 				contentSearchPage.delete(test48320contentTitle14, test48320contentStructureName14);
+			}
+
+			if(contentSearchPage.doesContentExist(test514contentTitle18, test514contentStructureName18)){
+				contentSearchPage.unpublish(test514contentTitle18, test514contentStructureName18);
+				contentSearchPage.archive(test514contentTitle18, test514contentStructureName18);
+				contentSearchPage.delete(test514contentTitle18, test514contentStructureName18);
 			}
 
 			if(contentSearchPage.doesContentExist(test663fileName17, test663contentStructureName17)){
@@ -879,6 +911,10 @@ public class PushPublishTest {
 				browserPage.deleteFolder(test663folderName3);
 			}
 
+			if(browserPage.doesFolderExist(test514folderName4)){
+				browserPage.deleteFolder(test514folderName4);
+			}
+
 			/* Delete template*/
 			ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 			if(templatesPage.doesTemplateExist(test555templateTitle1)){
@@ -1026,6 +1062,12 @@ public class PushPublishTest {
 				contentSearchPage.unpublish(test48320contentTitle14, test48320contentStructureName14);
 				contentSearchPage.archive(test48320contentTitle14, test48320contentStructureName14);
 				contentSearchPage.delete(test48320contentTitle14, test48320contentStructureName14);
+			}
+
+			if(contentSearchPage.doesContentExist(test514contentTitle18, test514contentStructureName18)){
+				contentSearchPage.unpublish(test514contentTitle18, test514contentStructureName18);
+				contentSearchPage.archive(test514contentTitle18, test514contentStructureName18);
+				contentSearchPage.delete(test514contentTitle18, test514contentStructureName18);
 			}
 
 			if(contentSearchPage.doesContentExist(test663fileName17, test663contentStructureName17)){
@@ -4323,7 +4365,7 @@ public class PushPublishTest {
 		siteBrowserPage = portletMenu.getSiteBrowserPage();
 		siteBrowserPage.deleteFolder(test663folderName3);
 		Assert.assertFalse(siteBrowserPage.doesFolderExist(test663folderName3),"ERROR - Folder ("+test663folderName3+") should not exist in authoring server");
-		
+
 		searchPage = portletMenu.getContentSearchPage();
 		Assert.assertFalse(searchPage.doesContentExist(test663fileName17, test663contentStructureName17),"ERROR - Content ("+test663contentTitle17+") should not exist in authoring server");
 
@@ -4338,7 +4380,7 @@ public class PushPublishTest {
 		schemeStepsPage.sleep(2);
 		siteBrowserPage = portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(siteBrowserPage.doesFolderExist(test663folderName3),"ERROR - Folder ("+test663folderName3+") should  exist in receiver server");
-		
+
 		searchPage = portletMenu.getContentSearchPage();
 		Assert.assertTrue(searchPage.doesContentExist(test663fileName17, test663contentStructureName17),"ERROR - Content ("+test663fileName17+") should  exist in receiver server");
 
@@ -4355,7 +4397,7 @@ public class PushPublishTest {
 		siteBrowserPage = portletMenu.getSiteBrowserPage();
 		siteBrowserPage.deleteFolder(test663folderName3);
 		Assert.assertFalse(siteBrowserPage.doesFolderExist(test663folderName3),"ERROR - Folder ("+test663folderName3+") should not exist in receiver server");
-		
+
 		searchPage = portletMenu.getContentSearchPage();
 		Assert.assertFalse(searchPage.doesContentExist(test663fileName17, test663contentStructureName17),"ERROR - Content ("+test663contentTitle17+") should not exist in authoring server");
 
@@ -4363,5 +4405,162 @@ public class PushPublishTest {
 
 	}
 
+	/**
+	 * Test pushing content with large objects attached... videos and stuff
+	 * http://qa.dotcms.com/index.php?/cases/view/514
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc514_PushContentWithLargeObjectAttached() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
 
+		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
+		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
+		browserPage.createFolder(null, test514folderName4);
+		IContentAddOrEdit_ContentPage contentPage = browserPage.addFileInFolder(test514folderName4, test514contentStructureName18);
+
+		List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("type", WebKeys.TEXT_FIELD);
+		map.put(test514contentStructureName18Field1, test514contentTitle18);
+		fields.add(map);
+		map = new HashMap<String,Object>();
+		map.put("type", WebKeys.BINARY_FIELD);
+		map.put(test514contentStructureName18Field2, test514contentTextArea17);
+		fields.add(map) ;
+		contentPage.setFields(fields);
+		contentPage.sleep(2);
+		contentPage.saveAndPublish();
+		contentPage.sleep(2);
+
+		//push content
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.pushContent(test514fileName18,test514contentStructureName18);
+		searchPage.sleep(2);
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test514contentTitle18,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Content ("+test514contentTitle18+") push should not be in pending list.");
+
+		logoutAuthoringServer();
+
+		//Calling receiver Server
+		portletMenu = callReceiverServer();
+		searchPage = portletMenu.getContentSearchPage();
+		Assert.assertTrue(searchPage.doesContentExist(test514fileName18,test514contentStructureName18),"ERROR - Receiver server: Content ("+test514fileName18+") should exist in receiver server");
+
+		//comparing checksum from both file
+		File authoringFile = null;
+		File receiverFile = null;
+		try{
+			URL authoringfileURL = new URL(serversProtocol,authoringServer,Integer.parseInt(authoringServerPort),"/"+test514folderName4+"/"+test514fileName18); 
+			authoringFile = getFileFromURL(authoringfileURL,"file1.mov");
+
+			URL receiverfileURL = new URL(serversProtocol,receiverServer,Integer.parseInt(receiverServerPort),"/"+test514folderName4+"/"+test514fileName18); 
+			receiverFile = getFileFromURL(receiverfileURL,"file2.mov");
+
+			Assert.assertTrue(compareFilesChecksum(authoringFile,receiverFile),"ERROR - File Asset ("+test514fileName18+") checksum are not equals.");
+		}finally{
+			try{
+				authoringFile.delete();
+			}catch(Exception e){}
+			try{
+				receiverFile.delete();
+			}catch(Exception e){}
+		}
+
+		//delete structure and language
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.unpublish(test514fileName18,test514contentStructureName18);
+		searchPage.archive(test514fileName18,test514contentStructureName18);
+		searchPage.delete(test514fileName18,test514contentStructureName18);
+		Assert.assertFalse(searchPage.doesContentExist(test514fileName18,test514contentStructureName18),"ERROR - Receiver server: Content ("+test514fileName18+") should not exist in receiver server");
+
+		browserPage = portletMenu.getSiteBrowserPage();
+		browserPage.deleteFolder(test514folderName4);
+		Assert.assertFalse(browserPage.doesFolderExist(test514folderName4),"ERROR - Receiver server: Folder ("+test514folderName4+") should not exist in receiver server");
+
+		logoutReceiverServer();
+
+		//connect to authoring server
+		portletMenu=callAuthoringServer();
+		portletMenu.sleep(2);
+		//delete structure and language
+		searchPage = portletMenu.getContentSearchPage();
+		searchPage.unpublish(test514fileName18,test514contentStructureName18);
+		searchPage.archive(test514fileName18,test514contentStructureName18);
+		searchPage.delete(test514fileName18,test514contentStructureName18);
+		Assert.assertFalse(searchPage.doesContentExist(test514fileName18,test514contentStructureName18),"ERROR - Authoring server: Content ("+test514fileName18+") should not exist in authoring server");
+
+		browserPage = portletMenu.getSiteBrowserPage();
+		browserPage.deleteFolder(test514folderName4);
+		Assert.assertFalse(browserPage.doesFolderExist(test514folderName4),"ERROR - Authoring server: Folder ("+test514folderName4+") should not exist in authoring server");
+
+		logoutAuthoringServer();	
+	}
+
+	/**
+	 * Get file from url
+	 * @param fileURL  File URL
+	 * @param fileName file name for downloaded copy
+	 * @return File
+	 * @throws Exception
+	 */
+	private File getFileFromURL(URL fileURL, String fileName) throws Exception{
+		URLConnection connection = fileURL.openConnection();
+		InputStream in = connection.getInputStream();
+		File newFile = new File(fileName);
+		FileOutputStream fos = new FileOutputStream(newFile);
+		byte[] buf = new byte[512];
+		while (true) {
+			int len = in.read(buf);
+			if (len == -1) {
+				break;
+			}
+			fos.write(buf, 0, len);
+		}
+		in.close();
+		fos.flush();
+		fos.close();
+
+		return newFile;
+	}
+
+	/**
+	 * Compare if two file are the same by MD5Hash checksum
+	 * @param file1 File 
+	 * @param file2 File 
+	 * @return true if the md5 checksum is the same, false if not
+	 * @throws Exception
+	 */
+	private boolean compareFilesChecksum(File file1, File file2) throws Exception{
+		MessageDigest md_1 = MessageDigest.getInstance("MD5");
+		MessageDigest md_2 = MessageDigest.getInstance("MD5");
+		InputStream is_1 = new FileInputStream(file1);
+		InputStream is_2 = new FileInputStream(file2);
+		try {
+			is_1 = new DigestInputStream(is_1, md_1);
+			is_2 = new DigestInputStream(is_2, md_2);
+		}
+		finally {
+			is_1.close();
+			is_2.close();
+		}
+		byte[] digest_1 = md_1.digest();
+		//convert byte to hex format
+		String hashFile1 = "";
+		for (int i = 0; i < digest_1.length; i++) {
+			hashFile1+= Integer.toString((digest_1[i] & 0xff) + 0x100, 16).substring(1);
+		}
+
+		byte[] digest_2 = md_2.digest();
+		//convert byte to hex format
+		String hashFile2 = "";
+		for (int i = 0; i < digest_2.length; i++) {
+			hashFile2+= Integer.toString((digest_2[i] & 0xff) + 0x100, 16).substring(1);
+		}
+		return hashFile1.equals(hashFile2);
+	}
 }

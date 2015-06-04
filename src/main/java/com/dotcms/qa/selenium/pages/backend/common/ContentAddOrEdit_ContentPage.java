@@ -219,24 +219,47 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 						}else{
 							getWebElement(By.cssSelector("input[type='file'][name='"+key+"']")).sendKeys(file.getAbsolutePath());
 						}	
-						//waiting image to be loaded
-						Evaluator eval = new Evaluator() {
-							public boolean evaluate() throws Exception {  
-								//validate if the thumbnail image is loaded
-								boolean found=false;
-								try{
-									WebElement thumbnail = getWebElement(By.id("thumbnailParentfileAsset"));
-									if(thumbnail != null){
-										found=true;
-									}
-								}catch(Exception e){
-									//element is not loaded
-								}
-								return  found;
-							}
-						};
-						pollForValue(eval, true, 5000,60);
 
+						Evaluator eval = null;
+						//validate if is an image
+						if(file.getName().toLowerCase().endsWith(".jpg") || file.getName().toLowerCase().endsWith(".png") || file.getName().toLowerCase().endsWith(".gif")){
+							//waiting image to be loaded
+							eval = new Evaluator() {
+								public boolean evaluate() throws Exception {  
+									//validate if the thumbnail image is loaded
+									boolean found=false;
+									try{
+										WebElement thumbnail = getWebElement(By.id("thumbnailParentfileAsset"));
+										if(thumbnail != null){
+											found=true;
+										}
+									}catch(Exception e){
+										//element is not loaded
+									}
+									return  found;
+								}
+							};
+
+						}else{
+							//waiting file to be loaded
+							eval = new Evaluator() {
+								public boolean evaluate() throws Exception {  
+									//validate if file is loaded
+									boolean found=false;
+									try{
+										WebElement file = getWebElement(By.name("binary1FileName"));
+										if(file.getAttribute("innerHTML").trim() != null && file.getAttribute("innerHTML").trim() != ""){
+											found=true;
+										}
+									}catch(Exception e){
+										//element is not loaded
+									}
+									return  found;
+								}
+							};
+							
+						}
+						pollForValue(eval, true, 5000,60);
 					}
 
 				}else {
