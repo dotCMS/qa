@@ -150,20 +150,6 @@ if "%startRDS%" == "true" (
 )
 popd 
 
-
-echo 'Grabbing and packaging logs'
-sleep 10
-mkdir %WORKSPACE%\temp_log
-pushd %WORKSPACE%\temp_log
-mkdir %WORKSPACE%\temp_log\dotcms
-cp -a %QA_TomcatFolder%\logs\ .\dotcms
-tar -cvzf ..\%QA_TestArtifactFilename% .
-popd
-rm -rf %WORKSPACE%\temp_log\
-
-echo 'Storing logs into s3'
-aws s3 cp %WORKSPACE%\%QA_TestArtifactFilename% s3://qa.dotcms.com\testartifacts\%QA_TestArtifactFilename%
- 
 echo 'Cleaning up - preparing for another possible run'
 rm -rf %WORKSPACE%\downloads
 aws s3 rm %QA_SERVER_IP_URL%
