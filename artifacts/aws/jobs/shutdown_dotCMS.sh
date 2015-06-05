@@ -3,7 +3,7 @@
 echo "DOTCMS_SERVER_IP = ${DOTCMS_SERVER_IP}"
 echo "QA_SERVER_IP_URL = ${QA_SERVER_IP_URL}"
 
-if [ -z "${DOTCMS_SERVER_IP}" &&  -n "%{QA_SERVER_IP_URL}" ]
+if [ -z "${DOTCMS_SERVER_IP}" &&  -n "${QA_SERVER_IP_URL}" ]
 then
 	echo "Looking up DOTCMS_SERVER_IP from QA_SERVER_IP_URL"
 	aws s3 cp ${QA_SERVER_IP_URL} ./ip.txt
