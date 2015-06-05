@@ -20,7 +20,7 @@ set QA_StarterFullFilePath=%QA_TomcatFolder%\webapps\ROOT\starter.zip
 set QA_Milestone=%DOTCMS_VERSION%
 set QA_RunLabel=%QA_Milestone%_dotCMSServer_%BUILD_NUMBER%_%QA_DB%_%QA_TestStartTime%
 set QA_TestArtifactFilename=%QA_RunLabel%_Artifacts.tar.gz
-set QA_DBInstance=%DOTCMS_VERSION%-%USERNAME%-%BUILD_NUMBER%
+set QA_DBInstance=%DOTCMS_VERSION%-WIN-%BUILD_NUMBER%
 
 echo "***************************"
 set
