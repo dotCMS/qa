@@ -60,7 +60,7 @@ echo 'Creating and configuring DB'
 pushd %WORKSPACE%\qa
 set startRDS=false
 if "%QA_DB%" == "Oracle" set startRDS=true
-if "%QA_DB%" == "MSSQL" set startRDS=true
+if "%QA_DB%" == "MSSQL_RDS" set startRDS=true
 if "%startRDS%" == "true" (
 	ant -DDBInstanceID=%QA_DBInstance% start-aws-db-server
 	sleep 60
