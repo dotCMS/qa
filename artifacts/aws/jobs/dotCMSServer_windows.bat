@@ -21,8 +21,10 @@ set QA_Milestone=%DOTCMS_VERSION%
 set QA_RunLabel=%QA_Milestone%_dotCMSServer_%BUILD_NUMBER%_%QA_DB%_%QA_TestStartTime%
 set QA_TestArtifactFilename=%QA_RunLabel%_Artifacts.tar.gz
 
-For /F "Tokens=*" %%I in ("echo %DOTCMS_VERSION% | sed 's/./-/g'") Do Set tempversion=%%I
-set QA_DBInstance=%tempversion%-WIN-%BUILD_NUMBER%
+For /F "Tokens=*" %%I in ('echo %DOTCMS_VERSION%^| sed ^'s/\./-/g^'') Do Set tempversion=%%I
+
+set QA_DBInstance=DB-%tempversion%-WIN-%BUILD_NUMBER%
+echo "QA_DBInstance=%QA_DBInstance%"
 
 echo "***************************"
 set
@@ -64,22 +66,23 @@ set startRDS=false
 if "%QA_DB%" == "Oracle" set startRDS=true
 if "%QA_DB%" == "MSSQL_RDS" set startRDS=true
 if "%startRDS%" == "true" (
-	ant -DDBInstanceID=%QA_DBInstance% start-aws-db-server
+	call ant -DDBInstanceID=%QA_DBInstance% start-aws-db-server
 	sleep 60
-	dbstatus=``
 
-	For /F "Tokens=*" %%I in ("aws rds describe-db-instances --db-instance-identifier %QA_DBInstance% | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'") Do Set dbstatus=%%I
+	For /F "Tokens=*" %%I in ('aws rds describe-db-instances --db-instance-identifier %QA_DBInstance%^| python2.7 -c "import sys, json; print json.load(sys.stdin)[""DBInstances""][0][""DBInstanceStatus""]"') Do Set dbstatus=%%I
 	
-	echo "dbstatus=%dbstatus%"
-	while [ %dbstatus% != "available" ]
-	do
+	echo "pre loop dbstatus=%dbstatus%"
+:rdsloop
+	if not "%dbstatus%" == "available" (
+		echo "in loop dbstatus=%dbstatus%"
 		echo "waiting for DB Server to become available..."
 		sleep 30
-		For /F "Tokens=*" %%I in ("aws rds describe-db-instances --db-instance-identifier %QA_DBInstance% | python -c 'import sys, json; print json.load(sys.stdin)["DBInstances"][0]["DBInstanceStatus"]'") Do Set dbstatus=%%I
-	done
+		For /F "Tokens=*" %%I in ('aws rds describe-db-instances --db-instance-identifier %QA_DBInstance%^| python2.7 -c "import sys, json; print json.load(sys.stdin)[""DBInstances""][0][""DBInstanceStatus""]"') Do Set dbstatus=%%I
+		goto rdsloop
+	)
 	echo "dbstatus=%dbstatus%"
-	dbserver=""
-	For /F "Tokens=*" %%I in ("aws rds describe-db-instances --db-instance-identifier %QA_DBInstance% | python -c 'import sys, json; print json.load(sys.stdin)[\"DBInstances\"][0][\"Endpoint\"][\"Address\"]'") Do Set dbserver=%%I
+
+	For /F "Tokens=*" %%I in ('aws rds describe-db-instances --db-instance-identifier %QA_DBInstance%^| python2.7 -c "import sys, json; print json.load(sys.stdin)[""DBInstances""][0][""Endpoint""][""Address""]"') Do Set dbserver=%%I
 	echo "dbserver=%dbserver%"
 )
 call ant create-db
