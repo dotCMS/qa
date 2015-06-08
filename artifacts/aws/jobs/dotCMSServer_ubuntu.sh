@@ -69,7 +69,7 @@ sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolde
 
 echo 'Creating and configuring DB'
 pushd ${WORKSPACE}/qa
-if [ ${QA_DB} = "Oracle" ] || [ ${QA_DB} = "MSSQL" ]
+if [ ${QA_DB} = "MSSQL_RDS" ] || [ ${QA_DB} = "MySQL_RDS" ] || [ ${QA_DB} = "Oracle_RDS" ] || [ ${QA_DB} = "PostgreSQL_RDS" ]
 then
 	ant -DDBInstanceID=${QA_DBInstance} start-aws-db-server
 	sleep 60
