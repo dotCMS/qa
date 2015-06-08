@@ -20,7 +20,7 @@ export QA_RunLabel=${QA_Milestone}_dotCMSServer_${BUILD_NUMBER}_${QA_DB}_${QA_Te
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
 
 #QA_DBInstance=`echo ${BUILD_TAG} | sed 's/_/-/g'`
-tempversion = `echo ${DOTCMS_VERSION} | sed 's/./-/g'`
+tempversion = `echo ${DOTCMS_VERSION} | sed 's/\./-/g'`
 QA_DBInstance=${tempversion}-Linux-${BUILD_NUMBER}
 export QA_DBInstance
 echo "QA_DBInstance=${QA_DBInstance}"
