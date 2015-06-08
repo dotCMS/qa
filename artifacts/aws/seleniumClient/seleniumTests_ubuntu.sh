@@ -103,8 +103,8 @@ echo '********** END OF PART 2 **********'
 export EXIT_CODE=255
 cd ${WORKSPACE}/qa/build/install/qa
 echo "Running testng/selenium tests - pwd = $(pwd)"
-export JAVA_OPTS="-Dtestrail.Milestone=${QA_Milestone} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
-bin/qa  -testjar lib/qa-0.1.jar -xmlpathinjar ${QA_TestSuite} -listener com.dotcms.qa.testng.listeners.TestRunCreator.class,com.dotcms.qa.testng.listeners.TestResultReporter.class -DreportResultsInTestrail=true -d "${WORKSPACE}/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}"
+export JAVA_OPTS="-DreportResultsInTestrail=true -Dtestrail.Milestone=${QA_Milestone} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
+bin/qa  -testjar lib/qa-0.1.jar -xmlpathinjar ${QA_TestSuite} -listener com.dotcms.qa.testng.listeners.TestRunCreator.class,com.dotcms.qa.testng.listeners.TestResultReporter.class -d "${WORKSPACE}/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}"
 EXIT_CODE=$?
 echo "EXIT_CODE=${EXIT_CODE}"
 cd ${WORKSPACE}
