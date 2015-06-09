@@ -250,7 +250,7 @@
     <!-- Drops the test db. Attributes are defined in the build.properties file -->
     <target name="drop-db" depends="set-environment">
         <if>
-            <equals arg1="${db.driver}" arg2="oracle.jdbc.OracleDriver"/>
+            <equals arg1="${env.QA_DB}" arg2="Oracle"/>
             <then>
                 <sql driver="${db.driver}"
                      url="${db.base.url}"
@@ -262,7 +262,7 @@
                 </sql>
             </then>
             <elseif>
-                <equals arg1="${db.driver}" arg2="net.sourceforge.jtds.jdbc.Driver"/>
+                <equals arg1="${env.QA_DB}" arg2="MSSQL"/>
                 <then>
                     <sql driver="${db.driver}"
                          url="${db.admin.url}"
@@ -277,7 +277,7 @@
             <elseif>
                 <or>
                     <equals arg1="${env.QA_DB}" arg2="PostgreSQL"/>
-                    <equals arg1="${db.driver}" arg2="com.mysql.jdbc.Driver"/>
+                    <equals arg1="${env.QA_DB}" arg2="MySQL"/>
                 </or>
                 <then>
                     <sql driver="${db.driver}"
