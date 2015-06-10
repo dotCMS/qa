@@ -18,7 +18,7 @@ For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y-%%m-%%d') Do Set QA_Acces
 set QA_StarterFullFilePath=%QA_TomcatFolder%\webapps\ROOT\starter.zip
 
 set QA_Milestone=%DOTCMS_VERSION%
-set QA_RunLabel=%QA_Milestone%_dotCMSServer_%BUILD_NUMBER%_%QA_DB%_%QA_TestStartTime%
+set QA_RunLabel=%QA_Milestone%_dotCMSServer_%QA_OS%_%BUILD_NUMBER%_%QA_DB%_%QA_TestStartTime%
 set QA_TestArtifactFilename=%QA_RunLabel%_Artifacts.tar.gz
 
 For /F "Tokens=*" %%I in ('echo %DOTCMS_VERSION%^| sed ^'s/\./-/g^'') Do Set tempversion=%%I
