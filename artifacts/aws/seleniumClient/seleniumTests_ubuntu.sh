@@ -14,6 +14,11 @@ export QA_Milestone=${DOTCMS_VERSION}
 export QA_RunLabel=${QA_Milestone}_FirefoxTest_${BUILD_NUMBER}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
 
+if [ -z "$QA_TestSuite" ]
+then
+    export QA_TestSuite="testng.xml"
+fi
+
 echo 'Exporting display to use Xvfb service'
 export DISPLAY=:99
 
