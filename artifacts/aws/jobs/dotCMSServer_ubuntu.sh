@@ -143,7 +143,7 @@ popd
 
 pushd ${WORKSPACE}/qa
 ant drop-db
-if [ ${QA_DB} = "Oracle" ] || [ ${QA_DB} = "MSSQL" ]
+if [ ${QA_DB} = "MSSQL_RDS" ] || [ ${QA_DB} = "MySQL_RDS" ] || [ ${QA_DB} = "Oracle_RDS" ] || [ ${QA_DB} = "PostgreSQL_RDS" ]
 then
 	echo 'Shutting down RDS instance'
 	ant -DDBInstanceID=${QA_DBInstance} shutdown-aws-db-server
