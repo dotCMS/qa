@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
   
-<suite name="Full Regression Suite" verbose="1" >
-  <test name="Single Server Regression">
+<suite name="Auto Single Server Regression Suite" verbose="1" >
+  <test name="Auto Single Server Regression">
     <groups>
       <run>
         <exclude name="Broken"/>
