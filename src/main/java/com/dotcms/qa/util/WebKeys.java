@@ -28,6 +28,7 @@ public class WebKeys {
 	public static final String SELECT_FIELD = "select_field";
 	public static final String HOST_FIELD = "host_field";
 	public static final String BINARY_FIELD = "binary_field";
+	public static final String CATEGORY_FIELD="category_field";
 	
 	//push Publishing
 	public static final String PUSH_TO_REMOVE="expire";

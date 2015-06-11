@@ -257,11 +257,37 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 									return  found;
 								}
 							};
-							
+
 						}
 						pollForValue(eval, true, 5000,60);
 					}
 
+				}else if(type.equals(WebKeys.CATEGORY_FIELD)){
+					for(String key : content.keySet()){
+						WebElement elem = getWebElement(By.id(key+"_field"));
+						elem.findElement(By.cssSelector("a[id*='link']")).click();
+						String categoriesString = (String)content.get(key);
+						String[] categories = categoriesString.split(",");
+						for(String cat : categories){
+							if(cat.startsWith("[")){
+								String parents = cat.substring(1,cat.indexOf("]"));
+								if(parents.indexOf(">") != -1){
+									for(String p1 : parents.split(">")){
+										getCategoryChildren(p1);
+										sleep(1);
+									}
+								}else{
+									getCategoryChildren(parents);
+									sleep(1);
+								}
+								String finalCat = cat.substring(cat.indexOf("]")+1);
+								addCategory(finalCat);
+							}else{
+								addCategory(cat);
+							}
+						}
+						closeCategoryDiv();
+					}
 				}else {
 					for(String key : content.keySet()){
 						WebElement elem = tab.findElement(By.id(key));
@@ -275,6 +301,71 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 				logger.error("ERROR - Setting field value. Detail: " + e.getMessage());
 			}
 		}
+	}
+
+	/**
+	 * Retur the WebElement row of the specified category
+	 * @param catName Category name
+	 * @return WebElement
+	 * @throws Exception
+	 */
+	private WebElement findCategoryRow(String catName) throws Exception{
+		WebElement catRow=null;
+		WebElement categoriesDiv = getWebElement(By.cssSelector("div[id*='categoriesDialog']"));
+		WebElement filter = categoriesDiv.findElement(By.name("catFilter"));
+		filter.clear();
+		filter.sendKeys(catName);
+		List<WebElement> buttons = categoriesDiv.findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString("search"))){
+				button.click();
+				break;
+			}
+		}
+
+		List<WebElement> rows = categoriesDiv.findElement(By.cssSelector("div[class='dojoxGridMasterView']")).findElements(By.tagName("tr"));
+		for(WebElement ele : rows){
+			List<WebElement> columns = ele.findElements(By.tagName("td"));
+			if(columns.size() > 2){
+				if(columns.get(1).getText().trim().equals(catName)){
+					catRow = ele;
+					break;
+				}
+			}
+		}
+		return catRow;
+	}
+
+	/**
+	 * close the add categories dialog
+	 */
+	private void closeCategoryDiv(){
+		WebElement categoriesDiv = getWebElement(By.cssSelector("div[id*='categoriesDialog']"));
+		categoriesDiv.findElement(By.cssSelector("div[class='dijitDialogTitleBar']")).findElement(By.cssSelector("span[class='dijitDialogCloseIcon']")).click();
+	}
+
+	/**
+	 * Display the category children
+	 * @param parentCat Parent Category Name
+	 * @throws Exception
+	 */
+	private void getCategoryChildren(String parentCat) throws Exception{
+		WebElement row = findCategoryRow(parentCat);
+		List<WebElement> columns = row.findElements(By.tagName("td"));
+		columns.get(1).findElement(By.tagName("a")).click();
+	}
+
+	/**
+	 * Add to the list a category
+	 * @param category
+	 * @throws Exception
+	 */
+	private void addCategory(String category) throws Exception{
+		WebElement row = findCategoryRow(category);
+		List<WebElement> columns = row.findElements(By.tagName("td"));
+		columns.get(0).findElement(By.tagName("a")).click();
+
+		getWebElement(By.cssSelector("div[id*='breadCrumbs']")).findElements(By.tagName("a")).get(0).click();
 	}
 
 	/**
@@ -369,6 +460,7 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	public String getFieldValue(String fieldName) throws Exception{
 		String value=null;
 		try{
+			//If it is a Text field
 			WebElement element = getWebElement(By.id(fieldName));
 			value = element.getText();
 
@@ -377,12 +469,28 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 			}
 		}catch(Exception e){
 			try{
+				//if it is a WYSIWYG
 				this.switchToFrame(fieldName+"_ifr");
 				WebElement elem = getWebElement(By.id("tinymce"));	
 				value = elem.getText();
 				switchToDefaultContent();
-			}catch(Exception e1){
-				value = (String) executeScript("var editor = ace.edit('"+fieldName+"Editor');return editor.getSession().getValue();");
+			}catch(Exception e1){				
+				try{
+					//if it is a category
+					WebElement elem = getWebElement(By.id(fieldName+"_field"));
+					List<WebElement> categories = elem.findElement(By.id("previewCats1")).findElements(By.cssSelector("li[id^='preview']"));
+					if(categories.size() > 0){
+						for(WebElement category : categories){
+							if(value==null){
+								value=category.getText();
+							}else{
+								value+=","+category.getText();
+							}
+						}
+					}
+				}catch(Exception e2){
+					value = (String) executeScript("var editor = ace.edit('"+fieldName+"Editor');return editor.getSession().getValue();");
+				}
 			}
 		}
 		return value;

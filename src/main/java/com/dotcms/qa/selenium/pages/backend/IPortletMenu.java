@@ -93,4 +93,11 @@ public interface IPortletMenu extends IBasePage {
 	 */
 	public ILanguagesPage getLanguagesPage() throws Exception;
 	
+	/**
+	 * Get the categories page
+	 * @return ICategoriesPage
+	 * @throws Exception
+	 */
+	public ICategoriesPage getCategoriesPage() throws Exception;
+	
 }
