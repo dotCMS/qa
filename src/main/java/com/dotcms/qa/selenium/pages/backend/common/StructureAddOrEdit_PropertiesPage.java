@@ -1,6 +1,7 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
 import org.openqa.selenium.support.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -74,4 +75,13 @@ public class StructureAddOrEdit_PropertiesPage extends BasePage implements	IStru
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
 	}
 
+	/**
+	 * Display the fields tab for the current structure
+	 * @return IStructureAddOrEdit_FieldsPage
+	 * @throws Exception
+	 */
+	public IStructureAddOrEdit_FieldsPage getStructureFieldsPage() throws Exception{
+		getWebElement(By.id("mainTabContainer_tablist_TabOne")).click();;
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructureAddOrEdit_FieldsPage.class);
+	}
 }

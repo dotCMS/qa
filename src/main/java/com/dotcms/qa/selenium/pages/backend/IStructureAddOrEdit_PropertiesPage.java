@@ -26,4 +26,11 @@ public interface IStructureAddOrEdit_PropertiesPage extends IBasePage {
 	 */
 	public IStructureAddOrEdit_FieldsPage createNewStructure(String structureName, String type, String structureDescription, String hostName, String workflowName) throws Exception;
 	
+	/**
+	 * Display the fields tab for the current structure
+	 * @return IStructureAddOrEdit_FieldsPage
+	 * @throws Exception
+	 */
+	public IStructureAddOrEdit_FieldsPage getStructureFieldsPage() throws Exception;
+	
 }

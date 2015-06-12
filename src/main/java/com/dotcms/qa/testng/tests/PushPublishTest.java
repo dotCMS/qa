@@ -356,7 +356,7 @@ public class PushPublishTest {
 	private String test514contentTextArea17="/src/main/resources/test514.mov";
 	private String test514fileName18="test514.mov";
 	private String test514folderName4="test514";
-	//test552
+	//test552,553 and 554
 	private String test552contentStructureName19="Test-552";
 	private String test552contentStructureName19Field1="title";
 	private String test552contentTitle19="test-552-A";
@@ -369,6 +369,8 @@ public class PushPublishTest {
 	private String test552categoryName21="test552-21";
 	private String test552categoryName31="test552-31";
 	private String test552categoryName41="test552-41";
+	//test 554
+	private String test554categoryName1="Topic";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -4706,26 +4708,7 @@ public class PushPublishTest {
 		//wait until 5 minutes to check if the content was pushed
 		isPushed = publishingQueuePage.isObjectBundlePushed(test552contentTitle19,5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Contents ("+test552contentTitle19+", "+test552contentTitle192+") push should not be in pending list.");
-		/*
-        //required for test 553 and 554
-		//delete structure and language
-		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(test552contentStructureName19, true);
-		structurePage.sleep(2);
-		Assert.assertFalse(structurePage.doesStructureExist(test552contentStructureName19), "ERROR - Structure ('"+test552contentStructureName19+"') should not exist in authoring server");
 
-		categoriesPage = portletMenu.getCategoriesPage();
-		categoriesPage.showCategoryChildrens(null, test552categoryName1);
-		categoriesPage.showCategoryChildrens(null, test552categoryName21);
-		categoriesPage.showCategoryChildrens(null, test552categoryName31);
-		categoriesPage.deleteCategory(null, test552categoryName41);
-		categoriesPage.returnToParentCategory();
-		categoriesPage.deleteCategory(null, test552categoryName31);
-		categoriesPage.returnToParentCategory();
-		categoriesPage.deleteCategory(null, test552categoryName21);
-		categoriesPage.returnToParentCategory();
-		categoriesPage.deleteCategory(null, test552categoryName1);
-		 */
 		logoutAuthoringServer();
 
 		//calling receiver server
@@ -4760,26 +4743,6 @@ public class PushPublishTest {
 		Assert.assertTrue(categories.equals(test552categoryName21+","+test552categoryName31+","+test552categoryName41), "ERROR - Categories on content ('"+test552contentTitle192+"') doesn't match in receiver server");
 		contentPage.cancel();
 
-		/*
-         //required for test 553 and 554
-		//delete structure and language
-		structurePage = portletMenu.getStructuresPage();
-		structurePage.deleteStructureAndContent(test552contentStructureName19, true);
-		structurePage.sleep(2);
-		Assert.assertFalse(structurePage.doesStructureExist(test552contentStructureName19), "ERROR - Structure ('"+test552contentStructureName19+"') should not exist in authoring server");
-
-		categoriesPage = portletMenu.getCategoriesPage();
-		categoriesPage.showCategoryChildrens(null, test552categoryName1);
-		categoriesPage.showCategoryChildrens(null, test552categoryName21);
-		categoriesPage.showCategoryChildrens(null, test552categoryName31);
-		categoriesPage.deleteCategory(null, test552categoryName41);
-		categoriesPage.returnToParentCategory();
-		categoriesPage.deleteCategory(null, test552categoryName31);
-		categoriesPage.returnToParentCategory();
-		categoriesPage.deleteCategory(null, test552categoryName21);
-		categoriesPage.returnToParentCategory();
-		categoriesPage.deleteCategory(null, test552categoryName1);
-		 */
 		logoutReceiverServer();
 	}
 
@@ -4793,7 +4756,7 @@ public class PushPublishTest {
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
 		portletMenu.sleep(3);
-		//add categories
+		//remove categories
 		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
 		categoriesPage.showCategoryChildrens(null, test552categoryName1);
 		categoriesPage.showCategoryChildrens(null, test552categoryName21);
@@ -4820,6 +4783,7 @@ public class PushPublishTest {
 		//Calling receiver server
 		portletMenu=callReceiverServer();
 
+		//validate content and categories assigned
 		categoriesPage = portletMenu.getCategoriesPage();
 		Assert.assertTrue(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should exist in receiver server");
 		categoriesPage.showCategoryChildrens(null, test552categoryName1);
@@ -4829,7 +4793,6 @@ public class PushPublishTest {
 		categoriesPage.returnToParentCategory();
 		categoriesPage.returnToParentCategory();
 
-		//validate content and categories assigned
 		IContentSearchPage contentSearch = portletMenu.getContentSearchPage();
 		Assert.assertTrue(contentSearch.doesContentExist(test552contentTitle19,test552contentStructureName19), "ERROR - Content ('"+test552contentTitle19+"') should exist in receiver server");
 		Assert.assertTrue(contentSearch.doesContentExist(test552contentTitle192,test552contentStructureName19), "ERROR - Content ('"+test552contentTitle192+"') should exist in receiver server");
@@ -4843,6 +4806,81 @@ public class PushPublishTest {
 		categories = contentPage.getFieldValue(test552contentStructureName19Field2);
 		Assert.assertTrue(categories.equals(test552categoryName21), "ERROR - Categories on content ('"+test552contentTitle192+"') doesn't match in receiver server");
 		contentPage.cancel();
+
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Remove categories that have been assigned to remote content, then Remote Sychronize- check remot
+	 * http://qa.dotcms.com/index.php?/cases/view/554
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc554_RemoveCategoriesAssignedToContentAndRemoteSynchronize() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+
+		IStructuresPage structurePage = portletMenu.getStructuresPage();
+		IStructureAddOrEdit_PropertiesPage editStructurePage = structurePage.getStructurePage(test552contentStructureName19);
+		IStructureAddOrEdit_FieldsPage fieldsPage = editStructurePage.getStructureFieldsPage();
+
+		//Test that the field doesn't exist
+		Assert.assertTrue(fieldsPage.doesFieldExist(test552contentStructureName19Field2),"ERROR - The field ("+test552contentStructureName19Field2+") should exist at this time");
+		fieldsPage.deleteField(test552contentStructureName19Field2);
+		Assert.assertFalse(fieldsPage.doesFieldExist(test552contentStructureName19Field2),"ERROR - The field ("+test552contentStructureName19Field2+") should not exist at this time");
+
+		//pushing structure changes
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.pushStructure(test552contentStructureName19);
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test552contentStructureName19,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Structure ("+test552contentStructureName19+") push should not be in pending list.");
+
+		//remove categories
+		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
+		categoriesPage.sleep(2);
+		categoriesPage.showCategoryChildrens(null, test552categoryName1);
+		categoriesPage.deleteCategory(null, test552categoryName21);
+		categoriesPage.returnToParentCategory();
+		categoriesPage.deleteCategory(null, test552categoryName1);
+		Assert.assertFalse(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should not exist in autoring server");
+
+		//push changes
+		categoriesPage.pushCategory(test554categoryName1);
+		categoriesPage.sleep(2);
+		publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		isPushed = publishingQueuePage.isObjectBundlePushed("category",5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Category ("+test554categoryName1+") push should not be in pending list.");
+
+		//delete structure
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(test552contentStructureName19, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(test552contentStructureName19), "ERROR - Structure ('"+test552contentStructureName19+"') should not exist in authoring server");
+
+		logoutAuthoringServer();
+		//Calling receiver server
+		portletMenu=callReceiverServer();
+
+		//validate in categories and structure 
+		categoriesPage = portletMenu.getCategoriesPage();
+		Assert.assertFalse(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should not exist in autoring server");
+
+		structurePage = portletMenu.getStructuresPage();
+		editStructurePage = structurePage.getStructurePage(test552contentStructureName19);
+		fieldsPage = editStructurePage.getStructureFieldsPage();
+
+		//Test that the field doesn't exist
+		Assert.assertFalse(fieldsPage.doesFieldExist(test552contentStructureName19Field2),"ERROR - The field ("+test552contentStructureName19Field2+") should not exist at this time");
+
+		//delete structure
+		structurePage = portletMenu.getStructuresPage();
+		structurePage.deleteStructureAndContent(test552contentStructureName19, true);
+		structurePage.sleep(2);
+		Assert.assertFalse(structurePage.doesStructureExist(test552contentStructureName19), "ERROR - Structure ('"+test552contentStructureName19+"') should not exist in authoring server");
 
 		logoutReceiverServer();
 	}
