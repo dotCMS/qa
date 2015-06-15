@@ -371,6 +371,12 @@ public class PushPublishTest {
 	private String test552categoryName41="test552-41";
 	//test 554
 	private String test554categoryName1="Topic";
+	//test 499
+	private String test499categoryName1="test499-1";
+	private String test499categoryName21="test499-21";
+	private String test499categoryName31="test499-31";
+	private String test499categoryName41="test499-41";
+	private String test499categoryName51="test49-51";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -756,15 +762,44 @@ public class PushPublishTest {
 			ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
 			if(categoriesPage.doesCategoryExist(test552categoryName1)){
 				categoriesPage.showCategoryChildrens(null, test552categoryName1);
-				categoriesPage.showCategoryChildrens(null, test552categoryName21);
-				categoriesPage.showCategoryChildrens(null, test552categoryName31);
-				categoriesPage.deleteCategory(null, test552categoryName41);
-				categoriesPage.returnToParentCategory();
-				categoriesPage.deleteCategory(null, test552categoryName31);
-				categoriesPage.returnToParentCategory();
-				categoriesPage.deleteCategory(null, test552categoryName21);
+				if(categoriesPage.doesCategoryExist(test552categoryName21)){
+					categoriesPage.showCategoryChildrens(null, test552categoryName21);
+					if(categoriesPage.doesCategoryExist(test552categoryName31)){
+						categoriesPage.showCategoryChildrens(null, test552categoryName31);
+						if(categoriesPage.doesCategoryExist(test552categoryName41)){
+							categoriesPage.deleteCategory(null, test552categoryName41);
+						}
+						categoriesPage.returnToParentCategory();
+						categoriesPage.deleteCategory(null, test552categoryName31);
+					}
+					categoriesPage.returnToParentCategory();
+					categoriesPage.deleteCategory(null, test552categoryName21);
+				}
 				categoriesPage.returnToParentCategory();
 				categoriesPage.deleteCategory(null, test552categoryName1);
+			}
+
+			if(categoriesPage.doesCategoryExist(test499categoryName1)){
+				categoriesPage.showCategoryChildrens(null,test499categoryName1);
+				if(categoriesPage.doesCategoryExist(test499categoryName21)){
+					categoriesPage.showCategoryChildrens(null,test499categoryName21);
+					if(categoriesPage.doesCategoryExist(test499categoryName31)){
+						categoriesPage.deleteCategory(null, test499categoryName31);
+					}
+					if(categoriesPage.doesCategoryExist(test499categoryName51)){
+						categoriesPage.deleteCategory(null, test499categoryName51);
+					}
+					categoriesPage.returnToParentCategory();
+					if(categoriesPage.doesCategoryExist(test499categoryName21)){
+						categoriesPage.deleteCategory(null, test499categoryName21);
+					}
+					if(categoriesPage.doesCategoryExist(test499categoryName41)){
+						categoriesPage.deleteCategory(null, test499categoryName41);
+					}
+				}
+				categoriesPage.returnToParentCategory();
+				categoriesPage.deleteCategory(null, test499categoryName1);
+
 			}
 
 			/* Delete content*/
@@ -1090,6 +1125,18 @@ public class PushPublishTest {
 				categoriesPage.deleteCategory(null, test552categoryName21);
 				categoriesPage.returnToParentCategory();
 				categoriesPage.deleteCategory(null, test552categoryName1);
+			}
+
+			if(categoriesPage.doesCategoryExist(test499categoryName1)){
+				categoriesPage.showCategoryChildrens(null,test499categoryName1);
+				categoriesPage.showCategoryChildrens(null,test499categoryName21);
+				categoriesPage.deleteCategory(null, test499categoryName31);
+				categoriesPage.deleteCategory(null, test499categoryName51);
+				categoriesPage.returnToParentCategory();
+				categoriesPage.deleteCategory(null, test499categoryName21);
+				categoriesPage.deleteCategory(null, test499categoryName41);
+				categoriesPage.returnToParentCategory();
+				categoriesPage.deleteCategory(null, test499categoryName1);
 			}
 
 			/* Delete content*/
@@ -4868,7 +4915,7 @@ public class PushPublishTest {
 		//validate in categories and structure 
 		categoriesPage = portletMenu.getCategoriesPage();
 		Assert.assertFalse(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should not exist in autoring server");
-
+		categoriesPage.sleep(2);
 		structurePage = portletMenu.getStructuresPage();
 		editStructurePage = structurePage.getStructurePage(test552contentStructureName19);
 		fieldsPage = editStructurePage.getStructureFieldsPage();
@@ -4882,6 +4929,130 @@ public class PushPublishTest {
 		structurePage.sleep(2);
 		Assert.assertFalse(structurePage.doesStructureExist(test552contentStructureName19), "ERROR - Structure ('"+test552contentStructureName19+"') should not exist in authoring server");
 
+		logoutReceiverServer();
+	}
+
+	/**
+	 * Test Synchronization of Categories between two configured push publish servers
+	 * http://qa.dotcms.com/index.php?/cases/view/499
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc499_SynchronizeCategories() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+		//add categories
+		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
+		categoriesPage.addCategory(null,test499categoryName1,test499categoryName1,test499categoryName1);
+		categoriesPage.addCategory(test499categoryName1,test499categoryName21,test499categoryName21,test499categoryName21);
+		categoriesPage.addCategory(test499categoryName21,test499categoryName31,test499categoryName31,test499categoryName31);
+		categoriesPage.returnToParentCategory();
+		categoriesPage.returnToParentCategory();
+		categoriesPage.pushCategory(test499categoryName1);
+		categoriesPage.sleep(2);
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		boolean isPushed = publishingQueuePage.isObjectBundlePushed("category",5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Category ("+test499categoryName1+") push should not be in pending list.");
+
+		logoutAuthoringServer();
+
+		//calling receiver server
+		portletMenu=callReceiverServer();
+
+		//validate if the categories exists
+		categoriesPage = portletMenu.getCategoriesPage();
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test499categoryName1), "ERROR - Category ('"+test499categoryName1+"') should exist in receiver server");
+		categoriesPage.showCategoryChildrens(null, test499categoryName1);
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test499categoryName21), "ERROR - Category ('"+test499categoryName21+"') should exist in receiver server");
+		categoriesPage.showCategoryChildrens(null, test499categoryName21);
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test499categoryName31), "ERROR - Category ('"+test499categoryName31+"') should exist in receiver server");
+
+		//delete category
+		categoriesPage.deleteCategory(null, test499categoryName31);
+		Assert.assertFalse(categoriesPage.doesCategoryExist(test499categoryName31), "ERROR - Category ('"+test499categoryName31+"') should exist in receiver server");
+		categoriesPage.returnToParentCategory();
+		categoriesPage.deleteCategory(null, test499categoryName21);
+		Assert.assertFalse(categoriesPage.doesCategoryExist(test499categoryName21), "ERROR - Category ('"+test499categoryName21+"') should exist in receiver server");
+
+		logoutReceiverServer();
+
+		//calling authoring server
+		portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+		//add categories
+		categoriesPage = portletMenu.getCategoriesPage();
+		categoriesPage.showCategoryChildrens(null,test499categoryName1);
+		categoriesPage.addCategory(null,test499categoryName41,test499categoryName41,test499categoryName41);
+		categoriesPage.showCategoryChildrens(null,test499categoryName21);
+		categoriesPage.addCategory(null,test499categoryName51,test499categoryName51,test499categoryName51);
+		categoriesPage.returnToParentCategory();
+		categoriesPage.returnToParentCategory();
+		categoriesPage.pushCategory(test499categoryName1);
+		categoriesPage.sleep(2);
+		publishingQueuePage = portletMenu.getPublishingQueuePage();
+		//wait until 5 minutes to check if the content was pushed
+		isPushed = publishingQueuePage.isObjectBundlePushed("category",5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Category ("+test499categoryName1+") push should not be in pending list.");
+
+		//delete categories
+		categoriesPage = portletMenu.getCategoriesPage();
+		categoriesPage.showCategoryChildrens(null,test499categoryName1);
+		categoriesPage.showCategoryChildrens(null,test499categoryName21);
+		
+		if(categoriesPage.doesCategoryExist(test499categoryName31)){
+			categoriesPage.deleteCategory(null, test499categoryName31);
+		}
+		if(categoriesPage.doesCategoryExist(test499categoryName51)){
+			categoriesPage.deleteCategory(null, test499categoryName51);
+		}
+		categoriesPage.returnToParentCategory();
+		if(categoriesPage.doesCategoryExist(test499categoryName21)){
+			categoriesPage.deleteCategory(null, test499categoryName21);
+		}
+		if(categoriesPage.doesCategoryExist(test499categoryName41)){
+			categoriesPage.deleteCategory(null, test499categoryName41);
+		}
+		categoriesPage.returnToParentCategory();
+		if(categoriesPage.doesCategoryExist(test499categoryName1)){			
+			categoriesPage.deleteCategory(null, test499categoryName1);
+		}
+		logoutAuthoringServer();
+
+		//Calling receiver server
+		portletMenu=callReceiverServer();
+
+		//validate if the categories exists
+		categoriesPage = portletMenu.getCategoriesPage();
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test499categoryName1), "ERROR - Category ('"+test499categoryName1+"') should exist in receiver server");
+		categoriesPage.showCategoryChildrens(null, test499categoryName1);
+
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test499categoryName21), "ERROR - Category ('"+test499categoryName21+"') should exist in receiver server");
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test499categoryName41), "ERROR - Category ('"+test499categoryName41+"') should exist in receiver server");
+
+		categoriesPage.showCategoryChildrens(null, test499categoryName21);
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test499categoryName31), "ERROR - Category ('"+test499categoryName31+"') should exist in receiver server");
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test499categoryName51), "ERROR - Category ('"+test499categoryName51+"') should exist in receiver server");
+
+		//delete categories
+		if(categoriesPage.doesCategoryExist(test499categoryName31)){
+			categoriesPage.deleteCategory(null, test499categoryName31);
+		}
+		if(categoriesPage.doesCategoryExist(test499categoryName51)){
+			categoriesPage.deleteCategory(null, test499categoryName51);
+		}
+		categoriesPage.returnToParentCategory();
+		if(categoriesPage.doesCategoryExist(test499categoryName21)){
+			categoriesPage.deleteCategory(null, test499categoryName21);
+		}
+		if(categoriesPage.doesCategoryExist(test499categoryName41)){
+			categoriesPage.deleteCategory(null, test499categoryName41);
+		}
+		categoriesPage.returnToParentCategory();
+		if(categoriesPage.doesCategoryExist(test499categoryName1)){			
+			categoriesPage.deleteCategory(null, test499categoryName1);
+		}
 		logoutReceiverServer();
 	}
 }

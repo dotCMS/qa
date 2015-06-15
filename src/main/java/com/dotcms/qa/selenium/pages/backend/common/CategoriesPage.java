@@ -51,7 +51,9 @@ public class CategoriesPage extends BasePage implements ICategoriesPage {
 		}
 		ICategoryAddDialogPage addCategoryDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(ICategoryAddDialogPage.class);
 		addCategoryDialog.setCategoryName(category);
+		sleep();
 		addCategoryDialog.setKey(key);
+		sleep();
 		addCategoryDialog.setKeywords(keywords);
 		addCategoryDialog.save();
 		//to close add categories dialog
