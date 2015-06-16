@@ -10,7 +10,6 @@ rm -rf *
 
 export QA_TestStartTime=$(date +%Y%m%d_%H%M%S)
 
-export QA_Milestone=${DOTCMS_VERSION}
 export QA_RunLabel=${QA_Milestone}_${QA_OS}_${BUILD_NUMBER}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
 
