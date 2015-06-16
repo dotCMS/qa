@@ -209,4 +209,28 @@ public class CategoriesPage extends BasePage implements ICategoriesPage {
 		}catch(Exception e){}
 		return exist;
 	}
+	
+	
+	/**
+	 * Add the category to a particular bundle 
+	 * @param categoryName   Name of the category
+	 * @param bundleName      Name of the bundle
+	 * @throws Exception
+	 */
+	public void addToBundle(String categoryName, String bundleName) throws Exception{
+		selectCategory(null, categoryName);
+		List<WebElement> buttons = getWebElement(By.id("TabOne")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().equals(getLocalizedString("Add-To-Bundle"))){
+				button.click();
+				sleep(2);
+				getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).clear();
+				getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).sendKeys(bundleName);
+				getWebElement(By.id("addToBundleDia")).findElement(By.id("addToBundleSaveButton_label")).click();
+				break;
+			}
+		}
+		
+
+	}
 }

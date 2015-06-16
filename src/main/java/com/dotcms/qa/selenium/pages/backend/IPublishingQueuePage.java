@@ -90,4 +90,19 @@ public interface IPublishingQueuePage extends IBasePage{
 	 * @throws Exception
 	 */
 	public boolean isObjectBundlePending(String elementTitle) throws Exception;
+	
+	/**
+	 * Download a bundle file
+	 * @param bundleName Name of the bundle
+	 * @param forPublish Indicate if the download is for publish or unpublish
+	 * @throws Exception
+	 */
+	public void downloadBundle(String bundleName, boolean forPublish) throws Exception;
+	
+	/**
+	 * Upload a bundle file
+	 * @param filePath Name and path of the bundle
+	 * @throws Exception
+	 */
+	public void uploadBundle(String filePath) throws Exception;
 }

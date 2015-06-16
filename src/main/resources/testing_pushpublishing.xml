@@ -1,0 +1,22 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Full Regression Suite" verbose="1" >
+  <test name="Single Server Regression">
+    <groups>
+      <run>
+        <exclude name="Broken"/>
+        <exclude name="Host"/>
+        <exclude name="Structures"/>
+        <exclude name="VanityURLs"/>
+        <exclude name="Users"/>
+        <include name="PushPublishing"/>
+        <!-- <include name="WIP"/> -->
+      </run>
+    </groups>
+   <classes>
+      <packages>
+        <package name="com.dotcms.qa.testng.*" />
+      </packages> 
+    </classes>
+  </test>
+</suite>

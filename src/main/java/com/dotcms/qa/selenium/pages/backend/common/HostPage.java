@@ -247,7 +247,7 @@ public class HostPage extends BasePage implements IHostPage  {
 		}
 		//add the logo
 		String path = System.getProperty("user.dir");
-		File file = new File(path+"/dotcms_logo.png");
+		File file = new File(path+"/artifacts/testdata/dotcms_logo.png");
 		WebElement input = getWebElement(By.cssSelector("input[type='file'][name='binary1FileUpload']"));
 		if(getBrowserName().equals(WebKeys.CHROME_BROWSER_NAME)){
 			/*For some unknown reason this throws a render time out exception  */

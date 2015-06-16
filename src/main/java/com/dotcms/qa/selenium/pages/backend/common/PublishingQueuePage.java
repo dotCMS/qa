@@ -1,5 +1,6 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -226,4 +227,60 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 		}
 		return isPending;
 	}
+	
+	/**
+	 * Download a bundle file
+	 * @param bundleName Name of the bundle
+	 * @param forPublish Indicate if the download is for publish or unpublish
+	 * @throws Exception
+	 */
+	public void downloadBundle(String bundleName, boolean forPublish) throws Exception{
+		WebElement bundle = findBundle(bundleName);
+		String bundleId = null;
+		List<WebElement> ths = bundle.findElements(By.tagName("th"));
+		bundleId = ths.get(0).getAttribute("onclick");
+		bundleId=bundleId.substring(bundleId.indexOf("'")+1, bundleId.lastIndexOf("'"));
+		List<WebElement> buttons = ths.get(1).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		String localizedString = "";
+		if(forPublish){
+			localizedString=getLocalizedString("download-for-Publish");
+		}else{
+			localizedString=getLocalizedString("download-for-UnPublish");
+		}
+		
+		for(WebElement button : buttons){
+			if(button.getText().equals(localizedString)){
+				button.click();
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Upload a bundle file
+	 * @param filePath Name and path of the bundle
+	 * @throws Exception
+	 */
+	public void uploadBundle(String filePath) throws Exception{
+		List<WebElement> buttons = getWebElement(By.cssSelector("div[class='yui-g portlet-toolbar']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString("publisher_upload"))){
+				button.click();
+				sleep(2);
+				break;
+			}
+		}
+		WebElement uploadDiv = getWebElement(By.id("uploadBundleDiv"));
+		String path = System.getProperty("user.dir");
+		File file = new File(path+filePath);
+		if(getBrowserName().equals(WebKeys.SAFARI_BROWSER_NAME)){
+			WebElement elem = uploadDiv.findElement(By.xpath("//input[@type='file']"));
+			elem.sendKeys(file.getAbsolutePath());
+		}else{
+			uploadDiv.findElement(By.cssSelector("input[type='file'][name='uploadBundleFile']")).sendKeys(file.getAbsolutePath());
+		}
+		uploadDiv.findElement(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']")).click();
+		
+	}
+	
 }

@@ -53,6 +53,7 @@ import com.dotcms.qa.selenium.pages.backend.IWorkflowTaskEdit_Page;
 import com.dotcms.qa.selenium.pages.backend.IWorkflowTasksPage;
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
+import com.dotcms.qa.util.FileUtil;
 import com.dotcms.qa.util.WebKeys;
 import com.dotcms.qa.util.WorkflowPageUtil;
 
@@ -65,7 +66,7 @@ import com.dotcms.qa.util.WorkflowPageUtil;
 public class PushPublishTest {
 
 	//General properties
-	private static final Logger logger = Logger.getLogger(HostTest.class);
+	private static final Logger logger = Logger.getLogger(PushPublishTest.class);
 	private SeleniumConfig config = null;
 	private String backendUserEmail = null;
 	private String backendUserPassword = null;
@@ -280,7 +281,7 @@ public class PushPublishTest {
 	private String test623contentTitle11="Test-623";
 	private String test623fileName11="test623.jpg";
 	private String test623contentStructureName11Field2="binary1FileUpload";
-	private String test623contentTextArea11="/src/main/resources/test623.jpg";
+	private String test623contentTextArea11="/artifacts/testdata/test623.jpg";
 	private String test623workflowSchemeName3="Test-623";
 	private String test623workflowSchemeStep4="Test623Assign";
 	private String test623workflowActionName4="Assign";
@@ -319,7 +320,7 @@ public class PushPublishTest {
 	private String test624contentStructureName15Field1="header";
 	private String test624contentTitle15="Test-624-";
 	private String test624contentStructureName15Field2="description";
-	private String test624ImportFile="/src/main/resources/test624.csv";
+	private String test624ImportFile="/artifacts/testdata/test624.csv";
 	//test14130
 	private String test14130LangCode="fr";
 	private String test14130CountryCode="FR";
@@ -346,14 +347,14 @@ public class PushPublishTest {
 	private String test663contentStructureName17Field1="title";
 	private String test663contentTitle17="test-663";
 	private String test663contentStructureName17Field2="binary1FileUpload";
-	private String test663contentTextArea17="/src/main/resources/test663.jpg";
+	private String test663contentTextArea17="/artifacts/testdata/test663.jpg";
 	private String test663fileName17="test663.jpg";
 	//test 514
 	private String test514contentStructureName18="File Asset";
 	private String test514contentStructureName18Field1="title";
 	private String test514contentTitle18="test-514";
 	private String test514contentStructureName18Field2="binary1FileUpload";
-	private String test514contentTextArea17="/src/main/resources/test514.mov";
+	private String test514contentTextArea17="/artifacts/testdata/test514.mov";
 	private String test514fileName18="test514.mov";
 	private String test514folderName4="test514";
 	//test552,553 and 554
@@ -376,7 +377,15 @@ public class PushPublishTest {
 	private String test499categoryName21="test499-21";
 	private String test499categoryName31="test499-31";
 	private String test499categoryName41="test499-41";
-	private String test499categoryName51="test49-51";
+	private String test499categoryName51="test499-51";
+	//test 586
+	private String test586categoryName1="test586-1";
+	private String test586categoryName21="test586-21";
+	private String test586categoryName31="test586-31";
+	private String test586categoryName41="test586-41";
+	private String test586categoryName51="test586-51";
+	private String test586fileName="";
+
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -387,16 +396,16 @@ public class PushPublishTest {
 			backendUserEmail = config.getProperty("backend.user.Email");
 			backendUserPassword = config.getProperty("backend.user.Password");
 
-			serversProtocol=config.getProperty("pushpublising.server.protocol");
-			serversKey=config.getProperty("pushpublising.server.key");
+			serversProtocol=config.getProperty("push.publishing.server.protocol");
+			serversKey=config.getProperty("push.publishing.server.key");
 
-			authoringServer = config.getProperty("pushpublising.autoring.server");
-			authoringServerPort = config.getProperty("pushpublising.autoring.server.port");
+			authoringServer = config.getProperty("push.publishing.authoring.server");
+			authoringServerPort = config.getProperty("push.publishing.authoring.server.port");
 			logger.info("Authoring server = " + authoringServer+":"+authoringServerPort);
 
-			receiverServer = config.getProperty("pushpublising.receiver.server");
-			receiverServerPort = config.getProperty("pushpublising.receiver.server.port");
-			logger.info("Receiver server = " + authoringServer+":"+receiverServerPort);
+			receiverServer = config.getProperty("push.publishing.receiver.server");
+			receiverServerPort = config.getProperty("push.publishing.receiver.server.port");
+			logger.info("Receiver server = " + receiverServer+":"+receiverServerPort);
 
 			//cleaning previous test values
 			//deletePreviousTest();
@@ -799,7 +808,28 @@ public class PushPublishTest {
 				}
 				categoriesPage.returnToParentCategory();
 				categoriesPage.deleteCategory(null, test499categoryName1);
+			}
 
+			if(categoriesPage.doesCategoryExist(test586categoryName1)){	
+				categoriesPage.showCategoryChildrens(null, test586categoryName1);
+				if(categoriesPage.doesCategoryExist(test586categoryName21)){
+					categoriesPage.showCategoryChildrens(null, test586categoryName21);
+					if(categoriesPage.doesCategoryExist(test586categoryName31)){
+						categoriesPage.showCategoryChildrens(null, test586categoryName31);
+						if(categoriesPage.doesCategoryExist(test586categoryName51)){
+							categoriesPage.deleteCategory(null, test586categoryName51);
+						}
+						categoriesPage.returnToParentCategory();
+						categoriesPage.deleteCategory(null, test586categoryName31);
+					}
+					if(categoriesPage.doesCategoryExist(test586categoryName41)){
+						categoriesPage.deleteCategory(null, test586categoryName41);
+					}
+					categoriesPage.returnToParentCategory();
+					categoriesPage.deleteCategory(null, test586categoryName21);
+				}
+				categoriesPage.returnToParentCategory();
+				categoriesPage.deleteCategory(null, test586categoryName1);
 			}
 
 			/* Delete content*/
@@ -1116,27 +1146,65 @@ public class PushPublishTest {
 			ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
 			if(categoriesPage.doesCategoryExist(test552categoryName1)){
 				categoriesPage.showCategoryChildrens(null, test552categoryName1);
-				categoriesPage.showCategoryChildrens(null, test552categoryName21);
-				categoriesPage.showCategoryChildrens(null, test552categoryName31);
-				categoriesPage.deleteCategory(null, test552categoryName41);
-				categoriesPage.returnToParentCategory();
-				categoriesPage.deleteCategory(null, test552categoryName31);
-				categoriesPage.returnToParentCategory();
-				categoriesPage.deleteCategory(null, test552categoryName21);
+				if(categoriesPage.doesCategoryExist(test552categoryName21)){
+					categoriesPage.showCategoryChildrens(null, test552categoryName21);
+					if(categoriesPage.doesCategoryExist(test552categoryName31)){
+						categoriesPage.showCategoryChildrens(null, test552categoryName31);
+						if(categoriesPage.doesCategoryExist(test552categoryName41)){
+							categoriesPage.deleteCategory(null, test552categoryName41);
+						}
+						categoriesPage.returnToParentCategory();
+						categoriesPage.deleteCategory(null, test552categoryName31);
+					}
+					categoriesPage.returnToParentCategory();
+					categoriesPage.deleteCategory(null, test552categoryName21);
+				}
 				categoriesPage.returnToParentCategory();
 				categoriesPage.deleteCategory(null, test552categoryName1);
 			}
 
 			if(categoriesPage.doesCategoryExist(test499categoryName1)){
 				categoriesPage.showCategoryChildrens(null,test499categoryName1);
-				categoriesPage.showCategoryChildrens(null,test499categoryName21);
-				categoriesPage.deleteCategory(null, test499categoryName31);
-				categoriesPage.deleteCategory(null, test499categoryName51);
-				categoriesPage.returnToParentCategory();
-				categoriesPage.deleteCategory(null, test499categoryName21);
-				categoriesPage.deleteCategory(null, test499categoryName41);
+				if(categoriesPage.doesCategoryExist(test499categoryName21)){
+					categoriesPage.showCategoryChildrens(null,test499categoryName21);
+					if(categoriesPage.doesCategoryExist(test499categoryName31)){
+						categoriesPage.deleteCategory(null, test499categoryName31);
+					}
+					if(categoriesPage.doesCategoryExist(test499categoryName51)){
+						categoriesPage.deleteCategory(null, test499categoryName51);
+					}
+					categoriesPage.returnToParentCategory();
+					if(categoriesPage.doesCategoryExist(test499categoryName21)){
+						categoriesPage.deleteCategory(null, test499categoryName21);
+					}
+					if(categoriesPage.doesCategoryExist(test499categoryName41)){
+						categoriesPage.deleteCategory(null, test499categoryName41);
+					}
+				}
 				categoriesPage.returnToParentCategory();
 				categoriesPage.deleteCategory(null, test499categoryName1);
+			}
+
+			if(categoriesPage.doesCategoryExist(test586categoryName1)){	
+				categoriesPage.showCategoryChildrens(null, test586categoryName1);
+				if(categoriesPage.doesCategoryExist(test586categoryName21)){
+					categoriesPage.showCategoryChildrens(null, test586categoryName21);
+					if(categoriesPage.doesCategoryExist(test586categoryName31)){
+						categoriesPage.showCategoryChildrens(null, test586categoryName31);
+						if(categoriesPage.doesCategoryExist(test586categoryName51)){
+							categoriesPage.deleteCategory(null, test586categoryName51);
+						}
+						categoriesPage.returnToParentCategory();
+						categoriesPage.deleteCategory(null, test586categoryName31);
+					}
+					if(categoriesPage.doesCategoryExist(test586categoryName41)){
+						categoriesPage.deleteCategory(null, test586categoryName41);
+					}
+					categoriesPage.returnToParentCategory();
+					categoriesPage.deleteCategory(null, test586categoryName21);
+				}
+				categoriesPage.returnToParentCategory();
+				categoriesPage.deleteCategory(null, test586categoryName1);
 			}
 
 			/* Delete content*/
@@ -4557,12 +4625,12 @@ public class PushPublishTest {
 		File receiverFile = null;
 		try{
 			URL authoringfileURL = new URL(serversProtocol,authoringServer,Integer.parseInt(authoringServerPort),"/"+test514folderName4+"/"+test514fileName18); 
-			authoringFile = getFileFromURL(authoringfileURL,"file1.mov");
+			authoringFile = FileUtil.getFileFromURL(authoringfileURL,"file1.mov");
 
 			URL receiverfileURL = new URL(serversProtocol,receiverServer,Integer.parseInt(receiverServerPort),"/"+test514folderName4+"/"+test514fileName18); 
-			receiverFile = getFileFromURL(receiverfileURL,"file2.mov");
+			receiverFile = FileUtil.getFileFromURL(receiverfileURL,"file2.mov");
 
-			Assert.assertTrue(compareFilesChecksum(authoringFile,receiverFile),"ERROR - File Asset ("+test514fileName18+") checksum are not equals.");
+			Assert.assertTrue(FileUtil.compareFilesChecksum(authoringFile,receiverFile),"ERROR - File Asset ("+test514fileName18+") checksum are not equals.");
 		}finally{
 			try{
 				authoringFile.delete();
@@ -4602,68 +4670,7 @@ public class PushPublishTest {
 		logoutAuthoringServer();	
 	}
 
-	/**
-	 * Get file from url
-	 * @param fileURL  File URL
-	 * @param fileName file name for downloaded copy
-	 * @return File
-	 * @throws Exception
-	 */
-	private File getFileFromURL(URL fileURL, String fileName) throws Exception{
-		URLConnection connection = fileURL.openConnection();
-		InputStream in = connection.getInputStream();
-		File newFile = new File(fileName);
-		FileOutputStream fos = new FileOutputStream(newFile);
-		byte[] buf = new byte[512];
-		while (true) {
-			int len = in.read(buf);
-			if (len == -1) {
-				break;
-			}
-			fos.write(buf, 0, len);
-		}
-		in.close();
-		fos.flush();
-		fos.close();
-
-		return newFile;
-	}
-
-	/**
-	 * Compare if two file are the same by MD5Hash checksum
-	 * @param file1 File 
-	 * @param file2 File 
-	 * @return true if the md5 checksum is the same, false if not
-	 * @throws Exception
-	 */
-	private boolean compareFilesChecksum(File file1, File file2) throws Exception{
-		MessageDigest md_1 = MessageDigest.getInstance("MD5");
-		MessageDigest md_2 = MessageDigest.getInstance("MD5");
-		InputStream is_1 = new FileInputStream(file1);
-		InputStream is_2 = new FileInputStream(file2);
-		try {
-			is_1 = new DigestInputStream(is_1, md_1);
-			is_2 = new DigestInputStream(is_2, md_2);
-		}
-		finally {
-			is_1.close();
-			is_2.close();
-		}
-		byte[] digest_1 = md_1.digest();
-		//convert byte to hex format
-		String hashFile1 = "";
-		for (int i = 0; i < digest_1.length; i++) {
-			hashFile1+= Integer.toString((digest_1[i] & 0xff) + 0x100, 16).substring(1);
-		}
-
-		byte[] digest_2 = md_2.digest();
-		//convert byte to hex format
-		String hashFile2 = "";
-		for (int i = 0; i < digest_2.length; i++) {
-			hashFile2+= Integer.toString((digest_2[i] & 0xff) + 0x100, 16).substring(1);
-		}
-		return hashFile1.equals(hashFile2);
-	}
+	
 
 	/**
 	 * CATEGORIES TESTS
@@ -4892,7 +4899,7 @@ public class PushPublishTest {
 		categoriesPage.deleteCategory(null, test552categoryName21);
 		categoriesPage.returnToParentCategory();
 		categoriesPage.deleteCategory(null, test552categoryName1);
-		Assert.assertFalse(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should not exist in autoring server");
+		Assert.assertFalse(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should not exist in authoring server");
 
 		//push changes
 		categoriesPage.pushCategory(test554categoryName1);
@@ -4914,7 +4921,7 @@ public class PushPublishTest {
 
 		//validate in categories and structure 
 		categoriesPage = portletMenu.getCategoriesPage();
-		Assert.assertFalse(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should not exist in autoring server");
+		Assert.assertFalse(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should not exist in authoring server");
 		categoriesPage.sleep(2);
 		structurePage = portletMenu.getStructuresPage();
 		editStructurePage = structurePage.getStructurePage(test552contentStructureName19);
@@ -5000,7 +5007,7 @@ public class PushPublishTest {
 		categoriesPage = portletMenu.getCategoriesPage();
 		categoriesPage.showCategoryChildrens(null,test499categoryName1);
 		categoriesPage.showCategoryChildrens(null,test499categoryName21);
-		
+
 		if(categoriesPage.doesCategoryExist(test499categoryName31)){
 			categoriesPage.deleteCategory(null, test499categoryName31);
 		}
@@ -5054,5 +5061,144 @@ public class PushPublishTest {
 			categoriesPage.deleteCategory(null, test499categoryName1);
 		}
 		logoutReceiverServer();
+	}
+
+	/**
+	 * Add Categories to a bundle and push the bundle
+	 * http://qa.dotcms.com/index.php?/cases/view/586
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc586_AddCategoriesToBundleAndPush() throws Exception{
+		//Calling authoring Server
+		IPortletMenu portletMenu = callAuthoringServer();
+		portletMenu.sleep(3);
+		//add categories
+		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
+		categoriesPage.addCategory(null,test586categoryName1,test586categoryName1,test586categoryName1);
+		categoriesPage.addCategory(test586categoryName1,test586categoryName21,test586categoryName21,test586categoryName21);
+		categoriesPage.addCategory(test586categoryName21,test586categoryName31,test586categoryName31,test586categoryName31);
+		categoriesPage.returnToParentCategory();
+		categoriesPage.returnToParentCategory();
+
+		String bundleName="test586";
+		categoriesPage.addToBundle(test586categoryName1, bundleName);
+
+		//pushing bundle
+		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+		publishingQueuePage.getBundlesTab();
+		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
+
+		//wait until 5 minutes to check if the container was pushed
+		boolean isPushed = publishingQueuePage.isBundlePushed(authoringServerBundleId,5000,60);
+		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Category push should not be in pending list.");
+		logoutAuthoringServer();
+
+		//calling receiver server
+		portletMenu = callReceiverServer();
+
+		//validate categories categories
+		categoriesPage = portletMenu.getCategoriesPage();
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test586categoryName1), "ERROR - Category ('"+test586categoryName1+"') should exist in receiver server");
+		categoriesPage.showCategoryChildrens(null, test586categoryName1);
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test586categoryName21), "ERROR - Category ('"+test586categoryName21+"') should exist in receiver server");
+		categoriesPage.showCategoryChildrens(null, test586categoryName21);
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test586categoryName31), "ERROR - Category ('"+test586categoryName31+"') should exist in receiver server");
+
+		logoutReceiverServer();
+
+		//calling authoring server
+		portletMenu = callAuthoringServer();
+
+		//add categories
+		categoriesPage = portletMenu.getCategoriesPage();
+		categoriesPage.showCategoryChildrens(test586categoryName1,test586categoryName21);
+		categoriesPage.addCategory(null,test586categoryName41,test586categoryName41,test586categoryName41);
+		categoriesPage.showCategoryChildrens(null,test586categoryName31);
+		categoriesPage.addCategory(null,test586categoryName51,test586categoryName51,test586categoryName51);
+		categoriesPage.returnToParentCategory();
+		categoriesPage.returnToParentCategory();
+		categoriesPage.returnToParentCategory();
+
+		String bundleName2="test586-2";
+		categoriesPage.addToBundle(test586categoryName1, bundleName2);
+
+		//download bundle
+		publishingQueuePage = portletMenu.getPublishingQueuePage();
+		publishingQueuePage.getBundlesTab();
+		//file should be located under project main folder
+		publishingQueuePage.downloadBundle(bundleName2,true);
+
+		//delete categories
+		categoriesPage = portletMenu.getCategoriesPage();
+		if(categoriesPage.doesCategoryExist(test586categoryName1)){	
+			categoriesPage.showCategoryChildrens(null, test586categoryName1);
+			if(categoriesPage.doesCategoryExist(test586categoryName21)){
+				categoriesPage.showCategoryChildrens(null, test586categoryName21);
+				if(categoriesPage.doesCategoryExist(test586categoryName31)){
+					categoriesPage.showCategoryChildrens(null, test586categoryName31);
+					if(categoriesPage.doesCategoryExist(test586categoryName51)){
+						categoriesPage.deleteCategory(null, test586categoryName51);
+					}
+					categoriesPage.returnToParentCategory();
+					categoriesPage.deleteCategory(null, test586categoryName31);
+				}
+				if(categoriesPage.doesCategoryExist(test586categoryName41)){
+					categoriesPage.deleteCategory(null, test586categoryName41);
+				}
+				categoriesPage.returnToParentCategory();
+				categoriesPage.deleteCategory(null, test586categoryName21);
+			}
+			categoriesPage.returnToParentCategory();
+			categoriesPage.deleteCategory(null, test586categoryName1);
+		}
+
+		logoutAuthoringServer();
+
+		//calling receiver server
+		portletMenu = callReceiverServer();
+		
+		//upload bundle
+		publishingQueuePage = portletMenu.getPublishingQueuePage();
+		publishingQueuePage.getBundlesTab();
+		publishingQueuePage.uploadBundle(test586fileName);
+		
+		//validate categories categories
+		categoriesPage = portletMenu.getCategoriesPage();
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test586categoryName1), "ERROR - Category ('"+test586categoryName1+"') should exist in receiver server");
+		categoriesPage.showCategoryChildrens(null, test586categoryName1);
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test586categoryName21), "ERROR - Category ('"+test586categoryName21+"') should exist in receiver server");
+		categoriesPage.showCategoryChildrens(null, test586categoryName21);
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test586categoryName31), "ERROR - Category ('"+test586categoryName31+"') should exist in receiver server");
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test586categoryName41), "ERROR - Category ('"+test586categoryName41+"') should exist in receiver server");
+		categoriesPage.showCategoryChildrens(null, test586categoryName31);
+		Assert.assertTrue(categoriesPage.doesCategoryExist(test586categoryName51), "ERROR - Category ('"+test586categoryName51+"') should exist in receiver server");
+
+		//delete categories
+		categoriesPage = portletMenu.getCategoriesPage();
+		if(categoriesPage.doesCategoryExist(test586categoryName1)){	
+			categoriesPage.showCategoryChildrens(null, test586categoryName1);
+			if(categoriesPage.doesCategoryExist(test586categoryName21)){
+				categoriesPage.showCategoryChildrens(null, test586categoryName21);
+				if(categoriesPage.doesCategoryExist(test586categoryName31)){
+					categoriesPage.showCategoryChildrens(null, test586categoryName31);
+					if(categoriesPage.doesCategoryExist(test586categoryName51)){
+						categoriesPage.deleteCategory(null, test586categoryName51);
+					}
+					categoriesPage.returnToParentCategory();
+					categoriesPage.deleteCategory(null, test586categoryName31);
+				}
+				if(categoriesPage.doesCategoryExist(test586categoryName41)){
+					categoriesPage.deleteCategory(null, test586categoryName41);
+				}
+				categoriesPage.returnToParentCategory();
+				categoriesPage.deleteCategory(null, test586categoryName21);
+			}
+			categoriesPage.returnToParentCategory();
+			categoriesPage.deleteCategory(null, test586categoryName1);
+		}
+
+		logoutReceiverServer();
+
 	}
 }

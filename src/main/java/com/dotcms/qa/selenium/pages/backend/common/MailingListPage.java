@@ -33,7 +33,7 @@ public class MailingListPage  extends BasePage implements IMailingListPage {
 	/*
 	 * Users file path
 	 */
-	private final String usersFilePath="/src/main/resources/users.csv";
+	private final String usersFilePath="/artifacts/testdata/users.csv";
 	
 	private static final Logger logger = Logger.getLogger(MailingListPage.class);
 

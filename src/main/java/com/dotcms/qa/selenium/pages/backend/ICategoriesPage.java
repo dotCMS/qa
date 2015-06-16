@@ -69,5 +69,13 @@ public interface ICategoriesPage extends IBasePage{
 	 * @return true if exist false if not
 	 */
 	public boolean doesCategoryExist(String categoryName) throws Exception;
+	
+	/**
+	 * Add the category to a particular bundle 
+	 * @param categoryName   Name of the category
+	 * @param bundleName      Name of the bundle
+	 * @throws Exception
+	 */
+	public void addToBundle(String categoryName, String bundleName) throws Exception;
 
 }
