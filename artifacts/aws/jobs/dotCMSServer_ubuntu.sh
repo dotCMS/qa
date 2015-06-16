@@ -116,6 +116,42 @@ echo 'Getting trial license'
 cp ${WORKSPACE}/qa/artifacts/license/trial.jsp ${QA_TomcatFolder}/webapps/ROOT/trial.jsp
 curl http://localhost:8080/trial.jsp
 
+if [ ${QA_OPTION_AUTHORING_SERVER} = "true" ]
+then
+	echo 'YES, I am an authoring server - must wait for receiving server to come online...'
+
+	aws s3 cp ${QA_SERVER_RECEIVING_IP_URL} ./ip_receiving.txt
+	while [ ! -f ./ip_receiving.txt ]
+	do
+		echo "waiting for QA_SERVER_RECEIVING_IP_URL file ..."
+		sleep 30
+		aws s3 cp ${QA_SERVER_RECEIVING_IP_URL} ./ip_receiving.txt
+	done
+	export DOTCMS_SERVER_RECEIVING_IP=$(cat ./ip_receiving.txt)
+	echo "DOTCMS_SERVER_RECEIVING_IP = ${DOTCMS_SERVER_RECEIVING_IP}"
+
+	aws s3 cp ${QA_SERVER_RECEIVING_STATUS_URL} ./status_receiving.txt
+	while [ ! -f ./status_receiving.txt ]
+	do
+	    echo "waiting for receiving server status file..."
+	    sleep 30
+	    aws s3 cp ${QA_SERVER_RECEIVING_STATUS_URL} ./status_receiving.txt
+	done
+
+	running=`grep -c "Running" ./status_receiving.txt`
+	echo "running=${running}"
+	while [ $running -lt 1 ]
+	do
+	    echo "INFO - waiting for receiving server to be in Running state...."
+	    sleep 60
+	    aws s3 cp ${QA_SERVER_RECEIVING_STATUS_URL} ./status_receiving.txt
+	    running=`grep -c "Running" ./status_receiving.txt`
+	done
+	echo "running=$running"
+
+else
+	echo 'NOT an authoring server - continuing on'
+fi
 echo "Running" > status.txt
 aws s3 cp ./status.txt ${QA_SERVER_STATUS_URL}
 

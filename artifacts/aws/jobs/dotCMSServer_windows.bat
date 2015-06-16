@@ -17,7 +17,6 @@ For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y-%%m-%%d') Do Set QA_Tomca
 For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y-%%m-%%d') Do Set QA_AccessLogFile=%QA_TomcatFolder%\logs\dotcms_access..%%I.log
 set QA_StarterFullFilePath=%QA_TomcatFolder%\webapps\ROOT\starter.zip
 
-set QA_Milestone=%DOTCMS_VERSION%
 set QA_RunLabel=%QA_Milestone%_dotCMSServer_%QA_OS%_%BUILD_NUMBER%_%QA_DB%_%QA_TestStartTime%
 set QA_TestArtifactFilename=%QA_RunLabel%_Artifacts.tar.gz
 
@@ -122,6 +121,40 @@ cp .\build\libs\com.dotcms.rest.qa_automation-0.1.jar %QA_TomcatFolder%\webapps\
 echo 'Getting trial license'
 cp %WORKSPACE%\qa\artifacts\license\trial.jsp %QA_TomcatFolder%\webapps\ROOT\trial.jsp
 curl http://localhost:8080/trial.jsp
+
+if "%QA_OPTION_AUTHORING_SERVER%" == "true" (
+	echo "YES, I am an authoring server - must wait for receiving server to come online..."
+:rcvIPLoop
+	aws s3 cp %QA_SERVER_RECEIVING_IP_URL% ./ip_receiving.txt
+	if NOT EXIST ./ip_receiving.txt (
+		echo "waiting for QA_SERVER_RECEIVING_IP_URL file ..."
+		sleep 30
+		goto rcvIPLoop
+	)
+	For /F "Tokens=*" %%I in ('cat ./ip_receiving.txt') Do Set DOTCMS_SERVER_RECEIVING_IP=%%I
+	echo "DOTCMS_SERVER_RECEIVING_IP = %DOTCMS_SERVER_RECEIVING_IP%"
+
+:rcvStatusLoop
+	aws s3 cp %QA_SERVER_RECEIVING_STATUS_URL% ./status_receiving.txt
+	if NOT EXIST ./status_receiving.txt (
+	    echo "waiting for receiving server status file..."
+	    sleep 30
+	    goto rcvStatusLoop
+	)
+	
+:rcvStatusLoop2
+	For /F "Tokens=*" %%I in ('grep -c "Running" ./status_receiving.txt') Do Set running=%%I
+	echo "running=%running%"
+	if %running% LSS 1 (
+	    echo "INFO - waiting for receiving server to be in Running state...."
+	    sleep 60
+	    aws s3 cp %QA_SERVER_RECEIVING_STATUS_URL% ./status_receiving.txt
+	    goto rcvStatusLoop2
+	)
+)
+if NOT "%QA_OPTION_AUTHORING_SERVER%" == "true" (
+	echo "NOT an authoring server - continuing on"
+)
 
 echo "Running" > status.txt
 aws s3 cp .\status.txt %QA_SERVER_STATUS_URL%
