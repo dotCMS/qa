@@ -1,4 +1,4 @@
-@echo off
+@echo on
 
 REM - assumes cygwin is installed and executables are on the path first
 echo 'Working dir:'
