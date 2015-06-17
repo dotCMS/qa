@@ -78,14 +78,16 @@ public class HostPage extends BasePage implements IHostPage  {
 
 	/**
 	 * Create a new host by copying an existing one. 
-	 * Checking every second for up to 2 minutes to see if the host was copied
+	 * Checking every second for up to 100 minutes to see if the host was copied
 	 * @param hostName - name of tne new host
 	 * @param hostToCopy - name of the host to be copied
 	 * @return true if the host was copied, false if not
 	 * @throws Exception 
 	 */
 	public boolean addCopyExistingHost(String hostName, String hostToCopy) throws Exception {
-		return addCopyExistingHost(hostName, hostToCopy, 1000, 6000); // Poll every second for up to 100 minutes
+		boolean retValue = addCopyExistingHost(hostName, hostToCopy, 1000, 6000); // Poll every second for up to 100 minutes
+//		sleep(10);
+		return retValue;
 	}
 	
 	/**

@@ -440,7 +440,7 @@ public class HostTest {
 		// verify new host responds to traffic
 		IBasePage homePage = frontendMgr.loadPage("http://" + testHostName4 + ":8080/");
 		String title = homePage.getTitle();
-		Assert.assertTrue(title != null && title.startsWith("Quest Financial"),"ERROR - The host should not have a page set");
+		Assert.assertTrue(title != null && title.startsWith("Quest Financial"),"ERROR - New Host: http://" + testHostName4 + ":8080/ not responding properly - title = " + title);
 
 		// delete host
 		hostPage.stopHost(testHostName4, true);

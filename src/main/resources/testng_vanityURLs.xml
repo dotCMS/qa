@@ -1,15 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
   
-<suite name="Auto Single Server Regression Suite" verbose="1" >
-  <test name="Auto Single Server Regression">
+<suite name="Full Regression Suite" verbose="1" >
+  <test name="Single Server Regression">
     <groups>
       <run>
         <exclude name="Broken"/>
-        <include name="Host"/>
+        <exclude name="Host"/>
         <exclude name="Structures"/>
-        <exclude name="VanityURLs"/>
+        <include name="VanityURLs"/>
         <exclude name="Users"/>
-        <include name="PushPublishing"/>
         <!-- <include name="WIP"/> -->
       </run>
     </groups>

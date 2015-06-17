@@ -10,24 +10,18 @@ rm -rf *
 
 export QA_TestStartTime=$(date +%Y%m%d_%H%M%S)
 
-export QA_DB=H2
-export QA_Browser=FIREFOX
-export QA_Country=US
-export QA_Language=en
-export QA_OS=Ubuntu
 export QA_Milestone=${DOTCMS_VERSION}
-export QA_RunLabel=${QA_Milestone}_JenkinsSeleniumTester_${BUILD_NUMBER}_${QA_OS}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
+export QA_RunLabel=${QA_Milestone}_${QA_OS}_${BUILD_NUMBER}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
+
+if [ -z "$QA_TestSuite" ]
+then
+    export QA_TestSuite="testng.xml"
+fi
 
 echo 'Exporting display to use Xvfb service'
 export DISPLAY=:99
 
-echo 'Creating AWS credentials'
-mkdir /home/ubuntu/.aws
-echo '[default]' > /home/ubuntu/.aws/config
-echo 'region = us-east-1' >> /home/ubuntu/.aws/config
-echo 'aws_access_key_id = AKIAJB7GBDVDNTROV7LQ' >> /home/ubuntu/.aws/config
-echo 'aws_secret_access_key = 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' >> /home/ubuntu/.aws/config
 
 aws s3 cp ${QA_SERVER_IP_URL} ./ip.txt
 while [ ! -f ./ip.txt ]
@@ -63,14 +57,14 @@ fi
 echo '****************************************'
 cat /etc/hosts
 
-echo 'Adding ssh keys'
-aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa /home/ubuntu/.ssh/dotcmsqa
-chmod 600 /home/ubuntu/.ssh/dotcmsqa
-aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa.pub /home/ubuntu/.ssh/dotcmsqa.pub
-chmod 600 /home/ubuntu/.ssh/dotcmsqa.pub
+#echo 'Adding ssh keys'
+#aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa /home/ubuntu/.ssh/dotcmsqa
+#chmod 600 /home/ubuntu/.ssh/dotcmsqa
+#aws s3 cp s3://qa.dotcms.com/testautomation/dotcmsqa.pub /home/ubuntu/.ssh/dotcmsqa.pub
+#chmod 600 /home/ubuntu/.ssh/dotcmsqa.pub
 
-echo "Host *">/home/ubuntu/.ssh/config
-echo "    StrictHostKeyChecking no">>/home/ubuntu/.ssh/config
+#echo "Host *">/home/ubuntu/.ssh/config
+#echo "    StrictHostKeyChecking no">>/home/ubuntu/.ssh/config
 
 eval $(ssh-agent)
 ssh-add /home/ubuntu/.ssh/dotcmsqa
@@ -89,13 +83,33 @@ cd ./qa
 echo 'Building testng/selenium tests'
 ./gradlew installDist
 cd ..
+
+aws s3 cp ${QA_SERVER_STATUS_URL} ./status.txt
+while [ ! -f ./status.txt ]
+do
+    echo "waiting for server status file..."
+    sleep 30
+    aws s3 cp ${QA_SERVER_STATUS_URL} ./status.txt
+done
+
+running=`grep -c "Running" ./status.txt`
+echo "running=${running}"
+while [ $running -lt 1 ]
+do
+    echo "INFO - waiting for dotCMS server to be in Running state...."
+    sleep 60
+    aws s3 cp ${QA_SERVER_STATUS_URL} ./status.txt
+    running=`grep -c "Running" ./status.txt`
+done
+echo "running=$running"
+
 echo '********** END OF PART 2 **********'
 
 export EXIT_CODE=255
 cd ${WORKSPACE}/qa/build/install/qa
 echo "Running testng/selenium tests - pwd = $(pwd)"
-export JAVA_OPTS="-Dtestrail.Milestone=${QA_Milestone} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
-bin/qa  -testjar lib/qa-0.1.jar -listener com.dotcms.qa.testng.listeners.TestRunCreator.class,com.dotcms.qa.testng.listeners.TestResultReporter.class -d "${WORKSPACE}/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}"
+export JAVA_OPTS="-DreportResultsInTestrail=true -Dtestrail.Milestone=${QA_Milestone} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
+bin/qa  -testjar lib/qa-0.1.jar -xmlpathinjar ${QA_TestSuite} -listener com.dotcms.qa.testng.listeners.TestRunCreator.class,com.dotcms.qa.testng.listeners.TestResultReporter.class -d "${WORKSPACE}/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}"
 EXIT_CODE=$?
 echo "EXIT_CODE=${EXIT_CODE}"
 cd ${WORKSPACE}
@@ -105,6 +119,7 @@ sleep 10
 mkdir temp_log
 pushd temp_log
 cp -a ${WORKSPACE}/qa/build/install/qa/ .
+cp -a ${WORKSPACE}/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country} .
 tar -cvzf ../${QA_TestArtifactFilename} .
 popd
 rm -rf temp_log/
@@ -115,13 +130,13 @@ aws s3 cp ${QA_TestArtifactFilename} s3://qa.dotcms.com/testartifacts/${QA_TestA
 echo 'Copying testng results to workspace'
 cp -a "testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}" "${WORKSPACE}"
 
-echo 'Shutting down dotCMS server'
-curl -I http://${DOTCMS_SERVER_IP}:8080/shutdown.jsp
-
 echo 'Cleaning up - preparing for another possible run'
 sudo cp -a /etc/hosts.backup /etc/hosts
-rm -rf /home/ubuntu/.aws
 rm ${QA_TestArtifactFilename}
+
+cd ${WORKSPACE}
+echo "DOTCMS_VERSION=${DOTCMS_VERSION}" > ./params
+echo "DOTCMS_SERVER_IP=${DOTCMS_SERVER_IP}" >> ./params
 
 echo '********** END OF PART 3 **********'
 echo "EXIT_CODE=${EXIT_CODE}"
