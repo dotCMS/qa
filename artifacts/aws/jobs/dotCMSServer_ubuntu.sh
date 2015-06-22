@@ -60,7 +60,7 @@ sudo chown -R ubuntu:ubuntu ${WORKSPACE}/dotcms
 pushd ${WORKSPACE}/dotcms
 tar -xvf ${WORKSPACE}/downloads/dotcms.targz > /dev/null
 
-if [ -z $QA_StarterURL ]
+if [ -z "$QA_StarterURL" ]
 then
 	echo 'NOT replacing starter'
 else
@@ -68,8 +68,13 @@ else
 	aws s3 cp ${QA_StarterURL} ${QA_StarterFullFilePath}
 fi
 
-echo 'Setting index pages to legacy setting'
-sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/classes/dotmarketing-config.properties
+if [ -n "$QA_Legacy_Index_Setting" ]
+then
+	echo 'Setting index pages to legacy setting'
+	sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/classes/dotmarketing-config.properties
+else
+	echo 'Leaving modern index page setting - index with no extension'
+fi
 
 echo 'Creating and configuring DB'
 pushd ${WORKSPACE}/qa
