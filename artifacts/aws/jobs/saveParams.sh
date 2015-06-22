@@ -9,3 +9,5 @@ echo "QA_SERVER_STATUS_URL=s3://qa.dotcms.com/testautomation/commFiles/${BUILD_T
 echo "QA_SERVER_IP_URL=s3://qa.dotcms.com/testautomation/commFiles/${BUILD_TAG}.ip" >> params
 echo "QA_SERVER_RECEIVING_STATUS_URL=s3://qa.dotcms.com/testautomation/commFiles/${BUILD_TAG}_receiving.status" >> params
 echo "QA_SERVER_RECEIVING_IP_URL=s3://qa.dotcms.com/testautomation/commFiles/${BUILD_TAG}_receiving.ip" >> params
+echo "QA_StarterURL=${QA_StarterURL}" >> params
+echo "QA_Legacy_Index_Setting=${QA_Legacy_Index_Setting}" >> params
