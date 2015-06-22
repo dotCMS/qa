@@ -1,12 +1,19 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -227,7 +234,7 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 		}
 		return isPending;
 	}
-	
+
 	/**
 	 * Download a bundle file
 	 * @param bundleName Name of the bundle
@@ -247,15 +254,15 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 		}else{
 			localizedString=getLocalizedString("download-for-UnPublish");
 		}
-		
+
 		for(WebElement button : buttons){
 			if(button.getText().equals(localizedString)){
 				button.click();
 				break;
 			}
-		}
+		}		
 	}
-	
+
 	/**
 	 * Upload a bundle file
 	 * @param filePath Name and path of the bundle
@@ -272,15 +279,68 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 		}
 		WebElement uploadDiv = getWebElement(By.id("uploadBundleDiv"));
 		String path = System.getProperty("user.dir");
-		File file = new File(path+filePath);
+		File folder = new File(path+filePath);
+		File[] files =folder.listFiles(new FilenameFilter() {			
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".tar.gz");
+			}
+		});
+		File file =files[0];
 		if(getBrowserName().equals(WebKeys.SAFARI_BROWSER_NAME)){
 			WebElement elem = uploadDiv.findElement(By.xpath("//input[@type='file']"));
 			elem.sendKeys(file.getAbsolutePath());
 		}else{
 			uploadDiv.findElement(By.cssSelector("input[type='file'][name='uploadBundleFile']")).sendKeys(file.getAbsolutePath());
 		}
-		uploadDiv.findElement(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']")).click();
-		
+		buttons = uploadDiv.findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString("publisher_upload"))){
+				button.click();
+				break;
+			}
+		}
+		file.delete();
 	}
 	
+	/**
+	 * Delete and existing bundle
+	 * @param bundleName  Bundle name
+	 * @throws Exception
+	 */
+	public void deleteBundle(String bundleName) throws Exception{
+		WebElement bundle = findBundle(bundleName);
+		String bundleId = null;
+		List<WebElement> ths = bundle.findElements(By.tagName("th"));
+		bundleId = ths.get(0).getAttribute("onclick");
+		bundleId=bundleId.substring(bundleId.indexOf("'")+1, bundleId.lastIndexOf("'"));
+		List<WebElement> buttons = ths.get(1).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		String localizedString =getLocalizedString("delete");
+		
+		for(WebElement button : buttons){
+			if(button.getText().equals(localizedString)){
+				button.click();
+				switchToAlert().accept();
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Validate if a bundle exist
+	 * @param bundleName Bundle name
+	 * @return true if exist, false if not
+	 * @throws Exception
+	 */
+	public boolean doesBundleExist(String bundleName) throws Exception{
+		boolean exist=false;
+		try{
+			WebElement bundle = findBundle(bundleName);
+			if(bundle != null){
+				exist=true;
+			}
+		}catch(Exception e){}
+		return exist;
+	}
+
 }

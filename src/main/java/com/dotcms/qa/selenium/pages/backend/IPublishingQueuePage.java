@@ -105,4 +105,19 @@ public interface IPublishingQueuePage extends IBasePage{
 	 * @throws Exception
 	 */
 	public void uploadBundle(String filePath) throws Exception;
+	
+	/**
+	 * Delete and existing bundle
+	 * @param bundleName  Bundle name
+	 * @throws Exception
+	 */
+	public void deleteBundle(String bundleName) throws Exception;
+	
+	/**
+	 * Validate if a bundle exist
+	 * @param bundleName Bundle name
+	 * @return true if exist, false if not
+	 * @throws Exception
+	 */
+	public boolean doesBundleExist(String bundleName) throws Exception;
 }

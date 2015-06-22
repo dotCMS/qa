@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -435,5 +436,38 @@ public class BasePage implements IBasePage {
 			prevRow = row;
 		}
 		return foundValue;
+	}
+	
+	/**
+	 * Get the current windows handler title
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getCurrentWindowHandle() throws Exception{
+		return driver.getWindowHandle();
+	}
+	
+	/**
+	 * Return all the handle associated to the current driver
+	 * @return Set<String>
+	 * @throws Exception
+	 */
+	public Set<String> getWindowHandles() throws Exception{
+		return driver.getWindowHandles();
+	}
+	
+	/**
+	 * switch to a driver window
+	 * @param title
+	 */
+	public void switchToWindow(String title) throws Exception{
+		driver.switchTo().window(title);
+	}
+	
+	/**
+	 * switch to active element
+	 */
+	public void switchToActiveElement() throws Exception{
+		driver.switchTo().activeElement();
 	}
 }

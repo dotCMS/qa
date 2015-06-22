@@ -6,12 +6,15 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.WebDriver;
@@ -99,11 +102,28 @@ public class SeleniumPageManager{
             String browserToTarget=config.getProperty("browserToTarget");
             logger.info("Targeting local " + browserToTarget + " browser.");
             if("FIREFOX".equals(browserToTarget)) {
-                driver = new FirefoxDriver();
+            	FirefoxProfile profile = new FirefoxProfile();
+            	profile.setAcceptUntrustedCertificates(true);
+        	    profile.setPreference("browser.download.folderList", 2);
+        		profile.setPreference("browser.download.dir", System.getProperty("user.dir")+"/artifacts/testdata/downloads");
+        		profile.setPreference("browser.helperApps.neverAsk.saveToDisk","application/x-tgz, application/x-gzip,application/zip, application/x-zip, application/x-zip-compressed, application/download, application/octet-stream");
+        		profile.setPreference("browser.helperApps.alwaysAsk.force", false);
+        		profile.setPreference("browser.download.manager.showWhenStarting",false);
+        		 
+                driver = new FirefoxDriver(profile);
             }
             else if("CHROME".equals(browserToTarget)) {
                 System.setProperty("webdriver.chrome.driver", config.getProperty("chromeDriver.location"));
-                driver = new ChromeDriver();
+                
+                HashMap<String, Object> chromePrefs = new HashMap<String, Object>();
+                chromePrefs.put("profile.default_content_settings.popups", 2);
+                chromePrefs.put("download.default_directory", System.getProperty("user.dir")+"/artifacts/testdata/downloads");
+                ChromeOptions options = new ChromeOptions();
+                options.setExperimentalOption("prefs", chromePrefs);
+                DesiredCapabilities cap = DesiredCapabilities.chrome();
+                cap.setCapability(ChromeOptions.CAPABILITY, options);
+                
+                driver = new ChromeDriver(cap);
             }
             else if("SAFARI".equals(browserToTarget)) {
             	driver = new SafariDriver();

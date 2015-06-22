@@ -384,7 +384,9 @@ public class PushPublishTest {
 	private String test586categoryName31="test586-31";
 	private String test586categoryName41="test586-41";
 	private String test586categoryName51="test586-51";
-	private String test586fileName="";
+	private String test586fileName="/artifacts/testdata/downloads/";
+	private String test586bundleName="test586";
+	private String test586bundleName2="test586-2";
 
 
 	@BeforeGroups (groups = {"PushPublishing"})
@@ -932,6 +934,12 @@ public class PushPublishTest {
 				languagesPage.deleteLanguage(test14130Language, test14130CountryCode);
 			}
 
+			/* Delete bundle*/
+			IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+			publishingQueuePage.getBundlesTab();
+			if(publishingQueuePage.doesBundleExist(test586bundleName2))	{		
+				publishingQueuePage.deleteBundle(test586bundleName2);
+			}
 			/*Delete limited user*/
 			/*IUsersPage usersPage = portletMenu.getUsersPage();
 			Map<String, String> fakeUser = usersPage.getUserProperties(limitedUserEmailA);
@@ -4670,7 +4678,7 @@ public class PushPublishTest {
 		logoutAuthoringServer();	
 	}
 
-	
+
 
 	/**
 	 * CATEGORIES TESTS
@@ -5080,14 +5088,12 @@ public class PushPublishTest {
 		categoriesPage.addCategory(test586categoryName21,test586categoryName31,test586categoryName31,test586categoryName31);
 		categoriesPage.returnToParentCategory();
 		categoriesPage.returnToParentCategory();
-
-		String bundleName="test586";
-		categoriesPage.addToBundle(test586categoryName1, bundleName);
+		categoriesPage.addToBundle(test586categoryName1, test586bundleName);
 
 		//pushing bundle
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		publishingQueuePage.getBundlesTab();
-		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
+		String authoringServerBundleId = publishingQueuePage.pushPublishBundle(test586bundleName);
 
 		//wait until 5 minutes to check if the container was pushed
 		boolean isPushed = publishingQueuePage.isBundlePushed(authoringServerBundleId,5000,60);
@@ -5119,17 +5125,18 @@ public class PushPublishTest {
 		categoriesPage.returnToParentCategory();
 		categoriesPage.returnToParentCategory();
 		categoriesPage.returnToParentCategory();
-
-		String bundleName2="test586-2";
-		categoriesPage.addToBundle(test586categoryName1, bundleName2);
+		
+		categoriesPage.addToBundle(test586categoryName1, test586bundleName2);
 
 		//download bundle
 		publishingQueuePage = portletMenu.getPublishingQueuePage();
 		publishingQueuePage.getBundlesTab();
 		//file should be located under project main folder
-		publishingQueuePage.downloadBundle(bundleName2,true);
+		publishingQueuePage.downloadBundle(test586bundleName2,true);
 
-		//delete categories
+		//delete categories and bundle
+		publishingQueuePage.deleteBundle(test586bundleName2);
+		publishingQueuePage.sleep(4);
 		categoriesPage = portletMenu.getCategoriesPage();
 		if(categoriesPage.doesCategoryExist(test586categoryName1)){	
 			categoriesPage.showCategoryChildrens(null, test586categoryName1);
@@ -5157,12 +5164,12 @@ public class PushPublishTest {
 
 		//calling receiver server
 		portletMenu = callReceiverServer();
-		
+
 		//upload bundle
 		publishingQueuePage = portletMenu.getPublishingQueuePage();
 		publishingQueuePage.getBundlesTab();
 		publishingQueuePage.uploadBundle(test586fileName);
-		
+
 		//validate categories categories
 		categoriesPage = portletMenu.getCategoriesPage();
 		Assert.assertTrue(categoriesPage.doesCategoryExist(test586categoryName1), "ERROR - Category ('"+test586categoryName1+"') should exist in receiver server");
