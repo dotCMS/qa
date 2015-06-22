@@ -9,7 +9,6 @@ env
 rm -rf *
 
 export QA_TestStartTime=$(date +%Y%m%d_%H%M%S)
-export QA_StarterURL=s3://qa.dotcms.com/starters/3.2_qastarter_v.0.4b.zip
 export QA_TomcatFolder=${WORKSPACE}/dotcms/dotserver/tomcat-8.0.18
 export QA_TomcatLogFile=${QA_TomcatFolder}/logs/catalina.out
 export QA_AccessLogFile=${QA_TomcatFolder}/logs/dotcms_access..$(date +%Y-%m-%d).log
@@ -61,8 +60,13 @@ sudo chown -R ubuntu:ubuntu ${WORKSPACE}/dotcms
 pushd ${WORKSPACE}/dotcms
 tar -xvf ${WORKSPACE}/downloads/dotcms.targz > /dev/null
 
-echo 'Pulling down and replacing starter'
-aws s3 cp ${QA_StarterURL} ${QA_StarterFullFilePath}
+if [ -z $QA_StarterURL ]
+then
+	echo 'NOT replacing starter'
+else
+	echo 'Pulling down and replacing starter'
+	aws s3 cp ${QA_StarterURL} ${QA_StarterFullFilePath}
+fi
 
 echo 'Setting index pages to legacy setting'
 sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/classes/dotmarketing-config.properties
