@@ -3,6 +3,7 @@ package com.dotcms.qa.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -77,5 +78,28 @@ public class FileUtil {
 			hashFile2+= Integer.toString((digest_2[i] & 0xff) + 0x100, 16).substring(1);
 		}
 		return hashFile1.equals(hashFile2);
+	}
+	
+	/**
+	 * Delete a file or files under the specified path and name or extension
+	 * @param filePath
+	 * @param nameOrExtension
+	 * @throws Exception
+	 */
+	public static void deleteFiles(String filePath, String nameOrExtension) throws Exception{
+		String path = System.getProperty("user.dir");
+		File folder = new File(path+filePath);
+		final String fileName = nameOrExtension;
+		File[] files =folder.listFiles(new FilenameFilter() {			
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(fileName);
+			}
+		});
+		for(File file : files){
+			if(file.isFile()){
+				file.delete();
+			}
+		}
 	}
 }

@@ -953,6 +953,10 @@ public class PushPublishTest {
 			if(rolePage.doesRoleExist(limitedRole)){
 				rolePage.deleteRole(limitedRole);
 			}*/
+			
+			/*delete downloaded tar.gz files*/
+			FileUtil.deleteFiles(test586fileName, ".tar.gz");
+			
 			logoutAuthoringServer();
 		}catch(Exception e){
 			logger.error(e.getMessage(), e);
@@ -4775,7 +4779,7 @@ public class PushPublishTest {
 
 		//calling receiver server
 		portletMenu=callReceiverServer();
-
+		portletMenu.sleep(2);
 		//validate if the categories exists
 		categoriesPage = portletMenu.getCategoriesPage();
 		Assert.assertTrue(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should exist in receiver server");
