@@ -55,16 +55,14 @@ echo 'QA_StarterFullFilePath=%QA_StarterFullFilePath%'
 
 if [%QA_StarterURL%] == [] (
 	echo 'NOT replacing starter'
-)
-else (
+) else (
 	echo 'Pulling down and replacing starter'
 	aws s3 cp %QA_StarterURL% %QA_StarterFullFilePath%
 )
 
 if [%QA_Legacy_Index_Setting%] == [] (
 	echo 'Leaving modern index page setting - index with no extension'
-)
-else (
+) else (
 	echo 'Setting index pages to legacy setting'
 	sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' %QA_TomcatFolder%\webapps\ROOT\WEB-INF\classes\dotmarketing-config.properties
 )
@@ -132,39 +130,33 @@ echo 'Getting trial license'
 cp %WORKSPACE%\qa\artifacts\license\trial.jsp %QA_TomcatFolder%\webapps\ROOT\trial.jsp
 curl http://localhost:8080/trial.jsp
 
-if "%QA_OPTION_AUTHORING_SERVER%" == "true" (
+if NOT "%QA_OPTION_AUTHORING_SERVER%" == "true" goto :noAuthoringServer
 	echo "YES, I am an authoring server - must wait for receiving server to come online..."
 :rcvIPLoop
+	echo "waiting for QA_SERVER_RECEIVING_IP_URL file ..."
+	sleep 30
 	aws s3 cp %QA_SERVER_RECEIVING_IP_URL% ./ip_receiving.txt
-	if NOT EXIST ./ip_receiving.txt (
-		echo "waiting for QA_SERVER_RECEIVING_IP_URL file ..."
-		sleep 30
-		goto rcvIPLoop
-	)
+	if NOT EXIST ./ip_receiving.txt goto rcvIPLoop
 	For /F "Tokens=*" %%I in ('cat ./ip_receiving.txt') Do Set DOTCMS_SERVER_RECEIVING_IP=%%I
 	echo "DOTCMS_SERVER_RECEIVING_IP = %DOTCMS_SERVER_RECEIVING_IP%"
 
 :rcvStatusLoop
+    echo "waiting for receiving server status file..."
+    sleep 30
 	aws s3 cp %QA_SERVER_RECEIVING_STATUS_URL% ./status_receiving.txt
-	if NOT EXIST ./status_receiving.txt (
-	    echo "waiting for receiving server status file..."
-	    sleep 30
-	    goto rcvStatusLoop
-	)
+	if NOT EXIST ./status_receiving.txt goto rcvStatusLoop
 	
 :rcvStatusLoop2
 	For /F "Tokens=*" %%I in ('grep -c "Running" ./status_receiving.txt') Do Set running=%%I
 	echo "running=%running%"
-	if %running% LSS 1 (
+	if %running% GEQ 1 goto endAuthoringServer
 	    echo "INFO - waiting for receiving server to be in Running state...."
 	    sleep 60
 	    aws s3 cp %QA_SERVER_RECEIVING_STATUS_URL% ./status_receiving.txt
 	    goto rcvStatusLoop2
-	)
-)
-if NOT "%QA_OPTION_AUTHORING_SERVER%" == "true" (
+:noAuthoringServer
 	echo "NOT an authoring server - continuing on"
-)
+:endAuthoringServer
 
 echo "Running" > status.txt
 aws s3 cp .\status.txt %QA_SERVER_STATUS_URL%
