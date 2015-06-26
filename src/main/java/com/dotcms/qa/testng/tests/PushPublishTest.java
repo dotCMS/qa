@@ -2077,6 +2077,7 @@ public class PushPublishTest {
 		templatesPage.sleep(3);
 
 		templatesPage.pushTemplate(test523templateTitle5);
+		templatesPage.sleep(2);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the template was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test523templateTitle5,5000,60);
@@ -2103,7 +2104,6 @@ public class PushPublishTest {
 		templatesPage.deleteTemplate(test523templateTitle5);
 		Assert.assertFalse(templatesPage.doesTemplateExist(test523templateTitle5), "ERROR - Authoring Server: Template ('"+test523templateTitle5+"') should not exist at this moment in authoring server.");	
 
-		templatesPage = portletMenu.getTemplatesPage();
 		templatesPage.deleteTemplate(test523templateTitle6);
 		Assert.assertFalse(templatesPage.doesTemplateExist(test523templateTitle6), "ERROR - Authoring Server: Template ('"+test523templateTitle6+"') should not exist at this moment in authoring server.");	
 		logoutAuthoringServer();
@@ -3095,6 +3095,7 @@ public class PushPublishTest {
 		Assert.assertTrue(schemesPage.doesWorkflowSchemeExist(test653workflowSchemeName2), "ERROR - Workflow ('"+test653workflowSchemeName2+"') should not exist in receiver server");
 
 		IWorkflowTasksPage workflowTasksPage = portletMenu.getWorkflowTasksPage();
+		workflowTasksPage.sleep(2);
 		Assert.assertTrue(workflowTasksPage.getWorflowTaskCurrentStep(test653contentTitle10, test653workflowSchemeName2).equals(test653workflowSchemeStep2),"ERROR - The workflow task ("+test653contentTitle10+") is not in the right step");
 
 		//delete structure and workflow
@@ -3726,7 +3727,7 @@ public class PushPublishTest {
 	public void tc623_PushFolderContainingContenWithCustomWorkflow() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-
+		portletMenu.sleep(2);
 		//create a workflow
 		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
@@ -3857,7 +3858,7 @@ public class PushPublishTest {
 	public void tc624_PushMoreThan50ContentletInBundle() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(2);
+		portletMenu.sleep(3);
 
 		//create structure 
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
@@ -3886,6 +3887,7 @@ public class PushPublishTest {
 
 		//generate bundle
 		String bundleName = "test624";
+		searchPage = portletMenu.getContentSearchPage();
 		searchPage.addToBundleAllStructureContent(test624contentStructureName15, bundleName);
 
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
@@ -4307,7 +4309,7 @@ public class PushPublishTest {
 
 		//call receiver servers
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(3);
+		portletMenu.sleep(4);
 		searchPage = portletMenu.getContentSearchPage();
 
 		Assert.assertTrue(searchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should  exist in receiver server");
@@ -4964,7 +4966,9 @@ public class PushPublishTest {
 		//add categories
 		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
 		categoriesPage.addCategory(null,test499categoryName1,test499categoryName1,test499categoryName1);
+		categoriesPage.sleep(1);
 		categoriesPage.addCategory(test499categoryName1,test499categoryName21,test499categoryName21,test499categoryName21);
+		categoriesPage.sleep(1);
 		categoriesPage.addCategory(test499categoryName21,test499categoryName31,test499categoryName31,test499categoryName31);
 		categoriesPage.returnToParentCategory();
 		categoriesPage.returnToParentCategory();
@@ -5140,7 +5144,7 @@ public class PushPublishTest {
 
 		//delete categories and bundle
 		publishingQueuePage.deleteBundle(test586bundleName2);
-		publishingQueuePage.sleep(4);
+		publishingQueuePage.sleep(3);
 		categoriesPage = portletMenu.getCategoriesPage();
 		if(categoriesPage.doesCategoryExist(test586categoryName1)){	
 			categoriesPage.showCategoryChildrens(null, test586categoryName1);
