@@ -1707,6 +1707,7 @@ public class PushPublishTest {
 
 		//Getting and editing container
 		IContainersPage containersPage = portletMenu.getContainersPage();
+		containersPage.sleep(2);
 		IContainerAddOrEditPage editContainerPage = containersPage.getEditContainerPage(containerTitle3);
 
 		Map<String, String> container = new HashMap<String,String>();
@@ -2020,7 +2021,7 @@ public class PushPublishTest {
 		Assert.assertFalse(browserPage.doesElementExist(test558pageUrl3), "ERROR - Authoring Server: Page ('"+test558pageUrl3+"') should not exist at this moment in authoring server.");
 		browserPage.deleteFolder(test558folderName1);
 		Assert.assertFalse(browserPage.doesFolderExist(test558folderName1), "ERROR - Authoring Server: Folder ('"+test558folderName1+"') should not exist at this moment in authoring server.");
-
+		browserPage.sleep(2);
 		templatesPage = portletMenu.getTemplatesPage();
 		templatesPage.deleteTemplate(test558templateTitle4);
 		Assert.assertFalse(templatesPage.doesTemplateExist(test558templateTitle4), "ERROR - Authoring Server: Template ('"+test558templateTitle4+"') should not exist at this moment in authoring server.");	
@@ -2165,6 +2166,7 @@ public class PushPublishTest {
 		Assert.assertTrue(browserPage.doesElementExist(test568pageUrl4), "ERROR - Authoring Server: Page ('"+test568pageUrl4+"') should exist at this moment in authoring server.");
 
 		browserPage.pushElement(test568pageUrl4);
+		browserPage.sleep(2);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the page was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test568pageTitle4,5000,60);
@@ -3538,6 +3540,7 @@ public class PushPublishTest {
 
 		//Calling receiver
 		portletMenu=callReceiverServer();
+		portletMenu.sleep(2);
 		contentSearchPage = portletMenu.getContentSearchPage();
 		Assert.assertTrue(contentSearchPage.doesContentExist(test528contentTitle7, test528contentStructureName7),"ERROR - content ('"+test528contentTitle7+"') doesn't exist in receiver server");
 		Assert.assertTrue(contentSearchPage.isPublish(test528contentTitle7, test528contentStructureName7),"ERROR - content ('"+test528contentTitle7+"') should be publish in receiver server");
@@ -4663,6 +4666,7 @@ public class PushPublishTest {
 
 		browserPage = portletMenu.getSiteBrowserPage();
 		browserPage.deleteFolder(test514folderName4);
+		browserPage.sleep(2);
 		Assert.assertFalse(browserPage.doesFolderExist(test514folderName4),"ERROR - Receiver server: Folder ("+test514folderName4+") should not exist in receiver server");
 
 		logoutReceiverServer();
@@ -4714,7 +4718,7 @@ public class PushPublishTest {
 		//wait until 5 minutes to check if the content was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed("category",5000,60);
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Category ("+test552categoryName1+") push should not be in pending list.");
-
+		publishingQueuePage.sleep(2);
 		//add structure
 		//create structure 
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
@@ -4860,7 +4864,7 @@ public class PushPublishTest {
 		Assert.assertFalse(categoriesPage.doesCategoryExist(test552categoryName31), "ERROR - Category ('"+test552categoryName31+"') should exist in receiver server");
 		categoriesPage.returnToParentCategory();
 		categoriesPage.returnToParentCategory();
-
+		categoriesPage.sleep(2);
 		IContentSearchPage contentSearch = portletMenu.getContentSearchPage();
 		Assert.assertTrue(contentSearch.doesContentExist(test552contentTitle19,test552contentStructureName19), "ERROR - Content ('"+test552contentTitle19+"') should exist in receiver server");
 		Assert.assertTrue(contentSearch.doesContentExist(test552contentTitle192,test552contentStructureName19), "ERROR - Content ('"+test552contentTitle192+"') should exist in receiver server");

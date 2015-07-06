@@ -71,6 +71,7 @@ public class ContainerAddOrEditPage extends BasePage implements IContainerAddOrE
 				element.sendKeys(Keys.TAB);
 			}catch(Exception e){
 				//if is a ace editor field
+				sleep(2);
 				executeJavaScript("ace.edit('"+key+"Editor').getSession().setValue('"+containerFields.get(key)+"');");
 			}
 		}
