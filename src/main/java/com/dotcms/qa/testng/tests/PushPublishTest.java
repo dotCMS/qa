@@ -3086,7 +3086,7 @@ public class PushPublishTest {
 
 		//call Receiver
 		portletMenu=callReceiverServer();
-
+		portletMenu.sleep(3);
 		searchPage = portletMenu.getContentSearchPage();
 		Assert.assertTrue(searchPage.doesContentExist(test653contentTitle10, test653contentStructureName10),  "ERROR - Content ('"+test653contentStructureName10+"') should  exist in receiver server");
 
@@ -4461,7 +4461,7 @@ public class PushPublishTest {
 	public void tc663_PushFileAssetContentWithPushPublishWorkflowAction() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		portletMenu.sleep(4);
 		//create a workflow
 		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
@@ -4511,7 +4511,7 @@ public class PushPublishTest {
 
 		//connect to authoring server as limited user
 		portletMenu = callAuthoringServer(limitedUserEmailA, limitedUserPaswwordA);
-		portletMenu.sleep(2);
+		portletMenu.sleep(3);
 		IWorkflowTasksPage taskPage = portletMenu.getWorkflowTasksPage();
 		IWorkflowTaskEdit_Page editTask = taskPage.getWorflowTask(test663contentTitle17, test663workflowSchemeName5);
 		editTask.selectAction(test663workflowActionName3);
@@ -4526,7 +4526,7 @@ public class PushPublishTest {
 		paramsMap.put("clickButton", "Save");
 		parameters.add(paramsMap);
 		contentPage.selectWorkflowAction(test663workflowActionName1, parameters);
-
+		contentPage.sleep(2);
 		IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 		//wait until 5 minutes to check if the content was pushed
 		boolean isPushed = publishingQueuePage.isObjectBundlePushed(test663contentTitle17,5000,60);
