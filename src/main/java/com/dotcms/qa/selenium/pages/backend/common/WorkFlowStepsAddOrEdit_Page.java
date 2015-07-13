@@ -160,6 +160,7 @@ public class WorkFlowStepsAddOrEdit_Page extends BasePage implements IWorkFlowSt
 		WebElement step = findStep(stepName);
 		step.findElement(By.className("wfStepTitle ")).findElement(By.cssSelector("span[class='deleteIcon']")).click();
 		switchToAlert().accept();
+		sleep(2);
 	}
 	
 	/**

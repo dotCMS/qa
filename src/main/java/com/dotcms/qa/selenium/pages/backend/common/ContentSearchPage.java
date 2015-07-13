@@ -166,7 +166,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 
 		if(showArchive){
 			WebElement advancedOptions = getWebElement(By.cssSelector("div[id='toggleDivText']"));
-			if(advancedOptions.getText().equals(getLocalizedString("Advanced"))){
+			if(advancedOptions.getText().equals(getLocalizedString("advanced"))){
 				getParent(advancedOptions).click();
 				sleep(1);
 			}
@@ -177,7 +177,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 			getWebElement(By.id("showingSelect_popup0")).click();
 		}else{
 			WebElement advancedOptions = getWebElement(By.cssSelector("div[id='toggleDivText']"));
-			if(!advancedOptions.getText().equals(getLocalizedString("Advanced"))){
+			if(!advancedOptions.getText().equals(getLocalizedString("advanced"))){
 				WebElement showOptions = getWebElement(By.id("showingSelect"));
 				showOptions.clear();
 				showOptions.sendKeys(getLocalizedString("All"));
@@ -381,7 +381,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 
 		if(showArchive){
 			WebElement advancedOptions = getWebElement(By.cssSelector("div[id='toggleDivText']"));
-			if(!advancedOptions.getText().equals(getLocalizedString("Advanced"))){
+			if(!advancedOptions.getText().equals(getLocalizedString("advanced"))){
 				getParent(advancedOptions).click();
 				sleep(1);
 			}
@@ -524,7 +524,7 @@ public class ContentSearchPage extends BasePage implements IContentSearchPage {
 	 */
 	public void changeLanguage(String language) throws Exception{
 		WebElement advancedOptions = getWebElement(By.cssSelector("div[id='toggleDivText']"));
-		if(advancedOptions.getText().equals(getLocalizedString("Advanced"))){
+		if(advancedOptions.getText().equals(getLocalizedString("advanced"))){
 			getParent(advancedOptions).click();
 			sleep(1);
 		}

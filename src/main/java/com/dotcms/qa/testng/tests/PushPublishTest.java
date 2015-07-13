@@ -522,6 +522,7 @@ public class PushPublishTest {
 		}catch(Exception e){
 			//already logged in
 		}
+		authoringLoginPage.sleep(3);
 		return authoringBackendMgr.getPageObject(IPortletMenu.class);
 	}
 
@@ -556,6 +557,7 @@ public class PushPublishTest {
 		}catch(Exception e){
 			//already logged in
 		}
+		receiverLoginPage.sleep(3);
 		return receiverBackendMgr.getPageObject(IPortletMenu.class);
 	}
 
@@ -1806,7 +1808,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(test555pageUrl1), "ERROR - Receiver Server: Page ('"+test555pageUrl1+"') should exist at this moment in receiver server.");
 
@@ -1952,7 +1954,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		templatesPage= portletMenu.getTemplatesPage();
 		Assert.assertTrue(templatesPage.doesTemplateExist(test556templateTitle2), "ERROR - Receiver Server: Template ('"+test556templateTitle2+"') should exist at this moment in receiver server.");
 
@@ -2021,7 +2023,7 @@ public class PushPublishTest {
 		Assert.assertFalse(browserPage.doesElementExist(test558pageUrl3), "ERROR - Authoring Server: Page ('"+test558pageUrl3+"') should not exist at this moment in authoring server.");
 		browserPage.deleteFolder(test558folderName1);
 		Assert.assertFalse(browserPage.doesFolderExist(test558folderName1), "ERROR - Authoring Server: Folder ('"+test558folderName1+"') should not exist at this moment in authoring server.");
-		browserPage.sleep(2);
+		browserPage.sleep(3);
 		templatesPage = portletMenu.getTemplatesPage();
 		templatesPage.deleteTemplate(test558templateTitle4);
 		Assert.assertFalse(templatesPage.doesTemplateExist(test558templateTitle4), "ERROR - Authoring Server: Template ('"+test558templateTitle4+"') should not exist at this moment in authoring server.");	
@@ -2111,7 +2113,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 
 		templatesPage = portletMenu.getTemplatesPage();
 		Assert.assertTrue(templatesPage.doesTemplateExist(test523templateTitle5), "ERROR - Receiver Server: Template ('"+test523templateTitle5+"') should exist at this moment in receiver server.");
@@ -2161,7 +2163,7 @@ public class PushPublishTest {
 
 		//login as limited user
 		portletMenu =callAuthoringServer(limitedUserEmailA, limitedUserPaswwordA);
-		portletMenu.sleep(4);
+		//portletMenu.sleep(4);
 		browserPage= portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(test568pageUrl4), "ERROR - Authoring Server: Page ('"+test568pageUrl4+"') should exist at this moment in authoring server.");
 
@@ -2175,7 +2177,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(test568pageUrl4), "ERROR - Receiver Server: Page ('"+test568pageUrl4+"') should exist at this moment in receiver server.");
 
@@ -2233,7 +2235,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(test568pageUrl4), "ERROR - Receiver Server: Page ('"+test568pageUrl4+"') should exist at this moment in receiver server.");
 
@@ -2320,7 +2322,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(test507pageUrl5), "ERROR - Receiver Server: Page ('"+test507pageUrl5+"') should exist at this moment in receiver server.");
 
@@ -2366,7 +2368,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(test507pageUrl5), "ERROR - Receiver Server: Page ('"+test507pageUrl5+"') should exist at this moment in receiver server.");
 
@@ -2388,7 +2390,7 @@ public class PushPublishTest {
 	public void tc578_UpdatePageAndPushAsLimitedUser() throws Exception {
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
 		browserPage.editHTMLPageProperties(test507pageUrl5);
 		IHTMLPageAddOrEdit_ContentPage htmlAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IHTMLPageAddOrEdit_ContentPage.class);
@@ -2422,7 +2424,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		browserPage= portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(test507pageUrl5), "ERROR - Receiver Server: Page ('"+test507pageUrl5+"') should exist at this moment in receiver server.");
 
@@ -2451,7 +2453,7 @@ public class PushPublishTest {
 	public void tc582_AddHTMLPageToBundle() throws Exception {
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
 		browserPage.createHTMLPage(test582pageTitle6, test507templateTitle8, test582pageUrl6);
 
@@ -2476,7 +2478,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		browserPage= portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(test582pageUrl6), "ERROR - Receiver Server: Page ('"+test582pageUrl6+"') should exist at this moment in receiver server.");
 
@@ -2498,7 +2500,7 @@ public class PushPublishTest {
 	public void tc625_PushHTMLPageWithSavedAndPublishContent() throws Exception {
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		ISiteBrowserPage browserPage= portletMenu.getSiteBrowserPage();
 		browserPage.createUnpublishHTMLPage(test625pageTitle7, test625template625, test625pageUrl7);
 
@@ -2533,7 +2535,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		browserPage= portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(test625pageUrl7), "ERROR - Receiver Server: Page ('"+test625pageUrl7+"') should exist at this moment in receiver server.");
 
@@ -2564,7 +2566,7 @@ public class PushPublishTest {
 
 		//Connect to receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		browserPage= portletMenu.getSiteBrowserPage();
 		Assert.assertTrue(browserPage.doesElementExist(test625pageUrl7), "ERROR - Receiver Server: Page ('"+test625pageUrl7+"') should exist at this moment in receiver server.");
 
@@ -2594,7 +2596,7 @@ public class PushPublishTest {
 	public void tc524_RemotePushAMenuLink() throws Exception {
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		IMenuLinkPage menuLinkPage= portletMenu.getMenuLinkPage();
 		IMenuLinkAddOrEdit_Page editPage = menuLinkPage.addLink();
 		editPage.setLinkTitle(test524linkTitle1); 
@@ -2619,7 +2621,7 @@ public class PushPublishTest {
 
 		//Calling receiver server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		menuLinkPage= portletMenu.getMenuLinkPage();
 
 		Assert.assertTrue(menuLinkPage.doesLinkExist(test524linkTitle1), "ERROR - Receiver Server: Menu Link ('"+test524linkTitle1+"') should not exist at this moment in receiver server.");
@@ -2635,7 +2637,7 @@ public class PushPublishTest {
 	public void tc574_EditAndPushAMenuLink() throws Exception {
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		IMenuLinkPage menuLinkPage= portletMenu.getMenuLinkPage();
 		IMenuLinkAddOrEdit_Page editPage = menuLinkPage.editLink(test524linkTitle1);
 		editPage.setLinkTitle(test524linkTitle1); 
@@ -2655,7 +2657,7 @@ public class PushPublishTest {
 		Assert.assertTrue(isPushed, "ERROR - Authoring Server: Menu link ("+test524linkTitle1+") push should not be in pending list.");
 
 		//delete Link
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		menuLinkPage= portletMenu.getMenuLinkPage();
 		menuLinkPage.deleteLink(test524linkTitle1);
 		Assert.assertFalse(menuLinkPage.doesLinkExist(test524linkTitle1), "ERROR - Authoring Server: Menu Link ('"+test524linkTitle1+"') should not exist at this moment in authoring server.");
@@ -2690,7 +2692,7 @@ public class PushPublishTest {
 	public void tc575_PushAMenuLinkAsLimitedUser() throws Exception {
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
 		IMenuLinkAddOrEdit_Page editPage = browserPage.addMenuLinkInFolder(test575linkFolder2);
 		editPage.setLinkTitle(test575linkTitle2); 
@@ -2729,14 +2731,14 @@ public class PushPublishTest {
 	public void tc576_EditMenuLinkAndPushAsLimitedUser() throws Exception {
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
 		browserPage.selectFolder(test575linkFolder2);
 		IMenuLinkAddOrEdit_Page editPage = browserPage.editMenuLink(test575linkTitle2);
 		editPage.setLinkShowOnMenu(test576linkShowOnMenu22);
 		editPage.setLinkCode(test576linkCode22);
 		editPage.save();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		browserPage = portletMenu.getSiteBrowserPage();
 		browserPage.selectFolder(test575linkFolder2);
 		Assert.assertTrue(browserPage.doesElementExist(test575linkTitle2), "ERROR - Authoring Server: Menu Link ('"+test575linkTitle2+"') should not exist at this moment in authoring server.");
@@ -2786,7 +2788,7 @@ public class PushPublishTest {
 	public void tc589_PushAMenuLinkInBundle() throws Exception {
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		IMenuLinkPage menuLinkPage = portletMenu.getMenuLinkPage();
 		IMenuLinkAddOrEdit_Page editPage = menuLinkPage.addLink();
 		editPage.setLinkTitle(test589linkTitle3); 
@@ -2797,7 +2799,7 @@ public class PushPublishTest {
 		editPage.setLinkShowOnMenu(test589linkShowOnMenu3);
 		editPage.setLinkInternalCode(test589linkInternalHost3, test589linkInternalFolder3, test589linkInternalUrl3);
 		editPage.saveAndPublish();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		menuLinkPage = portletMenu.getMenuLinkPage();
 		String bundleName = "test589";
 		menuLinkPage.addToBundle(test589linkTitle3,bundleName);
@@ -2861,7 +2863,7 @@ public class PushPublishTest {
 	public void tc652_AddWorkflowAssignToStructureAndPush() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(4);
 		//create a workflow
 		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
@@ -2964,7 +2966,7 @@ public class PushPublishTest {
 	public void tc653_AddWorkflowAssignToStructureAddContentAndPush() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		//create a workflow
 		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
@@ -3086,7 +3088,7 @@ public class PushPublishTest {
 
 		//call Receiver
 		portletMenu=callReceiverServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		searchPage = portletMenu.getContentSearchPage();
 		Assert.assertTrue(searchPage.doesContentExist(test653contentTitle10, test653contentStructureName10),  "ERROR - Content ('"+test653contentStructureName10+"') should  exist in receiver server");
 
@@ -3131,7 +3133,7 @@ public class PushPublishTest {
 	public void tc520_UnpublishContentAndPush() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(test520contentStructureName1);
 
@@ -3178,7 +3180,7 @@ public class PushPublishTest {
 	public void tc496_PushContentAndPushToRemove() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 
 		//create structure
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
@@ -3254,7 +3256,7 @@ public class PushPublishTest {
 
 		//calling receiver
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		contentSearchPage = portletMenu.getContentSearchPage();
 		Assert.assertFalse(contentSearchPage.doesContentExist(test496contentTitle2, test496contentStructureName2), "ERROR - Receiver Server: Content ("+test496contentTitle2+") should exist at this moment in receiver server.");		
 
@@ -3277,7 +3279,7 @@ public class PushPublishTest {
 	public void tc519_PushMultipleContentlets() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		
 		List<String> listOfContent = new ArrayList<String>();
 		//create structure 1
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
@@ -3313,7 +3315,6 @@ public class PushPublishTest {
 		contentPage.saveAndPublish();
 		contentPage.sleep(2);
 		listOfContent.add(test519contentTitle3);
-
 
 		//create structure 2
 		structurePage = portletMenu.getStructuresPage();
@@ -3437,7 +3438,7 @@ public class PushPublishTest {
 	public void tc532_PushSpecialCharactersInContents() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 
 		//create structure 1
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
@@ -3510,7 +3511,7 @@ public class PushPublishTest {
 	public void tc528_PublishUnpublishAndDelete() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(test528contentStructureName7);
@@ -3540,7 +3541,7 @@ public class PushPublishTest {
 
 		//Calling receiver
 		portletMenu=callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		contentSearchPage = portletMenu.getContentSearchPage();
 		Assert.assertTrue(contentSearchPage.doesContentExist(test528contentTitle7, test528contentStructureName7),"ERROR - content ('"+test528contentTitle7+"') doesn't exist in receiver server");
 		Assert.assertTrue(contentSearchPage.isPublish(test528contentTitle7, test528contentStructureName7),"ERROR - content ('"+test528contentTitle7+"') should be publish in receiver server");
@@ -3585,7 +3586,7 @@ public class PushPublishTest {
 	public void tc572_PushContentAsLimitedUser() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 
 		//create structure
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
@@ -3607,7 +3608,7 @@ public class PushPublishTest {
 
 		//login as limited user
 		portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.addContent(test572contentStructureName8);
 
@@ -3658,7 +3659,7 @@ public class PushPublishTest {
 	public void tc573_EditContentAndPushAsLimitedUser() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		IContentSearchPage contentSearchPage = portletMenu.getContentSearchPage();
 		IContentAddOrEdit_ContentPage contentPage = contentSearchPage.editContent(test572contentTitle8,test572contentStructureName8);
 
@@ -3711,7 +3712,7 @@ public class PushPublishTest {
 
 		//calling authoring server
 		portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 
 		//delete structure
 		structurePage = portletMenu.getStructuresPage();
@@ -3730,7 +3731,7 @@ public class PushPublishTest {
 	public void tc623_PushFolderContainingContenWithCustomWorkflow() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		//create a workflow
 		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
@@ -3861,7 +3862,7 @@ public class PushPublishTest {
 	public void tc624_PushMoreThan50ContentletInBundle() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 
 		//create structure 
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
@@ -4056,7 +4057,7 @@ public class PushPublishTest {
 	public void tc662_PushContentInMiddleStepOfCustomWorkflow() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		//create a workflow
 		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkflowSchemeAddOrEditPage addSchemePage = schemesPage.getAddSchemePage();
@@ -4282,7 +4283,7 @@ public class PushPublishTest {
 	public void tc48320_PushUpdateAnArchivedContent() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
 		IContentAddOrEdit_ContentPage contentPage = searchPage.addContent(test48320contentStructureName14);
 
@@ -4312,7 +4313,7 @@ public class PushPublishTest {
 
 		//call receiver servers
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(4);
+		//portletMenu.sleep(4);
 		searchPage = portletMenu.getContentSearchPage();
 
 		Assert.assertTrue(searchPage.doesContentExist(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should  exist in receiver server");
@@ -4342,7 +4343,7 @@ public class PushPublishTest {
 
 		//call receiver servers
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		searchPage = portletMenu.getContentSearchPage();
 
 		Assert.assertFalse(searchPage.isArchive(test48320contentTitle14, test48320contentStructureName14),  "ERROR - Content ('"+test48320contentTitle14+"') should not be archive in receiver server");
@@ -4367,7 +4368,7 @@ public class PushPublishTest {
 	public void tc14130_PushContentWithNewSystemLanguage() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		ILanguagesPage languagesPage = portletMenu.getLanguagesPage();
 		languagesPage.addLanguage(test14130LangCode, test14130CountryCode, test14130Language, test14130Country);
 		Assert.assertTrue(languagesPage.doesLanguageExist(test14130Language,test14130CountryCode),"ERROR - Authoring server: Language ("+test14130Language+") does not exist in authoring server");
@@ -4461,7 +4462,7 @@ public class PushPublishTest {
 	public void tc663_PushFileAssetContentWithPushPublishWorkflowAction() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(4);
+		//portletMenu.sleep(4);
 		//create a workflow
 		IWorkflowSchemesPage schemesPage = portletMenu.getWorkflowSchemesPage();
 		IWorkFlowStepsAddOrEdit_Page schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
@@ -4511,8 +4512,9 @@ public class PushPublishTest {
 
 		//connect to authoring server as limited user
 		portletMenu = callAuthoringServer(limitedUserEmailA, limitedUserPaswwordA);
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		IWorkflowTasksPage taskPage = portletMenu.getWorkflowTasksPage();
+		taskPage.sleep(2);
 		IWorkflowTaskEdit_Page editTask = taskPage.getWorflowTask(test663contentTitle17, test663workflowSchemeName5);
 		editTask.selectAction(test663workflowActionName3);
 		editTask.sleep(2);
@@ -4536,7 +4538,7 @@ public class PushPublishTest {
 
 		//connect as admin
 		portletMenu = callAuthoringServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		//delete workflow action, content and folder
 		schemesPage = portletMenu.getWorkflowSchemesPage();
 		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
@@ -4559,7 +4561,7 @@ public class PushPublishTest {
 
 		//call receiver Server
 		portletMenu = callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		schemesPage = portletMenu.getWorkflowSchemesPage();
 		schemeStepsPage = schemesPage.getEditSchemeStepsPage(test663workflowSchemeName5);
 		Assert.assertTrue(schemeStepsPage.doesWorkflowStepActionExist(test663workflowSchemeStep1, test663workflowActionName1), "ERROR - in receiver server: Workflow ("+test663workflowSchemeName5+") on the step ("+test663workflowSchemeStep1+") this action ("+test663workflowActionName1+") should exist in receiver server");
@@ -4600,7 +4602,7 @@ public class PushPublishTest {
 	public void tc514_PushContentWithLargeObjectAttached() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 
 		IContentSearchPage searchPage = portletMenu.getContentSearchPage();
 		ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
@@ -4673,7 +4675,7 @@ public class PushPublishTest {
 
 		//connect to authoring server
 		portletMenu=callAuthoringServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		//delete structure and language
 		searchPage = portletMenu.getContentSearchPage();
 		searchPage.unpublish(test514fileName18,test514contentStructureName18);
@@ -4702,7 +4704,7 @@ public class PushPublishTest {
 	public void tc552_AddCategoriesAndRemoteSynchronize() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		//add categories
 		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
 		categoriesPage.addCategory(null,test552categoryName1,test552categoryName1,test552categoryName1);
@@ -4785,7 +4787,7 @@ public class PushPublishTest {
 
 		//calling receiver server
 		portletMenu=callReceiverServer();
-		portletMenu.sleep(2);
+		//portletMenu.sleep(2);
 		//validate if the categories exists
 		categoriesPage = portletMenu.getCategoriesPage();
 		Assert.assertTrue(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should exist in receiver server");
@@ -4827,7 +4829,7 @@ public class PushPublishTest {
 	public void tc553_RemoveChildCategoriesAndRemoteSynchronize() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		//remove categories
 		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
 		categoriesPage.showCategoryChildrens(null, test552categoryName1);
@@ -4891,7 +4893,7 @@ public class PushPublishTest {
 	public void tc554_RemoveCategoriesAssignedToContentAndRemoteSynchronize() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
 		IStructureAddOrEdit_PropertiesPage editStructurePage = structurePage.getStructurePage(test552contentStructureName19);
@@ -4966,7 +4968,7 @@ public class PushPublishTest {
 	public void tc499_SynchronizeCategories() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		//add categories
 		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
 		categoriesPage.addCategory(null,test499categoryName1,test499categoryName1,test499categoryName1);
@@ -5007,7 +5009,7 @@ public class PushPublishTest {
 
 		//calling authoring server
 		portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		//add categories
 		categoriesPage = portletMenu.getCategoriesPage();
 		categoriesPage.showCategoryChildrens(null,test499categoryName1);
@@ -5092,7 +5094,7 @@ public class PushPublishTest {
 	public void tc586_AddCategoriesToBundleAndPush() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		portletMenu.sleep(3);
+		//portletMenu.sleep(3);
 		//add categories
 		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
 		categoriesPage.addCategory(null,test586categoryName1,test586categoryName1,test586categoryName1);
@@ -5148,7 +5150,7 @@ public class PushPublishTest {
 
 		//delete categories and bundle
 		publishingQueuePage.deleteBundle(test586bundleName2);
-		publishingQueuePage.sleep(3);
+		publishingQueuePage.sleep(4);
 		categoriesPage = portletMenu.getCategoriesPage();
 		if(categoriesPage.doesCategoryExist(test586categoryName1)){	
 			categoriesPage.showCategoryChildrens(null, test586categoryName1);

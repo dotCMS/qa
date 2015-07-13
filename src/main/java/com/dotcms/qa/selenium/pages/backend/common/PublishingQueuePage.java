@@ -321,6 +321,7 @@ public class PublishingQueuePage extends BasePage implements IPublishingQueuePag
 			if(button.getText().equals(localizedString)){
 				button.click();
 				switchToAlert().accept();
+				sleep(2);
 				break;
 			}
 		}

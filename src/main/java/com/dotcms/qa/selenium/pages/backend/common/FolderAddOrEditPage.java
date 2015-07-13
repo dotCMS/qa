@@ -1,5 +1,8 @@
 package com.dotcms.qa.selenium.pages.backend.common;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,10 +11,9 @@ import com.dotcms.qa.selenium.pages.common.BasePage;
 import com.dotcms.qa.selenium.pages.backend.IFolderAddOrEditPage;
 
 public class FolderAddOrEditPage extends BasePage implements IFolderAddOrEditPage {
-	
+
 	private WebElement friendlyNameField;
 	private WebElement titleField;
-	private WebElement dijit_form_Button_5;	// Save button
 	
 	public FolderAddOrEditPage(WebDriver driver) {
 		super(driver);
@@ -46,7 +48,13 @@ public class FolderAddOrEditPage extends BasePage implements IFolderAddOrEditPag
 	}
 
 	public void save() {
-		dijit_form_Button_5.click();
+		List<WebElement> buttons = getWebElement(By.id("editFolderButtonRow")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString("save"))){
+				button.click();
+				break;
+			}
+		}
 	}
 
 	public void cancel() {
