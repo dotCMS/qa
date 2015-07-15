@@ -4829,7 +4829,6 @@ public class PushPublishTest {
 	public void tc553_RemoveChildCategoriesAndRemoteSynchronize() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		//portletMenu.sleep(3);
 		//remove categories
 		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
 		categoriesPage.showCategoryChildrens(null, test552categoryName1);
@@ -4917,6 +4916,7 @@ public class PushPublishTest {
 		categoriesPage.sleep(2);
 		categoriesPage.showCategoryChildrens(null, test552categoryName1);
 		categoriesPage.deleteCategory(null, test552categoryName21);
+		Assert.assertFalse(categoriesPage.doesCategoryExist(test552categoryName21), "ERROR - Category ('"+test552categoryName21+"') should not exist in authoring server");
 		categoriesPage.returnToParentCategory();
 		categoriesPage.deleteCategory(null, test552categoryName1);
 		Assert.assertFalse(categoriesPage.doesCategoryExist(test552categoryName1), "ERROR - Category ('"+test552categoryName1+"') should not exist in authoring server");

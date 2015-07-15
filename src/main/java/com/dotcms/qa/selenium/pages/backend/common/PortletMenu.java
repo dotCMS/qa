@@ -22,7 +22,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 
 	public IContentSearchPage getContentSearchPage() throws Exception {
 	    hoverOverElement(getPortletElement("Content"));
-	    sleep(2);
+	    sleep(3);
 	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_11"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentSearchPage.class);		
@@ -30,7 +30,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 
 	public ILicenseManagerPage getLicenseManagerPage() throws Exception {
 	    hoverOverElement(getPortletElement("System"));
-	    sleep(2);
+	    sleep(3);
 	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_LICENSE_MANAGER"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ILicenseManagerPage.class);
@@ -38,7 +38,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	
 	public IStructuresPage getStructuresPage() throws Exception {
 	    hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"));
-	    sleep(2);
+	    sleep(3);
 	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructuresPage.class);
@@ -46,7 +46,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 
 	public IVanityURLsPage getVanityURLsPage() throws Exception {
 	    hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-	    sleep(2);
+	    sleep(3);
 	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_VIRTUAL_LINKS"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IVanityURLsPage.class);
@@ -54,7 +54,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	
 	public IHostPage getHostPage() throws Exception {
 	    hoverOverElement(getPortletElement("System"));
-	    sleep(2);
+	    sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_HOSTADMIN"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IHostPage.class);
@@ -62,7 +62,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 
 	public ISiteBrowserPage getSiteBrowserPage() throws Exception {
 	    hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-	    sleep(2);
+	    sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ISiteBrowserPage.class);		
@@ -75,7 +75,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public IUsersPage getUsersPage() throws Exception {
 	    hoverOverElement(getPortletElement("System"));
-	    sleep(2);
+	    sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_USER_ADMIN"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IUsersPage.class);		
@@ -88,7 +88,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public IRolesPage getRolesPage() throws Exception {
 	    hoverOverElement(getPortletElement("System"));
-	    sleep(2);
+	    sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_ROLE_ADMIN"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IRolesPage.class);		
@@ -101,7 +101,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public IMailingListPage getMailingListPage() throws Exception {
 	    hoverOverElement(getPortletElement("Mailing-List"));
-	    sleep(2);
+	    sleep(3);
 	    getPortletElement("Mailing-List").click();
 	    sleep(3);
 	    return SeleniumPageManager.getBackEndPageManager().getPageObject(IMailingListPage.class);		
@@ -114,7 +114,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public ITemplatesPage getTemplatesPage() throws Exception {
 	    hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-	    sleep(2);
+	    sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_13"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplatesPage.class);		
@@ -127,7 +127,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public IConfigurationPage getConfigurationPage() throws Exception {
 	    hoverOverElement(getPortletElement("System"));
-	    sleep(2);
+	    sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.9"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IConfigurationPage.class);	
@@ -140,7 +140,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public IContainersPage getContainersPage() throws Exception{
 		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-		sleep(2);
+		sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_12"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContainersPage.class);	
@@ -153,7 +153,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public IPublishingQueuePage getPublishingQueuePage() throws Exception {
 		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-		sleep(2);
+		sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_CONTENT_PUBLISHING_TOOL"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IPublishingQueuePage.class);
@@ -191,7 +191,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public IMenuLinkPage getMenuLinkPage() throws Exception{
 		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-		sleep(2);
+		sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_18"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMenuLinkPage.class);
@@ -204,7 +204,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public IWorkflowSchemesPage getWorkflowSchemesPage() throws Exception{
 		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"));
-		sleep(2);
+		sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.WORKFLOW_SCHEMES"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IWorkflowSchemesPage.class);
@@ -217,7 +217,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public IWorkflowTasksPage getWorkflowTasksPage() throws Exception{
 		hoverOverElement(getPortletElement(getLocalizedString("Home")));
-		sleep(2);
+		sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_21"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IWorkflowTasksPage.class);
@@ -230,7 +230,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public ILanguagesPage getLanguagesPage() throws Exception{
 		hoverOverElement(getPortletElement("System"));
-		sleep(2);
+		sleep(3);
 	    getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_LANG"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ILanguagesPage.class);		
@@ -243,7 +243,7 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 */
 	public ICategoriesPage getCategoriesPage() throws Exception{
 		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"));
-		sleep(2);
+		sleep(3);
 	    getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_4"))).click();
 	    sleep(3);
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ICategoriesPage.class);	

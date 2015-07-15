@@ -469,7 +469,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	private WebElement findFolder(String folderName) throws Exception{
 		WebElement treeChildrenULTopLevel = null;
 		sleep(1);
-		List<WebElement> uls = TreeUL.findElements(By.tagName("ul"));
+		List<WebElement> uls = getWebElement(By.cssSelector("div[id='leftContentPane']")).findElement(By.cssSelector("ul[id='TreeUL']")).findElements(By.tagName("ul"));
 		for(WebElement ul : uls) {
 			try {
 				if(ul.getAttribute("id").trim().endsWith("TreeChildrenUL")) {
