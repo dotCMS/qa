@@ -182,7 +182,7 @@ public class ContainerAddOrEditPage extends BasePage implements IContainerAddOrE
 		WebElement elem = null;
 		List<WebElement> spans = getWebElement(By.id("structureSelecttDiv")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement span:spans){ 
-			if(span.getText().equals(getLocalizedString("Add Content-Type"))){
+			if(span.getText().equals(getLocalizedString("add-content-type"))){
 				elem =span;
 				break;
 			}
