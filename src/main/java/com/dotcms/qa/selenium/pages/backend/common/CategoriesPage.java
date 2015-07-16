@@ -227,6 +227,7 @@ public class CategoriesPage extends BasePage implements ICategoriesPage {
 				getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).clear();
 				getWebElement(By.id("addToBundleDia")).findElement(By.id("bundleSelect")).sendKeys(bundleName);
 				getWebElement(By.id("addToBundleDia")).findElement(By.id("addToBundleSaveButton_label")).click();
+				sleep(2);
 				break;
 			}
 		}

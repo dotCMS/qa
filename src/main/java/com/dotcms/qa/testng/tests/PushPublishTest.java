@@ -3862,8 +3862,7 @@ public class PushPublishTest {
 	public void tc624_PushMoreThan50ContentletInBundle() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		//portletMenu.sleep(3);
-
+		
 		//create structure 
 		IStructuresPage structurePage = portletMenu.getStructuresPage();
 		IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
