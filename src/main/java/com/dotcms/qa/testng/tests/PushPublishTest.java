@@ -5093,7 +5093,7 @@ public class PushPublishTest {
 	public void tc586_AddCategoriesToBundleAndPush() throws Exception{
 		//Calling authoring Server
 		IPortletMenu portletMenu = callAuthoringServer();
-		//portletMenu.sleep(3);
+		
 		//add categories
 		ICategoriesPage categoriesPage = portletMenu.getCategoriesPage();
 		categoriesPage.addCategory(null,test586categoryName1,test586categoryName1,test586categoryName1);
