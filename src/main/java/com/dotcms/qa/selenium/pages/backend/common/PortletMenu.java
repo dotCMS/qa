@@ -17,60 +17,73 @@ import org.apache.log4j.Logger;
 public class PortletMenu extends BasePage implements IPortletMenu {
 	private static final Logger logger = Logger.getLogger(PortletMenu.class);
 	private String page=null;
+	private String portlet=null;
 	public PortletMenu(WebDriver driver) {
 		super(driver);
 	}
 
 	public IContentSearchPage getContentSearchPage() throws Exception {
-		hoverOverElement(getPortletElement("Content"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_11")){
-			getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_11"))).click();
-			sleep(3);
+		if(portletElementExist("Content")){
+			hoverOverElement(getPortletElement("Content"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_11")){
+				getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_11"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentSearchPage.class);		
 	}
 
 	public ILicenseManagerPage getLicenseManagerPage() throws Exception {
-		hoverOverElement(getPortletElement("System"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_LICENSE_MANAGER")){
-			getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_LICENSE_MANAGER"))).click();
-			sleep(3);
+		if(portletElementExist("System")){
+			hoverOverElement(getPortletElement("System"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_LICENSE_MANAGER")){
+				getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_LICENSE_MANAGER"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ILicenseManagerPage.class);
 	}
 
 	public IStructuresPage getStructuresPage() throws Exception {
-		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE")){
-			getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"))).click();
-			sleep(3);
+		if(portletElementExist("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE")){
+			hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE")){
+				getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IStructuresPage.class);
 	}
 
 	public IVanityURLsPage getVanityURLsPage() throws Exception {
-		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_VIRTUAL_LINKS")){
-			getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_VIRTUAL_LINKS"))).click();
-			sleep(3);
+		if(portletElementExist("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER")){
+			hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_VIRTUAL_LINKS")){
+				getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_VIRTUAL_LINKS"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IVanityURLsPage.class);
 	}
 
 	public IHostPage getHostPage() throws Exception {
-		hoverOverElement(getPortletElement("System"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_HOSTADMIN")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_HOSTADMIN"))).click();
-			sleep(3);
+		if(portletElementExist("System")){
+			hoverOverElement(getPortletElement("System"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_HOSTADMIN")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_HOSTADMIN"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IHostPage.class);
 	}
 
 	public ISiteBrowserPage getSiteBrowserPage() throws Exception {
-		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"))).click();
-			sleep(3);
+		if(portletElementExist("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER")){
+			hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ISiteBrowserPage.class);		
 	}
@@ -81,10 +94,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public IUsersPage getUsersPage() throws Exception {
-		hoverOverElement(getPortletElement("System"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_USER_ADMIN")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_USER_ADMIN"))).click();
-			sleep(3);
+		if(portletElementExist("System")){
+			hoverOverElement(getPortletElement("System"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_USER_ADMIN")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_USER_ADMIN"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IUsersPage.class);		
 	}
@@ -95,10 +110,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public IRolesPage getRolesPage() throws Exception {
-		hoverOverElement(getPortletElement("System"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_ROLE_ADMIN")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_ROLE_ADMIN"))).click();
-			sleep(3);
+		if(portletElementExist("System")){
+			hoverOverElement(getPortletElement("System"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_ROLE_ADMIN")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_ROLE_ADMIN"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IRolesPage.class);		
 	}
@@ -109,10 +126,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public IMailingListPage getMailingListPage() throws Exception {
-		hoverOverElement(getPortletElement("Mailing-List"));
-		sleep(3);
-		getPortletElement("Mailing-List").click();
-		sleep(3);
+		if(portletElementExist("Mailing-List")){
+			hoverOverElement(getPortletElement("Mailing-List"));
+			sleep(3);
+			getPortletElement("Mailing-List").click();
+			sleep(3);
+		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMailingListPage.class);		
 	}
 
@@ -122,10 +141,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public ITemplatesPage getTemplatesPage() throws Exception {
-		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_13")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_13"))).click();
-			sleep(3);
+		if(portletElementExist("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER")){
+			hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_13")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_13"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ITemplatesPage.class);		
 	}
@@ -136,10 +157,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public IConfigurationPage getConfigurationPage() throws Exception {
-		hoverOverElement(getPortletElement("System"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.9")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.9"))).click();
-			sleep(3);
+		if(portletElementExist("System")){
+			hoverOverElement(getPortletElement("System"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.9")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.9"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IConfigurationPage.class);	
 	}
@@ -150,10 +173,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public IContainersPage getContainersPage() throws Exception{
-		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_12")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_12"))).click();
-			sleep(3);
+		if(portletElementExist("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER")){
+			hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_12")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_12"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContainersPage.class);	
 	}
@@ -164,10 +189,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public IPublishingQueuePage getPublishingQueuePage() throws Exception {
-		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_CONTENT_PUBLISHING_TOOL")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_CONTENT_PUBLISHING_TOOL"))).click();
-			sleep(3);
+		if(portletElementExist("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER")){
+			hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_CONTENT_PUBLISHING_TOOL")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_CONTENT_PUBLISHING_TOOL"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IPublishingQueuePage.class);
 	}
@@ -203,10 +230,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public IMenuLinkPage getMenuLinkPage() throws Exception{
-		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_18")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_18"))).click();
-			sleep(3);
+		if(portletElementExist("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER")){
+			hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_BROWSER"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_18")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_18"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IMenuLinkPage.class);
 	}
@@ -217,10 +246,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public IWorkflowSchemesPage getWorkflowSchemesPage() throws Exception{
-		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.WORKFLOW_SCHEMES")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.WORKFLOW_SCHEMES"))).click();
-			sleep(3);
+		if(portletElementExist("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE")){
+			hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.WORKFLOW_SCHEMES")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.WORKFLOW_SCHEMES"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IWorkflowSchemesPage.class);
 	}
@@ -231,10 +262,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public IWorkflowTasksPage getWorkflowTasksPage() throws Exception{
-		hoverOverElement(getPortletElement(getLocalizedString("Home")));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_21")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_21"))).click();
-			sleep(3);
+		if(portletElementExist("Home")){
+			hoverOverElement(getPortletElement(getLocalizedString("Home")));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_21")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_21"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IWorkflowTasksPage.class);
 	}
@@ -245,10 +278,12 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public ILanguagesPage getLanguagesPage() throws Exception{
-		hoverOverElement(getPortletElement("System"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_LANG")){
-			getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_LANG"))).click();
-			sleep(3);
+		if(portletElementExist("System")){
+			hoverOverElement(getPortletElement("System"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_LANG")){
+				getWebElementClickable(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_LANG"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ILanguagesPage.class);		
 	}
@@ -259,18 +294,20 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 	 * @throws Exception
 	 */
 	public ICategoriesPage getCategoriesPage() throws Exception{
-		hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"));
-		if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_4")){
-			getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_4"))).click();
-			sleep(3);
+		if(portletElementExist("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE")){
+			hoverOverElement(getPortletElement("com.dotcms.repackage.javax.portlet.title.EXT_STRUCTURE"));
+			if(pageLinkExist("com.dotcms.repackage.javax.portlet.title.EXT_4")){
+				getWebElement(By.linkText(getLocalizedString("com.dotcms.repackage.javax.portlet.title.EXT_4"))).click();
+				sleep(3);
+			}
 		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(ICategoriesPage.class);	
 	}
 
 	/**
-	 * 
-	 * @param pageName
-	 * @return
+	 * Validate if a page exist
+	 * @param pageName Page Name
+	 * @return boolean
 	 * @throws Exception
 	 */
 	private boolean pageLinkExist(String pageName) throws Exception{
@@ -278,6 +315,23 @@ public class PortletMenu extends BasePage implements IPortletMenu {
 		Evaluator eval = new Evaluator() {
 			public boolean evaluate() throws Exception {  // returns true if the link exist
 				WebElement element = getWebElement(By.linkText(getLocalizedString(page)));
+				return element!=null;
+			}
+		};
+		return pollForValue(eval, true, 1000, 5);
+	}
+
+	/**
+	 * Validate if a portlet element exist
+	 * @param portletName Name of the portlet
+	 * @return boolean
+	 * @throws Exception
+	 */
+	private boolean portletElementExist(String portletName) throws Exception{
+		portlet=portletName;
+		Evaluator eval = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns true if the link exist
+				WebElement element = getPortletElement(portlet);
 				return element!=null;
 			}
 		};
