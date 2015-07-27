@@ -32,19 +32,31 @@ public class FolderAddOrEditPage extends BasePage implements IFolderAddOrEditPag
 	}
 
 	public void setSortOrder(int sortOrder) {
-		// TODO Auto-generated method stub
+		WebElement field = getWebElement(By.name("sortOrder"));
+		field.sendKeys(String.valueOf(sortOrder));
 	}
 
 	public void setShowOnMenu(boolean showOnMenu) {
-		// TODO Auto-generated method stub
+		WebElement field = getWebElement(By.name("showOnMenu"));
+		if(!field.isSelected() && showOnMenu){
+			field.click();
+		}else{
+			if(field.isSelected() && !showOnMenu){
+				field.click();
+			}
+		}
 	}
 
 	public void setAllowedFileExtensions(String allowedFileExtensions) {
-		// TODO Auto-generated method stub
+		WebElement field = getWebElement(By.name("filesMasks"));
+		field.sendKeys(String.valueOf(allowedFileExtensions));
 	}
 
 	public void setDefaultFileAssetType(String fileAssetType) {
-		// TODO Auto-generated method stub
+		WebElement field = getWebElement(By.id("defaultFileType"));
+		field.clear();
+		field.sendKeys(String.valueOf(fileAssetType));
+		getWebElement(By.id("defaultFileType")).click();
 	}
 
 	public void save() {
@@ -58,6 +70,65 @@ public class FolderAddOrEditPage extends BasePage implements IFolderAddOrEditPag
 	}
 
 	public void cancel() {
-		// TODO Auto-generated method stub
+		List<WebElement> buttons = getWebElement(By.id("editFolderButtonRow")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString("cancel"))){
+				button.click();
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Get the Folder Title
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getFolderTitle() throws Exception{
+		return friendlyNameField.getAttribute("value");
+	}
+	/**
+	 * Get the Folder name
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getFolderName() throws Exception{
+		return titleField.getAttribute("value");
+	}
+	/**
+	 * Get the Folder sort order
+	 * @return int
+	 * @throws Exception
+	 */
+	public int getSortOrder() throws Exception{
+		WebElement field = getWebElement(By.name("sortOrder"));
+		return Integer.parseInt(field.getAttribute("value"));
+	}
+	/**
+	 * Indicates if the Folder is show on menu
+	 * @return boolean
+	 * @throws Exception
+	 */
+	public boolean isShowOnMenu() throws Exception{
+		WebElement field = getWebElement(By.name("showOnMenu"));
+		return field.isSelected();
+	}
+	/**
+	 * Get the Folder alled file extension
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getAllowedFileExtensions() throws Exception{
+		WebElement field = getWebElement(By.name("filesMasks"));
+		return field.getAttribute("value");
+	}
+	/**
+	 * Get the Folder default file asset type
+	 * @return String
+	 * @throws Exception
+	 */
+	public String getDefaultFileAssetType() throws Exception{
+		WebElement field = getWebElement(By.id("defaultFileType"));
+		return field.getAttribute("value");
 	}
 }

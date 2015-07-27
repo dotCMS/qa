@@ -127,4 +127,12 @@ public interface IBasePage {
 	 * switch to active element
 	 */
 	public void switchToActiveElement() throws Exception;
+	
+	/**
+	 * Validate if a page link exist by link text
+	 * @param linkName Link Name
+	 * @return boolean
+	 * @throws Exception
+	 */
+	public boolean doesLinkExist(String linkName) throws Exception;
 }

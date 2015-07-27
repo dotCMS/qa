@@ -164,4 +164,12 @@ public interface ISiteBrowserPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public IContentAddOrEdit_ContentPage editFile(String fileName) throws Exception;
+	
+	/**
+	 * Open the edit mode for the specified folder
+	 * @param folderName   Folder Name
+	 * @return IFolderAddOrEditPage
+	 * @throws Exception
+	 */
+	public IFolderAddOrEditPage editFolder(String folderName) throws Exception;
 }

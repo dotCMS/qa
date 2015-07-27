@@ -43,6 +43,7 @@ public class BasePage implements IBasePage {
 	private WebDriver driver;
 	private WebDriverWait wait = null;
 
+	private String link=null;
 	public BasePage(WebDriver driver) {
 		this.driver = driver;
 		this.wait = getWaitObject(10, 500);
@@ -469,5 +470,22 @@ public class BasePage implements IBasePage {
 	 */
 	public void switchToActiveElement() throws Exception{
 		driver.switchTo().activeElement();
+	}
+	
+	/**
+	 * Validate if a page link exist by link text
+	 * @param linkName Link Name
+	 * @return boolean
+	 * @throws Exception
+	 */
+	public boolean doesLinkExist(String linkName) throws Exception{
+		link=linkName;
+		Evaluator eval = new Evaluator() {
+			public boolean evaluate() throws Exception {  // returns true if the link exist
+				WebElement element = getWebElement(By.linkText(getLocalizedString(link)));
+				return element!=null;
+			}
+		};
+		return pollForValue(eval, true, 1000, 5);
 	}
 }

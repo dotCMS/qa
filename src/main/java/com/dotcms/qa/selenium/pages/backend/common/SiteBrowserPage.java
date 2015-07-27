@@ -564,4 +564,17 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentAddOrEdit_ContentPage.class);
 
 	}
+	
+	/**
+	 * Open the edit mode for the specified folder
+	 * @param folderName   Folder Name
+	 * @return IFolderAddOrEditPage
+	 * @throws Exception
+	 */
+	public IFolderAddOrEditPage editFolder(String folderName) throws Exception{
+		WebElement  folder = findFolder(folderName);
+		this.selectPopupMenuOption(folder, getLocalizedString("Edit-Folder"));
+		return SeleniumPageManager.getBackEndPageManager().getPageObject(IFolderAddOrEditPage.class);
+
+	}
 }

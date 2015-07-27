@@ -102,7 +102,9 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	}
 
 	public IContentSearchPage saveAndPublish() throws Exception {
-		getWebElement(By.linkText(getLocalizedString("Save-Publish"))).click();
+		if(doesLinkExist("Save-Publish")){
+			getWebElement(By.linkText(getLocalizedString("Save-Publish"))).click();
+		}
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IContentSearchPage.class);
 	}
 
@@ -440,7 +442,9 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	 * @throws Exception
 	 */
 	public void save() throws Exception{
-		getWebElement(By.linkText(getLocalizedString("save"))).click();
+		if(doesLinkExist("save")){
+			getWebElement(By.linkText(getLocalizedString("save"))).click();
+		}
 	}
 
 	/**
@@ -448,7 +452,9 @@ public class ContentAddOrEdit_ContentPage extends BasePage implements IContentAd
 	 * @throws Exception
 	 */
 	public void cancel() throws Exception{
-		getWebElement(By.linkText(getLocalizedString("cancel"))).click();
+		if(doesLinkExist("cancel")){
+			getWebElement(By.linkText(getLocalizedString("cancel"))).click();
+		}
 	}
 
 	/**
