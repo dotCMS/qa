@@ -33,6 +33,7 @@ public class FolderAddOrEditPage extends BasePage implements IFolderAddOrEditPag
 
 	public void setSortOrder(int sortOrder) {
 		WebElement field = getWebElement(By.name("sortOrder"));
+		field.clear();
 		field.sendKeys(String.valueOf(sortOrder));
 	}
 
@@ -49,6 +50,7 @@ public class FolderAddOrEditPage extends BasePage implements IFolderAddOrEditPag
 
 	public void setAllowedFileExtensions(String allowedFileExtensions) {
 		WebElement field = getWebElement(By.name("filesMasks"));
+		field.clear();
 		field.sendKeys(String.valueOf(allowedFileExtensions));
 	}
 
@@ -56,7 +58,7 @@ public class FolderAddOrEditPage extends BasePage implements IFolderAddOrEditPag
 		WebElement field = getWebElement(By.id("defaultFileType"));
 		field.clear();
 		field.sendKeys(String.valueOf(fileAssetType));
-		getWebElement(By.id("defaultFileType")).click();
+		getWebElement(By.id("defaultFileType_popup0")).click();
 	}
 
 	public void save() {

@@ -399,6 +399,17 @@ public class PushPublishTest {
 	private String test541contentStructureName20Field2="binary1FileUpload";
 	private String test541contentTextArea20="/artifacts/testdata/test663.jpg";
 	private String test541fileName20="test663.jpg";
+	//test531
+	private String test531folderName8="test531";
+	private int test531folderSortOrder8=0;
+	private boolean test531folderShowOnMenu8=true;
+	private String test531folderAllowedFileExtensions8="*.jpg,*.png";
+	private String test531folderDefaultFileAssetType8="File Asset";
+	private String test531folderName82="test5312";
+	private int test531folderSortOrder82=2;
+	private boolean test531folderShowOnMenu82=false;
+	private String test531folderAllowedFileExtensions82="*.flv,*.mp4";
+	private String test531folderDefaultFileAssetType82="Video";
 
 
 	@BeforeGroups (groups = {"PushPublishing"})
@@ -667,6 +678,14 @@ public class PushPublishTest {
 
 			if(browserPage.doesFolderExist(test541folderName72)){
 				browserPage.deleteFolder(test541folderName72);
+			}
+			
+			if(browserPage.doesFolderExist(test531folderName8)){
+				browserPage.deleteFolder(test531folderName8);
+			}
+			
+			if(browserPage.doesFolderExist(test531folderName82)){
+				browserPage.deleteFolder(test531folderName82);
 			}
 
 			/* Delete template*/
@@ -1063,6 +1082,14 @@ public class PushPublishTest {
 
 			if(browserPage.doesFolderExist(test541folderName72)){
 				browserPage.deleteFolder(test541folderName72);
+			}
+			
+			if(browserPage.doesFolderExist(test531folderName8)){
+				browserPage.deleteFolder(test531folderName8);
+			}
+			
+			if(browserPage.doesFolderExist(test531folderName82)){
+				browserPage.deleteFolder(test531folderName82);
 			}
 
 			/* Delete template*/
@@ -5754,6 +5781,104 @@ public class PushPublishTest {
 			browserPage = portletMenu.getSiteBrowserPage();
 			browserPage.deleteFolder(test541folderName72);
 			Assert.assertFalse(browserPage.doesFolderExist(test541folderName72), "ERROR - Folder ('"+test541folderName72+"') should not exist in authoring server");
+			logoutReceiverServer();
+		}finally{
+			try{
+				logoutAuthoringServer();
+			}catch(Exception e){}
+			try{
+				logoutReceiverServer();
+			}catch(Exception e){}
+		}
+	}
+	
+	/**
+	 * Check push of folder fields
+	 * http://qa.dotcms.com/index.php?/cases/view/541
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc531_CheckPushOfFolderFields() throws Exception{
+		try{
+			//Calling authoring Server
+			IPortletMenu portletMenu = callAuthoringServer();
+
+			ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.createFolder(null, test531folderName8,test531folderName8,test531folderSortOrder8,test531folderShowOnMenu8,test531folderAllowedFileExtensions8,test531folderDefaultFileAssetType8);
+
+			Assert.assertTrue(browserPage.doesFolderExist(test531folderName8), "ERROR - Folder ('"+test531folderName8+"') should exist in authoring server");
+			//push folder
+			browserPage.pushFolder(test531folderName8);
+
+			IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+			//wait until 5 minutes to check if the content was pushed
+			boolean isPushed = publishingQueuePage.isObjectBundlePushed(test531folderName8,5000,60);
+			Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ("+test531folderName8+") push should not be in pending list.");
+			logoutAuthoringServer();
+
+			//Calling receiver Server
+			portletMenu = callReceiverServer();
+
+			browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesFolderExist(test531folderName8), "ERROR - Folder ('"+test531folderName8+"') should exist in receiver server");
+			
+			IFolderAddOrEditPage folder = browserPage.editFolder(test531folderName8);
+			Assert.assertTrue(folder.getFolderTitle().equals(test531folderName8), "ERROR - Folder ('"+test531folderName8+"') titlevalue  doesn't match in both servers");
+			Assert.assertTrue(folder.getFolderName().equals(test531folderName8), "ERROR - Folder ('"+test531folderName8+"') name value doesn't match in both servers");
+			Assert.assertTrue(folder.getSortOrder() == test531folderSortOrder8, "ERROR - Folder ('"+test531folderName8+"') sort order value doesn't match in both servers");
+			Assert.assertTrue(folder.isShowOnMenu() == test531folderShowOnMenu8, "ERROR - Folder ('"+test531folderName8+"') show on menu value doesn't match in both servers");
+			Assert.assertTrue(folder.getAllowedFileExtensions().equals(test531folderAllowedFileExtensions8), "ERROR - Folder ('"+test531folderName8+"') allowed file extensions value doesn't match in both servers");
+			Assert.assertTrue(folder.getDefaultFileAssetType().equals(test531folderDefaultFileAssetType8), "ERROR - Folder ('"+test531folderName8+"') default file asset type doesn't match in both servers");
+			folder.cancel();
+			
+			logoutReceiverServer();
+
+			//Calling authoring Server
+			portletMenu = callAuthoringServer();
+
+			browserPage = portletMenu.getSiteBrowserPage();
+			folder = browserPage.editFolder(test531folderName8);
+			folder.setTitle(test531folderName82);
+			folder.setName(test531folderName82);
+			folder.setSortOrder(test531folderSortOrder82);
+			folder.setShowOnMenu(test531folderShowOnMenu82);
+			folder.setAllowedFileExtensions(test531folderAllowedFileExtensions82);
+			folder.setDefaultFileAssetType(test531folderDefaultFileAssetType82);
+			folder.save();
+
+			browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesFolderExist(test531folderName82), "ERROR - Folder ('"+test531folderName82+"') should exist in authoring server");
+			browserPage.pushFolder(test531folderName82);
+			
+			publishingQueuePage = portletMenu.getPublishingQueuePage();
+			//wait until 5 minutes to check if the content was pushed
+			isPushed = publishingQueuePage.isObjectBundlePushed(test531folderName82,5000,60);
+			Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ("+test531folderName82+") push should not be in pending list.");
+
+			//delete folder
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.deleteFolder(test531folderName82);
+			Assert.assertFalse(browserPage.doesFolderExist(test531folderName82), "ERROR - Folder ('"+test531folderName82+"') should not exist in authoring server");
+			logoutAuthoringServer();
+
+			//Calling receiver Server
+			portletMenu = callReceiverServer();
+
+			browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesFolderExist(test531folderName82), "ERROR - Folder ('"+test531folderName82+"') should exist in receiver server");
+			folder = browserPage.editFolder(test531folderName82);
+			Assert.assertTrue(folder.getFolderTitle().equals(test531folderName82), "ERROR - Folder ('"+test531folderName82+"') titlevalue  doesn't match in both servers");
+			Assert.assertTrue(folder.getFolderName().equals(test531folderName82), "ERROR - Folder ('"+test531folderName82+"') name value doesn't match in both servers");
+			Assert.assertTrue(folder.getSortOrder() == test531folderSortOrder82, "ERROR - Folder ('"+test531folderName82+"') sort order value doesn't match in both servers");
+			Assert.assertTrue(folder.isShowOnMenu() == test531folderShowOnMenu82, "ERROR - Folder ('"+test531folderName82+"') show on menu value doesn't match in both servers");
+			Assert.assertTrue(folder.getAllowedFileExtensions().equals(test531folderAllowedFileExtensions82), "ERROR - Folder ('"+test531folderName82+"') allowed file extensions value doesn't match in both servers");
+			Assert.assertTrue(folder.getDefaultFileAssetType().equals(test531folderDefaultFileAssetType82), "ERROR - Folder ('"+test531folderName82+"') default file asset type doesn't match in both servers");
+			folder.cancel();
+			
+			//delete folder
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.deleteFolder(test531folderName82);
+			Assert.assertFalse(browserPage.doesFolderExist(test531folderName82), "ERROR - Folder ('"+test531folderName82+"') should not exist in authoring server");
 			logoutReceiverServer();
 		}finally{
 			try{

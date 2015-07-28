@@ -62,9 +62,19 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		htmlAddPage.saveAndPublish();
 	}
 
-	public IFolderAddOrEditPage createFolder(String parent, String title, String URL, int sortOrder, boolean showOnMenu, String allowedFileExtensionCSVList, String defaultFileAssetType) throws Exception {
-		// TODO
-		return SeleniumPageManager.getBackEndPageManager().getPageObject(IFolderAddOrEditPage.class);
+	public void createFolder(String parent, String title, String URL, int sortOrder, boolean showOnMenu, String allowedFileExtensionCSVList, String defaultFileAssetType) throws Exception {
+		getWebElementClickable(By.id("addNewButton_arrow")).click();
+		WebElement addFolderButton = getWebElement(By.className("folderAddIcon"));
+		addFolderButton.click();
+		try{Thread.sleep(1000);} catch(InterruptedException e) {};
+		IFolderAddOrEditPage folderAddPage = SeleniumPageManager.getBackEndPageManager().getPageObject(IFolderAddOrEditPage.class);
+		folderAddPage.setTitle(title);
+		folderAddPage.setName(URL);
+		folderAddPage.setSortOrder(sortOrder);
+		folderAddPage.setShowOnMenu(showOnMenu);
+		folderAddPage.setAllowedFileExtensions(allowedFileExtensionCSVList);
+		folderAddPage.setDefaultFileAssetType(defaultFileAssetType);
+		folderAddPage.save();
 	}
 
 	public void selectFolder(String folderName) throws Exception {
