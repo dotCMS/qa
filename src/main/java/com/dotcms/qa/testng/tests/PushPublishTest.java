@@ -171,7 +171,7 @@ public class PushPublishTest {
 	private String test582pageUrl6="test-582.html";
 	//test 625
 	private String test625pageTitle7="Test-625";
-	private String test625pageUrl7="test-625.tml";
+	private String test625pageUrl7="test-625.html";
 	private String test625template625="Quest - 1 Column (With Content Padding)";
 	//test 524 and 574
 	private String test524linkTitle1="Test-524";
@@ -410,7 +410,49 @@ public class PushPublishTest {
 	private boolean test531folderShowOnMenu82=false;
 	private String test531folderAllowedFileExtensions82="*.flv,*.mp4";
 	private String test531folderDefaultFileAssetType82="Video";
-
+	//test585
+	private String test585folderName9="test585";
+	private String test585folderName92="test585-2";
+	private String test585folderName10="test585sub1";
+	private String test585folderName102="test585sub12";
+	private String test585folderName11="test585sub2";
+	private String test585folderName112="test585sub22";
+	private String test585pageTitle="Test-585";
+	private String test585pageUrl="test-585.html";
+	private String test585template="Quest - 1 Column (With Content Padding)";
+	private String test585pageTitle2="Test-5852";
+	private String test585pageUrl2="test-585-2.html";
+	private String test585template2="Quest - 1 Column (With Content Padding)";
+	private String test585contentStructureName="File Asset";
+	private String test585contentStructureNameField1="title";
+	private String test585contentStructureNameField2="binary1FileUpload";
+	private String test585contentTitle1="test-585-1";
+	private String test585contentTextArea1="/artifacts/testdata/test663.jpg";
+	private String test585fileName1="test663.jpg";
+	private String test585contentTitle2="test-585-2";
+	private String test585contentTextArea2="/artifacts/testdata/test663.jpg";
+	private String test585fileName2="test663.jpg";
+	private String test585linkTitle1="Test-585-link1";
+	private String test585linkInternalHost1="qademo.dotcms.com";
+	private String test585linkInternalFolder1="about-us"; 
+	private String test585linkInternalUrl1="what-we-do.html";
+	private int test585linkOrder1=1;
+	private boolean test585linkShowOnMenu1=true;	
+	private String test585linkTitle2="Test-585-link2";
+	private String test585linkInternalHost2="qademo.dotcms.com";
+	private String test585linkInternalFolder2="about-us"; 
+	private String test585linkInternalUrl2="what-we-do.html";
+	private int test585linkOrder2=1;
+	private boolean test585linkShowOnMenu2=true;
+	//test521
+	private String test521folderName="test521";
+	private String test521contentStructureName="File Asset";
+	private String test521contentStructureNameField1="title";
+	private String test521contentStructureNameField2="binary1FileUpload";
+	private String test521contentTitle1="test-521";
+	private String test521contentTextArea1="/artifacts/testdata/test663.jpg";
+	private String test521fileName1="test663.jpg";
+	
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -679,13 +721,25 @@ public class PushPublishTest {
 			if(browserPage.doesFolderExist(test541folderName72)){
 				browserPage.deleteFolder(test541folderName72);
 			}
-			
+
 			if(browserPage.doesFolderExist(test531folderName8)){
 				browserPage.deleteFolder(test531folderName8);
 			}
-			
+
 			if(browserPage.doesFolderExist(test531folderName82)){
 				browserPage.deleteFolder(test531folderName82);
+			}
+
+			if(browserPage.doesFolderExist(test585folderName9)){
+				browserPage.deleteFolder(test585folderName9);
+			}
+
+			if(browserPage.doesFolderExist(test585folderName92)){
+				browserPage.deleteFolder(test585folderName92);
+			}
+
+			if(browserPage.doesFolderExist(test521folderName)){
+				browserPage.deleteFolder(test521folderName);
 			}
 
 			/* Delete template*/
@@ -754,6 +808,14 @@ public class PushPublishTest {
 
 			if(menuLinkPage.doesLinkExist(test589linkTitle4)){
 				menuLinkPage.deleteLink(test589linkTitle4);
+			}
+			
+			if(menuLinkPage.doesLinkExist(test585linkTitle1)){
+				menuLinkPage.deleteLink(test585linkTitle1);
+			}
+			
+			if(menuLinkPage.doesLinkExist(test585linkTitle2)){
+				menuLinkPage.deleteLink(test585linkTitle2);
 			}
 
 			/* Delete structure*/
@@ -1083,13 +1145,25 @@ public class PushPublishTest {
 			if(browserPage.doesFolderExist(test541folderName72)){
 				browserPage.deleteFolder(test541folderName72);
 			}
-			
+
 			if(browserPage.doesFolderExist(test531folderName8)){
 				browserPage.deleteFolder(test531folderName8);
 			}
-			
+
 			if(browserPage.doesFolderExist(test531folderName82)){
 				browserPage.deleteFolder(test531folderName82);
+			}
+
+			if(browserPage.doesFolderExist(test585folderName9)){
+				browserPage.deleteFolder(test585folderName9);
+			}
+
+			if(browserPage.doesFolderExist(test585folderName92)){
+				browserPage.deleteFolder(test585folderName92);
+			}
+			
+			if(browserPage.doesFolderExist(test521folderName)){
+				browserPage.deleteFolder(test521folderName);
 			}
 
 			/* Delete template*/
@@ -1159,6 +1233,14 @@ public class PushPublishTest {
 
 			if(menuLinkPage.doesLinkExist(test589linkTitle4)){
 				menuLinkPage.deleteLink(test589linkTitle4);
+			}
+			
+			if(menuLinkPage.doesLinkExist(test585linkTitle1)){
+				menuLinkPage.deleteLink(test585linkTitle1);
+			}
+			
+			if(menuLinkPage.doesLinkExist(test585linkTitle2)){
+				menuLinkPage.deleteLink(test585linkTitle2);
 			}
 
 			/* Delete structure*/
@@ -1905,6 +1987,7 @@ public class PushPublishTest {
 
 			//delete template and page
 			browserPage= portletMenu.getSiteBrowserPage();
+			browserPage.sleep(2);
 			browserPage.unPublishElement(test555pageUrl1);
 			browserPage.archiveElement(test555pageUrl1);
 			browserPage.deletePage(test555pageUrl1);
@@ -3047,6 +3130,7 @@ public class PushPublishTest {
 
 			//push bundle
 			IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+			publishingQueuePage.sleep(2);
 			publishingQueuePage.getBundlesTab();
 			String authoringServerBundleId = publishingQueuePage.pushPublishBundle(bundleName);
 
@@ -4867,7 +4951,8 @@ public class PushPublishTest {
 			portletMenu = callAuthoringServer(limitedUserEmailA, limitedUserPaswwordA);
 			IWorkflowTasksPage taskPage = portletMenu.getWorkflowTasksPage();
 			taskPage.sleep(2);
-			IWorkflowTaskEdit_Page editTask = taskPage.getWorflowTask(test663contentTitle17, test663workflowSchemeName5);
+			Assert.assertTrue(taskPage.doesWorflowTaskExist(test663contentTitle17, null),"Workflow task ('"+test663contentTitle17+"') from workflow scheme ('"+test663workflowSchemeName5+"') should exist in authoring server.");
+			IWorkflowTaskEdit_Page editTask = taskPage.getWorflowTask(test663contentTitle17, null);
 			editTask.selectAction(test663workflowActionName3);
 			editTask.sleep(2);
 
@@ -5791,7 +5876,7 @@ public class PushPublishTest {
 			}catch(Exception e){}
 		}
 	}
-	
+
 	/**
 	 * Check push of folder fields
 	 * http://qa.dotcms.com/index.php?/cases/view/541
@@ -5821,7 +5906,7 @@ public class PushPublishTest {
 
 			browserPage = portletMenu.getSiteBrowserPage();
 			Assert.assertTrue(browserPage.doesFolderExist(test531folderName8), "ERROR - Folder ('"+test531folderName8+"') should exist in receiver server");
-			
+
 			IFolderAddOrEditPage folder = browserPage.editFolder(test531folderName8);
 			Assert.assertTrue(folder.getFolderTitle().equals(test531folderName8), "ERROR - Folder ('"+test531folderName8+"') titlevalue  doesn't match in both servers");
 			Assert.assertTrue(folder.getFolderName().equals(test531folderName8), "ERROR - Folder ('"+test531folderName8+"') name value doesn't match in both servers");
@@ -5830,7 +5915,7 @@ public class PushPublishTest {
 			Assert.assertTrue(folder.getAllowedFileExtensions().equals(test531folderAllowedFileExtensions8), "ERROR - Folder ('"+test531folderName8+"') allowed file extensions value doesn't match in both servers");
 			Assert.assertTrue(folder.getDefaultFileAssetType().equals(test531folderDefaultFileAssetType8), "ERROR - Folder ('"+test531folderName8+"') default file asset type doesn't match in both servers");
 			folder.cancel();
-			
+
 			logoutReceiverServer();
 
 			//Calling authoring Server
@@ -5849,7 +5934,7 @@ public class PushPublishTest {
 			browserPage = portletMenu.getSiteBrowserPage();
 			Assert.assertTrue(browserPage.doesFolderExist(test531folderName82), "ERROR - Folder ('"+test531folderName82+"') should exist in authoring server");
 			browserPage.pushFolder(test531folderName82);
-			
+
 			publishingQueuePage = portletMenu.getPublishingQueuePage();
 			//wait until 5 minutes to check if the content was pushed
 			isPushed = publishingQueuePage.isObjectBundlePushed(test531folderName82,5000,60);
@@ -5874,7 +5959,7 @@ public class PushPublishTest {
 			Assert.assertTrue(folder.getAllowedFileExtensions().equals(test531folderAllowedFileExtensions82), "ERROR - Folder ('"+test531folderName82+"') allowed file extensions value doesn't match in both servers");
 			Assert.assertTrue(folder.getDefaultFileAssetType().equals(test531folderDefaultFileAssetType82), "ERROR - Folder ('"+test531folderName82+"') default file asset type doesn't match in both servers");
 			folder.cancel();
-			
+
 			//delete folder
 			browserPage = portletMenu.getSiteBrowserPage();
 			browserPage.deleteFolder(test531folderName82);
@@ -5890,4 +5975,364 @@ public class PushPublishTest {
 		}
 	}
 
+	/**
+	 * Push name/url changes to a parent folder
+	 * http://qa.dotcms.com/index.php?/cases/view/585
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc585_PushNameUrlChangesToAParentFolder() throws Exception{
+		try{
+			//Calling authoring Server
+			IPortletMenu portletMenu = callAuthoringServer();
+
+			ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.createFolder(null, test585folderName9);
+			Assert.assertTrue(browserPage.doesFolderExist(test585folderName9), "ERROR - Folder ('"+test585folderName9+"') should exist in authoring server");
+
+			browserPage.selectFolder(test585folderName9);
+			//create child folder
+			browserPage.createFolder(null, test585folderName10);
+			Assert.assertTrue(browserPage.doesFolderExist(test585folderName10), "ERROR - Folder ('"+test585folderName10+"') should exist in authoring server");
+			browserPage.selectFolder(test585folderName10);
+			//adding page, file, menulink and grand child folder
+			browserPage.createHTMLPage(test585pageTitle, test585template, test585pageUrl);
+			IBackendSideMenuPage sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
+			portletMenu = sideMenu.gotoAdminScreen();
+
+			IMenuLinkAddOrEdit_Page menuPage = browserPage.addMenuLinkInFolder(test585folderName10);
+			menuPage.setLinkTitle(test585linkTitle1); 
+			menuPage.setLinkType(IMenuLinkAddOrEdit_Page.INTERNAL_LINK);
+			menuPage.setLinkTarget(IMenuLinkAddOrEdit_Page.NEW_TARGET);
+			menuPage.setLinkShowOnMenu(test585linkShowOnMenu1);
+			menuPage.setLinkOrder(test585linkOrder1);
+			menuPage.setLinkInternalCode(test585linkInternalHost1, test585linkInternalFolder1, test585linkInternalUrl1);  
+			menuPage.saveAndPublish();
+
+			browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesElementExist(test585linkTitle1), "ERROR - Authoring Server: Menu Link ('"+test585linkTitle1+"') should exist in authoring server.");
+
+			IContentAddOrEdit_ContentPage filePage = browserPage.addFileInFolder(test585folderName10, test585contentStructureName);
+			List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("type", WebKeys.TEXT_FIELD);
+			map.put(test585contentStructureNameField1, test585contentTitle1);
+			fields.add(map);
+			map = new HashMap<String,Object>();
+			map.put("type", WebKeys.BINARY_FIELD);
+			map.put(test585contentStructureNameField2, test585contentTextArea1);
+			fields.add(map) ;
+			filePage.setFields(fields);
+			filePage.sleep(2);
+			filePage.saveAndPublish();
+			filePage.sleep(2);
+
+			//create grandchild folder
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.createFolder(null, test585folderName11);	
+			browserPage.selectFolder(test585folderName11);
+
+			//adding file, menuling and page
+			browserPage.createHTMLPage(test585pageTitle2, test585template2, test585pageUrl2);
+			sideMenu = SeleniumPageManager.getBackEndPageManager().getPageObject(IBackendSideMenuPage.class);
+			portletMenu = sideMenu.gotoAdminScreen();
+
+			menuPage = browserPage.addMenuLinkInFolder(test585folderName11);
+			menuPage.setLinkTitle(test585linkTitle2); 
+			menuPage.setLinkType(IMenuLinkAddOrEdit_Page.INTERNAL_LINK);
+			menuPage.setLinkTarget(IMenuLinkAddOrEdit_Page.NEW_TARGET);
+			menuPage.setLinkShowOnMenu(test585linkShowOnMenu2);
+			menuPage.setLinkOrder(test585linkOrder2);
+			menuPage.setLinkInternalCode(test585linkInternalHost2, test585linkInternalFolder2, test585linkInternalUrl2);  
+			menuPage.saveAndPublish();	
+
+			//browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesElementExist(test585linkTitle2), "ERROR - Authoring Server: Menu Link ('"+test585linkTitle2+"') should exist in authoring server.");
+
+			filePage = browserPage.addFileInFolder(test585folderName11, test585contentStructureName);
+			fields = new ArrayList<Map<String, Object>>();
+			map = new HashMap<String,Object>();
+			map.put("type", WebKeys.TEXT_FIELD);
+			map.put(test585contentStructureNameField1, test585contentTitle2);
+			fields.add(map);
+			map = new HashMap<String,Object>();
+			map.put("type", WebKeys.BINARY_FIELD);
+			map.put(test585contentStructureNameField2, test585contentTextArea2);
+			fields.add(map) ;
+			filePage.setFields(fields);
+			filePage.sleep(2);
+			filePage.saveAndPublish();
+			filePage.sleep(2);
+
+			//push folder
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.pushFolder(test585folderName9);
+
+			IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+			//wait until 5 minutes to check if the content was pushed
+			boolean isPushed = publishingQueuePage.isObjectBundlePushed(test585folderName9,5000,60);
+			Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ("+test585folderName9+") push should not be in pending list.");
+			logoutAuthoringServer();
+
+			//Calling receiver Server
+			portletMenu = callReceiverServer();
+
+			browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesFolderExist(test585folderName9), "ERROR - Folder ('"+test585folderName9+"') should exist in receiver server");
+			browserPage.selectFolder(test585folderName9);
+
+			//check if the child folder exist
+			Assert.assertTrue(browserPage.doesFolderExist(test585folderName10), "ERROR - Folder ('"+test585folderName9+"') should contain subfolder ('"+test585folderName10+"') in receiver server");
+			browserPage.selectFolder(test585folderName10);
+
+			//check if the page, file, menu link and grand child folder exist
+			Assert.assertTrue(browserPage.doesElementExist(test585pageUrl), "ERROR - Folder ('"+test585folderName10+"') should contain htmlpage ('"+test585pageTitle+"') in receiver server");
+			Assert.assertTrue(browserPage.doesElementExist(test585fileName1), "ERROR - Folder ('"+test585folderName10+"') should contain file asset ('"+test585fileName1+"') in receiver server");
+			Assert.assertTrue(browserPage.doesElementExist(test585linkTitle1), "ERROR - Folder ('"+test585folderName10+"') should contain menulink ('"+test585linkTitle1+"') in receiver server");
+
+			Assert.assertTrue(browserPage.doesFolderExist(test585folderName11), "ERROR - Folder ('"+test585folderName10+"') should contain subfolder ('"+test585folderName11+"') in receiver server");
+			browserPage.selectFolder(test585folderName11);
+
+			//check if the grand child folder have the page, menulink and file
+			Assert.assertTrue(browserPage.doesElementExist(test585pageUrl2), "ERROR - Folder ('"+test585folderName11+"') should contain htmlpage ('"+test585pageTitle2+"') in receiver server");
+			Assert.assertTrue(browserPage.doesElementExist(test585fileName2), "ERROR - Folder ('"+test585folderName11+"') should contain file asset ('"+test585fileName2+"') in receiver server");
+			Assert.assertTrue(browserPage.doesElementExist(test585linkTitle2), "ERROR - Folder ('"+test585folderName11+"') should contain menulink ('"+test585linkTitle2+"') in receiver server");
+			logoutReceiverServer();
+
+			//Calling authoring Server
+			portletMenu = callAuthoringServer();
+
+			//modifying folder title and url
+			browserPage = portletMenu.getSiteBrowserPage();
+			IFolderAddOrEditPage folder = browserPage.editFolder(test585folderName9);
+			folder.setTitle(test585folderName92);
+			folder.setName(test585folderName92);
+			folder.save();
+
+			browserPage.selectFolder(test585folderName92);
+			folder = browserPage.editFolder(test585folderName10);
+			folder.setTitle(test585folderName102);
+			folder.setName(test585folderName102);
+			folder.save();
+
+			browserPage.selectFolder(test585folderName102);
+			folder = browserPage.editFolder(test585folderName11);
+			folder.setTitle(test585folderName112);
+			folder.setName(test585folderName112);
+			folder.save();
+
+			//push folder
+			browserPage.pushFolder(test585folderName92);
+
+			publishingQueuePage = portletMenu.getPublishingQueuePage();
+			//wait until 5 minutes to check if the content was pushed
+			isPushed = publishingQueuePage.isObjectBundlePushed(test585folderName92,5000,60);
+			Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ("+test585folderName92+") push should not be in pending list.");
+
+			//delete folder
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.deleteFolder(test585folderName92);
+			Assert.assertFalse(browserPage.doesFolderExist(test585folderName92), "ERROR - Folder ('"+test585folderName92+"') should not exist in authoring server");
+			logoutAuthoringServer();
+
+			//Calling receiver Server
+			portletMenu = callReceiverServer();
+
+			browserPage = portletMenu.getSiteBrowserPage();
+
+			browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesFolderExist(test585folderName92), "ERROR - Folder ('"+test585folderName92+"') should exist in receiver server");
+			folder = browserPage.editFolder(test585folderName92);
+			Assert.assertTrue(folder.getFolderTitle().equals(test585folderName92), "ERROR - Folder ('"+test585folderName92+"') titlevalue  doesn't match in both servers");
+			Assert.assertTrue(folder.getFolderName().equals(test585folderName92), "ERROR - Folder ('"+test585folderName92+"') name value doesn't match in both servers");
+			folder.cancel();
+			browserPage.selectFolder(test585folderName92);
+
+			//check if the child folder exist
+			Assert.assertTrue(browserPage.doesFolderExist(test585folderName102), "ERROR - Folder ('"+test585folderName92+"') should contain subfolder ('"+test585folderName102+"') in receiver server");
+			folder = browserPage.editFolder(test585folderName102);
+			Assert.assertTrue(folder.getFolderTitle().equals(test585folderName102), "ERROR - Folder ('"+test585folderName102+"') titlevalue  doesn't match in both servers");
+			Assert.assertTrue(folder.getFolderName().equals(test585folderName102), "ERROR - Folder ('"+test585folderName102+"') name value doesn't match in both servers");
+			folder.cancel();
+			browserPage.selectFolder(test585folderName10);
+
+			//check if the page, file, menu link and grand child folder exist
+			Assert.assertTrue(browserPage.doesElementExist(test585pageUrl), "ERROR - Folder ('"+test585folderName102+"') should contain htmlpage ('"+test585pageTitle+"') in receiver server");
+			Assert.assertTrue(browserPage.doesElementExist(test585fileName1), "ERROR - Folder ('"+test585folderName102+"') should contain file asset ('"+test585fileName1+"') in receiver server");
+			Assert.assertTrue(browserPage.doesElementExist(test585linkTitle1), "ERROR - Folder ('"+test585folderName102+"') should contain menulink ('"+test585linkTitle1+"') in receiver server");
+
+			Assert.assertTrue(browserPage.doesFolderExist(test585folderName112), "ERROR - Folder ('"+test585folderName102+"') should contain subfolder ('"+test585folderName112+"') in receiver server");
+			folder = browserPage.editFolder(test585folderName112);
+			Assert.assertTrue(folder.getFolderTitle().equals(test585folderName112), "ERROR - Folder ('"+test585folderName112+"') titlevalue  doesn't match in both servers");
+			Assert.assertTrue(folder.getFolderName().equals(test585folderName112), "ERROR - Folder ('"+test585folderName112+"') name value doesn't match in both servers");
+			folder.cancel();
+			browserPage.selectFolder(test585folderName112);
+
+			//check if the grand child folder have the page, menulink and file
+			Assert.assertTrue(browserPage.doesElementExist(test585pageUrl2), "ERROR - Folder ('"+test585folderName112+"') should contain htmlpage ('"+test585pageTitle2+"') in receiver server");
+			Assert.assertTrue(browserPage.doesElementExist(test585fileName2), "ERROR - Folder ('"+test585folderName112+"') should contain file asset ('"+test585fileName2+"') in receiver server");
+			Assert.assertTrue(browserPage.doesElementExist(test585linkTitle2), "ERROR - Folder ('"+test585folderName112+"') should contain menulink ('"+test585linkTitle2+"') in receiver server");
+
+			//delete folder
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.deleteFolder(test585folderName92);
+			Assert.assertFalse(browserPage.doesFolderExist(test585folderName92), "ERROR - Folder ('"+test585folderName92+"') should not exist in authoring server");
+			logoutReceiverServer();
+		}finally{
+			try{
+				logoutAuthoringServer();
+			}catch(Exception e){}
+			try{
+				logoutReceiverServer();
+			}catch(Exception e){}
+		}
+	}
+
+
+	/**
+	 * Push folder as a limited userr
+	 * http://qa.dotcms.com/index.php?/cases/view/521
+	 * @throws Exception
+	 */
+	@Test (groups = {"PushPublishing"})
+	public void tc521_PushFolderAsLimitedUser() throws Exception{
+		try{
+			//Calling authoring Server
+			IPortletMenu portletMenu = callAuthoringServer();
+
+			ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.createFolder(null, test521folderName);
+			
+			IFolderAddOrEditPage folder = browserPage.editFolder(test521folderName);
+			folder.getPermissionTab();
+			folder.activatePermissionIndividually();
+			List<Map<String,Object>> subpermissions = new ArrayList<Map<String,Object>>();
+			Map<String, Object> property= new HashMap<String, Object>();
+			property.put("name","folders");
+			property.put("view",true);
+			property.put("addChildren",true);
+			property.put("edit",true);
+			property.put("publish",false);
+			property.put("editPermission",false);
+			property.put("vanityUrl",false);
+			subpermissions.add(property);
+
+			property= new HashMap<String, Object>();
+			property.put("name","Pages");
+			property.put("view",true);
+			property.put("addChildren",true);
+			property.put("edit",true);
+			property.put("publish",true);
+			property.put("editPermission",false);
+			property.put("vanityUrl",false);
+			subpermissions.add(property);
+
+			property= new HashMap<String, Object>();
+			property.put("name","Files-Legacy");
+			property.put("view",true);
+			property.put("addChildren",false);
+			property.put("edit",true);
+			property.put("publish",true);
+			property.put("editPermission",false);
+			property.put("vanityUrl",false);
+			subpermissions.add(property);
+
+			property= new HashMap<String, Object>();
+			property.put("name","links");
+			property.put("view",true);
+			property.put("addChildren",false);
+			property.put("edit",true);
+			property.put("publish",true);
+			property.put("editPermission",false);
+			property.put("vanityUrl",false);
+			subpermissions.add(property);
+
+			property= new HashMap<String, Object>();
+			property.put("name","Structures");
+			property.put("view",true);
+			property.put("addChildren",false);
+			property.put("edit",true);
+			property.put("publish",true);
+			property.put("editPermission",false);
+			property.put("vanityUrl",false);
+			subpermissions.add(property);
+
+			property= new HashMap<String, Object>();
+			property.put("name","Content-Files");
+			property.put("view",true);
+			property.put("addChildren",false);
+			property.put("edit",true);
+			property.put("publish",true);
+			property.put("editPermission",false);
+			property.put("vanityUrl",false);
+			subpermissions.add(property);
+			
+			folder.addRole(limitedRole, subpermissions, true, true, true, false, false, false);
+			folder.applyPermissionChanges();
+			folder.getPropertiesTab();
+			folder.save();
+			logoutAuthoringServer();
+			
+			//connecting to authoring server as limited user
+			portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
+
+			browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should be visible for limited user in authoring server");
+			browserPage.selectFolder(test521folderName);
+			IContentAddOrEdit_ContentPage filePage = browserPage.addFileInFolder(test521folderName, test521contentStructureName);
+			List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("type", WebKeys.TEXT_FIELD);
+			map.put(test521contentStructureNameField1, test521contentTitle1);
+			fields.add(map);
+			map = new HashMap<String,Object>();
+			map.put("type", WebKeys.BINARY_FIELD);
+			map.put(test521contentStructureNameField2, test521contentTextArea1);
+			fields.add(map) ;
+			filePage.setFields(fields);
+			filePage.sleep(2);
+			filePage.saveAndPublish();
+			filePage.sleep(2);
+			
+			//push folder
+			browserPage.pushFolder(test521folderName);
+			
+			IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+			//wait until 5 minutes to check if the content was pushed
+			boolean isPushed = publishingQueuePage.isObjectBundlePushed(test521folderName,5000,60);
+			Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ("+test521folderName+") push should not be in pending list.");
+
+			logoutAuthoringServer();
+			
+			//Connecting to receiver server
+			portletMenu = callReceiverServer();
+			browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should exist in receiver server");
+			
+			//delete folder
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.deleteFolder(test521folderName);
+			Assert.assertFalse(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should not exist in receiver server");
+			
+			logoutReceiverServer();
+			
+			//calling authoring server
+			portletMenu = callReceiverServer();
+			browserPage = portletMenu.getSiteBrowserPage();
+			
+			//delete folder
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.deleteFolder(test521folderName);
+			Assert.assertFalse(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should not exist in authoring server");
+			
+			logoutReceiverServer();
+		}finally{
+			try{
+				logoutAuthoringServer();
+			}catch(Exception e){}
+			try{
+				logoutReceiverServer();
+			}catch(Exception e){}
+		}
+	}
 }

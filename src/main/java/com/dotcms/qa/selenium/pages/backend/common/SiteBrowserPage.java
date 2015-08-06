@@ -89,7 +89,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 * @throws Exception
 	 */
 	public IPreviewHTMLPage_Page selectPageElement(String elementName)  throws Exception{
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(elementName)){
 				this.selectPopupMenuOption(elem, getLocalizedString("Open-Preview"));
@@ -144,7 +144,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 */
 	public boolean doesElementExist(String elementName)  throws Exception{
 		boolean exist=false;
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(elementName)){
 				exist=true;
@@ -200,7 +200,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 * @throws Exception
 	 */
 	public void pushElement(String elementName) throws Exception{
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(elementName)){
 				selectRightClickPopupMenuAction(elem,getLocalizedString("Remote-Publish"));
@@ -218,7 +218,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 * @throws Exception
 	 */
 	public void publishElement(String elementName) throws Exception{
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(elementName)){
 				selectRightClickPopupMenuAction(elem,getLocalizedString("Publish"));
@@ -233,7 +233,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 * @throws Exception
 	 */
 	public void unPublishElement(String elementName) throws Exception{
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(elementName)){
 				selectRightClickPopupMenuAction(elem,getLocalizedString("Unpublish"));
@@ -249,7 +249,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 * @throws Exception
 	 */
 	public void archiveElement(String elementName) throws Exception{
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(elementName)){
 				selectRightClickPopupMenuAction(elem,getLocalizedString("Archive"));
@@ -266,7 +266,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 */
 	public void deletePage(String pageName) throws Exception{
 		trashLabel.click();
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(pageName)){
 				selectRightClickPopupMenuAction(elem,getLocalizedString("Delete-Page"));
@@ -394,7 +394,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 * @throws Exception
 	 */
 	public void editHTMLPageProperties(String pageUrl) throws Exception{
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(pageUrl)){
 				this.selectPopupMenuOption(elem, getLocalizedString("Open-Edit"));
@@ -412,7 +412,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 */
 	public boolean isElementUnpublish(String element) throws Exception{
 		boolean isUnpublish=false;
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(element)){
 				String id= elem.getAttribute("id").replace("-NameSPAN", "");
@@ -438,7 +438,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 */
 	public boolean isElementPublish(String element) throws Exception{
 		boolean isPublish=false;
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(element)){
 				String id= elem.getAttribute("id").replace("-NameSPAN", "");
@@ -524,7 +524,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 * @throws Exception
 	 */
 	public IMenuLinkAddOrEdit_Page editMenuLink(String linkName) throws Exception{
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(linkName)){
 				this.selectPopupMenuOption(elem, getLocalizedString("Edit"));
@@ -564,7 +564,7 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 	 * @throws Exception
 	 */
 	public IContentAddOrEdit_ContentPage editFile(String fileName) throws Exception{
-		List<WebElement>  elements = assetListBody.findElements(By.cssSelector("span[id*='-NameSPAN']"));
+		List<WebElement>  elements = getWebElement(By.id("assetListBody")).findElements(By.cssSelector("span[id*='-NameSPAN']"));
 		for(WebElement elem : elements){
 			if(elem.getText().equals(fileName)){
 				this.selectPopupMenuOption(elem, getLocalizedString("Edit"));

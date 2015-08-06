@@ -1,5 +1,8 @@
 package com.dotcms.qa.selenium.pages.backend;
 
+import java.util.List;
+import java.util.Map;
+
 import com.dotcms.qa.selenium.pages.IBasePage;
 
 public interface IFolderAddOrEditPage extends IBasePage {
@@ -47,4 +50,42 @@ public interface IFolderAddOrEditPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public String getDefaultFileAssetType() throws Exception;
+	
+	/**
+	 * Select the properties tab
+	 * @throws Exception
+	 */
+	public void getPropertiesTab() throws Exception;
+	
+	/**
+	 * Select the permission tab
+	 * @throws Exception
+	 */
+	public void getPermissionTab() throws Exception;
+	
+	/**
+	 * Click the permission individually button
+	 * @throws Exception
+	 */
+	public void activatePermissionIndividually() throws Exception;
+	
+	/**
+	 * Add a role
+	 * @param roleName role name
+	 * @param subpermissions subpermissions
+	 * @param view permission to view
+	 * @param addChildren permission to add children
+	 * @param edit permission to edit
+	 * @param publish permission to publish
+	 * @param editPermission permission to edit permissions
+	 * @param vanityUrl permission to add vanity urls
+	 * @throws Exception
+	 */
+	public void addRole(String roleName, List<Map<String,Object>> subpermissions, boolean view, boolean addChildren, boolean edit, boolean publish, boolean editPermission, boolean vanityUrl) throws Exception;
+	
+	/**
+	 * Click the apply permission button
+	 * @throws Exception
+	 */
+	public void applyPermissionChanges() throws Exception;
 }

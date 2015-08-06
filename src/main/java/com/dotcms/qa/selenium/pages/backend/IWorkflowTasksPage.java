@@ -30,5 +30,14 @@ public interface IWorkflowTasksPage extends IBasePage{
 	 * @throws Exception
 	 */
 	public IWorkflowTaskEdit_Page getWorflowTask(String title, String workflowScheme) throws Exception;
+	
+	/**
+	 * validate if a workflows task exist
+	 * @param title   Title of the content
+	 * @param workflowScheme Scheme
+	 * @return true if exist , false if not
+	 * @throws Exception
+	 */
+	public boolean doesWorflowTaskExist(String title, String workflowScheme) throws Exception;
 
 }

@@ -55,11 +55,13 @@ public class WorkflowTasksPage extends BasePage implements IWorkflowTasksPage{
 		keywords.clear();
 		keywords.sendKeys(title);
 
-		WebElement scheme = getWebElement(By.id("filterTasksFrm")).findElement(By.id("schemeId"));
-		scheme.clear();
-		scheme.sendKeys(workflowScheme);
-		getWebElement(By.id("schemeId_popup0")).click();
-
+		if(workflowScheme != null){
+			WebElement scheme = getWebElement(By.id("filterTasksFrm")).findElement(By.id("schemeId"));
+			scheme.clear();
+			scheme.sendKeys(workflowScheme);
+			sleep(2);
+			getWebElement(By.id("schemeId_popup0")).click();
+		}
 		List<WebElement> buttons = getWebElement(By.cssSelector("div[class='buttonRow']")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
 		for(WebElement button : buttons){
 			if(button.getText().trim().equals(getLocalizedString("Search"))){
@@ -95,5 +97,25 @@ public class WorkflowTasksPage extends BasePage implements IWorkflowTasksPage{
 		columns.get(1).click();
 
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IWorkflowTaskEdit_Page.class);
+	}
+
+	/**
+	 * validate if a workflows task exist
+	 * @param title   Title of the content
+	 * @param workflowScheme Scheme
+	 * @return true if exist , false if not
+	 * @throws Exception
+	 */
+	public boolean doesWorflowTaskExist(String title, String workflowScheme) throws Exception{
+		boolean found=false;
+		try{
+			WebElement task = findWorkflowTask(title, workflowScheme);
+			if(task != null){
+				found=true;
+			}
+		}catch(Exception e){
+
+		}
+		return found;
 	}
 }
