@@ -53,9 +53,9 @@ update-alternatives --install /usr/bin/javac javac /opt/oracle/java/latest/bin/j
 
 # configure postgreSQL
 cd /root/downloads
-curl -u b.rent.griffin@dotcms.com:@s3cur3 https://raw.githubusercontent.com/dotCMS/qa/master-${DOTCMS_VERSION}/artifacts/aws/database/postgres/postgresql.conf > postgresql.conf
+curl -u b.rent.griffin@dotcms.com:@s3cur3 https://raw.githubusercontent.com/dotCMS/qa/${QA_BRANCH}/artifacts/aws/database/postgres/postgresql.conf > postgresql.conf
 cp ./postgresql.conf /etc/postgresql/9.3/main/postgresql.conf
-curl -u b.rent.griffin@dotcms.com:@s3cur3 https://raw.githubusercontent.com/dotCMS/qa/master-${DOTCMS_VERSION}/artifacts/aws/database/postgres/pg_hba.conf > pg_hba.conf
+curl -u b.rent.griffin@dotcms.com:@s3cur3 https://raw.githubusercontent.com/dotCMS/qa/${QA_BRANCH}/artifacts/aws/database/postgres/pg_hba.conf > pg_hba.conf
 cp ./pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
 # restart postgresql server so configuration changes can take effect
 /etc/init.d/postgresql restart

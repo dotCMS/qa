@@ -10,8 +10,7 @@ rm -rf *
 
 export QA_TestStartTime=$(date +%Y%m%d_%H%M%S)
 
-export QA_Milestone=${DOTCMS_VERSION}
-export QA_RunLabel=${QA_Milestone}_${QA_OS}_${BUILD_NUMBER}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
+export QA_RunLabel=${DOTCMS_VERSION}_${QA_OS}_${BUILD_NUMBER}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
 
 if [ -z "$QA_TestSuite" ]
@@ -71,9 +70,9 @@ ssh-add /home/ubuntu/.ssh/dotcmsqa
 
 echo 'Cloning qa repo'
 git clone git@github.com:dotCMS/qa.git
-echo "Checking out master-${DOTCMS_VERSION} branch"
+echo "Checking out ${QA_BRANCH} branch"
 cd qa
-git checkout master-${DOTCMS_VERSION}
+git checkout ${QA_BRANCH}
 cd ..
 
 echo '********** END OF PART 1 **********'
@@ -108,7 +107,7 @@ echo '********** END OF PART 2 **********'
 export EXIT_CODE=255
 cd ${WORKSPACE}/qa/build/install/qa
 echo "Running testng/selenium tests - pwd = $(pwd)"
-export JAVA_OPTS="-DreportResultsInTestrail=true -Dtestrail.Milestone=${QA_Milestone} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
+export JAVA_OPTS="-DreportResultsInTestrail=true -Dtestrail.Milestone=${DOTCMS_VERSION} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
 bin/qa  -testjar lib/qa-0.1.jar -xmlpathinjar ${QA_TestSuite} -listener com.dotcms.qa.testng.listeners.TestRunCreator.class,com.dotcms.qa.testng.listeners.TestResultReporter.class -d "${WORKSPACE}/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}"
 EXIT_CODE=$?
 echo "EXIT_CODE=${EXIT_CODE}"
@@ -136,6 +135,7 @@ rm ${QA_TestArtifactFilename}
 
 cd ${WORKSPACE}
 echo "DOTCMS_VERSION=${DOTCMS_VERSION}" > ./params
+echo "QA_BRANCH=${QA_BRANCH}" >> ./params
 echo "DOTCMS_SERVER_IP=${DOTCMS_SERVER_IP}" >> ./params
 
 echo '********** END OF PART 3 **********'

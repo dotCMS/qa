@@ -17,8 +17,7 @@ For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y-%%m-%%d') Do Set QA_Tomca
 For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y-%%m-%%d') Do Set QA_AccessLogFile=%QA_TomcatFolder%\logs\dotcms_access..%%I.log
 set QA_StarterFullFilePath=%QA_TomcatFolder%\webapps\ROOT\starter.zip
 
-set QA_Milestone=%DOTCMS_VERSION%
-set QA_RunLabel=%QA_Milestone%_dotCMSServer_%QA_OS%_%BUILD_NUMBER%_%QA_DB%_%QA_TestStartTime%
+set QA_RunLabel=%DOTCMS_VERSION%_dotCMSServer_%QA_OS%_%BUILD_NUMBER%_%QA_DB%_%QA_TestStartTime%
 set QA_TestArtifactFilename=%QA_RunLabel%_Artifacts.tar.gz
 
 For /F "Tokens=*" %%I in ('echo %DOTCMS_VERSION%^| sed ^'s/\./-/g^'') Do Set tempversion=%%I
@@ -40,9 +39,9 @@ aws s3 cp .\status.txt %QA_SERVER_STATUS_URL%
 echo 'Cloning qa repo'
 cd %WORKSPACE%
 git clone git@github.com:dotCMS/qa.git
-echo "Checking out master-%DOTCMS_VERSION% branch"
+echo "Checking out %QA_BRANCH% branch"
 cd qa
-git checkout master-%DOTCMS_VERSION%
+git checkout %QA_BRANCH%
 cd %WORKSPACE%
 
 echo 'Pulling down and extracting dotCMS build'
