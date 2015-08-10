@@ -261,7 +261,7 @@ public class FolderAddOrEditPage extends BasePage implements IFolderAddOrEditPag
 					}
 
 					getWebElement(By.id("permissionsActions")).findElement(By.id("applyChangesButton_label")).click();
-
+					/*
 					Evaluator eval = new Evaluator() {
 						public boolean evaluate() throws Exception {  // returns true if host copy is done
 							boolean wasSaved = !getWebElement(By.id("disabledZone")).isDisplayed();
@@ -271,6 +271,7 @@ public class FolderAddOrEditPage extends BasePage implements IFolderAddOrEditPag
 					};
 					//wait until 15min to check if the permission where saved
 					pollForValue(eval, true, 5000, 120);
+					 */
 				}
 			}
 		}catch(Exception e){
@@ -299,5 +300,20 @@ public class FolderAddOrEditPage extends BasePage implements IFolderAddOrEditPag
 		};
 		//wait until 15min to check if the permission where saved
 		pollForValue(eval, true, 5000, 120);
+	}
+	
+	/**
+	 * Click the option in the Permission confirmation box
+	 * @param value Yes or no
+	 * @throws Exception
+	 */
+	public void folderPermissionAlert(String value) throws Exception{
+		List<WebElement> buttons = getWebElement(By.id("applyPermissionsChangesDialog")).findElements(By.cssSelector("span[class='dijitReset dijitInline dijitButtonText']"));
+		for(WebElement button : buttons){
+			if(button.getText().trim().equals(getLocalizedString(value))){
+				button.click();
+				break;
+			}
+		}
 	}
 }

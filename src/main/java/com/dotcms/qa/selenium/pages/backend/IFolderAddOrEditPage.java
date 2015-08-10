@@ -88,4 +88,11 @@ public interface IFolderAddOrEditPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public void applyPermissionChanges() throws Exception;
+	
+	/**
+	 * Click the option in the Permission confirmation box
+	 * @param value Yes or no
+	 * @throws Exception
+	 */
+	public void folderPermissionAlert(String value) throws Exception;
 }

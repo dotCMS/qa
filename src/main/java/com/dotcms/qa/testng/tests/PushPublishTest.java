@@ -6268,16 +6268,12 @@ public class PushPublishTest {
 			subpermissions.add(property);
 			
 			folder.addRole(limitedRole, subpermissions, true, true, true, false, false, false);
-			folder.applyPermissionChanges();
 			folder.getPropertiesTab();
+			folder.folderPermissionAlert("Yes");
 			folder.save();
-			logoutAuthoringServer();
 			
-			//connecting to authoring server as limited user
-			portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
-
+			//add file to folder
 			browserPage = portletMenu.getSiteBrowserPage();
-			Assert.assertTrue(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should be visible for limited user in authoring server");
 			browserPage.selectFolder(test521folderName);
 			IContentAddOrEdit_ContentPage filePage = browserPage.addFileInFolder(test521folderName, test521contentStructureName);
 			List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
@@ -6294,6 +6290,14 @@ public class PushPublishTest {
 			filePage.saveAndPublish();
 			filePage.sleep(2);
 			
+			logoutAuthoringServer();
+			
+			//connecting to authoring server as limited user
+			portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
+
+			browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should be visible for limited user in authoring server");
+						
 			//push folder
 			browserPage.pushFolder(test521folderName);
 			
@@ -6317,11 +6321,10 @@ public class PushPublishTest {
 			logoutReceiverServer();
 			
 			//calling authoring server
-			portletMenu = callReceiverServer();
+			portletMenu = callAuthoringServer();
 			browserPage = portletMenu.getSiteBrowserPage();
 			
 			//delete folder
-			browserPage = portletMenu.getSiteBrowserPage();
 			browserPage.deleteFolder(test521folderName);
 			Assert.assertFalse(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should not exist in authoring server");
 			
