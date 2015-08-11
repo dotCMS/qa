@@ -9,9 +9,9 @@ Eventually will include configuration management scripting and automated testing
 
 To build and use Selenium Web Driver Test Suite:
 ------------------------------------------------
-Setup a dotcms instance running https://s3.amazonaws.com/qa.dotcms.com/starters/3.1_qastarter_v.0.4b_c0ae3facdd.zip instead of the normal starter.zip
+Setup a dotcms instance running https://s3.amazonaws.com/qa.dotcms.com/starters/3.2_qastarter_v.0.4b.zip instead of the normal starter.zip
 
-Ensure you have a valid dotCMS license for your server.  Some of the tests require enterprise functionality in order to run.
+Ensure you have a valid dotCMS license for your server.  Some of the tests require enterprise functionality in order to run.  The trial.jsp can make getting a license more convenient and efficient.  Located in artifacts/license directory.
 
 Make sure your host file has entries for the following:
 * qademo.dotcms.com

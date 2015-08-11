@@ -9,14 +9,12 @@ env
 rm -rf *
 
 export QA_TestStartTime=$(date +%Y%m%d_%H%M%S)
-export QA_StarterURL=s3://qa.dotcms.com/starters/3.2_qastarter_v.0.4b.zip
 export QA_TomcatFolder=${WORKSPACE}/dotcms/dotserver/tomcat-8.0.18
 export QA_TomcatLogFile=${QA_TomcatFolder}/logs/catalina.out
 export QA_AccessLogFile=${QA_TomcatFolder}/logs/dotcms_access..$(date +%Y-%m-%d).log
 export QA_StarterFullFilePath=${QA_TomcatFolder}/webapps/ROOT/starter.zip
 
-export QA_Milestone=${DOTCMS_VERSION}
-export QA_RunLabel=${QA_Milestone}_dotCMSServer_${QA_OS}_${BUILD_NUMBER}_${QA_DB}_${QA_TestStartTime}
+export QA_RunLabel=${DOTCMS_VERSION}_dotCMSServer_${QA_OS}_${BUILD_NUMBER}_${QA_DB}_${QA_TestStartTime}
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
 
 #QA_DBInstance=`echo ${BUILD_TAG} | sed 's/_/-/g'`
@@ -48,9 +46,9 @@ ssh-add /home/ubuntu/.ssh/dotcmsqa
 echo 'Cloning qa repo'
 cd ${WORKSPACE}
 git clone git@github.com:dotCMS/qa.git
-echo "Checking out master-${DOTCMS_VERSION} branch"
+echo "Checking out ${QA_BRANCH} branch"
 cd qa
-git checkout master-${DOTCMS_VERSION}
+git checkout ${QA_BRANCH}
 cd ${WORKSPACE}
 
 echo 'Pulling down and extracting dotCMS build'
@@ -62,11 +60,21 @@ sudo chown -R ubuntu:ubuntu ${WORKSPACE}/dotcms
 pushd ${WORKSPACE}/dotcms
 tar -xvf ${WORKSPACE}/downloads/dotcms.targz > /dev/null
 
-echo 'Pulling down and replacing starter'
-aws s3 cp ${QA_StarterURL} ${QA_StarterFullFilePath}
+if [ -z "$QA_StarterURL" ]
+then
+	echo 'NOT replacing starter'
+else
+	echo 'Pulling down and replacing starter'
+	aws s3 cp ${QA_StarterURL} ${QA_StarterFullFilePath}
+fi
 
-echo 'Setting index pages to legacy setting'
-sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/classes/dotmarketing-config.properties
+if [ -n "$QA_Legacy_Index_Setting" ]
+then
+	echo 'Setting index pages to legacy setting'
+	sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' ${QA_TomcatFolder}/webapps/ROOT/WEB-INF/classes/dotmarketing-config.properties
+else
+	echo 'Leaving modern index page setting - index with no extension'
+fi
 
 echo 'Creating and configuring DB'
 pushd ${WORKSPACE}/qa
@@ -117,6 +125,42 @@ echo 'Getting trial license'
 cp ${WORKSPACE}/qa/artifacts/license/trial.jsp ${QA_TomcatFolder}/webapps/ROOT/trial.jsp
 curl http://localhost:8080/trial.jsp
 
+if [ ${QA_OPTION_AUTHORING_SERVER} = "true" ]
+then
+	echo 'YES, I am an authoring server - must wait for receiving server to come online...'
+
+	aws s3 cp ${QA_SERVER_RECEIVING_IP_URL} ./ip_receiving.txt
+	while [ ! -f ./ip_receiving.txt ]
+	do
+		echo "waiting for QA_SERVER_RECEIVING_IP_URL file ..."
+		sleep 30
+		aws s3 cp ${QA_SERVER_RECEIVING_IP_URL} ./ip_receiving.txt
+	done
+	export DOTCMS_SERVER_RECEIVING_IP=$(cat ./ip_receiving.txt)
+	echo "DOTCMS_SERVER_RECEIVING_IP = ${DOTCMS_SERVER_RECEIVING_IP}"
+
+	aws s3 cp ${QA_SERVER_RECEIVING_STATUS_URL} ./status_receiving.txt
+	while [ ! -f ./status_receiving.txt ]
+	do
+	    echo "waiting for receiving server status file..."
+	    sleep 30
+	    aws s3 cp ${QA_SERVER_RECEIVING_STATUS_URL} ./status_receiving.txt
+	done
+
+	running=`grep -c "Running" ./status_receiving.txt`
+	echo "running=${running}"
+	while [ $running -lt 1 ]
+	do
+	    echo "INFO - waiting for receiving server to be in Running state...."
+	    sleep 60
+	    aws s3 cp ${QA_SERVER_RECEIVING_STATUS_URL} ./status_receiving.txt
+	    running=`grep -c "Running" ./status_receiving.txt`
+	done
+	echo "running=$running"
+
+else
+	echo 'NOT an authoring server - continuing on'
+fi
 echo "Running" > status.txt
 aws s3 cp ./status.txt ${QA_SERVER_STATUS_URL}
 

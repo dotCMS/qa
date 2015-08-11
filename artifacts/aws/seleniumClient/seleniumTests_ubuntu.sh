@@ -10,8 +10,7 @@ rm -rf *
 
 export QA_TestStartTime=$(date +%Y%m%d_%H%M%S)
 
-export QA_Milestone=${DOTCMS_VERSION}
-export QA_RunLabel=${QA_Milestone}_${QA_OS}_${BUILD_NUMBER}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
+export QA_RunLabel=${DOTCMS_VERSION}_${QA_OS}_${BUILD_NUMBER}_${QA_DB}_${QA_Browser}_${QA_Language}_${QA_Country}_${QA_TestStartTime}
 export QA_TestArtifactFilename=${QA_RunLabel}_Artifacts.tar.gz
 
 if [ -z "$QA_TestSuite" ]
@@ -71,9 +70,9 @@ ssh-add /home/ubuntu/.ssh/dotcmsqa
 
 echo 'Cloning qa repo'
 git clone git@github.com:dotCMS/qa.git
-echo "Checking out master-${DOTCMS_VERSION} branch"
+echo "Checking out ${QA_BRANCH} branch"
 cd qa
-git checkout master-${DOTCMS_VERSION}
+git checkout ${QA_BRANCH}
 cd ..
 
 echo '********** END OF PART 1 **********'
@@ -103,12 +102,30 @@ do
 done
 echo "running=$running"
 
-echo '********** END OF PART 2 **********'
+# Is this a push / publish situation?
+# now server is in running state, need to check if there is a receiving server and if so, what its IP address is
+# the main server is the authoring server and it will wait for the receiving server to be running before it reports its status as running
+# so, if there is an ip file for the receiving server, it exists and is running - otherwise not a push / publish situation
+aws s3 cp ${QA_SERVER_RECEIVING_IP_URL} ./ip_receiving.txt
+if [ -f ./ip_receiving.txt ]
+then
+    PUSH_PUB_STATUS='true'
+    QA_SERVER_RECEIVING_IP=`cat ./ip_receiving.txt`
+else
+    PUSH_PUB_STATUS='false'
+fi
+echo "PUSH_PUB_STATUS=${PUSH_PUB_STATUS}"
+echo "QA_SERVER_RECEIVING_IP=${QA_SERVER_RECEIVING_IP}"
 
 export EXIT_CODE=255
 cd ${WORKSPACE}/qa/build/install/qa
 echo "Running testng/selenium tests - pwd = $(pwd)"
-export JAVA_OPTS="-DreportResultsInTestrail=true -Dtestrail.Milestone=${QA_Milestone} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
+export JAVA_OPTS="-DreportResultsInTestrail=true -Dtestrail.Milestone=${DOTCMS_VERSION} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
+if [ "${PUSH_PUB_STATUS}" == "true" ]
+then
+    export JAVA_OPTS="${JAVA_OPTS} -Dpushpublising.autoring.server=${DOTCMS_SERVER_IP} -Dpushpublising.autoring.server.port=8080 -Dpushpublising.receiver.server=${QA_SERVER_RECEIVING_IP} -Dpushpublising.receiver.server.port=8080"
+fi
+echo "JAVA_OPTS=${JAVA_OPTS}"
 bin/qa  -testjar lib/qa-0.1.jar -xmlpathinjar ${QA_TestSuite} -listener com.dotcms.qa.testng.listeners.TestRunCreator.class,com.dotcms.qa.testng.listeners.TestResultReporter.class -d "${WORKSPACE}/testngresults_${QA_Database}_${QA_Browser}_${QA_Language}_${QA_Country}"
 EXIT_CODE=$?
 echo "EXIT_CODE=${EXIT_CODE}"
@@ -136,8 +153,8 @@ rm ${QA_TestArtifactFilename}
 
 cd ${WORKSPACE}
 echo "DOTCMS_VERSION=${DOTCMS_VERSION}" > ./params
+echo "QA_BRANCH=${QA_BRANCH}" >> ./params
 echo "DOTCMS_SERVER_IP=${DOTCMS_SERVER_IP}" >> ./params
 
-echo '********** END OF PART 3 **********'
 echo "EXIT_CODE=${EXIT_CODE}"
 exit ${EXIT_CODE}
