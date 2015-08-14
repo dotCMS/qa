@@ -1,13 +1,7 @@
 package com.dotcms.qa.testng.tests;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -452,7 +446,18 @@ public class PushPublishTest {
 	private String test521contentTitle1="test-521";
 	private String test521contentTextArea1="/artifacts/testdata/test663.jpg";
 	private String test521fileName1="test663.jpg";
-	
+	//test 629
+	private String test629structureName="Test-629";
+	private String test629folderName="test629";
+	private int test629folderSortOrder=1;
+	private boolean test629folderShowOnMenu=true;
+	private String test629folderAllowedFileExtensions="";
+	private String test629folderDefaultFileAssetType=test629structureName;
+	private String test629contentStructureNameField1="title";
+	private String test629contentTitle="test629";
+	private String test629contentStructureNameField2="binary1FileUpload";
+	private String test629contentTextArea="/artifacts/testdata/test623.jpg";
+	private String test629fileName="test623.jpg";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -742,6 +747,10 @@ public class PushPublishTest {
 				browserPage.deleteFolder(test521folderName);
 			}
 
+			if(browserPage.doesFolderExist(test629folderName)){
+				browserPage.deleteFolder(test629folderName);
+			}
+
 			/* Delete template*/
 			ITemplatesPage templatesPage = portletMenu.getTemplatesPage();
 			if(templatesPage.doesTemplateExist(test555templateTitle1)){
@@ -809,11 +818,11 @@ public class PushPublishTest {
 			if(menuLinkPage.doesLinkExist(test589linkTitle4)){
 				menuLinkPage.deleteLink(test589linkTitle4);
 			}
-			
+
 			if(menuLinkPage.doesLinkExist(test585linkTitle1)){
 				menuLinkPage.deleteLink(test585linkTitle1);
 			}
-			
+
 			if(menuLinkPage.doesLinkExist(test585linkTitle2)){
 				menuLinkPage.deleteLink(test585linkTitle2);
 			}
@@ -874,6 +883,10 @@ public class PushPublishTest {
 
 			if(structurePage.doesStructureExist(test552contentStructureName19)){
 				structurePage.deleteStructureAndContent(test552contentStructureName19, true);
+			}
+
+			if(structurePage.doesStructureExist(test629structureName)){
+				structurePage.deleteStructureAndContent(test629structureName, true);
 			}
 
 			/*Delete categories*/
@@ -1161,9 +1174,13 @@ public class PushPublishTest {
 			if(browserPage.doesFolderExist(test585folderName92)){
 				browserPage.deleteFolder(test585folderName92);
 			}
-			
+
 			if(browserPage.doesFolderExist(test521folderName)){
 				browserPage.deleteFolder(test521folderName);
+			}
+
+			if(browserPage.doesFolderExist(test629folderName)){
+				browserPage.deleteFolder(test629folderName);
 			}
 
 			/* Delete template*/
@@ -1234,11 +1251,11 @@ public class PushPublishTest {
 			if(menuLinkPage.doesLinkExist(test589linkTitle4)){
 				menuLinkPage.deleteLink(test589linkTitle4);
 			}
-			
+
 			if(menuLinkPage.doesLinkExist(test585linkTitle1)){
 				menuLinkPage.deleteLink(test585linkTitle1);
 			}
-			
+
 			if(menuLinkPage.doesLinkExist(test585linkTitle2)){
 				menuLinkPage.deleteLink(test585linkTitle2);
 			}
@@ -1299,6 +1316,10 @@ public class PushPublishTest {
 
 			if(structurePage.doesStructureExist(test552contentStructureName19)){
 				structurePage.deleteStructureAndContent(test552contentStructureName19, true);
+			}
+
+			if(structurePage.doesStructureExist(test629structureName)){
+				structurePage.deleteStructureAndContent(test629structureName, true);
 			}
 
 			/*Delete categories*/
@@ -6190,7 +6211,7 @@ public class PushPublishTest {
 
 
 	/**
-	 * Push folder as a limited userr
+	 * Push folder as a limited user
 	 * http://qa.dotcms.com/index.php?/cases/view/521
 	 * @throws Exception
 	 */
@@ -6202,7 +6223,7 @@ public class PushPublishTest {
 
 			ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
 			browserPage.createFolder(null, test521folderName);
-			
+
 			IFolderAddOrEditPage folder = browserPage.editFolder(test521folderName);
 			folder.getPermissionTab();
 			folder.activatePermissionIndividually();
@@ -6266,12 +6287,12 @@ public class PushPublishTest {
 			property.put("editPermission",false);
 			property.put("vanityUrl",false);
 			subpermissions.add(property);
-			
+
 			folder.addRole(limitedRole, subpermissions, true, true, true, false, false, false);
 			folder.getPropertiesTab();
 			folder.folderPermissionAlert("Yes");
 			folder.save();
-			
+
 			//add file to folder
 			browserPage = portletMenu.getSiteBrowserPage();
 			browserPage.selectFolder(test521folderName);
@@ -6289,45 +6310,146 @@ public class PushPublishTest {
 			filePage.sleep(2);
 			filePage.saveAndPublish();
 			filePage.sleep(2);
-			
+
 			logoutAuthoringServer();
-			
+
 			//connecting to authoring server as limited user
 			portletMenu = callAuthoringServer(limitedUserEmailA,limitedUserPaswwordA);
 
 			browserPage = portletMenu.getSiteBrowserPage();
 			Assert.assertTrue(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should be visible for limited user in authoring server");
-						
+
 			//push folder
 			browserPage.pushFolder(test521folderName);
-			
+
 			IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
 			//wait until 5 minutes to check if the content was pushed
 			boolean isPushed = publishingQueuePage.isObjectBundlePushed(test521folderName,5000,60);
 			Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ("+test521folderName+") push should not be in pending list.");
 
 			logoutAuthoringServer();
-			
+
 			//Connecting to receiver server
 			portletMenu = callReceiverServer();
 			browserPage = portletMenu.getSiteBrowserPage();
 			Assert.assertTrue(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should exist in receiver server");
-			
+
 			//delete folder
 			browserPage = portletMenu.getSiteBrowserPage();
 			browserPage.deleteFolder(test521folderName);
 			Assert.assertFalse(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should not exist in receiver server");
-			
+
 			logoutReceiverServer();
-			
+
 			//calling authoring server
 			portletMenu = callAuthoringServer();
 			browserPage = portletMenu.getSiteBrowserPage();
-			
+
 			//delete folder
 			browserPage.deleteFolder(test521folderName);
 			Assert.assertFalse(browserPage.doesFolderExist(test521folderName), "ERROR - Folder ('"+test521folderName+"') should not exist in authoring server");
-			
+
+			logoutReceiverServer();
+		}finally{
+			try{
+				logoutAuthoringServer();
+			}catch(Exception e){}
+			try{
+				logoutReceiverServer();
+			}catch(Exception e){}
+		}
+	}
+
+	/**
+	 * Push a folder with New Default File Structure
+	 * http://qa.dotcms.com/index.php?/cases/view/629
+	 * @throws Exception
+	 */		
+	@Test (groups = {"PushPublishing"})
+	public void tc629_PushFolderWithNewDefaultFileStructure() throws Exception{
+		try{
+			//Calling authoring Server
+			IPortletMenu portletMenu = callAuthoringServer();
+
+			//create structure
+			IStructuresPage structurePage = portletMenu.getStructuresPage();
+
+			//create new structure
+			Assert.assertFalse(structurePage.doesStructureExist(test629structureName),"ERROR - The Structure ("+test629structureName+") should not exist at this time.");
+
+			IStructureAddOrEdit_PropertiesPage addStructurePage = structurePage.getAddNewStructurePage();
+			addStructurePage.createNewStructure(test629structureName, "File",test629structureName, demoServer);
+
+			structurePage = portletMenu.getStructuresPage();
+			Assert.assertTrue(structurePage.doesStructureExist(test629structureName),"ERROR - The Structure ("+test629structureName+") should exist at this time.");
+
+			//add folder with default structure
+			ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.createFolder(null, test629folderName,test629folderName,test629folderSortOrder,test629folderShowOnMenu,test629folderAllowedFileExtensions,test629folderDefaultFileAssetType);
+
+			Assert.assertTrue(browserPage.doesFolderExist(test629folderName), "ERROR - Folder ('"+test629folderName+"') should exist in authoring server");
+			browserPage.selectFolder(test629folderName);
+
+			IContentAddOrEdit_ContentPage filePage = browserPage.addFileInFolder(test629folderName, test629structureName);
+			List<Map<String,Object>> fields = new ArrayList<Map<String, Object>>();
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("type", WebKeys.TEXT_FIELD);
+			map.put(test629contentStructureNameField1, test629contentTitle);
+			fields.add(map);
+			map = new HashMap<String,Object>();
+			map.put("type", WebKeys.BINARY_FIELD);
+			map.put(test629contentStructureNameField2, test629contentTextArea);
+			fields.add(map) ;
+			filePage.setFields(fields);
+			filePage.sleep(2);
+			filePage.saveAndPublish();
+			filePage.sleep(2);
+
+			//push folder
+			browserPage.pushFolder(test629folderName);
+
+			IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+			//wait until 5 minutes to check if the content was pushed
+			boolean isPushed = publishingQueuePage.isObjectBundlePushed(test629folderName,5000,60);
+			Assert.assertTrue(isPushed, "ERROR - Authoring Server: Folder ("+test629folderName+") push should not be in pending list.");
+
+			//delete folder and structure
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.deleteFolder(test629folderName);
+			Assert.assertFalse(browserPage.doesFolderExist(test629folderName), "ERROR - Folder ('"+test629folderName+"') should not exist in authoring server");
+
+			structurePage=portletMenu.getStructuresPage();
+			structurePage.deleteStructureAndContent(test629structureName, true);
+			Assert.assertFalse(structurePage.doesStructureExist(test629structureName),"ERROR - The Structure ("+test629structureName+") should not exist in the authoring server.");
+						
+			logoutAuthoringServer();
+
+			//Connecting to receiver server
+			portletMenu = callReceiverServer();
+			browserPage = portletMenu.getSiteBrowserPage();
+			Assert.assertTrue(browserPage.doesFolderExist(test629folderName), "ERROR - Folder ('"+test629folderName+"') should exist in receiver server");
+
+			IFolderAddOrEditPage folderPage = browserPage.editFolder(test629folderName);
+			Assert.assertTrue(folderPage.getDefaultFileAssetType().trim().equals(test629structureName),"ERROR - Folder ('"+test629fileName+"') should have this structure ('"+test629structureName+"') as default structure in the receiver server");
+			folderPage.cancel();
+
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.selectFolder(test629folderName);
+			Assert.assertTrue(browserPage.doesElementExist(test629fileName),"ERROR - File ('"+test629fileName+"') should be present in folder ('"+test629folderName+"') in the receiver server");
+
+			structurePage = portletMenu.getStructuresPage();
+			Assert.assertTrue(structurePage.doesStructureExist(test629structureName),"ERROR - The Structure ("+test629structureName+") should exist in the receiver server.");
+
+
+			//delete folder and structure
+			browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.deleteFolder(test629folderName);
+			Assert.assertFalse(browserPage.doesFolderExist(test629folderName), "ERROR - Folder ('"+test629folderName+"') should not exist in receiver server");
+
+			structurePage = portletMenu.getStructuresPage();
+			structurePage.deleteStructureAndContent(test629structureName, true);
+			Assert.assertFalse(structurePage.doesStructureExist(test629structureName),"ERROR - The Structure ("+test629structureName+") should not exist in the receiver server.");
+
 			logoutReceiverServer();
 		}finally{
 			try{
