@@ -910,6 +910,7 @@ public class PushPublishTest {
 				categoriesPage.deleteCategory(null, test552categoryName1);
 			}
 
+			categoriesPage = portletMenu.getCategoriesPage();
 			if(categoriesPage.doesCategoryExist(test499categoryName1)){
 				categoriesPage.showCategoryChildrens(null,test499categoryName1);
 				if(categoriesPage.doesCategoryExist(test499categoryName21)){
@@ -932,6 +933,7 @@ public class PushPublishTest {
 				categoriesPage.deleteCategory(null, test499categoryName1);
 			}
 
+			categoriesPage = portletMenu.getCategoriesPage();
 			if(categoriesPage.doesCategoryExist(test586categoryName1)){	
 				categoriesPage.showCategoryChildrens(null, test586categoryName1);
 				if(categoriesPage.doesCategoryExist(test586categoryName21)){
@@ -1343,6 +1345,7 @@ public class PushPublishTest {
 				categoriesPage.deleteCategory(null, test552categoryName1);
 			}
 
+			categoriesPage = portletMenu.getCategoriesPage();
 			if(categoriesPage.doesCategoryExist(test499categoryName1)){
 				categoriesPage.showCategoryChildrens(null,test499categoryName1);
 				if(categoriesPage.doesCategoryExist(test499categoryName21)){
@@ -1365,6 +1368,7 @@ public class PushPublishTest {
 				categoriesPage.deleteCategory(null, test499categoryName1);
 			}
 
+			categoriesPage = portletMenu.getCategoriesPage();
 			if(categoriesPage.doesCategoryExist(test586categoryName1)){	
 				categoriesPage.showCategoryChildrens(null, test586categoryName1);
 				if(categoriesPage.doesCategoryExist(test586categoryName21)){
