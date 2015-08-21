@@ -192,4 +192,24 @@ public class StructuresPage extends BasePage implements IStructuresPage {
 		IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
 		pushingDialog.push(WebKeys.PUSH_TO_ADD, null, null, null, null, false);
 	}
+	
+	/**
+	 * Push the selected structure
+	 * @param structureName Name of the structure
+	 * @param pushType   Type of push to apply (PUSH_TO_REMOVE,PUSH_TO_ADD,PUSH_AND_REMOVE)
+	 * @param pushDate   Date with format M/d/yyyy(optional)
+	 * @param pushTime   Time format H:mm a (optional)
+	 * @param expireDate Date with format M/d/yyyy(optional)
+	 * @param expireTime Time format H:mm a (optional)
+	 * @param force      Force to publish (Only valid for push and push a remove)
+	 * @throws Exception
+	 */
+	public void pushStructure(String structureName, String pushType, String pushDate, String pushTime, String expireDate, String expireTime, boolean force) throws Exception{
+		WebElement result = findStructureRow(structureName);
+		List<WebElement> columns = result.findElements(By.tagName("td"));
+		selectRightClickPopupMenuOption(columns.get(0),getLocalizedString("Remote-Publish"));
+		sleep(2);
+		IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
+		pushingDialog.push(pushType, pushDate, pushTime, expireDate, expireTime, force);
+	}
 }

@@ -64,6 +64,19 @@ public interface ICategoriesPage extends IBasePage{
 	public void pushCategory(String categoryName) throws Exception;
 	
 	/**
+	 * Push the selected category including it children
+	 * @param categoryName Category to push
+	 * @param pushType   Type of push to apply (PUSH_TO_REMOVE,PUSH_TO_ADD,PUSH_AND_REMOVE)
+	 * @param pushDate   Date with format M/d/yyyy(optional)
+	 * @param pushTime   Time format H:mm a (optional)
+	 * @param expireDate Date with format M/d/yyyy(optional)
+	 * @param expireTime Time format H:mm a (optional)
+	 * @param force      Force to publish (Only valid for push and push a remove)
+	 * @throws Exception
+	 */
+	public void pushCategory(String categoryName, String pushType, String pushDate, String pushTime, String expireDate, String expireTime, boolean force) throws Exception;
+	
+	/**
 	 * Validate is a category exist in the current tier
 	 * @param categoryName Category name
 	 * @return true if exist false if not

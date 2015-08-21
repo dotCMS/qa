@@ -587,4 +587,22 @@ public class SiteBrowserPage extends BasePage implements ISiteBrowserPage {
 		return SeleniumPageManager.getBackEndPageManager().getPageObject(IFolderAddOrEditPage.class);
 
 	}
+	
+	/**
+	 * Click the push publish option from the right click menu options
+	 * @param hostName Host Name
+	 * @throws Exception
+	 */
+	public void pushHost(String hostName) throws Exception{
+		List<WebElement>  elements = getWebElement(By.cssSelector("ul[id='TreeUL']")).findElements(By.cssSelector("a[id*='-TreeREF']"));
+		for(WebElement elem : elements){
+			if(elem.getText().equals(hostName)){
+				selectRightClickPopupMenuAction(elem,getLocalizedString("Remote-Publish"));
+				sleep(2);
+				IPushPublishDialogPage pushingDialog = SeleniumPageManager.getBackEndPageManager().getPageObject(IPushPublishDialogPage.class);
+				pushingDialog.push(WebKeys.PUSH_TO_ADD, null, null, null, null, false);
+				break;
+			}
+		}		
+	}
 }

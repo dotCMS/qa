@@ -23,6 +23,7 @@ import com.dotcms.qa.selenium.pages.backend.IContentImport_ContentPage;
 import com.dotcms.qa.selenium.pages.backend.IContentSearchPage;
 import com.dotcms.qa.selenium.pages.backend.IFolderAddOrEditPage;
 import com.dotcms.qa.selenium.pages.backend.IHTMLPageAddOrEdit_ContentPage;
+import com.dotcms.qa.selenium.pages.backend.IHostPage;
 import com.dotcms.qa.selenium.pages.backend.ILanguagesPage;
 import com.dotcms.qa.selenium.pages.backend.ILoginPage;
 import com.dotcms.qa.selenium.pages.backend.IMenuLinkAddOrEdit_Page;
@@ -458,6 +459,10 @@ public class PushPublishTest {
 	private String test629contentStructureNameField2="binary1FileUpload";
 	private String test629contentTextArea="/artifacts/testdata/test623.jpg";
 	private String test629fileName="test623.jpg";
+	//test495
+	private String test495hostName="copy.qademo.dotcms.com";
+	//test686
+	private String test686hostName="copy2.qademo.dotcms.com";
 
 	@BeforeGroups (groups = {"PushPublishing"})
 	public void init() throws Exception {
@@ -1062,6 +1067,27 @@ public class PushPublishTest {
 			if(publishingQueuePage.doesBundleExist(test586bundleName2))	{		
 				publishingQueuePage.deleteBundle(test586bundleName2);
 			}
+
+			//delete Host
+			IHostPage hostPage = portletMenu.getHostPage();
+			if(hostPage.doesHostExist(test495hostName)){
+				hostPage.stopHost(test495hostName, true);
+				hostPage.sleep(1);						
+				hostPage.archiveHost(test495hostName, true);
+				hostPage.sleep(1);
+				hostPage.toggleShowArchived();
+				hostPage.deleteHost(test495hostName, true);
+			}
+			
+			if(hostPage.doesHostExist(test686hostName)){
+				hostPage.stopHost(test686hostName, true);
+				hostPage.sleep(1);						
+				hostPage.archiveHost(test686hostName, true);
+				hostPage.sleep(1);
+				hostPage.toggleShowArchived();
+				hostPage.deleteHost(test686hostName, true);
+			}
+			
 			/*Delete limited user*/
 			/*IUsersPage usersPage = portletMenu.getUsersPage();
 			Map<String, String> fakeUser = usersPage.getUserProperties(limitedUserEmailA);
@@ -1489,6 +1515,25 @@ public class PushPublishTest {
 				languagesPage.deleteLanguage(test14130Language, test14130CountryCode);
 			}
 
+			IHostPage hostPage = portletMenu.getHostPage();
+			if(hostPage.doesHostExist(test495hostName)){
+				hostPage.stopHost(test495hostName, true);
+				hostPage.sleep(1);						
+				hostPage.archiveHost(test495hostName, true);
+				hostPage.sleep(1);
+				hostPage.toggleShowArchived();
+				hostPage.deleteHost(test495hostName, true);
+			}
+			
+			if(hostPage.doesHostExist(test686hostName)){
+				hostPage.stopHost(test686hostName, true);
+				hostPage.sleep(1);						
+				hostPage.archiveHost(test686hostName, true);
+				hostPage.sleep(1);
+				hostPage.toggleShowArchived();
+				hostPage.deleteHost(test686hostName, true);
+			}
+			
 			/*Delete limited user*/
 			/*IUsersPage usersPage = portletMenu.getUsersPage();
 			Map<String, String> fakeUser = usersPage.getUserProperties(limitedUserEmailB);
@@ -6425,7 +6470,7 @@ public class PushPublishTest {
 			structurePage=portletMenu.getStructuresPage();
 			structurePage.deleteStructureAndContent(test629structureName, true);
 			Assert.assertFalse(structurePage.doesStructureExist(test629structureName),"ERROR - The Structure ("+test629structureName+") should not exist in the authoring server.");
-						
+
 			logoutAuthoringServer();
 
 			//Connecting to receiver server
@@ -6453,6 +6498,148 @@ public class PushPublishTest {
 			structurePage = portletMenu.getStructuresPage();
 			structurePage.deleteStructureAndContent(test629structureName, true);
 			Assert.assertFalse(structurePage.doesStructureExist(test629structureName),"ERROR - The Structure ("+test629structureName+") should not exist in the receiver server.");
+
+			logoutReceiverServer();
+		}finally{
+			try{
+				logoutAuthoringServer();
+			}catch(Exception e){}
+			try{
+				logoutReceiverServer();
+			}catch(Exception e){}
+		}
+	}
+	
+	/**
+	 * HOST TESTS
+	 */
+
+	/**
+	 * Push a Clone of the Demo Host
+	 * http://qa.dotcms.com/index.php?/cases/view/495
+	 * @throws Exception
+	 */	
+	@Test (groups = {"PushPublishing"})
+	public void tc495_PushACloneOfDemoHost() throws Exception{
+		try{
+			//Calling authoring Server
+			IPortletMenu portletMenu = callAuthoringServer();
+
+			//create create copy host
+			IHostPage hostPage = portletMenu.getHostPage();
+
+			hostPage.addCopyExistingHost(test495hostName, demoServer);
+			Assert.assertTrue(hostPage.doesHostExist(test495hostName),"ERROR - The host ("+test495hostName+") should exist in authoring server.");
+
+			//push host
+			ISiteBrowserPage browserPage = portletMenu.getSiteBrowserPage();
+			browserPage.changeHost(test495hostName);
+			browserPage.pushHost(test495hostName);
+			
+			IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+			//wait until 5 minutes to check if the content was pushed
+			boolean isPushed = publishingQueuePage.isObjectBundlePushed(test495hostName,5000,60);
+			Assert.assertTrue(isPushed, "ERROR - Authoring Server: Host ("+test495hostName+") push should not be in pending list.");
+
+			//delete host
+			hostPage = portletMenu.getHostPage();
+			hostPage.stopHost(test495hostName, true);
+			hostPage.sleep(1);						
+			hostPage.archiveHost(test495hostName, true);
+			hostPage.sleep(1);
+			hostPage.toggleShowArchived();
+			hostPage.deleteHost(test495hostName, true);
+			hostPage.sleep(1);
+			// verify host is no longer listed on page
+			hostPage.reload();
+			Assert.assertFalse(hostPage.doesHostExist(test495hostName),"ERROR - The host ("+test495hostName+") should not exist in authoring server.");
+			logoutAuthoringServer();
+
+			//Connecting to receiver server
+			portletMenu = callReceiverServer();
+			hostPage = portletMenu.getHostPage();
+			Assert.assertTrue(hostPage.doesHostExist(test495hostName),"ERROR - The host ("+test495hostName+") should exist in receiver server.");
+
+			//delete host
+			hostPage = portletMenu.getHostPage();
+			hostPage.stopHost(test495hostName, true);
+			hostPage.sleep(1);						
+			hostPage.archiveHost(test495hostName, true);
+			hostPage.sleep(1);
+			hostPage.toggleShowArchived();
+			hostPage.deleteHost(test495hostName, true);
+			hostPage.sleep(1);
+			// verify host is no longer listed on page
+			hostPage.reload();
+			Assert.assertFalse(hostPage.doesHostExist(test495hostName),"ERROR - The host ("+test495hostName+") should not exist in receiver server.");
+
+			logoutReceiverServer();
+		}finally{
+			try{
+				logoutAuthoringServer();
+			}catch(Exception e){}
+			try{
+				logoutReceiverServer();
+			}catch(Exception e){}
+		}
+	}
+	
+	/**
+	 * Make sure you can push some host from the host manager  
+	 * http://qa.dotcms.com/index.php?/cases/view/686
+	 * @throws Exception
+	 */	
+	@Test (groups = {"PushPublishing"})
+	public void tc686_PushACloneOfDemoHostFromHostManager() throws Exception{
+		try{
+			//Calling authoring Server
+			IPortletMenu portletMenu = callAuthoringServer();
+
+			//create create copy host
+			IHostPage hostPage = portletMenu.getHostPage();
+
+			hostPage.addCopyExistingHost(test686hostName, demoServer);
+			Assert.assertTrue(hostPage.doesHostExist(test686hostName),"ERROR - The host ("+test686hostName+") should exist in authoring server.");
+
+			//push host
+			hostPage.pushHost(test686hostName);
+
+			IPublishingQueuePage publishingQueuePage = portletMenu.getPublishingQueuePage();
+			//wait until 5 minutes to check if the content was pushed
+			boolean isPushed = publishingQueuePage.isObjectBundlePushed(test686hostName,5000,60);
+			Assert.assertTrue(isPushed, "ERROR - Authoring Server: Host ("+test686hostName+") push should not be in pending list.");
+
+			//delete host
+			hostPage = portletMenu.getHostPage();
+			hostPage.stopHost(test686hostName, true);
+			hostPage.sleep(1);						
+			hostPage.archiveHost(test686hostName, true);
+			hostPage.sleep(1);
+			hostPage.toggleShowArchived();
+			hostPage.deleteHost(test686hostName, true);
+			hostPage.sleep(1);
+			// verify host is no longer listed on page
+			hostPage.reload();
+			Assert.assertFalse(hostPage.doesHostExist(test686hostName),"ERROR - The host ("+test686hostName+") should not exist in authoring server.");
+			logoutAuthoringServer();
+
+			//Connecting to receiver server
+			portletMenu = callReceiverServer();
+			hostPage = portletMenu.getHostPage();
+			Assert.assertTrue(hostPage.doesHostExist(test686hostName),"ERROR - The host ("+test686hostName+") should exist in receiver server.");
+
+			//delete host
+			hostPage = portletMenu.getHostPage();
+			hostPage.stopHost(test686hostName, true);
+			hostPage.sleep(1);						
+			hostPage.archiveHost(test686hostName, true);
+			hostPage.sleep(1);
+			hostPage.toggleShowArchived();
+			hostPage.deleteHost(test686hostName, true);
+			hostPage.sleep(1);
+			// verify host is no longer listed on page
+			hostPage.reload();
+			Assert.assertFalse(hostPage.doesHostExist(test686hostName),"ERROR - The host ("+test686hostName+") should not exist in receiver server.");
 
 			logoutReceiverServer();
 		}finally{

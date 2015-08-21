@@ -48,4 +48,17 @@ public interface IStructuresPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public void pushStructure(String structureName) throws Exception;
+	
+	/**
+	 * Push the selected structure
+	 * @param structureName Name of the structure
+	 * @param pushType   Type of push to apply (PUSH_TO_REMOVE,PUSH_TO_ADD,PUSH_AND_REMOVE)
+	 * @param pushDate   Date with format M/d/yyyy(optional)
+	 * @param pushTime   Time format H:mm a (optional)
+	 * @param expireDate Date with format M/d/yyyy(optional)
+	 * @param expireTime Time format H:mm a (optional)
+	 * @param force      Force to publish (Only valid for push and push a remove)
+	 * @throws Exception
+	 */
+	public void pushStructure(String structureName, String pushType, String pushDate, String pushTime, String expireDate, String expireTime, boolean force) throws Exception;
 }

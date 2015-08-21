@@ -167,4 +167,12 @@ public interface ISiteBrowserPage extends IBasePage {
 	 * @throws Exception
 	 */
 	public IFolderAddOrEditPage editFolder(String folderName) throws Exception;
+	
+	/**
+	 * Click the push publish option from the right click menu options
+	 * @param hostName Host Name
+	 * @throws Exception
+	 */
+	public void pushHost(String hostName) throws Exception;
+	
 }
