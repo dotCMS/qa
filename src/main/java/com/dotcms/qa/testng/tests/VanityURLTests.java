@@ -565,4 +565,63 @@ public class VanityURLTests {
        hostPage.toggleShowArchived();
        hostPage.deleteHost(hostName, true);
     }
+    
+    
+    //VirtualLinkFactory should NOT be case-sensitive
+    @Test (groups = {"VanityURLs"})
+    public void tc61568_VirtualLinks_NotBe_CaseSensitive() throws Exception {
+    	backendMgr.loadPage(demoServerURL + "admin"); 
+        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+        IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
+    	
+        String vurl61568Title = "61568 Vanity URL";
+        String vurl61568URL = "61568-test";
+        String targetHost = new URL(demoServerURL).getHost();
+        
+        vanityURLPage.selectBackendHost(targetHost);
+        
+        // verify vanity URL does not already exist
+        Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl61568Title));
+        
+        // verify it does not already work
+        IBasePage page = frontendMgr.loadPage(demoServerURL + vurl61568URL);
+        sleep();
+        String title = page.getTitle();
+        Assert.assertTrue(title.contains("404"), "ERROR - Mapping for vanity URL already exists:  " + vurl61568URL);
+
+        // add vanity URL
+        vanityURLPage.addVanityURLToHost(vurl61568Title, targetHost, vurl61568URL, "/about-us/our-team/index");
+
+        // verify it was created and listed on page
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), vanityURLPage.getLocalizedString("message.virtuallink.save"));
+        Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl61568Title));
+        
+        // verify that vanity url works
+        page = frontendMgr.loadPage(demoServerURL + vurl61568URL);
+        sleep();
+        title = page.getTitle();
+        logger.info("title = " + title);
+        Assert.assertTrue(title.equals("Our Team"), "ERROR - Mapping for vanity URL does not work:  " + vurl61568URL);
+        
+     // verify that vanity url works in upper-case 
+        page = frontendMgr.loadPage(demoServerURL + vurl61568URL.toUpperCase());
+        sleep();
+        title = page.getTitle();
+        logger.info("title = " + title);
+        Assert.assertTrue(title.equals("Our Team"), "ERROR - Mapping for vanity URL does not work:  " + vurl61568URL.toUpperCase());
+
+        // delete vanity URL
+        vanityURLPage.deleteVanityURL(vurl61568Title);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), vanityURLPage.getLocalizedString("message.virtuallink.delete"));
+
+        // verify it is no longer listed
+        Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl61568Title));
+        
+        // verify it no longer works
+        page = frontendMgr.loadPage(demoServerURL + vurl61568URL);
+        sleep();
+        title = page.getTitle();
+        Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl61568URL);
+    }
+
 }
