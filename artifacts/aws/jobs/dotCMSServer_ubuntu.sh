@@ -11,7 +11,7 @@ rm -rf *
 export QA_TestStartTime=$(date +%Y%m%d_%H%M%S)
 export QA_TomcatFolder=${WORKSPACE}/dotcms/dotserver/tomcat-8.0.18
 export QA_TomcatLogFile=${QA_TomcatFolder}/logs/catalina.out
-export QA_AccessLogFile=${QA_TomcatFolder}/logs/dotcms_access..$(date +%Y-%m-%d).log
+export QA_AccessLogFile=${QA_TomcatFolder}/logs/dotcms_access.$(date +%Y-%m-%d).log
 export QA_StarterFullFilePath=${QA_TomcatFolder}/webapps/ROOT/starter.zip
 
 export QA_RunLabel=${DOTCMS_VERSION}_dotCMSServer_${QA_OS}_${BUILD_NUMBER}_${QA_DB}_${QA_TestStartTime}
