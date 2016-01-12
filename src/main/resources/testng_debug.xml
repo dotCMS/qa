@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Test suite">
+  <test name="Focused test">
+    <groups>
+      <run>
+        <exclude name="Broken"/>
+        <include name="PushPublishing"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="com.dotcms.qa.testng.tests.RegressionSuiteEnv">
+        <methods>
+          <include name="init"/>
+          <include name="teardown"/>
+        </methods>
+      </class> <!-- com.dotcms.qa.testng.tests.RegressionSuiteEnv -->
+      <class name="com.dotcms.qa.testng.tests.PushPublishTest">
+        <methods>
+          <include name="init"/>
+          <include name="tc496_PushContentAndPushToRemove"/>
+          <include name="teardown"/>
+        </methods>
+      </class> <!-- com.dotcms.qa.testng.tests.PushPublishTest -->
+    </classes>
+  </test>
+</suite>

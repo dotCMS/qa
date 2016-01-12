@@ -1,4 +1,4 @@
-@echo off
+@echo on
 
 REM - assumes cygwin is installed and executables are on the path first
 echo 'Working dir:'
@@ -11,7 +11,6 @@ REM rm -rf *
 
 For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y%%m%%d_%%H%%M%%S') Do Set QA_TestStartTime=%%I
 
-set QA_StarterURL=s3://qa.dotcms.com/starters/3.2_qastarter_v.0.4b.zip
 set QA_TomcatFolder=%WORKSPACE%\dotcms\dotserver\tomcat-8.0.18
 For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y-%%m-%%d') Do Set QA_TomcatLogFile=%QA_TomcatFolder%\logs\catalina.%%I.log
 For /F "Tokens=*" %%I in ('\cygwin64\bin\date.exe +%%Y-%%m-%%d') Do Set QA_AccessLogFile=%QA_TomcatFolder%\logs\dotcms_access..%%I.log
@@ -51,13 +50,22 @@ mkdir %WORKSPACE%\dotcms
 pushd %WORKSPACE%\dotcms
 unzip %WORKSPACE%\downloads\dotcms.zip > NUL
 
-echo 'Pulling down and replacing starter'
 echo 'QA_StarterURL=%QA_StarterURL%'
 echo 'QA_StarterFullFilePath=%QA_StarterFullFilePath%'
-aws s3 cp %QA_StarterURL% %QA_StarterFullFilePath%
 
-echo 'Setting index pages to legacy setting'
-sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' %QA_TomcatFolder%\webapps\ROOT\WEB-INF\classes\dotmarketing-config.properties
+if [%QA_StarterURL%] == [] (
+	echo 'NOT replacing starter'
+) else (
+	echo 'Pulling down and replacing starter'
+	aws s3 cp %QA_StarterURL% %QA_StarterFullFilePath%
+)
+
+if [%QA_Legacy_Index_Setting%] == [] (
+	echo 'Leaving modern index page setting - index with no extension'
+) else (
+	echo 'Setting index pages to legacy setting'
+	sed -i 's/CMS_INDEX_PAGE = index/CMS_INDEX_PAGE = index.html/g' %QA_TomcatFolder%\webapps\ROOT\WEB-INF\classes\dotmarketing-config.properties
+)
 
 echo 'Creating and configuring DB'
 pushd %WORKSPACE%\qa
@@ -121,6 +129,34 @@ cp .\build\libs\com.dotcms.rest.qa_automation-0.1.jar %QA_TomcatFolder%\webapps\
 echo 'Getting trial license'
 cp %WORKSPACE%\qa\artifacts\license\trial.jsp %QA_TomcatFolder%\webapps\ROOT\trial.jsp
 curl http://localhost:8080/trial.jsp
+
+if NOT "%QA_OPTION_AUTHORING_SERVER%" == "true" goto :noAuthoringServer
+	echo "YES, I am an authoring server - must wait for receiving server to come online..."
+:rcvIPLoop
+	echo "waiting for QA_SERVER_RECEIVING_IP_URL file ..."
+	sleep 30
+	aws s3 cp %QA_SERVER_RECEIVING_IP_URL% ./ip_receiving.txt
+	if NOT EXIST ./ip_receiving.txt goto rcvIPLoop
+	For /F "Tokens=*" %%I in ('cat ./ip_receiving.txt') Do Set DOTCMS_SERVER_RECEIVING_IP=%%I
+	echo "DOTCMS_SERVER_RECEIVING_IP = %DOTCMS_SERVER_RECEIVING_IP%"
+
+:rcvStatusLoop
+    echo "waiting for receiving server status file..."
+    sleep 30
+	aws s3 cp %QA_SERVER_RECEIVING_STATUS_URL% ./status_receiving.txt
+	if NOT EXIST ./status_receiving.txt goto rcvStatusLoop
+	
+:rcvStatusLoop2
+	For /F "Tokens=*" %%I in ('grep -c "Running" ./status_receiving.txt') Do Set running=%%I
+	echo "running=%running%"
+	if %running% GEQ 1 goto endAuthoringServer
+	    echo "INFO - waiting for receiving server to be in Running state...."
+	    sleep 60
+	    aws s3 cp %QA_SERVER_RECEIVING_STATUS_URL% ./status_receiving.txt
+	    goto rcvStatusLoop2
+:noAuthoringServer
+	echo "NOT an authoring server - continuing on"
+:endAuthoringServer
 
 echo "Running" > status.txt
 aws s3 cp .\status.txt %QA_SERVER_STATUS_URL%
