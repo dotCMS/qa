@@ -120,7 +120,7 @@ echo "QA_SERVER_RECEIVING_IP=${QA_SERVER_RECEIVING_IP}"
 export EXIT_CODE=255
 cd ${WORKSPACE}/qa/build/install/qa
 echo "Running testng/selenium tests - pwd = $(pwd)"
-export JAVA_OPTS="-DreportResultsInTestrail=true -Dtestrail.Milestone=${DOTCMS_VERSION} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
+export JAVA_OPTS="-DreportResultsInTestrail=false -Dtestrail.Milestone=${DOTCMS_VERSION} -Dtestrail.RunLabel=${QA_RunLabel} -DbrowserToTarget=${QA_Browser} -Duser.language=${QA_Language} -Duser.country=${QA_Country}"
 if [ "${PUSH_PUB_STATUS}" == "true" ]
 then
     export JAVA_OPTS="${JAVA_OPTS} -Dpushpublising.autoring.server=${DOTCMS_SERVER_IP} -Dpushpublising.autoring.server.port=8080 -Dpushpublising.receiver.server=${QA_SERVER_RECEIVING_IP} -Dpushpublising.receiver.server.port=8080"
