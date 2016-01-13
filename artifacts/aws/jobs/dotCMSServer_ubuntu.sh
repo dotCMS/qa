@@ -24,6 +24,10 @@ QA_DBInstance=DB-${tempversion}-Linux-${BUILD_NUMBER}
 export QA_DBInstance
 echo "QA_DBInstance=${QA_DBInstance}"
 
+echo "***************************"
+env
+echo "***************************"
+
 echo "Sending IP Address to ${QA_SERVER_IP_URL}"
 ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}' > ip.txt
 aws s3 cp ./ip.txt ${QA_SERVER_IP_URL}
