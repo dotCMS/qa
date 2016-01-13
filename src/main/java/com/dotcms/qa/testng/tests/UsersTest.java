@@ -50,7 +50,7 @@ public class UsersTest {
 	private final String fakeEmail ="fake@dotcms.com";
 	private final String fakeFirstName ="DotCMSTest";
 	private final String fakeLastName ="ToDelete";
-	private final String fakePassword = "testUser123";
+	private final String fakePassword = "testUser123#";
 	private String fakeUserId ="";
 
 	private final String editUserEmail = "bill@dotcms.com";
