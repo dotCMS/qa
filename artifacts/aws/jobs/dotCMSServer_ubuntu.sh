@@ -30,6 +30,7 @@ echo "***************************"
 
 echo "Sending IP Address to ${QA_SERVER_IP_URL}"
 ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}' > ip.txt
+cat ip.txt #for logging/debugging purposes
 aws s3 cp ./ip.txt ${QA_SERVER_IP_URL}
 
 echo "Initializing" > status.txt
