@@ -2,8 +2,8 @@
 <%@page import="com.dotcms.repackage.org.apache.commons.httpclient.NameValuePair"%>
 <%@page import="com.dotcms.repackage.org.apache.commons.httpclient.methods.PostMethod"%>
 <%@page import="com.dotcms.repackage.org.apache.commons.httpclient.HttpClient"%>
-<%@page import="com.dotcms.repackage.org.mockito.stubbing.Answer"%>
-<%@page import="com.dotcms.repackage.org.mockito.Mockito"%>
+<%@page import="org.mockito.stubbing.Answer"%>
+<%@page import="org.mockito.Mockito"%>
 <%@page import="com.dotcms.enterprise.LicenseUtil"%>
 <%
 
@@ -15,7 +15,7 @@ Mockito.when(req.getParameter("license_level")).thenReturn("400");
 final StringBuilder reqcode=new StringBuilder();
 
 Mockito.doAnswer(new Answer() {
-    public Object answer(com.dotcms.repackage.org.mockito.invocation.InvocationOnMock invocation) throws Throwable {
+    public Object answer(org.mockito.invocation.InvocationOnMock invocation) throws Throwable {
         reqcode.append(invocation.getArguments()[1].toString());
         return null;
     }
