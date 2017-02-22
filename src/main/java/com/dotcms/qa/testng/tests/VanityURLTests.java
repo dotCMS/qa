@@ -4,7 +4,6 @@ import java.net.*;
 
 import com.dotcms.qa.selenium.util.SeleniumConfig;
 import com.dotcms.qa.selenium.util.SeleniumPageManager;
-
 import com.dotcms.qa.selenium.pages.IBasePage;
 import com.dotcms.qa.selenium.pages.backend.*;
 import com.dotcms.qa.util.language.LanguageManager;
@@ -565,4 +564,60 @@ public class VanityURLTests {
        hostPage.toggleShowArchived();
        hostPage.deleteHost(hostName, true);
     }
+    
+    /**
+	 * Add Vanity URL with slashes. Set here:
+	 * http://qa.dotcms.com/index.php?/cases/view/61337
+	 * @throws Exception
+	 */
+    
+    @Test (groups = {"VanityURLs"})
+    public void tc61337_AddVanityURLwithslashes() throws Exception{
+    	backendMgr.loadPage(demoServerURL + "admin"); 
+        IPortletMenu portletMenu = backendMgr.getPageObject(IPortletMenu.class);
+        IVanityURLsPage vanityURLPage = portletMenu.getVanityURLsPage();
+    	
+        String vurl61337Title = "private-banking";
+        String vurl6133URL = "private";
+        String targetHost = new URL(demoServerURL).getHost();
+        
+        vanityURLPage.selectBackendHost(targetHost);
+        
+        // verify vanity URL does not already exist
+        Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl61337Title));
+        
+        // verify it does not already work
+        IBasePage page = frontendMgr.loadPage(demoServerURL + vurl6133URL);
+        sleep();
+        String title = page.getTitle();
+        Assert.assertTrue(title.contains("404"), "ERROR - Mapping for vanity URL already exists:  " + vurl6133URL);
+
+        // add vanity URL
+        vanityURLPage.addVanityURLToHost(vurl61337Title, targetHost, vurl6133URL, "/services/private-banking/index.html");
+
+        // verify it was created and listed on page
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), vanityURLPage.getLocalizedString("message.virtuallink.save"));
+        Assert.assertTrue(vanityURLPage.doesVanityURLExist(vurl61337Title));
+        
+        // verify that vanity url works
+        page = frontendMgr.loadPage(demoServerURL + vurl6133URL);
+        sleep();
+        title = page.getTitle();
+        logger.info("title = " + title);
+        Assert.assertTrue(title.equals("Private Banking - Quest Financial"), "ERROR - Mapping for vanity URL does not work:  " + vurl6133URL);
+
+        // delete vanity URL
+        vanityURLPage.deleteVanityURL(vurl61337Title);
+        Assert.assertEquals(vanityURLPage.getSystemMessage().trim(), vanityURLPage.getLocalizedString("message.virtuallink.delete"));
+
+        // verify it is no longer listed
+        Assert.assertFalse(vanityURLPage.doesVanityURLExist(vurl61337Title));
+        
+        // verify it no longer works
+        page = frontendMgr.loadPage(demoServerURL + vurl6133URL);
+        sleep();
+        title = page.getTitle();
+        Assert.assertTrue(title.contains("404"), "ERROR - Mapping still seems to exist for URL:  " + vurl6133URL);
+    }
+
 }
