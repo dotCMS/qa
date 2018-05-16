@@ -28,7 +28,7 @@ This is a set of automated tests to validate every one of the use cases of the W
 ```
 5- Finally,  you have all the required libraries to run test from terminal. 
 
-To run this you only need download the postman collection with all the test cases from this url: ($path), this is a json file. 
+To run this you only need download the postman collection with all the test cases from this url: https://github.com/dotCMS/qa/blob/master/artifacts/Resource%20endpoints%20test/Workflow%20Resource%20Tests.postman_collection.json, this is a json file. 
 
 To execute this test use: 
 ``` 
