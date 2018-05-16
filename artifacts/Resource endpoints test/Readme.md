@@ -2,23 +2,23 @@
 
 # How to run the REST endpoints tests 
 
-This is a set of automated tests to validate every one of the use cases of the WorkflowResouce. This will validate the response, heathers, and codes that should return every endpoint. 
+This is a set of automated tests to validate every workflow use case. This will validate the response, headers, and return codes for all endpoints. 
 
 
 ### *__Requirements__*
-1- To run this set of test locally,  you need have npn installed in your computer, if you don't have this follow this guide to install via homebrew. 
+1- To run this set locally,  you need to have the npn installed in your computer, if you don't have this installed, follow this guide to install via homebrew. 
 ```
 - brew update
 - brew install node
 - brew upgrade node
 ```
-2- Now, make sure you have installed node and npm running those commands in your terminal 
+2- Now, make sure you have installed **"node"** and **"npm"** by running those commands in your terminal 
 ```
 - node -v
 - npm -v
 ```
 
-3- Once you have npm, you should be able to install "newman". **This is the library to interact with postman.** You can do this via npm
+3- Once you have npm, you should be able to install **"newman"**. **This is the library to interact with postman.** Run this command to install via npm.
 ```
 - npm install -g newman
 ```
@@ -30,13 +30,13 @@ This is a set of automated tests to validate every one of the use cases of the W
 
 ### *__Running tests__*
 
-To run this you only need download the postman collection with all the test cases from this url: https://github.com/dotCMS/qa/blob/master/artifacts/Resource%20endpoints%20test/Workflow%20Resource%20Tests.postman_collection.json, this is a json file. 
+To run this you only need to download the postman collection with all the test cases from this url: https://github.com/dotCMS/qa/blob/master/artifacts/Resource%20endpoints%20test/Workflow%20Resource%20Tests.postman_collection.json, this is a json file. 
 
 To execute this test use: 
 ``` 
 - newman run ($postmanCollectionPath)
 ```
 
-**Also you can import that collection to postman and run every one of those test individually.** 
+**Also you can import that collection to postman and run each of them individually.** 
 
 Here a doc to see how works every endpoint: https://goo.gl/UFw6qw
