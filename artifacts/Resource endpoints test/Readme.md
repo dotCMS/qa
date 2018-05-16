@@ -33,3 +33,6 @@ To run this you only need download the postman collection with all the test case
 To execute this test use: 
 ``` 
 - newman run ($postmanCollectionPath)
+```
+
+**Also you can import that collection to postman and run every one of those test individually.** 
