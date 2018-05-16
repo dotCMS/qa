@@ -38,3 +38,5 @@ To execute this test use:
 ```
 
 **Also you can import that collection to postman and run every one of those test individually.** 
+
+Here a doc to see how works every endpoint: https://documenter.getpostman.com/view/3028555/workflow-resource/RVncewoS
