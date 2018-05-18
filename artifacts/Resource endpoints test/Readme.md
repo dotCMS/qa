@@ -39,4 +39,4 @@ To execute this test use:
 
 **Also you can import that collection to postman and run each of them individually.** 
 
-Here a doc to see how works every endpoint: https://goo.gl/UFw6qw
+Here a doc to see how works every endpoint: https://goo.gl/hkiZQZ
